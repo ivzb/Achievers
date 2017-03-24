@@ -1,3 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <resources>
     <string name="app_name">Achievers</string>
+    <string name="navigation_view_header_title">Achievers</string>
+
+    <string name="refresh">Refresh</string>
 </resources>

@@ -13,18 +13,14 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
+
 <resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <!-- Base application theme. --><style name="AppTheme" parent="Base.AppTheme" />
+    <dimen name="list_item_padding">8dp</dimen>
 
-    <style name="AppTheme.OverlapSystemBar" parent="Base.AppTheme" />
+    <dimen name="fab_margin">16dp</dimen>
 
-    <style name="Base.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
-    <style name="Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 </resources>
