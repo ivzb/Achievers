@@ -1,4 +1,4 @@
-package com.achievers.Home;
+package com.achievers.Categories;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -12,13 +12,13 @@ import android.view.MenuItem;
 import com.achievers.R;
 import com.achievers.util.ActivityUtils;
 
-public class HomeActivity extends AppCompatActivity {
+public class CategoriesActivity extends AppCompatActivity {
 
     private static final String CURRENT_FILTERING_KEY = "CURRENT_FILTERING_KEY";
 
     private DrawerLayout mDrawerLayout;
 
-    private HomePresenter mHomePresenter;
+    private CategoriesPresenter mCategoriesPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,30 +40,30 @@ public class HomeActivity extends AppCompatActivity {
             setupDrawerContent(navigationView);
         }
 
-        HomeFragment homeFragment =
-                (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-        if (homeFragment == null) {
+        CategoriesFragment categoriesFragment =
+                (CategoriesFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        if (categoriesFragment == null) {
             // Create the fragment
-            homeFragment = HomeFragment.newInstance();
+            categoriesFragment = CategoriesFragment.newInstance();
             ActivityUtils.addFragmentToActivity(
-                    getSupportFragmentManager(), homeFragment, R.id.contentFrame);
+                    getSupportFragmentManager(), categoriesFragment, R.id.contentFrame);
         }
 
         // Instantiate repository
         HomeRepository repository = HomeRepository.getInstance(HomeRemoteDataSource.getInstance(), HomeLocalDataSource.getInstance(this));
 
         // Create the presenter
-        mHomePresenter = new HomePresenter(repository, homeFragment);
+        mCategoriesPresenter = new CategoriesPresenter(repository, categoriesFragment);
 
-        HomeViewModel homeViewModel =
-                new HomeViewModel(getApplicationContext(), mHomePresenter);
+        CategoriesViewModel categoriesViewModel =
+                new CategoriesViewModel(getApplicationContext(), mCategoriesPresenter);
 
-        homeFragment.setViewModel(homeViewModel);
+        categoriesFragment.setViewModel(categoriesViewModel);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(CURRENT_FILTERING_KEY, mHomePresenter.getFiltering());
+        outState.putSerializable(CURRENT_FILTERING_KEY, mCategoriesPresenter.getFiltering());
 
         super.onSaveInstanceState(outState);
     }
