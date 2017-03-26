@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 
 import com.achievers.R;
 
@@ -31,7 +32,7 @@ public class CategoriesFragment extends Fragment implements CateogriesContract.V
 
     private CateogriesContract.Presenter mPresenter;
 
-    private HomeAdapter mListAdapter;
+    private CategoriesAdapter mListAdapter;
 
     private CategoriesViewModel mCategoriesViewModel;
 
@@ -63,21 +64,21 @@ public class CategoriesFragment extends Fragment implements CateogriesContract.V
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        HomeFragBinding homeFragBinding = HomeFragBinding.inflate(inflater, container, false);
+        CategoriesFragBinding categoriesFragBinding = CategoriesFragBinding.inflate(inflater, container, false);
 
-//        homeFragBinding.setTasks(mTasksViewModel);
+        categoriesFragBinding.setCategories(mCategoriesViewModel);
 
-        homeFragBinding.setActionHandler(mPresenter);
+        categoriesFragBinding.setActionHandler(mPresenter);
 
-        // Set up home view
-//        ListView listView = homeFragBinding.tasksList;
+        // Set up categories view
+        ListView listView = caegoriesFragBinding.tasksList;
 
-//        mListAdapter = new HomeAdapter(new ArrayList<Task>(0), mPresenter);
-//        listView.setAdapter(mListAdapter);
+        mListAdapter = new CategoriesAdapter(new ArrayList<Category>(0), mPresenter);
+        listView.setAdapter(mListAdapter);
 
         // Set up floating action button
         FloatingActionButton fab =
-                (FloatingActionButton) getActivity().findViewById(R.id.fab_add_task);
+                (FloatingActionButton) getActivity().findViewById(R.id.fab_add_category);
 
         fab.setImageResource(R.drawable.ic_add);
         fab.setOnClickListener(new View.OnClickListener() {
