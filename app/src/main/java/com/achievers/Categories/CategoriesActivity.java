@@ -50,7 +50,7 @@ public class CategoriesActivity extends AppCompatActivity {
         }
 
         // Instantiate repository
-        HomeRepository repository = HomeRepository.getInstance(HomeRemoteDataSource.getInstance(), HomeLocalDataSource.getInstance(this));
+        CategoriesRepository repository = CategoriesRepository.getInstance(CategoriesRemoteDataSource.getInstance(), CategoriesLocalDataSource.getInstance(this));
 
         // Create the presenter
         mCategoriesPresenter = new CategoriesPresenter(repository, categoriesFragment);

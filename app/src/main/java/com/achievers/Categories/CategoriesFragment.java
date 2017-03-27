@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
@@ -22,7 +23,9 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.achievers.R;
+import com.achievers.data.Category;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -89,18 +92,18 @@ public class CategoriesFragment extends Fragment implements CateogriesContract.V
         });
 
         // Set up progress indicator
-//        final ScrollChildSwipeRefreshLayout swipeRefreshLayout = tasksFragBinding.refreshLayout;
-//        swipeRefreshLayout.setColorSchemeColors(
-//                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
-//                ContextCompat.getColor(getActivity(), R.color.colorAccent),
-//                ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark)
-//        );
-//        // Set the scrolling view in the custom SwipeRefreshLayout.
-//        swipeRefreshLayout.setScrollUpChild(listView);
+        final ScrollChildSwipeRefreshLayout swipeRefreshLayout = categoriesFragBinding.refreshLayout;
+        swipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
+                ContextCompat.getColor(getActivity(), R.color.colorAccent),
+                ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark)
+        );
+        // Set the scrolling view in the custom SwipeRefreshLayout.
+        swipeRefreshLayout.setScrollUpChild(listView);
 
         setHasOptionsMenu(true);
 
-        View root = homeFragBinding.getRoot();
+        View root = categoriesFragBinding.getRoot();
 
         return root;
     }
@@ -126,8 +129,8 @@ public class CategoriesFragment extends Fragment implements CateogriesContract.V
         inflater.inflate(R.menu.tasks_fragment_menu, menu);
     }
 
-    public void setViewModel(TasksViewModel viewModel) {
-        mTasksViewModel = viewModel;
+    public void setViewModel(CategoriesViewModel viewModel) {
+        mCategoriesViewModel = viewModel;
     }
 
     private void showFilteringPopUpMenu() {
@@ -138,16 +141,10 @@ public class CategoriesFragment extends Fragment implements CateogriesContract.V
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.active:
-                        mPresenter.setFiltering(TasksFilterType.ACTIVE_TASKS);
-                        break;
-                    case R.id.completed:
-                        mPresenter.setFiltering(TasksFilterType.COMPLETED_TASKS);
-                        break;
-                    default:
-                        mPresenter.setFiltering(TasksFilterType.ALL_TASKS);
+                        mPresenter.setFiltering(CategoriesFilterType.ACTIVE_CATEGORIES);
                         break;
                 }
-                mPresenter.loadTasks(false);
+                mPresenter.loadCategories(false);
                 return true;
             }
         });
@@ -173,20 +170,9 @@ public class CategoriesFragment extends Fragment implements CateogriesContract.V
         });
     }
 
-    public void showTasks(List<Task> tasks) {
-        mListAdapter.replaceData(tasks);
-        mTasksViewModel.setTaskListSize(tasks.size());
-    }
-
-    @Override
-    public void showSuccessfullySavedMessage() {
-        showMessage(getString(R.string.successfully_saved_task_message));
-    }
-
-    @Override
-    public void showAddTask() {
-        Intent intent = new Intent(getContext(), AddEditTaskActivity.class);
-        startActivityForResult(intent, AddEditTaskActivity.REQUEST_ADD_TASK);
+    public void showCategories(List<Category> categories) {
+        mListAdapter.replaceData(categories);
+        mCategoriesViewModel.setCateogryListSize(tasks.size());
     }
 
     @Override
@@ -199,23 +185,8 @@ public class CategoriesFragment extends Fragment implements CateogriesContract.V
     }
 
     @Override
-    public void showTaskMarkedComplete() {
-        showMessage(getString(R.string.task_marked_complete));
-    }
-
-    @Override
-    public void showTaskMarkedActive() {
-        showMessage(getString(R.string.task_marked_active));
-    }
-
-    @Override
-    public void showCompletedTasksCleared() {
-        showMessage(getString(R.string.completed_tasks_cleared));
-    }
-
-    @Override
-    public void showLoadingTasksError() {
-        showMessage(getString(R.string.loading_tasks_error));
+    public void showLoadingCategoriesError() {
+        showMessage(getString(R.string.loading_categories_error));
     }
 
     private void showMessage(String message) {
@@ -227,34 +198,34 @@ public class CategoriesFragment extends Fragment implements CateogriesContract.V
         return isAdded();
     }
 
-    private static class TasksAdapter extends BaseAdapter {
+    private static class CategoriesAdapter extends BaseAdapter {
 
-        private List<Task> mTasks;
+        private List<Category> mCategories;
 
-        private TasksContract.Presenter mUserActionsListener;
+        private CategoriesContract.Presenter mUserActionsListener;
 
-        public TasksAdapter(List<Task> tasks, TasksContract.Presenter itemListener) {
-            setList(tasks);
+        public CategoriesAdapter(List<Category> categories, CategoriesContract.Presenter itemListener) {
+            setList(categories);
             mUserActionsListener = itemListener;
         }
 
-        public void replaceData(List<Task> tasks) {
-            setList(tasks);
+        public void replaceData(List<Category> categories) {
+            setList(categories);
         }
 
-        private void setList(List<Task> tasks) {
-            mTasks = tasks;
+        private void setList(List<Category> categories) {
+            mCategories = categories;
             notifyDataSetChanged();
         }
 
         @Override
         public int getCount() {
-            return mTasks != null ? mTasks.size() : 0;
+            return mCategories != null ? mCategories.size() : 0;
         }
 
         @Override
-        public Task getItem(int i) {
-            return mTasks.get(i);
+        public Category getItem(int i) {
+            return mCategories.get(i);
         }
 
         @Override
@@ -264,24 +235,24 @@ public class CategoriesFragment extends Fragment implements CateogriesContract.V
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            Task task = getItem(i);
-            TaskItemBinding binding;
+            Category category = getItem(i);
+            CategoryItemBinding binding;
             if (view == null) {
                 // Inflate
                 LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
 
                 // Create the binding
-                binding = TaskItemBinding.inflate(inflater, viewGroup, false);
+                binding = CategoryItemBinding.inflate(inflater, viewGroup, false);
             } else {
                 binding = DataBindingUtil.getBinding(view);
             }
 
             // We might be recycling the binding for another task, so update it.
             // Create the action handler for the view
-            TasksItemActionHandler itemActionHandler =
-                    new TasksItemActionHandler(mUserActionsListener);
+            CategoriesItemActionHandler itemActionHandler =
+                    new CategoriesItemActionHandler(mUserActionsListener);
             binding.setActionHandler(itemActionHandler);
-            binding.setTask(task);
+            binding.setCategory(category);
             binding.executePendingBindings();
             return binding.getRoot();
         }
