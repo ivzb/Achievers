@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.achievers.R;
+import com.achievers.data.source.CategoriesRepository;
+import com.achievers.data.source.remote.CategoriesRemoteDataSource;
 import com.achievers.util.ActivityUtils;
 
 public class CategoriesActivity extends AppCompatActivity {

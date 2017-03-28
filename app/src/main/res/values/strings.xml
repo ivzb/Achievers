@@ -5,4 +5,6 @@
     <string name="navigation_view_header_title">Achievers</string>
 
     <string name="refresh">Refresh</string>
+    <string name="label_all_categories">All Categories</string>
+    <string name="no_categories">No Categories</string>
 </resources>

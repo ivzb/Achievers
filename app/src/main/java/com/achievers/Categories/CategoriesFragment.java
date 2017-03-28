@@ -24,6 +24,7 @@ import android.widget.ListView;
 
 import com.achievers.R;
 import com.achievers.data.Category;
+import com.achievers.util.ScrollChildSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +32,9 @@ import java.util.List;
 /**
  * Display a dashboard screen with actions if user is logged or redirects to login screen. Main entry point.
  */
-public class CategoriesFragment extends Fragment implements CateogriesContract.View {
+public class CategoriesFragment extends Fragment implements CategoriesContract.View {
 
-    private CateogriesContract.Presenter mPresenter;
+    private CategoriesContract.Presenter mPresenter;
 
     private CategoriesAdapter mListAdapter;
 
@@ -48,7 +49,7 @@ public class CategoriesFragment extends Fragment implements CateogriesContract.V
     }
 
     @Override
-    public void setPresenter(@NonNull CateogriesContract.Presenter presenter) {
+    public void setPresenter(@NonNull CategoriesContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
 
@@ -74,7 +75,7 @@ public class CategoriesFragment extends Fragment implements CateogriesContract.V
         categoriesFragBinding.setActionHandler(mPresenter);
 
         // Set up categories view
-        ListView listView = caegoriesFragBinding.tasksList;
+        ListView listView = categoriesFragBinding.tasksList;
 
         mListAdapter = new CategoriesAdapter(new ArrayList<Category>(0), mPresenter);
         listView.setAdapter(mListAdapter);
@@ -118,7 +119,7 @@ public class CategoriesFragment extends Fragment implements CateogriesContract.V
                 showFilteringPopUpMenu();
                 break;
             case R.id.menu_refresh:
-                mPresenter.loadTasks(true);
+                mPresenter.loadCategories(true);
                 break;
         }
         return true;
@@ -126,7 +127,7 @@ public class CategoriesFragment extends Fragment implements CateogriesContract.V
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.tasks_fragment_menu, menu);
+        inflater.inflate(R.menu.categories_fragment_menu, menu);
     }
 
     public void setViewModel(CategoriesViewModel viewModel) {
@@ -176,11 +177,11 @@ public class CategoriesFragment extends Fragment implements CateogriesContract.V
     }
 
     @Override
-    public void showTaskDetailsUi(String taskId) {
+    public void showCategoryDetailsUi(int categoryId) {
         // in it's own Activity, since it makes more sense that way and it gives us the flexibility
         // to show some Intent stubbing.
-        Intent intent = new Intent(getContext(), TaskDetailActivity.class);
-        intent.putExtra(TaskDetailActivity.EXTRA_TASK_ID, taskId);
+        Intent intent = new Intent(getContext(), CateogryDetailActivity.class);
+        intent.putExtra(CategoryDetailActivity.EXTRA_TASK_ID, categoryId);
         startActivity(intent);
     }
 

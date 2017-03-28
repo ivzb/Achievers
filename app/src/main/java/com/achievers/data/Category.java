@@ -5,20 +5,37 @@ import android.support.annotation.Nullable;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.Date;
+
+import io.realm.RealmObject;
 
 /**
  * Immutable model class for a Category.
  */
-public final class Category {
+public class Category extends RealmObject {
 
+    @SerializedName("Id")
     @NonNull
-    private final Integer mId;
+    private Integer mId;
 
+    @SerializedName("Title")
     @Nullable
-    private final String mTitle;
+    private String mTitle;
 
+    @SerializedName("Description")
     @Nullable
-    private final String mDescription;
+    private String mDescription;
+
+    @SerializedName("CreatedOn")
+    @Nullable
+    private Date mCreatedOn;
+
+    /**
+     * An empty constructor is required by realm.
+     */
+    public Category() { }
 
     /**
      * Use this constructor to create a new Category.
@@ -26,8 +43,8 @@ public final class Category {
      * @param title       title of the category
      * @param description description of the category
      */
-    public Category(@Nullable String title, @Nullable String description) {
-        this(title, description, null);
+    public Category(@NonNull String title, @NonNull String description) {
+        this(0, title, description, null);
     }
 
     /**
@@ -38,10 +55,11 @@ public final class Category {
      * @param title       title of the category
      * @param description description of the category
      */
-    public Category(Integer id, @Nullable String title, @Nullable String description) {
+    public Category(Integer id, @NonNull String title, @NonNull String description, @Nullable Date createdOn) {
         mId = id;
         mTitle = title;
         mDescription = description;
+        mCreatedOn = createdOn;
     }
 
     public Integer getId() {
@@ -67,19 +85,25 @@ public final class Category {
         return mDescription;
     }
 
-    public boolean isNew() {
-        return
+    @Nullable
+    public Date getCreatedOn() {
+        return mCreatedOn;
+    }
 
+    public boolean isNew() {
+        return this.getId() == 0;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return Objects.equal(mId, task.mId) &&
-                Objects.equal(mTitle, task.mTitle) &&
-                Objects.equal(mDescription, task.mDescription);
+
+        Category other = (Category) o;
+
+        return Objects.equal(this.getId(), other.getId()) &&
+                Objects.equal(this.getTitle(), other.getTitle()) &&
+                Objects.equal(this.getDescription(), other.getDescription());
     }
 
     @Override
@@ -89,6 +113,6 @@ public final class Category {
 
     @Override
     public String toString() {
-        return "Task with title " + mTitle;
+        return "Category #" + this.getId() + " with title: " + this.getTitle() + " and description: " + this.getDescription();
     }
 }

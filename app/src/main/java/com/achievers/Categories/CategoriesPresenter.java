@@ -3,6 +3,8 @@ package com.achievers.Categories;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.Category;
+import com.achievers.data.source.CategoriesDataSource;
+import com.achievers.data.source.CategoriesRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +15,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Listens to user actions from the UI ({@link CategoriesFragment}), retrieves the data and updates the
  * UI as required.
  */
-public class CategoriesPresenter implements CategoriesContract.Presenter {
+class CategoriesPresenter implements CategoriesContract.Presenter {
 
     private final CategoriesRepository mCategoriesRepository;
-
     private final CategoriesContract.View mCategoriesView;
-
     private CategoriesFilterType mCurrentFiltering = CategoriesFilterType.ALL_CATEGORIES;
-
     private boolean mFirstLoad = true;
 
     public CategoriesPresenter(@NonNull CategoriesRepository categoriesRepository, @NonNull CategoriesContract.View categoriesView) {
@@ -37,15 +36,15 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
 
     @Override
     public void result(int requestCode, int resultCode) {
-        // If a task was successfully added, show snackbar
-//        if (AddEditTaskActivity.REQUEST_ADD_TASK == requestCode && Activity.RESULT_OK == resultCode) {
-//            mTasksView.showSuccessfullySavedMessage();
+        // If a Category was successfully added, show snackbar
+//        if (AddEditCategoryActivity.REQUEST_ADD_CATEGORY == requestCode && Activity.RESULT_OK == resultCode) {
+//            mCategoriesView.showSuccessfullySavedMessage();
 //        }
     }
 
     @Override
     public void loadCategories(boolean forceUpdate) {
-        // Simplification for sample: a network reload will be forced on first load.
+        // a network reload will be forced on first load.
         loadCategories(forceUpdate || mFirstLoad, true);
         mFirstLoad = false;
     }
@@ -55,23 +54,15 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
      * @param showLoadingUI Pass in true to display a loading icon in the UI
      */
     private void loadCategories(boolean forceUpdate, final boolean showLoadingUI) {
-        if (showLoadingUI) {
-            mCategoriesView.setLoadingIndicator(true);
-        }
-        if (forceUpdate) {
-            mCategoriesRepository.refreshTasks();
-        }
+        if (showLoadingUI) mCategoriesView.setLoadingIndicator(true);
+        if (forceUpdate) mCategoriesRepository.refreshCategories(new ArrayList<Category>()); // todo: test this, might produce unexpected behaviour
 
         mCategoriesRepository.getCategories(new CategoriesDataSource.LoadCategoriesCallback() {
             @Override
-            public void onCategoriesLoaded(List<Category> categories) {
+            public void onLoaded(List<Category> categories) {
                 List<Category> categoriesToShow = new ArrayList<>();
 
-                // This callback may be called twice, once for the cache and once for loading
-                // the data from the server API, so we check before decrementing, otherwise
-                // it throws "Counter has been corrupted!" exception.
-
-                // We filter the categories based on the requestType
+                // filter the categories based on the requestType
                 for (Category category: categories) {
                     switch (mCurrentFiltering) {
                         case ALL_CATEGORIES:
@@ -79,24 +70,18 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
                             break;
                     }
                 }
-                // The view may not be able to handle UI updates anymore
-                if (!mCategoriesView.isActive()) {
-                    return;
-                }
-                if (showLoadingUI) {
-                    mCategoriesView.setLoadingIndicator(false);
-                }
 
+                // The view may not be able to handle UI updates anymore
+                if (!mCategoriesView.isActive()) return;
+                if (showLoadingUI) mCategoriesView.setLoadingIndicator(false);
                 mCategoriesView.showCategories(categoriesToShow);
             }
 
             @Override
             public void onDataNotAvailable() {
                 // The view may not be able to handle UI updates anymore
-                if (!mCategoriesView.isActive()) {
-                    return;
-                }
-                mCategoriesView.showLoadingTasksError();
+                if (!mCategoriesView.isActive()) return;
+                mCategoriesView.showLoadingCategoriesError();
             }
         });
     }
@@ -118,7 +103,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
     }
 
     @Override
-    public CategoriesFitlerType getFiltering() {
+    public CategoriesFilterType getFiltering() {
         return mCurrentFiltering;
     }
 }
