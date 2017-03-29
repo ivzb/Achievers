@@ -8,9 +8,9 @@ import com.achievers.data.Category;
 
 import java.util.List;
 
-class CategoriesContract {
+public class CategoriesContract {
 
-    interface View extends BaseView<Presenter> {
+    public interface View extends BaseView<Presenter> {
 
         void setLoadingIndicator(boolean active);
 
@@ -23,7 +23,7 @@ class CategoriesContract {
         boolean isActive();
     }
 
-    interface Presenter extends BasePresenter {
+    public interface Presenter extends BasePresenter {
 
         void start();
 

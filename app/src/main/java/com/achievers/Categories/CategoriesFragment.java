@@ -25,6 +25,7 @@ import android.widget.ListView;
 import com.achievers.R;
 import com.achievers.data.Category;
 import com.achievers.databinding.CategoriesFragBinding;
+import com.achievers.databinding.CategoryItemBinding;
 import com.achievers.util.ScrollChildSwipeRefreshLayout;
 
 import java.util.ArrayList;
@@ -187,9 +188,10 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     public void showCategoryDetailsUi(int categoryId) {
         // in it's own Activity, since it makes more sense that way and it gives us the flexibility
         // to show some Intent stubbing.
-        Intent intent = new Intent(getContext(), CateogryDetailActivity.class);
-        intent.putExtra(CategoryDetailActivity.EXTRA_TASK_ID, categoryId);
-        startActivity(intent);
+        // todo
+//        Intent intent = new Intent(getContext(), CateogryDetailActivity.class);
+//        intent.putExtra(CategoryDetailActivity.EXTRA_TASK_ID, categoryId);
+//        startActivity(intent);
     }
 
     @Override

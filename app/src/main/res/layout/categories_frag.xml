@@ -10,7 +10,7 @@
 
         <variable
             name="actionHandler"
-            type="com.achievers.Categories.CategoriesPresenter" />
+            type="com.achievers.Categories.CategoriesContract.Presenter" />
     </data>
 
     <com.achievers.util.ScrollChildSwipeRefreshLayout

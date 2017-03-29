@@ -2,6 +2,7 @@ package com.achievers.data.source.remote;
 
 import android.support.annotation.NonNull;
 
+import com.achievers.Categories.CategoriesEndpointInterface;
 import com.achievers.data.Category;
 import com.achievers.data.source.CategoriesDataSource;
 
