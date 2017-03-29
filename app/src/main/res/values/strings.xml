@@ -7,4 +7,11 @@
     <string name="refresh">Refresh</string>
     <string name="label_all_categories">All Categories</string>
     <string name="no_categories">No Categories</string>
+    <string name="menu_filter">Filter</string>
+    <string name="menu_clear">Clear</string>
+    <string name="categories_title">Categories</string>
+    <string name="statistics_title">Statistics</string>
+    <string name="nav_all">All</string>
+    <string name="nav_completed">Completed</string>
+    <string name="nav_not_completed">Not Completed</string>
 </resources>

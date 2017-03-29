@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.achievers.R;
 import com.achievers.data.source.CategoriesRepository;
+import com.achievers.data.source.local.CategoriesLocalDataSource;
 import com.achievers.data.source.remote.CategoriesRemoteDataSource;
 import com.achievers.util.ActivityUtils;
 
@@ -25,7 +26,7 @@ public class CategoriesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_act);
+        setContentView(R.layout.categories_act);
 
         // Set up the toolbar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

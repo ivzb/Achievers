@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="categories"
+            type="com.achievers.Categories.CategoriesViewModel" />
+
+        <variable
+            name="actionHandler"
+            type="com.achievers.Categories.CategoriesPresenter" />
+    </data>
+
+    <com.achievers.util.ScrollChildSwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onRefresh="@{actionHandler}">
+
+        <RelativeLayout
+            android:id="@+id/categoriesContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/llCategories"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="@{categories.notEmpty ? View.VISIBLE : View.GONE}">
+
+                <TextView
+                    android:id="@+id/filteringLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/list_item_padding"
+                    android:layout_marginRight="@dimen/list_item_padding"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:text="@{categories.currentFilteringLabel}" />
+
+                <ListView
+                    android:id="@+id/categories_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/noCategories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical"
+                android:visibility="@{categories.notEmpty ? View.GONE : View.VISIBLE}">
+
+
+                <ImageView
+                    android:id="@+id/noCategoriesIcon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:src="@{categories.noCategoriesIconRes}" />
+
+                <TextView
+                    android:id="@+id/noCategoriesMain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@{categories.noCategoriesLabel}"
+                    android:layout_marginBottom="@dimen/list_item_padding"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </com.achievers.util.ScrollChildSwipeRefreshLayout>
+</layout>

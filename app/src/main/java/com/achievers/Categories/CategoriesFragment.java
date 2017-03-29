@@ -24,6 +24,7 @@ import android.widget.ListView;
 
 import com.achievers.R;
 import com.achievers.data.Category;
+import com.achievers.databinding.CategoriesFragBinding;
 import com.achievers.util.ScrollChildSwipeRefreshLayout;
 
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
         categoriesFragBinding.setActionHandler(mPresenter);
 
         // Set up categories view
-        ListView listView = categoriesFragBinding.tasksList;
+        ListView listView = categoriesFragBinding.categoriesList;
 
         mListAdapter = new CategoriesAdapter(new ArrayList<Category>(0), mPresenter);
         listView.setAdapter(mListAdapter);
@@ -113,7 +114,7 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_clear:
-                mPresenter.clearCompletedTasks();
+                // todo
                 break;
             case R.id.menu_filter:
                 showFilteringPopUpMenu();
@@ -136,13 +137,19 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
 
     private void showFilteringPopUpMenu() {
         PopupMenu popup = new PopupMenu(getContext(), getActivity().findViewById(R.id.menu_filter));
-        popup.getMenuInflater().inflate(R.menu.filter_tasks, popup.getMenu());
+        popup.getMenuInflater().inflate(R.menu.filter_categories, popup.getMenu());
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.active:
-                        mPresenter.setFiltering(CategoriesFilterType.ACTIVE_CATEGORIES);
+                    case R.id.completed:
+                        mPresenter.setFiltering(CategoriesFilterType.COMPLETED);
+                        break;
+                    case R.id.notCompleted:
+                        mPresenter.setFiltering(CategoriesFilterType.NOT_COMPLETED);
+                        break;
+                    default:
+                        mPresenter.setFiltering(CategoriesFilterType.ALL_CATEGORIES);
                         break;
                 }
                 mPresenter.loadCategories(false);
@@ -173,7 +180,7 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
 
     public void showCategories(List<Category> categories) {
         mListAdapter.replaceData(categories);
-        mCategoriesViewModel.setCateogryListSize(tasks.size());
+        mCategoriesViewModel.setCategoriesListSize(categories.size());
     }
 
     @Override
@@ -250,8 +257,7 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
 
             // We might be recycling the binding for another task, so update it.
             // Create the action handler for the view
-            CategoriesItemActionHandler itemActionHandler =
-                    new CategoriesItemActionHandler(mUserActionsListener);
+            CategoriesItemActionHandler itemActionHandler = new CategoriesItemActionHandler(mUserActionsListener);
             binding.setActionHandler(itemActionHandler);
             binding.setCategory(category);
             binding.executePendingBindings();

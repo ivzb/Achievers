@@ -15,7 +15,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Listens to user actions from the UI ({@link CategoriesFragment}), retrieves the data and updates the
  * UI as required.
  */
-class CategoriesPresenter implements CategoriesContract.Presenter {
+public class CategoriesPresenter implements CategoriesContract.Presenter {
 
     private final CategoriesRepository mCategoriesRepository;
     private final CategoriesContract.View mCategoriesView;
