@@ -38,16 +38,6 @@ public class Category extends RealmObject {
     public Category() { }
 
     /**
-     * Use this constructor to create a new Category.
-     *
-     * @param title       title of the category
-     * @param description description of the category
-     */
-    public Category(@NonNull String title, @NonNull String description) {
-        this(0, title, description, null);
-    }
-
-    /**
      * Use this constructor to specify a Category if the Category already has an id (copy of
      * another Category).
      *
@@ -101,9 +91,9 @@ public class Category extends RealmObject {
 
         Category other = (Category) o;
 
-        return Objects.equal(this.getId(), other.getId()) &&
-                Objects.equal(this.getTitle(), other.getTitle()) &&
-                Objects.equal(this.getDescription(), other.getDescription());
+        return this.getId() == other.getId() &&
+               this.getTitle().equals(other.getTitle()) &&
+               this.getDescription().equals(other.getDescription());
     }
 
     @Override

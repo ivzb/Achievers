@@ -61,6 +61,10 @@ android {
     buildToolsVersion '25.0.0'
 }
 
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
 /*
  Dependency versions are defined in the top level build.gradle file. This helps keeping track of
  all versions in a single place. This improves readability and helps managing project complexity.
@@ -108,4 +112,5 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.facebook.stetho:stetho:1.4.2'
     compile 'com.facebook.stetho:stetho-okhttp3:1.4.2'
+    compile 'com.github.blocoio:faker:1.2.5'
 }

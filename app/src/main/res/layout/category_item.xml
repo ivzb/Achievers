@@ -29,22 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:text="@{ `Title: ` + category.title }" />
+            android:text="@{ category.title }" />
 
-        <TextView
-            android:id="@+id/tvDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:text="@{ `, Description: ` + category.description }" />
-
-        <TextView
-            android:id="@+id/tvCreatedOn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:text="@{ `, CreatedOn: ` + DateUtils.format(category.createdOn) }" />
     </LinearLayout>
 </layout>

@@ -60,21 +60,21 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
         mCategoriesRepository.getCategories(new CategoriesDataSource.LoadCategoriesCallback() {
             @Override
             public void onLoaded(List<Category> categories) {
-                List<Category> categoriesToShow = new ArrayList<>();
-
+//                List<Category> categoriesToShow = new ArrayList<>();
+//
                 // filter the categories based on the requestType
-                for (Category category: categories) {
-                    switch (mCurrentFiltering) {
-                        case ALL_CATEGORIES:
-                            categories.add(category);
-                            break;
-                    }
-                }
+//                for (Category category: categories) {
+//                    switch (mCurrentFiltering) {
+//                        case ALL_CATEGORIES:
+//                            categories.add(category);
+//                            break;
+//                    }
+//                }
 
                 // The view may not be able to handle UI updates anymore
                 if (!mCategoriesView.isActive()) return;
                 if (showLoadingUI) mCategoriesView.setLoadingIndicator(false);
-                mCategoriesView.showCategories(categoriesToShow);
+                mCategoriesView.showCategories(categories);
             }
 
             @Override

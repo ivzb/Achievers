@@ -68,8 +68,8 @@ public class CategoriesViewModel extends BaseObservable {
         return this.mCategoriesListSize > 0;
     }
 
-    public void setCategoriesListSize(int operatorCardListSize) {
-        this.mCategoriesListSize = operatorCardListSize;
+    public void setCategoriesListSize(int categoriesListSize) {
+        this.mCategoriesListSize = categoriesListSize;
         notifyPropertyChanged(BR.noCategoriesIconRes);
         notifyPropertyChanged(BR.noCategoriesLabel);
         notifyPropertyChanged(BR.currentFilteringLabel);
