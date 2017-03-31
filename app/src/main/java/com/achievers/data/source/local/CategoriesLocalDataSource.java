@@ -40,7 +40,7 @@ public class CategoriesLocalDataSource implements CategoriesDataSource {
         RealmResults<Category> realmResults = Realm.getDefaultInstance()
                 .where(Category.class)
                 .findAll()
-                .sort("mCreatedOn", Sort.DESCENDING);
+                .sort("createdOn", Sort.DESCENDING);
 
         List<Category> categories = Realm.getDefaultInstance().copyFromRealm(realmResults);
 
@@ -60,7 +60,7 @@ public class CategoriesLocalDataSource implements CategoriesDataSource {
     public void getCategory(@NonNull int categoryId, @NonNull GetCategoryCallback callback) {
         Category category = Realm.getDefaultInstance()
                 .where(Category.class)
-                .equalTo("mId", categoryId)
+                .equalTo("id", categoryId)
                 .findFirst();
 
         if (category != null) {
@@ -75,8 +75,7 @@ public class CategoriesLocalDataSource implements CategoriesDataSource {
         Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm
-                    .where(Category.class)
+                realm.where(Category.class)
                     .findAll()
                     .deleteAllFromRealm();
             }

@@ -38,7 +38,7 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
     {
         if (count == 0) return;
 
-        Category newCategory = new Category(count--, faker.lorem.word(), faker.lorem.paragraph(), faker.date.backward());
+        Category newCategory = new Category(count--, faker.lorem.word(), faker.lorem.paragraph(), true, faker.date.backward());
         CATEGORIES_SERVICE_DATA.put(newCategory.getId(), newCategory);
 
         generateCategories(count, faker);

@@ -9,7 +9,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Immutable model class for a Category.
@@ -18,19 +20,24 @@ public class Category extends RealmObject {
 
     @SerializedName("Id")
     @NonNull
-    private Integer mId;
+    @PrimaryKey
+    private Integer id;
 
     @SerializedName("Title")
     @Nullable
-    private String mTitle;
+    private String title;
 
     @SerializedName("Description")
     @Nullable
-    private String mDescription;
+    private String description;
+
+    @SerializedName("HasChilds")
+    @Nullable
+    private boolean hasChilds;
 
     @SerializedName("CreatedOn")
     @Nullable
-    private Date mCreatedOn;
+    private Date createdOn;
 
     /**
      * An empty constructor is required by realm.
@@ -45,39 +52,45 @@ public class Category extends RealmObject {
      * @param title       title of the category
      * @param description description of the category
      */
-    public Category(Integer id, @NonNull String title, @NonNull String description, @Nullable Date createdOn) {
-        mId = id;
-        mTitle = title;
-        mDescription = description;
-        mCreatedOn = createdOn;
+    public Category(Integer id, @NonNull String title, @NonNull String description, @NonNull boolean hasChilds, @Nullable Date createdOn) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.hasChilds = hasChilds;
+        this.createdOn = createdOn;
     }
 
     public Integer getId() {
-        return mId;
+        return id;
     }
 
     @Nullable
     public String getTitle() {
-        return mTitle;
+        return title;
     }
 
     @Nullable
     public String getTitleForList() {
-        if (!Strings.isNullOrEmpty(mTitle)) {
-            return mTitle;
+        if (!Strings.isNullOrEmpty(title)) {
+            return title;
         } else {
-            return mDescription;
+            return description;
         }
     }
 
     @Nullable
     public String getDescription() {
-        return mDescription;
+        return description;
+    }
+
+    @Nullable
+    public boolean getHasChilds() {
+        return hasChilds;
     }
 
     @Nullable
     public Date getCreatedOn() {
-        return mCreatedOn;
+        return createdOn;
     }
 
     public boolean isNew() {
@@ -98,7 +111,7 @@ public class Category extends RealmObject {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(mId, mTitle, mDescription);
+        return Objects.hashCode(id, title, description);
     }
 
     @Override
