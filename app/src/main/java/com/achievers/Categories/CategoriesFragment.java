@@ -188,7 +188,7 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     public void showCategoryDetailsUi(int categoryId) {
         // in it's own Activity, since it makes more sense that way and it gives us the flexibility
         // to show some Intent stubbing.
-        // todo
+//         todo: check if Categories or Achievements should be displayed
 //        Intent intent = new Intent(getContext(), CateogryDetailActivity.class);
 //        intent.putExtra(CategoryDetailActivity.EXTRA_TASK_ID, categoryId);
 //        startActivity(intent);
