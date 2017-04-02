@@ -31,9 +31,13 @@ public class Category extends RealmObject {
     @Nullable
     private String description;
 
-    @SerializedName("HasChilds")
+    @SerializedName("Parent")
     @Nullable
-    private boolean hasChilds;
+    private Category parent;
+
+    @SerializedName("Children")
+    @Nullable
+    private RealmList<Category> children;
 
     @SerializedName("CreatedOn")
     @Nullable
@@ -52,11 +56,14 @@ public class Category extends RealmObject {
      * @param title       title of the category
      * @param description description of the category
      */
-    public Category(Integer id, @NonNull String title, @NonNull String description, @NonNull boolean hasChilds, @Nullable Date createdOn) {
+    public Category(Integer id, @NonNull String title, @NonNull String description,
+                    @Nullable Category parent, @Nullable RealmList<Category> children,
+                    @Nullable Date createdOn) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.hasChilds = hasChilds;
+        this.parent = parent;
+        this.children = children;
         this.createdOn = createdOn;
     }
 
@@ -84,8 +91,13 @@ public class Category extends RealmObject {
     }
 
     @Nullable
-    public boolean getHasChilds() {
-        return hasChilds;
+    public Category getParent() {
+        return parent;
+    }
+
+    @Nullable
+    public RealmList<Category> getChildren() {
+        return children;
     }
 
     @Nullable
