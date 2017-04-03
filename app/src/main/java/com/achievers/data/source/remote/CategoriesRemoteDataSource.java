@@ -38,10 +38,22 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
     {
         if (count == 0) return;
 
-        Category newCategory = new Category(count--, faker.lorem.word(), faker.lorem.paragraph(), true, faker.date.backward());
-        CATEGORIES_SERVICE_DATA.put(newCategory.getId(), newCategory);
+        Category parent = generateCategory(faker, null);
+        for (int i = 0; i < 5; i++) generateCategory(faker, parent);
 
-        generateCategories(count, faker);
+        generateCategories(--count, faker);
+    }
+
+    private static Category generateCategory(Faker faker, Category parent) {
+        Category newCategory = new Category(CATEGORIES_SERVICE_DATA.size() + 1, faker.lorem.word(), faker.lorem.paragraph(), faker.date.backward());
+
+        if (parent != null) {
+            newCategory.setParent(parent);
+            parent.addChild(newCategory);
+        }
+
+        CATEGORIES_SERVICE_DATA.put(newCategory.getId(), newCategory);
+        return newCategory;
     }
 
     public static CategoriesRemoteDataSource getInstance() {

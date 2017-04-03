@@ -57,13 +57,11 @@ public class Category extends RealmObject {
      * @param description description of the category
      */
     public Category(Integer id, @NonNull String title, @NonNull String description,
-                    @Nullable Category parent, @Nullable RealmList<Category> children,
                     @Nullable Date createdOn) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.parent = parent;
-        this.children = children;
+        this.children = new RealmList<>();
         this.createdOn = createdOn;
     }
 
@@ -103,6 +101,18 @@ public class Category extends RealmObject {
     @Nullable
     public Date getCreatedOn() {
         return createdOn;
+    }
+
+    public void setParent(Category parent) {
+        this.parent = parent;
+    }
+
+    public void setChildren(RealmList<Category> children) {
+        this.children = children;
+    }
+
+    public void addChild(Category child) {
+        this.children.add(child);
     }
 
     public boolean isNew() {
