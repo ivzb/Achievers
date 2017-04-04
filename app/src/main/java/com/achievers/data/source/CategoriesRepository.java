@@ -60,11 +60,11 @@ public class CategoriesRepository implements CategoriesDataSource {
      * </p>
      */
     @Override
-    public void getCategories(@NonNull final LoadCategoriesCallback callback) {
+    public void getCategories(final Integer parentId, @NonNull final LoadCategoriesCallback callback) {
         checkNotNull(callback);
 
         if (this.mCacheIsDirty) { // If the cache is dirty we need to fetch new data from the network.
-            mCategoriesRemoteDataSource.getCategories(new LoadCategoriesCallback() {
+            mCategoriesRemoteDataSource.getCategories(parentId, new LoadCategoriesCallback() {
                 @Override
                 public void onLoaded(List<Category> categories) {
                     mCategoriesLocalDataSource.refreshCategories(categories);
@@ -80,7 +80,7 @@ public class CategoriesRepository implements CategoriesDataSource {
         }
 
         // Query the local storage if available. If not, query the network.
-        mCategoriesLocalDataSource.getCategories(new LoadCategoriesCallback() {
+        mCategoriesLocalDataSource.getCategories(parentId, new LoadCategoriesCallback() {
             @Override
             public void onLoaded(List<Category> categories) {
                 callback.onLoaded(categories);
@@ -89,7 +89,7 @@ public class CategoriesRepository implements CategoriesDataSource {
             @Override
             public void onDataNotAvailable() {
                 mCacheIsDirty = true;
-                getCategories(callback);
+                getCategories(parentId, callback);
             }
         });
     }

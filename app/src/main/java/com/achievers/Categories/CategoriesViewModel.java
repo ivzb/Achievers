@@ -20,6 +20,7 @@ public class CategoriesViewModel extends BaseObservable {
     int mCategoriesListSize = 0;
 
     private final CategoriesContract.Presenter mPresenter;
+    private CategoriesAdapter mAdapter;
 
     private Context mContext;
 
@@ -64,6 +65,11 @@ public class CategoriesViewModel extends BaseObservable {
     }
 
     @Bindable
+    public CategoriesAdapter getAdapter() {
+        return this.mAdapter;
+    }
+
+    @Bindable
     public boolean isNotEmpty() {
         return this.mCategoriesListSize > 0;
     }
@@ -75,5 +81,10 @@ public class CategoriesViewModel extends BaseObservable {
         notifyPropertyChanged(BR.currentFilteringLabel);
         notifyPropertyChanged(BR.notEmpty);
         notifyPropertyChanged(BR.categoriesAddViewVisible);
+        notifyPropertyChanged(BR.adapter);
+    }
+
+    public void setAdapter(CategoriesAdapter adapter) {
+        this.mAdapter = adapter;
     }
 }

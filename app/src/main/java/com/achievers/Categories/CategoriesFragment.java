@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,7 +39,7 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
 
     private CategoriesContract.Presenter mPresenter;
 
-    private CategoriesAdapter mListAdapter;
+    private CategoriesFragBinding mViewDataBinding;
 
     private CategoriesViewModel mCategoriesViewModel;
 
@@ -68,47 +69,88 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        CategoriesFragBinding categoriesFragBinding = CategoriesFragBinding.inflate(inflater, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        categoriesFragBinding.setCategories(mCategoriesViewModel);
+        View view = inflater.inflate(R.layout.categories_frag, container, false);
 
-        categoriesFragBinding.setActionHandler(mPresenter);
+        mViewDataBinding = CategoriesFragBinding.bind(view);
+        mViewDataBinding.setCategories(mCategoriesViewModel);
+        mViewDataBinding.setActionHandler(mPresenter);
+
+        setHasOptionsMenu(true);
+        setRetainInstance(true);
 
         // Set up categories view
-        ListView listView = categoriesFragBinding.categoriesList;
-
-        mListAdapter = new CategoriesAdapter(new ArrayList<Category>(0), mPresenter);
-        listView.setAdapter(mListAdapter);
+//        RecyclerView recyclerView = mViewDataBinding.rvCategories;
+//
+////        mListAdapter = new CategoriesAdapter(new ArrayList<Category>(0), mPresenter);
+//        mAdapter = new CategoriesAdapter(new ArrayList<Category>(0), mPresenter);
+//        recyclerView.setAdapter(mAdapter);
 
         // Set up floating action button
-        FloatingActionButton fab =
-                (FloatingActionButton) getActivity().findViewById(R.id.fab_add_category);
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_add_category);
 
-        fab.setImageResource(R.drawable.ic_add);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                mPresenter.addNewTask();
+                // not implemented yet
             }
         });
 
         // Set up progress indicator
-        final ScrollChildSwipeRefreshLayout swipeRefreshLayout = categoriesFragBinding.refreshLayout;
-        swipeRefreshLayout.setColorSchemeColors(
-                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
-                ContextCompat.getColor(getActivity(), R.color.colorAccent),
-                ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark)
-        );
-        // Set the scrolling view in the custom SwipeRefreshLayout.
-        swipeRefreshLayout.setScrollUpChild(listView);
+//        final ScrollChildSwipeRefreshLayout swipeRefreshLayout = mViewDataBinding.refreshLayout;
+//        swipeRefreshLayout.setColorSchemeColors(
+//                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
+//                ContextCompat.getColor(getActivity(), R.color.colorAccent),
+//                ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark)
+//        );
+//         Set the scrolling view in the custom SwipeRefreshLayout.
+//        swipeRefreshLayout.setScrollUpChild(mViewDataBinding.rvCategories);
 
-        setHasOptionsMenu(true);
 
-        View root = categoriesFragBinding.getRoot();
 
-        return root;
+
+        return mViewDataBinding.getRoot();
+//        CategoriesFragBinding categoriesFragBinding = CategoriesFragBinding.inflate(inflater, container, false);
+//
+//        categoriesFragBinding.setCategories(mCategoriesViewModel);
+//
+//        categoriesFragBinding.setActionHandler(mPresenter);
+//
+//        // Set up categories view
+//        RecyclerView recyclerView = categoriesFragBinding.rvCategories;
+//
+////        mListAdapter = new CategoriesAdapter(new ArrayList<Category>(0), mPresenter);
+//        CategoriesAdapter categoriesAdapter = new CategoriesAdapter()
+//        recyclerView.setAdapter(mListAdapter);
+//
+//        // Set up floating action button
+//        FloatingActionButton fab =
+//                (FloatingActionButton) getActivity().findViewById(R.id.fab_add_category);
+//
+//        fab.setImageResource(R.drawable.ic_add);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                mPresenter.addNewTask();
+//            }
+//        });
+//
+//        // Set up progress indicator
+//        final ScrollChildSwipeRefreshLayout swipeRefreshLayout = categoriesFragBinding.refreshLayout;
+//        swipeRefreshLayout.setColorSchemeColors(
+//                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
+//                ContextCompat.getColor(getActivity(), R.color.colorAccent),
+//                ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark)
+//        );
+//        // Set the scrolling view in the custom SwipeRefreshLayout.
+//        swipeRefreshLayout.setScrollUpChild(listView);
+//
+//        setHasOptionsMenu(true);
+//
+//        View root = categoriesFragBinding.getRoot();
+//
+//        return root;
     }
 
     @Override
@@ -121,7 +163,7 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
                 showFilteringPopUpMenu();
                 break;
             case R.id.menu_refresh:
-                mPresenter.loadCategories(true);
+                mPresenter.loadCategories(null, true);
                 break;
         }
         return true;
@@ -153,7 +195,7 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
                         mPresenter.setFiltering(CategoriesFilterType.ALL_CATEGORIES);
                         break;
                 }
-                mPresenter.loadCategories(false);
+                mPresenter.loadCategories(null, false);
                 return true;
             }
         });
@@ -180,7 +222,8 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     }
 
     public void showCategories(List<Category> categories) {
-        mListAdapter.replaceData(categories);
+        CategoriesAdapter adapter = new CategoriesAdapter(categories, mPresenter);
+        mCategoriesViewModel.setAdapter(adapter);
         mCategoriesViewModel.setCategoriesListSize(categories.size());
     }
 
@@ -208,62 +251,62 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
         return isAdded();
     }
 
-    private static class CategoriesAdapter extends BaseAdapter {
-
-        private List<Category> mCategories;
-
-        private CategoriesContract.Presenter mUserActionsListener;
-
-        public CategoriesAdapter(List<Category> categories, CategoriesContract.Presenter itemListener) {
-            setList(categories);
-            mUserActionsListener = itemListener;
-        }
-
-        public void replaceData(List<Category> categories) {
-            setList(categories);
-        }
-
-        private void setList(List<Category> categories) {
-            mCategories = categories;
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public int getCount() {
-            return mCategories != null ? mCategories.size() : 0;
-        }
-
-        @Override
-        public Category getItem(int i) {
-            return mCategories.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            Category category = getItem(i);
-            CategoryItemBinding binding;
-            if (view == null) {
-                // Inflate
-                LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-
-                // Create the binding
-                binding = CategoryItemBinding.inflate(inflater, viewGroup, false);
-            } else {
-                binding = DataBindingUtil.getBinding(view);
-            }
-
-            // We might be recycling the binding for another task, so update it.
-            // Create the action handler for the view
-            CategoriesItemActionHandler itemActionHandler = new CategoriesItemActionHandler(mUserActionsListener);
-            binding.setActionHandler(itemActionHandler);
-            binding.setCategory(category);
-            binding.executePendingBindings();
-            return binding.getRoot();
-        }
-    }
+//    private static class CategoriesAdapter extends BaseAdapter {
+//
+//        private List<Category> mCategories;
+//
+//        private CategoriesContract.Presenter mUserActionsListener;
+//
+//        public CategoriesAdapter(List<Category> categories, CategoriesContract.Presenter itemListener) {
+//            setList(categories);
+//            mUserActionsListener = itemListener;
+//        }
+//
+//        public void replaceData(List<Category> categories) {
+//            setList(categories);
+//        }
+//
+//        private void setList(List<Category> categories) {
+//            mCategories = categories;
+//            notifyDataSetChanged();
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return mCategories != null ? mCategories.size() : 0;
+//        }
+//
+//        @Override
+//        public Category getItem(int i) {
+//            return mCategories.get(i);
+//        }
+//
+//        @Override
+//        public long getItemId(int i) {
+//            return i;
+//        }
+//
+//        @Override
+//        public View getView(int i, View view, ViewGroup viewGroup) {
+//            Category category = getItem(i);
+//            CategoryItemBinding binding;
+//            if (view == null) {
+//                // Inflate
+//                LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+//
+//                // Create the binding
+//                binding = CategoryItemBinding.inflate(inflater, viewGroup, false);
+//            } else {
+//                binding = DataBindingUtil.getBinding(view);
+//            }
+//
+//            // We might be recycling the binding for another task, so update it.
+//            // Create the action handler for the view
+//            CategoriesItemActionHandler itemActionHandler = new CategoriesItemActionHandler(mUserActionsListener);
+//            binding.setActionHandler(itemActionHandler);
+//            binding.setCategory(category);
+//            binding.executePendingBindings();
+//            return binding.getRoot();
+//        }
+//    }
 }

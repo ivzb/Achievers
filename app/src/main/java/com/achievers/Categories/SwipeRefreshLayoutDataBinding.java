@@ -13,12 +13,12 @@ public class SwipeRefreshLayoutDataBinding {
      * Creates the {@code android:onRefresh} for a {@link SwipeRefreshLayout}
      * that takes a {@link CategoriesContract.Presenter}.
      */
-    @BindingAdapter("android:onRefresh")
+    @BindingAdapter("android:onRefresh") // todo: add Category parent id as parameter
     public static void setSwipeRefreshLayoutOnRefreshListener(ScrollChildSwipeRefreshLayout view, final CategoriesContract.Presenter presenter) {
         view.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.loadCategories(true);
+                presenter.loadCategories(null, true);
             }
         });
     }

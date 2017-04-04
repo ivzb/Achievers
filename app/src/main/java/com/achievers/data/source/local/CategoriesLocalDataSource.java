@@ -36,9 +36,10 @@ public class CategoriesLocalDataSource implements CategoriesDataSource {
      * or the table is empty.
      */
     @Override
-    public void getCategories(@NonNull LoadCategoriesCallback callback) {
+    public void getCategories(Integer parentId, @NonNull LoadCategoriesCallback callback) {
         RealmResults<Category> realmResults = Realm.getDefaultInstance()
                 .where(Category.class)
+                .equalTo("parent.id", parentId)
                 .findAll()
                 .sort("createdOn", Sort.DESCENDING);
 

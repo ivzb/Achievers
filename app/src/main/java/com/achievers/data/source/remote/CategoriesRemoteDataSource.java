@@ -69,13 +69,22 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
      * returns an error.
      */
     @Override
-    public void getCategories(final @NonNull LoadCategoriesCallback callback) {
+    public void getCategories(final Integer parentId, final @NonNull LoadCategoriesCallback callback) {
         // Simulate network by delaying the execution.
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                callback.onLoaded(Lists.newArrayList(CATEGORIES_SERVICE_DATA.values()));
+                List<Category> categoriesToShow = new ArrayList<Category>();
+
+                for(Category category: CATEGORIES_SERVICE_DATA.values())
+                {
+                    if ((category.getParent() != null && category.getParent().getId().equals(parentId)) ||
+                            (category.getParent() == null && parentId == null))
+                        categoriesToShow.add(category);
+                }
+
+                callback.onLoaded(categoriesToShow);
             }
         }, SERVICE_LATENCY_IN_MILLIS);
         return;

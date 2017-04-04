@@ -19,6 +19,6 @@ public interface CategoriesDataSource {
     }
 
     void getCategory(@NonNull int categoryId, @NonNull GetCategoryCallback callback);
-    void getCategories(@NonNull LoadCategoriesCallback callback);
+    void getCategories(Integer parentId, @NonNull LoadCategoriesCallback callback);
     void refreshCategories(List<Category> categories);
 }
