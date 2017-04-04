@@ -3,7 +3,6 @@ package com.achievers.Categories;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,34 +12,27 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
 
 import com.achievers.R;
 import com.achievers.data.Category;
 import com.achievers.databinding.CategoriesFragBinding;
-import com.achievers.databinding.CategoryItemBinding;
 import com.achievers.util.ScrollChildSwipeRefreshLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Display a dashboard screen with actions if user is logged or redirects to login screen. Main entry point.
+ * Display a screen with categories
  */
 public class CategoriesFragment extends Fragment implements CategoriesContract.View {
 
     private CategoriesContract.Presenter mPresenter;
-
     private CategoriesFragBinding mViewDataBinding;
-
     private CategoriesViewModel mCategoriesViewModel;
 
     public CategoriesFragment() {
@@ -53,43 +45,33 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
 
     @Override
     public void setPresenter(@NonNull CategoriesContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
+        this.mPresenter = checkNotNull(presenter);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        this.mPresenter.start();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mPresenter.result(requestCode, resultCode);
+        this.mPresenter.result(requestCode, resultCode);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.categories_frag, container, false);
 
-        mViewDataBinding = CategoriesFragBinding.bind(view);
-        mViewDataBinding.setCategories(mCategoriesViewModel);
-        mViewDataBinding.setActionHandler(mPresenter);
+        this.mViewDataBinding = CategoriesFragBinding.bind(view);
+        this.mViewDataBinding.setCategories(mCategoriesViewModel);
+        this.mViewDataBinding.setActionHandler(mPresenter);
 
         setHasOptionsMenu(true);
         setRetainInstance(true);
 
-        // Set up categories view
-//        RecyclerView recyclerView = mViewDataBinding.rvCategories;
-//
-////        mListAdapter = new CategoriesAdapter(new ArrayList<Category>(0), mPresenter);
-//        mAdapter = new CategoriesAdapter(new ArrayList<Category>(0), mPresenter);
-//        recyclerView.setAdapter(mAdapter);
-
-        // Set up floating action button
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_add_category);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,59 +80,16 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
         });
 
         // Set up progress indicator
-//        final ScrollChildSwipeRefreshLayout swipeRefreshLayout = mViewDataBinding.refreshLayout;
-//        swipeRefreshLayout.setColorSchemeColors(
-//                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
-//                ContextCompat.getColor(getActivity(), R.color.colorAccent),
-//                ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark)
-//        );
-//         Set the scrolling view in the custom SwipeRefreshLayout.
-//        swipeRefreshLayout.setScrollUpChild(mViewDataBinding.rvCategories);
-
-
-
+        final ScrollChildSwipeRefreshLayout swipeRefreshLayout = mViewDataBinding.refreshLayout;
+        swipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
+                ContextCompat.getColor(getActivity(), R.color.colorAccent),
+                ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark)
+        );
+        // Set the scrolling view in the custom SwipeRefreshLayout.
+        swipeRefreshLayout.setScrollUpChild(mViewDataBinding.rvCategories);
 
         return mViewDataBinding.getRoot();
-//        CategoriesFragBinding categoriesFragBinding = CategoriesFragBinding.inflate(inflater, container, false);
-//
-//        categoriesFragBinding.setCategories(mCategoriesViewModel);
-//
-//        categoriesFragBinding.setActionHandler(mPresenter);
-//
-//        // Set up categories view
-//        RecyclerView recyclerView = categoriesFragBinding.rvCategories;
-//
-////        mListAdapter = new CategoriesAdapter(new ArrayList<Category>(0), mPresenter);
-//        CategoriesAdapter categoriesAdapter = new CategoriesAdapter()
-//        recyclerView.setAdapter(mListAdapter);
-//
-//        // Set up floating action button
-//        FloatingActionButton fab =
-//                (FloatingActionButton) getActivity().findViewById(R.id.fab_add_category);
-//
-//        fab.setImageResource(R.drawable.ic_add);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                mPresenter.addNewTask();
-//            }
-//        });
-//
-//        // Set up progress indicator
-//        final ScrollChildSwipeRefreshLayout swipeRefreshLayout = categoriesFragBinding.refreshLayout;
-//        swipeRefreshLayout.setColorSchemeColors(
-//                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
-//                ContextCompat.getColor(getActivity(), R.color.colorAccent),
-//                ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark)
-//        );
-//        // Set the scrolling view in the custom SwipeRefreshLayout.
-//        swipeRefreshLayout.setScrollUpChild(listView);
-//
-//        setHasOptionsMenu(true);
-//
-//        View root = categoriesFragBinding.getRoot();
-//
-//        return root;
     }
 
     @Override
@@ -250,63 +189,4 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     public boolean isActive() {
         return isAdded();
     }
-
-//    private static class CategoriesAdapter extends BaseAdapter {
-//
-//        private List<Category> mCategories;
-//
-//        private CategoriesContract.Presenter mUserActionsListener;
-//
-//        public CategoriesAdapter(List<Category> categories, CategoriesContract.Presenter itemListener) {
-//            setList(categories);
-//            mUserActionsListener = itemListener;
-//        }
-//
-//        public void replaceData(List<Category> categories) {
-//            setList(categories);
-//        }
-//
-//        private void setList(List<Category> categories) {
-//            mCategories = categories;
-//            notifyDataSetChanged();
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return mCategories != null ? mCategories.size() : 0;
-//        }
-//
-//        @Override
-//        public Category getItem(int i) {
-//            return mCategories.get(i);
-//        }
-//
-//        @Override
-//        public long getItemId(int i) {
-//            return i;
-//        }
-//
-//        @Override
-//        public View getView(int i, View view, ViewGroup viewGroup) {
-//            Category category = getItem(i);
-//            CategoryItemBinding binding;
-//            if (view == null) {
-//                // Inflate
-//                LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-//
-//                // Create the binding
-//                binding = CategoryItemBinding.inflate(inflater, viewGroup, false);
-//            } else {
-//                binding = DataBindingUtil.getBinding(view);
-//            }
-//
-//            // We might be recycling the binding for another task, so update it.
-//            // Create the action handler for the view
-//            CategoriesItemActionHandler itemActionHandler = new CategoriesItemActionHandler(mUserActionsListener);
-//            binding.setActionHandler(itemActionHandler);
-//            binding.setCategory(category);
-//            binding.executePendingBindings();
-//            return binding.getRoot();
-//        }
-//    }
 }

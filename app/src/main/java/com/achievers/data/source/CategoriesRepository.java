@@ -63,12 +63,13 @@ public class CategoriesRepository implements CategoriesDataSource {
     public void getCategories(final Integer parentId, @NonNull final LoadCategoriesCallback callback) {
         checkNotNull(callback);
 
-        if (this.mCacheIsDirty) { // If the cache is dirty we need to fetch new data from the network.
-            mCategoriesRemoteDataSource.getCategories(parentId, new LoadCategoriesCallback() {
+        if (this.mCacheIsDirty) { // the cache is dirty so we need to fetch new data from the network.
+            this.mCategoriesRemoteDataSource.getCategories(parentId, new LoadCategoriesCallback() {
                 @Override
                 public void onLoaded(List<Category> categories) {
-                    mCategoriesLocalDataSource.refreshCategories(categories);
-                    callback.onLoaded(categories);
+                    mCacheIsDirty = false;
+                    saveCategories(categories);
+                    getCategories(parentId, callback);
                 }
 
                 @Override
@@ -76,10 +77,11 @@ public class CategoriesRepository implements CategoriesDataSource {
                     callback.onDataNotAvailable();
                 }
             });
-            return;
+
+            return; // stop execution until saved categories
         }
 
-        // Query the local storage if available. If not, query the network.
+        // return result by querying the local storage
         mCategoriesLocalDataSource.getCategories(parentId, new LoadCategoriesCallback() {
             @Override
             public void onLoaded(List<Category> categories) {
@@ -89,7 +91,7 @@ public class CategoriesRepository implements CategoriesDataSource {
             @Override
             public void onDataNotAvailable() {
                 mCacheIsDirty = true;
-                getCategories(parentId, callback);
+                callback.onDataNotAvailable();
             }
         });
     }
@@ -131,9 +133,24 @@ public class CategoriesRepository implements CategoriesDataSource {
         });
     }
 
+    /**
+     * Saves Category object to local data source.
+     */
+    public void saveCategory(@NonNull Category category) {
+        this.mCategoriesLocalDataSource.saveCategory(category);
+    }
+
     @Override
-    public void refreshCategories(List<Category> categories) {
-        this.mCacheIsDirty = false;
-        this.mCategoriesLocalDataSource.refreshCategories(categories);
+    public void refreshCategories() {
+        this.mCacheIsDirty = true;
+    }
+
+    private void saveCategories(List<Category> categories) {
+        if (categories.size() == 0) return;
+
+        Category categoryToBeSaved = categories.remove(categories.size() - 1);
+        this.saveCategory(categoryToBeSaved);
+
+        this.saveCategories(categories);
     }
 }

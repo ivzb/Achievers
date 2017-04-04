@@ -17,14 +17,14 @@ import com.achievers.BR;
  */
 public class CategoriesViewModel extends BaseObservable {
 
-    int mCategoriesListSize = 0;
+    private int mCategoriesListSize = 0;
 
     private final CategoriesContract.Presenter mPresenter;
     private CategoriesAdapter mAdapter;
 
     private Context mContext;
 
-    public CategoriesViewModel(Context context, CategoriesContract.Presenter presenter) {
+    CategoriesViewModel(Context context, CategoriesContract.Presenter presenter) {
         mContext = context;
         mPresenter = presenter;
     }
@@ -74,7 +74,7 @@ public class CategoriesViewModel extends BaseObservable {
         return this.mCategoriesListSize > 0;
     }
 
-    public void setCategoriesListSize(int categoriesListSize) {
+    void setCategoriesListSize(int categoriesListSize) {
         this.mCategoriesListSize = categoriesListSize;
         notifyPropertyChanged(BR.noCategoriesIconRes);
         notifyPropertyChanged(BR.noCategoriesLabel);
@@ -84,7 +84,7 @@ public class CategoriesViewModel extends BaseObservable {
         notifyPropertyChanged(BR.adapter);
     }
 
-    public void setAdapter(CategoriesAdapter adapter) {
+    void setAdapter(CategoriesAdapter adapter) {
         this.mAdapter = adapter;
     }
 }

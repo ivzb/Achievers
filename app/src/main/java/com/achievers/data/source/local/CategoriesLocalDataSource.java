@@ -72,13 +72,17 @@ public class CategoriesLocalDataSource implements CategoriesDataSource {
     }
 
     @Override
-    public void refreshCategories(List<Category> categories) {
+    public void refreshCategories() {
+        // Not required because the {@link CategoriesRepository} handles the logic of refreshing the
+        // categories from all the available data sources.
+    }
+
+    @Override
+    public void saveCategory(@NonNull final Category category) {
         Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.where(Category.class)
-                    .findAll()
-                    .deleteAllFromRealm();
+                realm.copyToRealmOrUpdate(category);
             }
         });
     }

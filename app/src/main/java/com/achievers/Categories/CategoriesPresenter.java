@@ -55,7 +55,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
      */
     private void loadCategories(Integer parentId, boolean forceUpdate, final boolean showLoadingUI) {
         if (showLoadingUI) mCategoriesView.setLoadingIndicator(true);
-        if (forceUpdate) mCategoriesRepository.refreshCategories(new ArrayList<Category>()); // todo: test this, might produce unexpected behaviour
+        if (forceUpdate) mCategoriesRepository.refreshCategories(); // todo: test this, might produce unexpected behaviour
 
         mCategoriesRepository.getCategories(parentId, new CategoriesDataSource.LoadCategoriesCallback() {
             @Override

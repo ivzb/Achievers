@@ -129,7 +129,12 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
     }
 
     @Override
-    public void refreshCategories(List<Category> categories) {
+    public void saveCategory(@NonNull Category category) {
+        // not implemented yet
+    }
+
+    @Override
+    public void refreshCategories() {
         // Not required because the {@link CategoriesRepository} handles the logic of refreshing the
         // Categories from all the available data sources.
     }
