@@ -6,7 +6,6 @@ import com.achievers.data.Category;
 import com.achievers.data.source.CategoriesDataSource;
 import com.achievers.data.source.CategoriesRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -55,7 +54,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
      */
     private void loadCategories(Integer parentId, boolean forceUpdate, final boolean showLoadingUI) {
         if (showLoadingUI) mCategoriesView.setLoadingIndicator(true);
-        if (forceUpdate) mCategoriesRepository.refreshCategories(); // todo: test this, might produce unexpected behaviour
+        if (forceUpdate) mCategoriesRepository.refreshCache();
 
         mCategoriesRepository.getCategories(parentId, new CategoriesDataSource.LoadCategoriesCallback() {
             @Override
@@ -82,6 +81,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
                 // The view may not be able to handle UI updates anymore
                 if (!mCategoriesView.isActive()) return;
                 mCategoriesView.showLoadingCategoriesError();
+                mCategoriesView.setLoadingIndicator(false);
             }
         });
     }

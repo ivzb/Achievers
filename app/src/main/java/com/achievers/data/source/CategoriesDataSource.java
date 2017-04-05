@@ -9,17 +9,24 @@ import java.util.List;
  */
 public interface CategoriesDataSource {
     interface GetCategoryCallback {
+
         void onLoaded(Category category);
+
         void onDataNotAvailable();
     }
 
     interface LoadCategoriesCallback {
+
         void onLoaded(List<Category> categories);
+
         void onDataNotAvailable();
     }
 
     void getCategory(@NonNull int categoryId, @NonNull GetCategoryCallback callback);
+
     void getCategories(Integer parentId, @NonNull LoadCategoriesCallback callback);
+
     void saveCategory(@NonNull Category category);
-    void refreshCategories();
+
+    void refreshCache();
 }

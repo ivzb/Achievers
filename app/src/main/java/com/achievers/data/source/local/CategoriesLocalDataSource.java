@@ -1,6 +1,5 @@
 package com.achievers.data.source.local;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.Category;
@@ -17,15 +16,17 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class CategoriesLocalDataSource implements CategoriesDataSource {
 
     private static CategoriesLocalDataSource INSTANCE;
+    private Realm mRealm;
 
     // Prevent direct instantiation.
-    private CategoriesLocalDataSource(@NonNull Context context) {
-        checkNotNull(context);
+    private CategoriesLocalDataSource(@NonNull Realm realm) {
+        checkNotNull(realm);
+        this.mRealm = realm;
     }
 
-    public static CategoriesLocalDataSource getInstance(@NonNull Context context) {
+    public static CategoriesLocalDataSource getInstance(@NonNull Realm realm) {
         if (INSTANCE == null) {
-            INSTANCE = new CategoriesLocalDataSource(context);
+            INSTANCE = new CategoriesLocalDataSource(realm);
         }
 
         return INSTANCE;
@@ -37,13 +38,13 @@ public class CategoriesLocalDataSource implements CategoriesDataSource {
      */
     @Override
     public void getCategories(Integer parentId, @NonNull LoadCategoriesCallback callback) {
-        RealmResults<Category> realmResults = Realm.getDefaultInstance()
+        RealmResults<Category> realmResults = this.mRealm
                 .where(Category.class)
                 .equalTo("parent.id", parentId)
                 .findAll()
                 .sort("createdOn", Sort.DESCENDING);
 
-        List<Category> categories = Realm.getDefaultInstance().copyFromRealm(realmResults);
+        List<Category> categories = this.mRealm.copyFromRealm(realmResults);
 
         if (categories.isEmpty()) {
             // This will be called if the table is new or just empty.
@@ -59,7 +60,7 @@ public class CategoriesLocalDataSource implements CategoriesDataSource {
      */
     @Override
     public void getCategory(@NonNull int categoryId, @NonNull GetCategoryCallback callback) {
-        Category category = Realm.getDefaultInstance()
+        Category category = this.mRealm
                 .where(Category.class)
                 .equalTo("id", categoryId)
                 .findFirst();
@@ -72,14 +73,14 @@ public class CategoriesLocalDataSource implements CategoriesDataSource {
     }
 
     @Override
-    public void refreshCategories() {
+    public void refreshCache() {
         // Not required because the {@link CategoriesRepository} handles the logic of refreshing the
         // categories from all the available data sources.
     }
 
     @Override
     public void saveCategory(@NonNull final Category category) {
-        Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
+        this.mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 realm.copyToRealmOrUpdate(category);

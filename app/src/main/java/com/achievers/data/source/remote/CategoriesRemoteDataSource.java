@@ -134,7 +134,7 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
     }
 
     @Override
-    public void refreshCategories() {
+    public void refreshCache() {
         // Not required because the {@link CategoriesRepository} handles the logic of refreshing the
         // Categories from all the available data sources.
     }

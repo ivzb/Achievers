@@ -65,8 +65,8 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
         View view = inflater.inflate(R.layout.categories_frag, container, false);
 
         this.mViewDataBinding = CategoriesFragBinding.bind(view);
-        this.mViewDataBinding.setCategories(mCategoriesViewModel);
-        this.mViewDataBinding.setActionHandler(mPresenter);
+        this.mViewDataBinding.setCategories(this.mCategoriesViewModel);
+        this.mViewDataBinding.setActionHandler(this.mPresenter);
 
         setHasOptionsMenu(true);
         setRetainInstance(true);
@@ -144,12 +144,9 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
 
     @Override
     public void setLoadingIndicator(final boolean active) {
+        if (getView() == null) return;
 
-        if (getView() == null) {
-            return;
-        }
-        final SwipeRefreshLayout srl =
-                (SwipeRefreshLayout) getView().findViewById(R.id.refresh_layout);
+        final SwipeRefreshLayout srl = (SwipeRefreshLayout) getView().findViewById(R.id.refresh_layout);
 
         // Make sure setRefreshing() is called after the layout is done with everything else.
         srl.post(new Runnable() {

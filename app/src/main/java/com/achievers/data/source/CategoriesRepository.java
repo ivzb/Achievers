@@ -63,13 +63,13 @@ public class CategoriesRepository implements CategoriesDataSource {
     public void getCategories(final Integer parentId, @NonNull final LoadCategoriesCallback callback) {
         checkNotNull(callback);
 
-        if (this.mCacheIsDirty) { // the cache is dirty so we need to fetch new data from the network.
+        if (this.mCacheIsDirty) { // the cache is dirty so we need to fetch new data from the network
             this.mCategoriesRemoteDataSource.getCategories(parentId, new LoadCategoriesCallback() {
                 @Override
                 public void onLoaded(List<Category> categories) {
-                    mCacheIsDirty = false;
-                    saveCategories(categories);
-                    getCategories(parentId, callback);
+                    mCacheIsDirty = false; // cache is clean so the next call will return results form local data source
+                    saveCategories(categories); // saving results to local data source
+                    getCategories(parentId, callback); // recursively call SELF in order to return data from local data source
                 }
 
                 @Override
@@ -78,7 +78,7 @@ public class CategoriesRepository implements CategoriesDataSource {
                 }
             });
 
-            return; // stop execution until saved categories
+            return; // stop execution until saved all categories
         }
 
         // return result by querying the local storage
@@ -90,7 +90,7 @@ public class CategoriesRepository implements CategoriesDataSource {
 
             @Override
             public void onDataNotAvailable() {
-                mCacheIsDirty = true;
+                mCacheIsDirty = true; // if no data available make cache dirty in order to fetch data from the network next time
                 callback.onDataNotAvailable();
             }
         });
@@ -141,14 +141,15 @@ public class CategoriesRepository implements CategoriesDataSource {
     }
 
     @Override
-    public void refreshCategories() {
+    public void refreshCache() {
         this.mCacheIsDirty = true;
     }
 
     private void saveCategories(List<Category> categories) {
         if (categories.size() == 0) return;
 
-        Category categoryToBeSaved = categories.remove(categories.size() - 1);
+        int lastElementIndex = categories.size() - 1;
+        Category categoryToBeSaved = categories.remove(lastElementIndex);
         this.saveCategory(categoryToBeSaved);
 
         this.saveCategories(categories);

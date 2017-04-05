@@ -9,13 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.achievers.BaseActivity;
 import com.achievers.R;
 import com.achievers.data.source.CategoriesRepository;
 import com.achievers.data.source.local.CategoriesLocalDataSource;
 import com.achievers.data.source.remote.CategoriesRemoteDataSource;
 import com.achievers.util.ActivityUtils;
 
-public class CategoriesActivity extends AppCompatActivity {
+public class CategoriesActivity extends BaseActivity {
 
     private static final String CURRENT_FILTERING_KEY = "CURRENT_FILTERING_KEY";
 
@@ -53,7 +54,9 @@ public class CategoriesActivity extends AppCompatActivity {
         }
 
         // Instantiate repository
-        CategoriesRepository repository = CategoriesRepository.getInstance(CategoriesRemoteDataSource.getInstance(), CategoriesLocalDataSource.getInstance(this));
+        CategoriesRepository repository = CategoriesRepository.getInstance(
+                CategoriesRemoteDataSource.getInstance(),
+                CategoriesLocalDataSource.getInstance(super.mRealm));
 
         // Create the presenter
         mCategoriesPresenter = new CategoriesPresenter(repository, categoriesFragment);
