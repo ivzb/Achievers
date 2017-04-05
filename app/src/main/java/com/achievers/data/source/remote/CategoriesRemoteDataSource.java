@@ -115,7 +115,7 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
      * returns an error.
      */
     @Override
-    public void getCategory(@NonNull int categoryId, final @NonNull GetCategoryCallback callback) {
+    public void getCategory(@NonNull Integer categoryId, final @NonNull GetCategoryCallback callback) {
         final Category category = CATEGORIES_SERVICE_DATA.get(categoryId);
 
         // Simulate network by delaying the execution.

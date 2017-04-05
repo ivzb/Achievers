@@ -22,7 +22,7 @@ public interface CategoriesDataSource {
         void onDataNotAvailable();
     }
 
-    void getCategory(@NonNull int categoryId, @NonNull GetCategoryCallback callback);
+    void getCategory(@NonNull Integer categoryId, @NonNull GetCategoryCallback callback);
 
     void getCategories(Integer parentId, @NonNull LoadCategoriesCallback callback);
 

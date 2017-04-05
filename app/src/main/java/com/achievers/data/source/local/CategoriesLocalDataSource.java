@@ -59,7 +59,7 @@ public class CategoriesLocalDataSource implements CategoriesDataSource {
      * found.
      */
     @Override
-    public void getCategory(@NonNull int categoryId, @NonNull GetCategoryCallback callback) {
+    public void getCategory(@NonNull Integer categoryId, @NonNull GetCategoryCallback callback) {
         Category category = this.mRealm
                 .where(Category.class)
                 .equalTo("id", categoryId)

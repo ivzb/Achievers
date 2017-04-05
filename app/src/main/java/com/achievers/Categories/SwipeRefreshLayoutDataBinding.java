@@ -15,6 +15,7 @@ public class SwipeRefreshLayoutDataBinding {
      */
     @BindingAdapter("android:onRefresh") // todo: add Category parent id as parameter
     public static void setSwipeRefreshLayoutOnRefreshListener(ScrollChildSwipeRefreshLayout view, final CategoriesContract.Presenter presenter) {
+        // todo: pass parent category id so as not to refresh to initial adapter
         view.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

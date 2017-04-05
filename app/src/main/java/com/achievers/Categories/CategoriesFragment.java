@@ -165,6 +165,7 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
 
     @Override
     public void showCategoryDetailsUi(int categoryId) {
+        mPresenter.loadCategories(categoryId, true);
         // in it's own Activity, since it makes more sense that way and it gives us the flexibility
         // to show some Intent stubbing.
 //         todo: check if Categories or Achievements should be displayed

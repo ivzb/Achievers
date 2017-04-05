@@ -104,8 +104,7 @@ public class CategoriesRepository implements CategoriesDataSource {
      * get the data.
      */
     @Override
-    public void getCategory(@NonNull final int categoryId, @NonNull final GetCategoryCallback callback) {
-        checkNotNull(categoryId);
+    public void getCategory(@NonNull final Integer categoryId, @NonNull final GetCategoryCallback callback) {
         checkNotNull(callback);
 
         // Load from server/persisted

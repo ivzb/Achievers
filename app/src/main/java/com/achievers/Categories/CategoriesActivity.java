@@ -85,6 +85,13 @@ public class CategoriesActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (this.mCategoriesPresenter.navigateToPreviousCategory()) return;
+
+        super.onBackPressed();
+    }
+
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
