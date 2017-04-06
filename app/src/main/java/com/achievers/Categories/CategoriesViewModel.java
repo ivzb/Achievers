@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 
 import com.achievers.R;
 import com.achievers.BR;
+import com.achievers.data.Category;
 
 /**
  * Exposes the data to be used in the {@link CategoriesContract.View}.
@@ -21,6 +22,7 @@ public class CategoriesViewModel extends BaseObservable {
 
     private final CategoriesContract.Presenter mPresenter;
     private CategoriesAdapter mAdapter;
+    private Category mParent;
 
     private Context mContext;
 
@@ -70,6 +72,11 @@ public class CategoriesViewModel extends BaseObservable {
     }
 
     @Bindable
+    public Category getParent() {
+        return this.mParent;
+    }
+
+    @Bindable
     public boolean isNotEmpty() {
         return this.mCategoriesListSize > 0;
     }
@@ -86,5 +93,9 @@ public class CategoriesViewModel extends BaseObservable {
 
     void setAdapter(CategoriesAdapter adapter) {
         this.mAdapter = adapter;
+    }
+
+    void setParent(Category parent) {
+        this.mParent = parent;
     }
 }

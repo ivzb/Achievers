@@ -29,7 +29,7 @@ public class CategoriesContract {
 
         void result(int requestCode, int resultCode);
 
-        void loadCategories(Integer parentId, boolean forceUpdate);
+        void loadCategories(Category parent, boolean forceUpdate);
 
         void openCategoryDetails(@NonNull Category requestedCategory);
 

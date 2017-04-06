@@ -114,7 +114,7 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     }
 
     public void setViewModel(CategoriesViewModel viewModel) {
-        mCategoriesViewModel = viewModel;
+        this.mCategoriesViewModel = viewModel;
     }
 
     private void showFilteringPopUpMenu() {
