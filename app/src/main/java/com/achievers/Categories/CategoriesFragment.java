@@ -157,10 +157,16 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
         });
     }
 
+    @Override
     public void showCategories(List<Category> categories) {
         CategoriesAdapter adapter = new CategoriesAdapter(categories, mPresenter);
         mCategoriesViewModel.setAdapter(adapter);
         mCategoriesViewModel.setCategoriesListSize(categories.size());
+    }
+
+    @Override
+    public void showParent(Category parent) {
+        mCategoriesViewModel.setParent(parent);
     }
 
     @Override
@@ -177,6 +183,11 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     @Override
     public void showLoadingCategoriesError() {
         showMessage(getString(R.string.loading_categories_error));
+    }
+
+    @Override
+    public void showLoadingParentError() {
+        showMessage(getString(R.string.loading_parent_category_error));
     }
 
     private void showMessage(String message) {

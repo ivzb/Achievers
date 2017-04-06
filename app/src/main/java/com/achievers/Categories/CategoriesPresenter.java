@@ -34,8 +34,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
 
     @Override
     public void start() {
-        Category parentCategory = null;
-        loadCategories(parentCategory, false);
+        loadCategories(null, false);
     }
 
     @Override
@@ -47,9 +46,9 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
     }
 
     @Override
-    public void loadCategories(Category parent, boolean forceUpdate) {
+    public void loadCategories(Integer parentId, boolean forceUpdate) {
         // a network reload will be forced on first load.
-        this.loadCategories(parent, forceUpdate || this.mFirstLoad, true);
+        this.loadCategories(parentId, forceUpdate || this.mFirstLoad, true);
         this.mFirstLoad = false;
     }
 
@@ -57,11 +56,10 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
      * @param forceUpdate   Pass in true to refresh the data in the {@link CategoriesDataSource}
      * @param showLoadingUI Pass in true to display a loading icon in the UI
      */
-    private void loadCategories(final Category parent, boolean forceUpdate, final boolean showLoadingUI) {
+    private void loadCategories(final Integer parentId, boolean forceUpdate, final boolean showLoadingUI) {
         if (showLoadingUI) mCategoriesView.setLoadingIndicator(true);
         if (forceUpdate) mCategoriesRepository.refreshCache();
 
-        Integer parentId = parent != null ? parent.getId() : null;
         mCategoriesRepository.getCategories(parentId, new CategoriesDataSource.LoadCategoriesCallback() {
             @Override
             public void onLoaded(List<Category> categories) {
@@ -81,6 +79,20 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
                 if (showLoadingUI) mCategoriesView.setLoadingIndicator(false);
 
                 mCategoriesView.showCategories(categories);
+
+                if (parentId != null) {
+                    mCategoriesRepository.getCategory(parentId, new CategoriesDataSource.GetCategoryCallback() {
+                        @Override
+                        public void onLoaded(Category category) {
+                            mCategoriesView.showParent(category);
+                        }
+
+                        @Override
+                        public void onDataNotAvailable() {
+                            mCategoriesView.showLoadingParentError();
+                        }
+                    });
+                }
             }
 
             @Override

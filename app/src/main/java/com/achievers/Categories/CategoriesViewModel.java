@@ -97,5 +97,6 @@ public class CategoriesViewModel extends BaseObservable {
 
     void setParent(Category parent) {
         this.mParent = parent;
+        notifyPropertyChanged(BR.parent);
     }
 }

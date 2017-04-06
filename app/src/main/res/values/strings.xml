@@ -15,4 +15,5 @@
     <string name="nav_completed">Completed</string>
     <string name="nav_not_completed">Not Completed</string>
     <string name="loading_categories_error">Error while loading Categories</string>
+    <string name="loading_parent_category_error">Error while loading Category Info</string>
 </resources>

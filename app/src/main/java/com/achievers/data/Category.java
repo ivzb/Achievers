@@ -35,10 +35,6 @@ public class Category extends RealmObject {
     @Nullable
     private Category parent;
 
-    @SerializedName("Children")
-    @Nullable
-    private RealmList<Category> children;
-
     @SerializedName("CreatedOn")
     @Nullable
     private Date createdOn;
@@ -61,7 +57,6 @@ public class Category extends RealmObject {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.children = new RealmList<>();
         this.createdOn = createdOn;
     }
 
@@ -94,25 +89,12 @@ public class Category extends RealmObject {
     }
 
     @Nullable
-    public RealmList<Category> getChildren() {
-        return children;
-    }
-
-    @Nullable
     public Date getCreatedOn() {
         return createdOn;
     }
 
     public void setParent(Category parent) {
         this.parent = parent;
-    }
-
-    public void setChildren(RealmList<Category> children) {
-        this.children = children;
-    }
-
-    public void addChild(Category child) {
-        this.children.add(child);
     }
 
     public boolean isNew() {

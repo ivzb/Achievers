@@ -39,7 +39,11 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
         if (count == 0) return;
 
         Category parent = generateCategory(faker, null);
-        for (int i = 0; i < 5; i++) generateCategory(faker, parent);
+        for (int i = 0; i < 5; i++) {
+            Category innerParent = generateCategory(faker, parent);
+
+            for (int j = 0; j < 3; j++) generateCategory(faker, innerParent);
+        }
 
         generateCategories(--count, faker);
     }
@@ -49,7 +53,6 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
 
         if (parent != null) {
             newCategory.setParent(parent);
-            parent.addChild(newCategory);
         }
 
         CATEGORIES_SERVICE_DATA.put(newCategory.getId(), newCategory);

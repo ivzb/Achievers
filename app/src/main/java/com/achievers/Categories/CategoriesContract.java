@@ -16,9 +16,13 @@ public class CategoriesContract {
 
         void showCategories(List<Category> categories);
 
+        void showParent(Category parent);
+
         void showCategoryDetailsUi(int categoryId);
 
         void showLoadingCategoriesError();
+
+        void showLoadingParentError();
 
         boolean isActive();
     }
@@ -29,7 +33,7 @@ public class CategoriesContract {
 
         void result(int requestCode, int resultCode);
 
-        void loadCategories(Category parent, boolean forceUpdate);
+        void loadCategories(Integer parentId, boolean forceUpdate);
 
         void openCategoryDetails(@NonNull Category requestedCategory);
 
