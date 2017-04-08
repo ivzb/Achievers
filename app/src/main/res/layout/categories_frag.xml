@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:adapter="http://schemas.android.com/tools">
 
     <data>
         <import type="android.view.View" />
@@ -24,7 +25,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.3"
-            android:onRefresh="@{actionHandler}">
+            adapter:onRefresh="@{ actionHandler }"
+            adapter:category="@{ categories.parent }">
 
             <RelativeLayout
                 android:id="@+id/categoriesContainer"

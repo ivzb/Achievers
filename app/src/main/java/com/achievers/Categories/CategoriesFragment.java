@@ -96,13 +96,14 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_clear:
-                // todo
+                // todo: consider changing this to different functionality
                 break;
             case R.id.menu_filter:
                 showFilteringPopUpMenu();
                 break;
             case R.id.menu_refresh:
-                mPresenter.loadCategories(null, true);
+                Integer parentId = mCategoriesViewModel.getParent() != null ? mCategoriesViewModel.getParent().getId() : null;
+                mPresenter.loadCategories(parentId, true);
                 break;
         }
         return true;
@@ -134,7 +135,8 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
                         mPresenter.setFiltering(CategoriesFilterType.ALL_CATEGORIES);
                         break;
                 }
-                mPresenter.loadCategories(null, false);
+                Integer parentId = mCategoriesViewModel.getParent() != null ? mCategoriesViewModel.getParent().getId() : null;
+                mPresenter.loadCategories(parentId, false);
                 return true;
             }
         });

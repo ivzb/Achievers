@@ -103,7 +103,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
                 mCategoriesView.setLoadingIndicator(false);
                 if (mCategoriesNavigationState.size() > 0) mCategoriesNavigationState.pop();
 
-                // todo: categories with this parentId not found -> show category achievemetns
+                // todo: categories with this parentId not found -> show category achievements
             }
         });
     }

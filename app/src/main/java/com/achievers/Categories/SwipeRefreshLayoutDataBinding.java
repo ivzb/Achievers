@@ -3,6 +3,7 @@ package com.achievers.Categories;
 import android.databinding.BindingAdapter;
 import android.support.v4.widget.SwipeRefreshLayout;
 
+import com.achievers.data.Category;
 import com.achievers.util.ScrollChildSwipeRefreshLayout;
 
 public class SwipeRefreshLayoutDataBinding {
@@ -13,13 +14,13 @@ public class SwipeRefreshLayoutDataBinding {
      * Creates the {@code android:onRefresh} for a {@link SwipeRefreshLayout}
      * that takes a {@link CategoriesContract.Presenter}.
      */
-    @BindingAdapter("android:onRefresh") // todo: add Category parent id as parameter
-    public static void setSwipeRefreshLayoutOnRefreshListener(ScrollChildSwipeRefreshLayout view, final CategoriesContract.Presenter presenter) {
-        // todo: pass parent category id so as not to refresh to initial adapter
+    @BindingAdapter({ "adapter:onRefresh", "adapter:category" })
+    public static void setSwipeRefreshLayoutOnRefreshListener(ScrollChildSwipeRefreshLayout view, final CategoriesContract.Presenter presenter, final Category parent) {
         view.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.loadCategories(null, true);
+                Integer parentId = parent != null ? parent.getId() : null;
+                presenter.loadCategories(parentId, true);
             }
         });
     }

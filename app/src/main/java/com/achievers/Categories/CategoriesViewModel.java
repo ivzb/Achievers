@@ -36,6 +36,10 @@ public class CategoriesViewModel extends BaseObservable {
         switch (mPresenter.getFiltering()) {
             case ALL_CATEGORIES:
                 return mContext.getResources().getString(R.string.label_all_categories);
+            case COMPLETED:
+                return mContext.getResources().getString(R.string.label_completed);
+            case NOT_COMPLETED:
+                return mContext.getResources().getString(R.string.label_not_completed);
         }
 
         return null;
