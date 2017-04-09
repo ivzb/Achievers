@@ -13,9 +13,9 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
- * Immutable model class for a Category.
+ * Immutable model class for a Achievement.
  */
-public class Category extends RealmObject {
+public class Achievement extends RealmObject {
 
     @SerializedName("Id")
     @NonNull
@@ -30,9 +30,17 @@ public class Category extends RealmObject {
     @NonNull
     private String description;
 
-    @SerializedName("Parent")
+    @SerializedName("ImageUrl")
     @NonNull
-    private Category parent;
+    private String imageUrl;
+
+    @SerializedName("Category")
+    @NonNull
+    private Category category;
+
+    @SerializedName("Involvement")
+    @NonNull
+    private Involvement involvement;
 
     @SerializedName("CreatedOn")
     @NonNull
@@ -41,21 +49,27 @@ public class Category extends RealmObject {
     /**
      * An empty constructor is required by realm.
      */
-    public Category() { }
+    public Achievement() { }
 
     /**
-     * Use this constructor to specify a Category if the Category already has an id
+     * Use this constructor to specify a Achievement if the Achievement already has an id
      *
-     * @param id          id of the category
-     * @param title       title of the category
-     * @param description description of the category
-     * @param createdOn   creation date of the category
+     * @param id          id of the achievement
+     * @param title       title of the achievement
+     * @param description description of the achievement
+     * @param imageUrl    image url of the achievement
+     * @param category    category the achievement
+     * @param involvement involvement of the achievement
+     * @param createdOn   creation date of the achievement
      */
-    public Category(Integer id, @NonNull String title, @NonNull String description,
-                    @Nullable Date createdOn) {
+    public Achievement(Integer id, @NonNull String title, @NonNull String description, @NonNull String imageUrl,
+                    @NonNull Category category, @NonNull Involvement involvement, @Nullable Date createdOn) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.imageUrl = imageUrl;
+        this.category = category;
+        this.involvement = involvement;
         this.createdOn = createdOn;
     }
 
@@ -82,18 +96,24 @@ public class Category extends RealmObject {
         return description;
     }
 
-    @Nullable
-    public Category getParent() {
-        return parent;
+    @NonNull
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    @NonNull
+    public Category getCategory() {
+        return category;
+    }
+
+    @NonNull
+    public Involvement getInvolvement() {
+        return involvement;
     }
 
     @Nullable
     public Date getCreatedOn() {
         return createdOn;
-    }
-
-    public void setParent(Category parent) {
-        this.parent = parent;
     }
 
     public boolean isNew() {
@@ -108,8 +128,8 @@ public class Category extends RealmObject {
         Category other = (Category) o;
 
         return this.getId() == other.getId() &&
-               this.getTitle().equals(other.getTitle()) &&
-               this.getDescription().equals(other.getDescription());
+                this.getTitle().equals(other.getTitle()) &&
+                this.getDescription().equals(other.getDescription());
     }
 
     @Override
@@ -119,6 +139,6 @@ public class Category extends RealmObject {
 
     @Override
     public String toString() {
-        return "Category #" + this.getId() + " with title: " + this.getTitle() + " and description: " + this.getDescription();
+        return "Achievement #" + this.getId() + " with title: " + this.getTitle() + " and description: " + this.getDescription();
     }
 }
