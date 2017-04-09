@@ -72,7 +72,7 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
      * returns an error.
      */
     @Override
-    public void getCategories(final Integer parentId, final @NonNull LoadCategoriesCallback callback) {
+    public void loadCategories(final Integer parentId, final @NonNull LoadCategoriesCallback callback) {
         // Simulate network by delaying the execution.
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -96,7 +96,7 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
 //            .getClient()
 //            .create(CategoriesEndpointInterface.class);
 //
-//        final Call<ODataResponseArray<Category>> call = apiService.getCategories();
+//        final Call<ODataResponseArray<Category>> call = apiService.loadCategories();
 //        call.enqueue(new Callback<ODataResponseArray<Category>>() {
 //            @Override
 //            public void onResponse(Call<ODataResponseArray<Category>> call, Response<ODataResponseArray<Category>> response) {

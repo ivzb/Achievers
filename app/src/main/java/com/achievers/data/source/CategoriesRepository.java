@@ -20,12 +20,13 @@ public class CategoriesRepository implements CategoriesDataSource {
     private static CategoriesRepository INSTANCE = null;
     private final CategoriesDataSource mCategoriesRemoteDataSource;
     private final CategoriesDataSource mCategoriesLocalDataSource;
-    private boolean mCacheIsDirty = true;
+    private boolean mCacheIsDirty;
 
-    // Prevent direct instantiation.
+    // Prevent direct instantiation
     private CategoriesRepository(@NonNull CategoriesDataSource categoriesRemoteDataSource, @NonNull CategoriesDataSource categoriesLocalDataSource) {
         this.mCategoriesRemoteDataSource = checkNotNull(categoriesRemoteDataSource);
         this.mCategoriesLocalDataSource = checkNotNull(categoriesLocalDataSource);
+        this.mCacheIsDirty = true;
     }
 
     /**
@@ -60,16 +61,16 @@ public class CategoriesRepository implements CategoriesDataSource {
      * </p>
      */
     @Override
-    public void getCategories(final Integer parentId, @NonNull final LoadCategoriesCallback callback) {
+    public void loadCategories(final Integer parentId, @NonNull final LoadCategoriesCallback callback) {
         checkNotNull(callback);
 
         if (this.mCacheIsDirty) { // the cache is dirty so we need to fetch new data from the network
-            this.mCategoriesRemoteDataSource.getCategories(parentId, new LoadCategoriesCallback() {
+            this.mCategoriesRemoteDataSource.loadCategories(parentId, new LoadCategoriesCallback() {
                 @Override
                 public void onLoaded(List<Category> categories) {
                     mCacheIsDirty = false; // cache is clean so the next call will return results form local data source
                     saveCategories(categories); // saving results to local data source
-                    getCategories(parentId, callback); // recursively call SELF in order to return data from local data source
+                    loadCategories(parentId, callback); // recursively call SELF in order to return data from local data source
                 }
 
                 @Override
@@ -82,7 +83,7 @@ public class CategoriesRepository implements CategoriesDataSource {
         }
 
         // return result by querying the local storage
-        mCategoriesLocalDataSource.getCategories(parentId, new LoadCategoriesCallback() {
+        mCategoriesLocalDataSource.loadCategories(parentId, new LoadCategoriesCallback() {
             @Override
             public void onLoaded(List<Category> categories) {
                 callback.onLoaded(categories);

@@ -37,7 +37,7 @@ public class CategoriesLocalDataSource implements CategoriesDataSource {
      * or the table is empty.
      */
     @Override
-    public void getCategories(Integer parentId, @NonNull LoadCategoriesCallback callback) {
+    public void loadCategories(Integer parentId, @NonNull LoadCategoriesCallback callback) {
         RealmResults<Category> realmResults = this.mRealm
                 .where(Category.class)
                 .equalTo("parent.id", parentId)

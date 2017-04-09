@@ -24,7 +24,7 @@ public interface CategoriesDataSource {
 
     void getCategory(@NonNull Integer categoryId, @NonNull GetCategoryCallback callback);
 
-    void getCategories(Integer parentId, @NonNull LoadCategoriesCallback callback);
+    void loadCategories(Integer parentId, @NonNull LoadCategoriesCallback callback);
 
     void saveCategory(@NonNull Category category);
 
