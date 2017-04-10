@@ -105,12 +105,12 @@ public class AchievementsRepository implements AchievementsDataSource {
      * get the data.
      */
     @Override
-    public void getAchievement(@NonNull final Integer achievementId, final @NonNull GetAchievementCallback callback) {
+    public void getAchievement(@NonNull final Integer id, final @NonNull GetAchievementCallback callback) {
         checkNotNull(callback);
 
         // Load from server/persisted
         // Is the task in the local data source? If not, query the network.
-        mAchievementsLocalDataSource.getAchievement(achievementId, new GetAchievementCallback() {
+        mAchievementsLocalDataSource.getAchievement(id, new GetAchievementCallback() {
             @Override
             public void onLoaded(Achievement achievement) {
                 callback.onLoaded(achievement);
@@ -118,7 +118,7 @@ public class AchievementsRepository implements AchievementsDataSource {
 
             @Override
             public void onDataNotAvailable() {
-                mAchievementsRemoteDataSource.getAchievement(achievementId, new GetAchievementCallback() {
+                mAchievementsRemoteDataSource.getAchievement(id, new GetAchievementCallback() {
                     @Override
                     public void onLoaded(Achievement achievement) {
                         callback.onLoaded(achievement);

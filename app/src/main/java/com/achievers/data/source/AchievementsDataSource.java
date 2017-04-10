@@ -24,7 +24,7 @@ public interface AchievementsDataSource {
         void onDataNotAvailable();
     }
 
-    void getAchievement(@NonNull Integer achievementId, @NonNull GetAchievementCallback callback);
+    void getAchievement(@NonNull Integer id, @NonNull GetAchievementCallback callback);
 
     void loadAchievements(Integer categoryId, @NonNull LoadAchievementsCallback callback);
 
