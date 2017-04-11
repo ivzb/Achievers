@@ -105,6 +105,11 @@
                     android:layout_height="wrap_content"
                     android:text="@{ categories.parent.description }"
                     android:textSize="30sp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvAchievements"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <LinearLayout
