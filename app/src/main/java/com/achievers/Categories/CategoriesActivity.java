@@ -9,10 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.achievers.Achievements.AchievementsViewModel;
 import com.achievers.BaseActivity;
 import com.achievers.R;
+import com.achievers.data.source.AchievementsRepository;
 import com.achievers.data.source.CategoriesRepository;
+import com.achievers.data.source.local.AchievementsLocalDataSource;
 import com.achievers.data.source.local.CategoriesLocalDataSource;
+import com.achievers.data.source.remote.AchievementsRemoteDataSource;
 import com.achievers.data.source.remote.CategoriesRemoteDataSource;
 import com.achievers.util.ActivityUtils;
 
@@ -53,18 +57,25 @@ public class CategoriesActivity extends BaseActivity {
                     getSupportFragmentManager(), categoriesFragment, R.id.contentFrame);
         }
 
-        // Instantiate repository
-        CategoriesRepository repository = CategoriesRepository.getInstance(
+        // Instantiate repositories
+        CategoriesRepository categoriesRepository = CategoriesRepository.getInstance(
                 CategoriesRemoteDataSource.getInstance(),
                 CategoriesLocalDataSource.getInstance(super.mRealm));
 
+        AchievementsRepository achievementsRepository = AchievementsRepository.getInstance(
+                AchievementsRemoteDataSource.getInstance(),
+                AchievementsLocalDataSource.getInstance(super.mRealm));
+
         // Create the presenter
-        mCategoriesPresenter = new CategoriesPresenter(repository, categoriesFragment);
+        mCategoriesPresenter = new CategoriesPresenter(categoriesRepository, achievementsRepository, categoriesFragment);
 
         CategoriesViewModel categoriesViewModel =
                 new CategoriesViewModel(getApplicationContext(), mCategoriesPresenter);
 
-        categoriesFragment.setViewModel(categoriesViewModel);
+        AchievementsViewModel achievementsViewModel =
+                new AchievementsViewModel(getApplicationContext());
+
+        categoriesFragment.setViewModels(categoriesViewModel, achievementsViewModel);
     }
 
     @Override

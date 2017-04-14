@@ -19,7 +19,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.achievers.Achievements.AchievementsAdapter;
+import com.achievers.Achievements.AchievementsViewModel;
 import com.achievers.R;
+import com.achievers.data.Achievement;
 import com.achievers.data.Category;
 import com.achievers.databinding.CategoriesFragBinding;
 import com.achievers.util.ScrollChildSwipeRefreshLayout;
@@ -34,6 +37,7 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     private CategoriesContract.Presenter mPresenter;
     private CategoriesFragBinding mViewDataBinding;
     private CategoriesViewModel mCategoriesViewModel;
+    private AchievementsViewModel mAchievementsViewModel;
 
     public CategoriesFragment() {
         // Requires empty public constructor
@@ -66,6 +70,7 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
 
         this.mViewDataBinding = CategoriesFragBinding.bind(view);
         this.mViewDataBinding.setCategories(this.mCategoriesViewModel);
+        this.mViewDataBinding.setAchievements(this.mAchievementsViewModel);
         this.mViewDataBinding.setActionHandler(this.mPresenter);
 
         setHasOptionsMenu(true);
@@ -104,6 +109,8 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
             case R.id.menu_refresh:
                 Integer parentId = mCategoriesViewModel.getParent() != null ? mCategoriesViewModel.getParent().getId() : null;
                 mPresenter.loadCategories(parentId, true);
+                Integer categoryId = mAchievementsViewModel.getCategory() != null ? mAchievementsViewModel.getCategory().getId() : null;
+                mPresenter.loadAchievements(categoryId, true);
                 break;
         }
         return true;
@@ -114,8 +121,9 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
         inflater.inflate(R.menu.categories_fragment_menu, menu);
     }
 
-    public void setViewModel(CategoriesViewModel viewModel) {
-        this.mCategoriesViewModel = viewModel;
+    public void setViewModels(CategoriesViewModel categoriesViewModel, AchievementsViewModel achievementsViewModel) {
+        this.mCategoriesViewModel = categoriesViewModel;
+        this.mAchievementsViewModel = achievementsViewModel;
     }
 
     private void showFilteringPopUpMenu() {
@@ -135,8 +143,12 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
                         mPresenter.setFiltering(CategoriesFilterType.ALL_CATEGORIES);
                         break;
                 }
+
                 Integer parentId = mCategoriesViewModel.getParent() != null ? mCategoriesViewModel.getParent().getId() : null;
                 mPresenter.loadCategories(parentId, false);
+                Integer categoryId = mAchievementsViewModel.getCategory() != null ? mAchievementsViewModel.getCategory().getId() : null;
+                mPresenter.loadAchievements(categoryId, false);
+
                 return true;
             }
         });
@@ -167,6 +179,13 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     }
 
     @Override
+    public void showAchievements(Category category, List<Achievement> achievements) {
+        AchievementsAdapter adapter = new AchievementsAdapter(achievements, mPresenter);
+        mAchievementsViewModel.setAdapter(adapter);
+        mAchievementsViewModel.setCategory(category);
+    }
+
+    @Override
     public void showParent(Category parent) {
         mCategoriesViewModel.setParent(parent);
     }
@@ -185,6 +204,11 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     @Override
     public void showLoadingCategoriesError() {
         showMessage(getString(R.string.loading_categories_error));
+    }
+
+    @Override
+    public void showLoadingAchievementsError() {
+        showMessage(getString(R.string.loading_achievements_error));
     }
 
     @Override

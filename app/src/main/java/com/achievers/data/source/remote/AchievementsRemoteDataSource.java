@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.bloco.faker.Faker;
+import io.realm.Realm;
 
 /**
  * Implementation of remote network data source.
@@ -29,21 +30,20 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
 
     static {
         ACHIEVEMENTS_SERVICE_DATA = new LinkedHashMap<>();
-        generateAchievements(15, new Faker());
     }
 
-    private static void generateAchievements(int count, Faker faker)
+    private static void generateAchievements(int count, final Category category, Faker faker)
     {
         if (count == 0) return;
 
         Achievement newAchievement = new Achievement(
                 ACHIEVEMENTS_SERVICE_DATA.size() + 1, faker.lorem.word(), faker.lorem.paragraph(),
                 "http://combiboilersleeds.com/images/achievement/achievement-8.jpg",
-                null, Involvement.getRandomInvolvement(), faker.date.backward());
+                category, Involvement.getRandomInvolvement(), faker.date.backward());
 
         ACHIEVEMENTS_SERVICE_DATA.put(newAchievement.getId(), newAchievement);
 
-        generateAchievements(--count, faker);
+        generateAchievements(--count, category, faker);
     }
 
     public static AchievementsRemoteDataSource getInstance() {
@@ -60,15 +60,16 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
      */
     @Override
     public void loadAchievements(final Integer categoryId, final @NonNull LoadAchievementsCallback callback) {
-        // Simulate network by delaying the execution.
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                List<Achievement> achievementsToShow = new ArrayList<>(ACHIEVEMENTS_SERVICE_DATA.values());
-                callback.onLoaded(achievementsToShow);
-            }
-        }, SERVICE_LATENCY_IN_MILLIS);
+        ACHIEVEMENTS_SERVICE_DATA.clear();
+
+        Realm realm = Realm.getDefaultInstance();
+        Category category = realm.where(Category.class).equalTo("id", categoryId).findFirst();
+        realm.close();
+
+        generateAchievements(15, category, new Faker());
+
+        List<Achievement> achievementsToShow = new ArrayList<>(ACHIEVEMENTS_SERVICE_DATA.values());
+        callback.onLoaded(achievementsToShow);
     }
 
     /**

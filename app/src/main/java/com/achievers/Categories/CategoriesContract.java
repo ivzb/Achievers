@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.achievers.BasePresenter;
 import com.achievers.BaseView;
+import com.achievers.data.Achievement;
 import com.achievers.data.Category;
 
 import java.util.List;
@@ -16,11 +17,15 @@ public class CategoriesContract {
 
         void showCategories(List<Category> categories);
 
+        void showAchievements(Category category, List<Achievement> achievements);
+
         void showParent(Category parent);
 
         void showCategoryDetailsUi(int categoryId);
 
         void showLoadingCategoriesError();
+
+        void showLoadingAchievementsError();
 
         void showLoadingParentError();
 
@@ -36,6 +41,10 @@ public class CategoriesContract {
         void loadCategories(Integer parentId, boolean forceUpdate);
 
         void openCategoryDetails(@NonNull Category requestedCategory);
+
+        void loadAchievements(Integer categoryId, boolean forceUpdate);
+
+        void openAchievementDetails(@NonNull Achievement requestedAchievement);
 
         void setFiltering(CategoriesFilterType requestType);
 

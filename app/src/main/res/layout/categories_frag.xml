@@ -11,6 +11,10 @@
             type="com.achievers.Categories.CategoriesViewModel" />
 
         <variable
+            name="achievements"
+            type="com.achievers.Achievements.AchievementsViewModel" />
+
+        <variable
             name="actionHandler"
             type="com.achievers.Categories.CategoriesContract.Presenter" />
     </data>
@@ -109,7 +113,8 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvAchievements"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    app:rvAchievementsAdapter="@{achievements.adapter}" />
             </LinearLayout>
 
             <LinearLayout
