@@ -30,6 +30,10 @@ public class Category extends RealmObject {
     @NonNull
     private String description;
 
+    @SerializedName("ImageUrl")
+    @NonNull
+    private String imageUrl;
+
     @SerializedName("Parent")
     @NonNull
     private Category parent;
@@ -49,13 +53,15 @@ public class Category extends RealmObject {
      * @param id          id of the category
      * @param title       title of the category
      * @param description description of the category
+     * @param imageUrl    image url of the category
      * @param createdOn   creation date of the category
      */
     public Category(Integer id, @NonNull String title, @NonNull String description,
-                    @Nullable Date createdOn) {
+                    @NonNull String imageUrl, @Nullable Date createdOn) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.imageUrl = imageUrl;
         this.createdOn = createdOn;
     }
 
@@ -80,6 +86,11 @@ public class Category extends RealmObject {
     @Nullable
     public String getDescription() {
         return description;
+    }
+
+    @NonNull
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     @Nullable
