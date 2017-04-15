@@ -49,7 +49,7 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
     }
 
     private static Category generateCategory(Faker faker, Category parent) {
-        Category newCategory = new Category(CATEGORIES_SERVICE_DATA.size() + 1, faker.lorem.word(), faker.lorem.paragraph(), faker.date.backward());
+        Category newCategory = new Category(CATEGORIES_SERVICE_DATA.size() + 1, faker.lorem.word(), faker.lorem.sentence(5), faker.date.backward());
 
         if (parent != null) {
             newCategory.setParent(parent);
