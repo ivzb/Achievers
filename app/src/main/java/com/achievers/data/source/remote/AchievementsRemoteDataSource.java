@@ -38,7 +38,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
 
         Achievement newAchievement = new Achievement(
                 ACHIEVEMENTS_SERVICE_DATA.size() + 1, faker.lorem.word(), faker.lorem.paragraph(),
-                "http://combiboilersleeds.com/images/achievement/achievement-8.jpg",
+                "https://unsplash.it/180/180/?random&a=" + faker.number.number(2),
                 category, Involvement.getRandomInvolvement(), faker.date.backward());
 
         ACHIEVEMENTS_SERVICE_DATA.put(newAchievement.getId(), newAchievement);
