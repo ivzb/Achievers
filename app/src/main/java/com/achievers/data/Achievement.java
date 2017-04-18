@@ -108,7 +108,7 @@ public class Achievement extends RealmObject {
 
     @NonNull
     public Involvement getInvolvement() {
-        return Involvement.values()[involvement];
+        return Involvement.values()[involvement - 1];
     }
 
     @Nullable
