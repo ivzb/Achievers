@@ -5,6 +5,8 @@
     <string name="navigation_view_header_title">Achievers</string>
 
     <string name="refresh">Refresh</string>
+    <string name="no_data">No data</string>
+    <string name="menu_something">Something</string>
     <string name="label_all_categories">All Categories</string>
     <string name="label_completed">Completed</string>
     <string name="label_not_completed">Not Completed</string>
@@ -17,6 +19,7 @@
     <string name="nav_completed">Completed</string>
     <string name="nav_not_completed">Not Completed</string>
     <string name="loading_categories_error">Error while loading Categories</string>
+    <string name="loading_achievement_error">Error while loading Achievement</string>
     <string name="loading_achievements_error">Error while loading Achievements</string>
     <string name="loading_parent_category_error">Error while loading Category Info</string>
 </resources>
