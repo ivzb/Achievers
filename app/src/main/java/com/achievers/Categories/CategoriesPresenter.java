@@ -172,7 +172,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
     @Override
     public void openAchievementDetails(@NonNull Achievement requestedAchievement) {
         checkNotNull(requestedAchievement, "requestedAchievement cannot be null!");
-        // todo
+        this.mCategoriesView.showAchievementDetailsUi(requestedAchievement.getId());
     }
 
     /**

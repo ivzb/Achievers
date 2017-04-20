@@ -21,7 +21,7 @@ public class CategoriesContract {
 
         void showParent(Category parent);
 
-        void showCategoryDetailsUi(int categoryId);
+        void showAchievementDetailsUi(int categoryId);
 
         void showLoadingCategoriesError();
 

@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.achievers.AchievementDetail.AchievementDetailActivity;
 import com.achievers.Achievements.AchievementsAdapter;
 import com.achievers.Achievements.AchievementsViewModel;
 import com.achievers.R;
@@ -191,14 +192,12 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     }
 
     @Override
-    public void showCategoryDetailsUi(int categoryId) {
-        mPresenter.loadCategories(categoryId, true);
+    public void showAchievementDetailsUi(int achievementId) {
         // in it's own Activity, since it makes more sense that way and it gives us the flexibility
         // to show some Intent stubbing.
-//         todo: check if Categories or Achievements should be displayed
-//        Intent intent = new Intent(getContext(), CateogryDetailActivity.class);
-//        intent.putExtra(CategoryDetailActivity.EXTRA_TASK_ID, categoryId);
-//        startActivity(intent);
+        Intent intent = new Intent(getContext(), AchievementDetailActivity.class);
+        intent.putExtra(AchievementDetailActivity.EXTRA_ACHIEVEMENT_ID, achievementId);
+        startActivity(intent);
     }
 
     @Override
