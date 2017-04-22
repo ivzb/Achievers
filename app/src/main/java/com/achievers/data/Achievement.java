@@ -125,7 +125,7 @@ public class Achievement extends RealmObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Category other = (Category) o;
+        Achievement other = (Achievement) o;
 
         return this.getId() == other.getId() &&
                 this.getTitle().equals(other.getTitle()) &&

@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,38 +15,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
+import com.achievers.Evidence.EvidenceAdapter;
+import com.achievers.Evidence.EvidenceViewModel;
 import com.achievers.R;
 import com.achievers.data.Achievement;
+import com.achievers.data.Evidence;
 import com.achievers.databinding.AchievementDetailFragBinding;
-import com.achievers.util.ScrollChildSwipeRefreshLayout;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 /**
  * Main UI for the task detail screen.
@@ -144,13 +119,39 @@ public class AchievementDetailFragment extends Fragment implements AchievementDe
     }
 
     @Override
+    public void setLoadingIndicator(final boolean active) {
+        if (getView() == null) return;
+
+        final SwipeRefreshLayout srl = (SwipeRefreshLayout) getView().findViewById(R.id.refresh_layout);
+
+        // Make sure setRefreshing() is called after the layout is done with everything else.
+        srl.post(new Runnable() {
+            @Override
+            public void run() {
+                srl.setRefreshing(active);
+            }
+        });
+    }
+
+    @Override
     public void showAchievement(Achievement achievement) {
         this.mViewModel.setAchievement(achievement);
     }
 
     @Override
-    public void showError() {
+    public void showEvidence(List<Evidence> evidence) {
+        EvidenceAdapter adapter = new EvidenceAdapter(evidence, mPresenter);
+        this.mViewModel.setEvidenceAdapter(adapter);
+    }
+
+    @Override
+    public void showLoadingAchievementError() {
         showMessage(getString(R.string.loading_achievement_error));
+    }
+
+    @Override
+    public void showLoadingEvidenceError() {
+        showMessage(getString(R.string.loading_evidence_error));
     }
 
     private void showMessage(String message) {

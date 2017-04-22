@@ -20,6 +20,7 @@
     <string name="nav_not_completed">Not Completed</string>
     <string name="loading_categories_error">Error while loading Categories</string>
     <string name="loading_achievement_error">Error while loading Achievement</string>
+    <string name="loading_evidence_error">Error while loading Evidence</string>
     <string name="loading_achievements_error">Error while loading Achievements</string>
     <string name="loading_parent_category_error">Error while loading Category Info</string>
 </resources>

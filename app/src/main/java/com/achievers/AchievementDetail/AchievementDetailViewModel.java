@@ -5,6 +5,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import com.achievers.BR;
+import com.achievers.Evidence.EvidenceAdapter;
 import com.achievers.data.Achievement;
 
 /**
@@ -18,6 +19,7 @@ public class AchievementDetailViewModel extends BaseObservable {
 
     private final AchievementDetailContract.Presenter mPresenter;
     private Achievement mAchievement;
+    private EvidenceAdapter mEvidenceAdapter;
 
     private Context mContext;
 
@@ -31,8 +33,18 @@ public class AchievementDetailViewModel extends BaseObservable {
         return this.mAchievement;
     }
 
+    @Bindable
+    public EvidenceAdapter getEvidenceAdapter() {
+        return this.mEvidenceAdapter;
+    }
+
     void setAchievement(Achievement achievement) {
         this.mAchievement = achievement;
         this.notifyPropertyChanged(BR.achievement);
+    }
+
+    public void setEvidenceAdapter(EvidenceAdapter evidenceAdapter) {
+        this.mEvidenceAdapter = evidenceAdapter;
+        notifyPropertyChanged(BR.evidenceAdapter);
     }
 }
