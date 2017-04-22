@@ -1,7 +1,5 @@
 package com.achievers.data;
 
-import android.graphics.drawable.Drawable;
-
 import com.achievers.R;
 
 import java.util.Arrays;

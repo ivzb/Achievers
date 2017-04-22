@@ -75,8 +75,8 @@ public class AchievementsLocalDataSource implements AchievementsDataSource {
 
     @Override
     public void refreshCache() {
-        // Not required because the {@link CategoriesRepository} handles the logic of refreshing the
-        // categories from all the available data sources.
+        // Not required because the {@link EvidenceRepository} handles the logic of refreshing the
+        // evidence from all the available data sources.
     }
 
     @Override

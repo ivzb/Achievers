@@ -97,7 +97,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
 
     @Override
     public void refreshCache() {
-        // Not required because the {@link CategoriesRepository} handles the logic of refreshing the
-        // Categories from all the available data sources.
+        // Not required because the {@link AchievementsRepository} handles the logic of refreshing the
+        // Achievements from all the available data sources.
     }
 }

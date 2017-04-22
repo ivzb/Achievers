@@ -26,9 +26,9 @@ public class Evidence extends RealmObject {
     @NonNull
     private String comment;
 
-    @SerializedName("Type")
+    @SerializedName("EvidenceType")
     @NonNull
-    private int type;
+    private int evidenceType;
 
     @SerializedName("Data")
     @NonNull
@@ -50,18 +50,18 @@ public class Evidence extends RealmObject {
     /**
      * Use this constructor to specify an Evidence if the Evidence already has an id
      *
-     * @param id          id of the evidence
-     * @param comment     comment of the evidence
-     * @param type        type of the evidence
-     * @param data        data url of the evidence
-     * @param achievement achievement of the evidence
-     * @param createdOn   creation date of the evidence
+     * @param id           id of the evidence
+     * @param comment      comment of the evidence
+     * @param evidenceType type of the evidence
+     * @param data         data url of the evidence
+     * @param achievement  achievement of the evidence
+     * @param createdOn    creation date of the evidence
      */
-    public Evidence(Integer id, @NonNull String comment, @NonNull int type,
+    public Evidence(Integer id, @NonNull String comment, @NonNull EvidenceType evidenceType,
                     @NonNull String data, @NonNull Achievement achievement, @Nullable Date createdOn) {
         this.id = id;
         this.comment = comment;
-        this.type = type;
+        this.evidenceType = evidenceType.getId();
         this.data = data;
         this.achievement = achievement;
         this.createdOn = createdOn;
@@ -72,26 +72,14 @@ public class Evidence extends RealmObject {
         return id;
     }
 
-    public void setId(@NonNull Integer id) {
-        this.id = id;
-    }
-
     @NonNull
     public String getComment() {
         return comment;
     }
 
-    public void setComment(@NonNull String comment) {
-        this.comment = comment;
-    }
-
     @NonNull
-    public int getType() {
-        return type;
-    }
-
-    public void setType(@NonNull int type) {
-        this.type = type;
+    public EvidenceType getEvidenceType() {
+        return EvidenceType.values()[evidenceType - 1];
     }
 
     @NonNull
@@ -99,26 +87,14 @@ public class Evidence extends RealmObject {
         return data;
     }
 
-    public void setData(@NonNull String data) {
-        this.data = data;
-    }
-
     @NonNull
     public Achievement getAchievement() {
         return achievement;
     }
 
-    public void setAchievement(@NonNull Achievement achievement) {
-        this.achievement = achievement;
-    }
-
     @NonNull
     public Date getCreatedOn() {
         return createdOn;
-    }
-
-    public void setCreatedOn(@NonNull Date createdOn) {
-        this.createdOn = createdOn;
     }
 
     public boolean isNew() {
