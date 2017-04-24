@@ -15,6 +15,7 @@ import com.achievers.Categories.CategoriesContract;
 import com.achievers.Evidence.EvidenceAdapter;
 import com.achievers.data.Achievement;
 import com.achievers.data.Category;
+import com.achievers.util.EndlessRecyclerViewScrollListener;
 import com.achievers.util.ScrollChildSwipeRefreshLayout;
 import com.squareup.picasso.Picasso;
 
@@ -61,12 +62,33 @@ public class AdapterSetters {
         }
     }
 
+    /**
+     * Initializes RecyclerView adapter and loads automatically more items as
+     * the user scrolls through the items (aka infinite scroll)
+     * <p>
+     * Creates the {@code android:onLoadMore} for a {@link EndlessRecyclerViewScrollListener}
+     * that takes a {@link CategoriesContract.Presenter}.
+     */
     // CategoriesFragment
-    @BindingAdapter("rvAchievementsAdapter")
-    public static void setRvAchievementsAdapter(RecyclerView view, AchievementsAdapter adapter) {
+    @BindingAdapter({ "adapter:onLoadMore", "adapter:rvAchievementsAdapter" })
+    public static void setRvAchievementsAdapter(RecyclerView view, final CategoriesContract.Presenter presenter, final AchievementsAdapter adapter) {
         if (adapter != null) {
             view.setAdapter(adapter);
-            view.setLayoutManager(new LinearLayoutManager(adapter.getContext()));
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(adapter.getContext());
+            view.setLayoutManager(linearLayoutManager);
+
+            // Retain an instance so that you can call `resetState()` for fresh searches
+            EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+                @Override
+                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                    // Triggered only when new data needs to be appended to the list
+                    // Add whatever code is needed to append new items to the bottom of the list
+                    Category category = adapter.getCategory();
+                    presenter.loadAchievements(category.getId(), true);
+                }
+            };
+            // Adds the scroll listener to RecyclerView
+            view.addOnScrollListener(scrollListener);
         }
     }
 

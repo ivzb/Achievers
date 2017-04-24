@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.achievers.BR;
 import com.achievers.Categories.CategoriesContract;
 import com.achievers.data.Achievement;
+import com.achievers.data.Category;
 import com.achievers.databinding.AchievementItemBinding;
 
 import java.util.List;
@@ -15,18 +16,24 @@ import java.util.List;
 public class AchievementsAdapter extends RecyclerView.Adapter<AchievementsAdapter.ViewHolder> {
 
     private List<Achievement> mAchievements;
+    private Category mCategory;
     private AchievementsItemActionHandler mAchievementsItemActionHandler;
     private CategoriesContract.Presenter mUserActionsListener;
     private Context mContext;
 
-    public AchievementsAdapter(List<Achievement> achievements, CategoriesContract.Presenter userActionsListener) {
+    public AchievementsAdapter(List<Achievement> achievements, Category category, CategoriesContract.Presenter userActionsListener) {
         this.mAchievements = achievements;
+        this.mCategory = category;
         this.mAchievementsItemActionHandler = new AchievementsItemActionHandler(userActionsListener);
         this.mUserActionsListener = userActionsListener;
     }
 
     public Context getContext() {
         return this.mContext;
+    }
+
+    public Category getCategory() {
+        return this.mCategory;
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.achievers.data;
 
-import com.achievers.R;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -10,7 +8,8 @@ import java.util.Random;
 public enum EvidenceType {
     Image(1),
     Video(2),
-    Voice(3);
+    Voice(3),
+    Location(4);
 
     private int id;
 

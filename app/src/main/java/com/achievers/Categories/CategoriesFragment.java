@@ -181,7 +181,7 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
 
     @Override
     public void showAchievements(Category category, List<Achievement> achievements) {
-        AchievementsAdapter adapter = new AchievementsAdapter(achievements, mPresenter);
+        AchievementsAdapter adapter = new AchievementsAdapter(achievements, category, mPresenter);
         mAchievementsViewModel.setAdapter(adapter);
         mAchievementsViewModel.setCategory(category);
     }

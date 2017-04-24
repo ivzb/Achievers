@@ -114,7 +114,8 @@
                     android:id="@+id/rvAchievements"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:rvAchievementsAdapter="@{achievements.adapter}" />
+                    app:rvAchievementsAdapter="@{ achievements.adapter }"
+                    app:onLoadMore="@{ actionHandler }" />
             </LinearLayout>
 
             <LinearLayout
