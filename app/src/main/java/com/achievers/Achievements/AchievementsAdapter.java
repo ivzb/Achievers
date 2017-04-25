@@ -11,6 +11,7 @@ import com.achievers.data.Achievement;
 import com.achievers.data.Category;
 import com.achievers.databinding.AchievementItemBinding;
 
+import java.util.Collection;
 import java.util.List;
 
 public class AchievementsAdapter extends RecyclerView.Adapter<AchievementsAdapter.ViewHolder> {
@@ -34,6 +35,12 @@ public class AchievementsAdapter extends RecyclerView.Adapter<AchievementsAdapte
 
     public Category getCategory() {
         return this.mCategory;
+    }
+
+    public void addAchievements(Collection<Achievement> achievements) {
+        int start = this.getItemCount();
+        this.mAchievements.addAll(achievements);
+        this.notifyItemRangeInserted(start, achievements.size());
     }
 
     @Override

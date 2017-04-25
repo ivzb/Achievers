@@ -1,6 +1,8 @@
 package com.achievers.data.source.remote;
 
+import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.Achievement;
@@ -60,16 +62,28 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
      */
     @Override
     public void loadAchievements(final Integer categoryId, final @NonNull LoadAchievementsCallback callback) {
-        ACHIEVEMENTS_SERVICE_DATA.clear();
-
         Realm realm = Realm.getDefaultInstance();
-        Category category = realm.where(Category.class).equalTo("id", categoryId).findFirst();
+        final Category category = realm.where(Category.class).equalTo("id", categoryId).findFirstAsync();
         realm.close();
 
-        generateAchievements(15, category, new Faker());
+        // generating achievements on another thread so as not to block the ui thread
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ACHIEVEMENTS_SERVICE_DATA.clear();
+                generateAchievements(15, category, new Faker());
+                final List<Achievement> achievementsToShow = new ArrayList<>(ACHIEVEMENTS_SERVICE_DATA.values());
 
-        List<Achievement> achievementsToShow = new ArrayList<>(ACHIEVEMENTS_SERVICE_DATA.values());
-        callback.onLoaded(achievementsToShow);
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onLoaded(achievementsToShow);
+                    }
+                };
+                mainHandler.post(myRunnable);
+            }
+        }).start();
     }
 
     /**

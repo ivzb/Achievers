@@ -118,9 +118,7 @@ public class Category extends RealmObject {
 
         Category other = (Category) o;
 
-        return this.getId() == other.getId() &&
-               this.getTitle().equals(other.getTitle()) &&
-               this.getDescription().equals(other.getDescription());
+        return this.getId().equals(other.getId());
     }
 
     @Override
