@@ -30,3 +30,5 @@ He might swipe left for dislike current **Evidence** or opposite - swipe right t
 2) Migrate to Master/Detail views
 3) Create back-end service
 4) [Work In Progress] AchievementDetailView/Evidence RecyclerView layout
+5) User profile
+6) Achievements structure
