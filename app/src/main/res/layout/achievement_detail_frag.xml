@@ -43,10 +43,59 @@
             android:orientation="vertical"
             android:visibility="@{ viewModel.achievement == null ? View.GONE : View.VISIBLE}">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{ viewModel.achievement.title }" />
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:imageUrl="@{ viewModel.achievement.imageUrl }" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                        android:textAlignment="center"
+                        android:textSize="28sp"
+                        android:layout_marginBottom="10dp"
+                        android:text="@{ viewModel.achievement.title }" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                        android:textAlignment="center"
+                        android:textSize="20sp"
+                        android:text="@{ viewModel.achievement.description }" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@{ viewModel.achievement.involvement.drawable }" />
+                </LinearLayout>
+            </LinearLayout>
 
             <com.achievers.util.ScrollChildSwipeRefreshLayout
                 android:id="@+id/refresh_layout"

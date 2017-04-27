@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import com.achievers.Evidence.EvidenceAdapter;
-import com.achievers.Evidence.EvidenceViewModel;
 import com.achievers.R;
 import com.achievers.data.Achievement;
 import com.achievers.data.Evidence;
