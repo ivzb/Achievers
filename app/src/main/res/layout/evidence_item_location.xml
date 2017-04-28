@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="com.achievers.util.DateUtils" />
+
+        <variable
+            name="evidence"
+            type="com.achievers.data.Evidence" />
+
+        <variable
+            name="actionHandler"
+            type="com.achievers.Evidence.EvidenceItemActionHandler" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#ccc"
+        android:padding="5dp"
+        android:layout_margin="5dp"
+        android:onClick="@{ () -> actionHandler.evidenceClicked(evidence) }">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{ evidence.comment }"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:imageUrl="@{ `https://www.enisa.europa.eu/topics/trainings-for-cybersecurity-specialists/online-training-material/images/whitakergroupgooglelocationicon.png/` }" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>
