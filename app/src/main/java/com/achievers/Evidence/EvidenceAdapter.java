@@ -19,14 +19,12 @@ import com.achievers.databinding.EvidenceItemVoiceBinding;
 
 import java.util.List;
 
-public class EvidenceAdapter extends RecyclerView.Adapter<EvidenceAdapter.ViewHolder> {
+public class EvidenceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Evidence> mEvidence;
     private EvidenceItemActionHandler mEvidenceItemActionHandler;
     private AchievementDetailContract.Presenter mUserActionsListener;
     private Context mContext;
-
-    private final int IMAGE = 0, IMAGE = 1;
 
     public EvidenceAdapter(List<Evidence> evidence, AchievementDetailContract.Presenter userActionsListener) {
         this.mEvidence = evidence;
@@ -64,7 +62,7 @@ public class EvidenceAdapter extends RecyclerView.Adapter<EvidenceAdapter.ViewHo
         LayoutInflater layoutInflater = LayoutInflater.from(this.mContext);
         RecyclerView.ViewHolder viewHolder;
 
-        switch (EvidenceType.values()[viewType]) {
+        switch (EvidenceType.values()[viewType - 1]) {
             case Image:
                 EvidenceItemImageBinding imageBinding = EvidenceItemImageBinding.inflate(layoutInflater, viewGroup, false);
                 viewHolder = new EvidenceItemImageViewHolder(imageBinding);
@@ -81,6 +79,9 @@ public class EvidenceAdapter extends RecyclerView.Adapter<EvidenceAdapter.ViewHo
                 EvidenceItemLocationBinding locationBinding = EvidenceItemLocationBinding.inflate(layoutInflater, viewGroup, false);
                 viewHolder = new EvidenceItemLocationViewHolder(locationBinding);
                 break;
+            default:
+                viewHolder = null;
+                break;
         }
 
         return viewHolder;
@@ -96,46 +97,56 @@ public class EvidenceAdapter extends RecyclerView.Adapter<EvidenceAdapter.ViewHo
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        Evidence evidence = this.mEvidence.get(position);
-
-        viewHolder.getBinding().setVariable(BR.evidence, evidence);
-        viewHolder.getBinding().setVariable(BR.actionHandler, this.mEvidenceItemActionHandler);
-        viewHolder.getBinding().executePendingBindings();
-
-        // consider using switch statement if structure of view holders changes
-//        switch (EvidenceType.values()[viewHolder.getItemViewType()]) {
-//            case Image:
-//                EvidenceItemImageViewHolder imageViewHolder = (EvidenceItemImageViewHolder) viewHolder;
-//                ConfigureImageViewHolder(imageViewHolder, position);
-//                break;
-//            case Video:
-//                EvidenceItemImageViewHolder videoViewHolder = (EvidenceItemImageViewHolder) viewHolder;
-//                ConfigureVideoViewHolder(videoViewHolder, position);
-//                break;
-//            case Voice:
-//                EvidenceItemVoiceViewHolder voiceViewHolder = (EvidenceItemVoiceViewHolder) viewHolder;
-//                ConfigureVoiceViewHolder(voiceViewHolder, position);
-//                break;
-//            case Location:
-//                EvidenceItemLocationViewHolder locationViewHolder = (EvidenceItemLocationViewHolder) viewHolder;
-//                ConfigureLocationViewHolder(locationViewHolder, position);
-//                break;
-//        }
+        switch (EvidenceType.values()[viewHolder.getItemViewType() - 1]) {
+            case Image:
+                EvidenceItemImageViewHolder imageViewHolder = (EvidenceItemImageViewHolder) viewHolder;
+                ConfigureImageViewHolder(imageViewHolder, position);
+                break;
+            case Video:
+                EvidenceItemVideoViewHolder videoViewHolder = (EvidenceItemVideoViewHolder) viewHolder;
+                ConfigureVideoViewHolder(videoViewHolder, position);
+                break;
+            case Voice:
+                EvidenceItemVoiceViewHolder voiceViewHolder = (EvidenceItemVoiceViewHolder) viewHolder;
+                ConfigureVoiceViewHolder(voiceViewHolder, position);
+                break;
+            case Location:
+                EvidenceItemLocationViewHolder locationViewHolder = (EvidenceItemLocationViewHolder) viewHolder;
+                ConfigureLocationViewHolder(locationViewHolder, position);
+                break;
+        }
     }
 
-//    @Override
-//    public EvidenceAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        this.mContext = parent.getContext();
-//
-//        LayoutInflater layoutInflater = LayoutInflater.from(this.mContext);
-//        EvidenceItemBinding binding = EvidenceItemBinding.inflate(layoutInflater, parent, false);
-//
-//        return new EvidenceAdapter.ViewHolder(binding);
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(EvidenceAdapter.ViewHolder viewHolder, int position) {
-//
-//    }
+    private void ConfigureImageViewHolder(EvidenceItemImageViewHolder imageViewHolder, int position) {
+        Evidence evidence = this.mEvidence.get(position);
+
+        imageViewHolder.getBinding().setVariable(BR.evidence, evidence);
+        imageViewHolder.getBinding().setVariable(BR.actionHandler, this.mEvidenceItemActionHandler);
+        imageViewHolder.getBinding().executePendingBindings();
+    }
+
+    private void ConfigureVideoViewHolder(EvidenceItemVideoViewHolder videoViewHolder, int position) {
+        Evidence evidence = this.mEvidence.get(position);
+
+        videoViewHolder.getBinding().setVariable(BR.evidence, evidence);
+        videoViewHolder.getBinding().setVariable(BR.actionHandler, this.mEvidenceItemActionHandler);
+        videoViewHolder.getBinding().executePendingBindings();
+    }
+
+    private void ConfigureVoiceViewHolder(EvidenceItemVoiceViewHolder voiceViewHolder, int position) {
+        Evidence evidence = this.mEvidence.get(position);
+
+        voiceViewHolder.getBinding().setVariable(BR.evidence, evidence);
+        voiceViewHolder.getBinding().setVariable(BR.actionHandler, this.mEvidenceItemActionHandler);
+        voiceViewHolder.getBinding().executePendingBindings();
+    }
+
+    private void ConfigureLocationViewHolder(EvidenceItemLocationViewHolder locationViewHolder, int position) {
+        Evidence evidence = this.mEvidence.get(position);
+
+        locationViewHolder.getBinding().setVariable(BR.evidence, evidence);
+        locationViewHolder.getBinding().setVariable(BR.actionHandler, this.mEvidenceItemActionHandler);
+        locationViewHolder.getBinding().executePendingBindings();
+    }
 
 }

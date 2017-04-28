@@ -36,7 +36,7 @@ public class EvidenceRemoteDataSource implements EvidenceDataSource {
         if (count == 0) return;
 
         Evidence newEvidence = new Evidence(
-                EVIDENCE_SERVICE_DATA.size() + 1, faker.lorem.sentence(5), EvidenceType.Image,
+                EVIDENCE_SERVICE_DATA.size() + 1, faker.lorem.sentence(5), EvidenceType.getRandomEvidenceType(),
                 faker.lorem.paragraph(), achievement, faker.date.backward());
 
         EVIDENCE_SERVICE_DATA.put(newEvidence.getId(), newEvidence);
