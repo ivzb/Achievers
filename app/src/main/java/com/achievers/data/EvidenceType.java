@@ -28,4 +28,8 @@ public enum EvidenceType {
     public static EvidenceType getRandomEvidenceType() {
         return VALUES.get(RANDOM.nextInt(SIZE));
     }
+
+    public static EvidenceType getById(int id) {
+        return EvidenceType.values()[id - 1];
+    }
 }

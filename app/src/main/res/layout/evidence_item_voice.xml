@@ -33,10 +33,11 @@
                 android:layout_height="wrap_content"
                 android:text="@{ evidence.comment }"/>
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:imageUrl="@{ `https://www.voices.com/assets/uploads/resources/shared/microphone-blue.jpg` }" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="40sp"
+                android:text="Voice"/>
         </LinearLayout>
     </LinearLayout>
 </layout>

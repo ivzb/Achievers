@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.common.base.Objects;
-import com.google.common.base.Strings;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -30,9 +29,9 @@ public class Evidence extends RealmObject {
     @NonNull
     private int evidenceType;
 
-    @SerializedName("Data")
+    @SerializedName("Url")
     @NonNull
-    private String data;
+    private String url;
 
     @SerializedName("Achievement")
     @NonNull
@@ -53,16 +52,16 @@ public class Evidence extends RealmObject {
      * @param id           id of the evidence
      * @param comment      comment of the evidence
      * @param evidenceType type of the evidence
-     * @param data         data url of the evidence
+     * @param url         url url of the evidence
      * @param achievement  achievement of the evidence
      * @param createdOn    creation date of the evidence
      */
     public Evidence(Integer id, @NonNull String comment, @NonNull EvidenceType evidenceType,
-                    @NonNull String data, @NonNull Achievement achievement, @Nullable Date createdOn) {
+                    @NonNull String url, @NonNull Achievement achievement, @Nullable Date createdOn) {
         this.id = id;
         this.comment = comment;
         this.evidenceType = evidenceType.getId();
-        this.data = data;
+        this.url = url;
         this.achievement = achievement;
         this.createdOn = createdOn;
     }
@@ -83,8 +82,8 @@ public class Evidence extends RealmObject {
     }
 
     @NonNull
-    public String getData() {
-        return data;
+    public String getUrl() {
+        return url;
     }
 
     @NonNull
@@ -99,6 +98,10 @@ public class Evidence extends RealmObject {
 
     public boolean isNew() {
         return this.getId() == 0;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override

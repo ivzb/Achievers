@@ -37,7 +37,19 @@ public class EvidenceRemoteDataSource implements EvidenceDataSource {
 
         Evidence newEvidence = new Evidence(
                 EVIDENCE_SERVICE_DATA.size() + 1, faker.lorem.sentence(5), EvidenceType.getRandomEvidenceType(),
-                faker.lorem.paragraph(), achievement, faker.date.backward());
+                "", achievement, faker.date.backward());
+
+        switch (EvidenceType.getById(newEvidence.getEvidenceType().getId())) {
+            case Image:
+                newEvidence.setUrl("https://unsplash.it/180/180/?random"/*&a=" + faker.number.number(2)*/);
+                break;
+            case Video:
+                break;
+            case Voice:
+                break;
+            case Location:
+                break;
+        }
 
         EVIDENCE_SERVICE_DATA.put(newEvidence.getId(), newEvidence);
 

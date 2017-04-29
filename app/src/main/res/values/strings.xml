@@ -5,7 +5,7 @@
     <string name="navigation_view_header_title">Achievers</string>
 
     <string name="refresh">Refresh</string>
-    <string name="no_data">No data</string>
+    <string name="no_data">No url</string>
     <string name="menu_something">Something</string>
     <string name="label_all_categories">All Categories</string>
     <string name="label_completed">Completed</string>

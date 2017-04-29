@@ -97,7 +97,7 @@ public class EvidenceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        switch (EvidenceType.values()[viewHolder.getItemViewType() - 1]) {
+        switch (EvidenceType.getById(viewHolder.getItemViewType())) {
             case Image:
                 EvidenceItemImageViewHolder imageViewHolder = (EvidenceItemImageViewHolder) viewHolder;
                 ConfigureImageViewHolder(imageViewHolder, position);

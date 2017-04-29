@@ -36,7 +36,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:imageUrl="@{ `http://information.edmition.com/wp-content/uploads/2015/11/db-achievement.jpg` }" />
+                app:imageUrl="@{ evidence.url }" />
         </LinearLayout>
     </LinearLayout>
 </layout>
