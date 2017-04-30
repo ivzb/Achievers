@@ -62,6 +62,7 @@ public class AchievementDetailFragment extends Fragment implements AchievementDe
 
         this.mViewDataBinding = AchievementDetailFragBinding.bind(view);
         this.mViewDataBinding.setActionHandler(this.mPresenter);
+        this.mViewDataBinding.setResources(this.getContext().getResources());
         this.mViewDataBinding.setViewModel(this.mViewModel);
 
         setHasOptionsMenu(true);

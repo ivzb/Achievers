@@ -41,7 +41,7 @@ public class EvidenceRemoteDataSource implements EvidenceDataSource {
 
         switch (EvidenceType.getById(newEvidence.getEvidenceType().getId())) {
             case Image:
-                newEvidence.setUrl("https://unsplash.it/180/180/?random"/*&a=" + faker.number.number(2)*/);
+                newEvidence.setUrl("https://unsplash.it/500/500/?random&a=" + faker.number.number(2));
                 break;
             case Video:
                 break;

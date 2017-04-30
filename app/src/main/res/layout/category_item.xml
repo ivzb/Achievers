@@ -10,6 +10,10 @@
             type="com.achievers.data.Category" />
 
         <variable
+            name="resources"
+            type="android.content.res.Resources" />
+
+        <variable
             name="actionHandler"
             type="com.achievers.Categories.CategoriesItemActionHandler" />
     </data>
@@ -30,10 +34,11 @@
             android:textSize="30sp"
             android:textAlignment="center" />
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:imageUrl="@{ category.imageUrl }" />
-
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            app:url="@{ category.imageUrl }"
+            app:resources="@{ resources }" />
     </LinearLayout>
 </layout>

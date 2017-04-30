@@ -121,6 +121,7 @@ public class EvidenceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         Evidence evidence = this.mEvidence.get(position);
 
         imageViewHolder.getBinding().setVariable(BR.evidence, evidence);
+        imageViewHolder.getBinding().setVariable(BR.resources, this.mContext.getResources());
         imageViewHolder.getBinding().setVariable(BR.actionHandler, this.mEvidenceItemActionHandler);
         imageViewHolder.getBinding().executePendingBindings();
     }

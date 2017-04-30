@@ -1,5 +1,6 @@
 package com.achievers;
 
+import android.content.res.Resources;
 import android.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -16,33 +17,25 @@ import com.achievers.Evidence.EvidenceAdapter;
 import com.achievers.data.Achievement;
 import com.achievers.data.Category;
 import com.achievers.util.EndlessRecyclerViewScrollListener;
+import com.achievers.util.FreskoCircleProgressBarDrawable;
 import com.achievers.util.ScrollChildSwipeRefreshLayout;
-import com.squareup.picasso.Picasso;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 public class AdapterSetters {
-    // Generic image loader
-    @BindingAdapter("bind:imageUrl")
-    public static void loadImage(ImageView view, String imageUrl) {
-        Picasso.with(view.getContext())
-                .load(imageUrl)
-                .placeholder(R.drawable.ic_cached_black_24dp)
-                .into(view);
+    // Fresco
+    @BindingAdapter({ "bind:url", "bind:resources" })
+    public static void loadImage(SimpleDraweeView view, String imageUrl, Resources resources) {
+        Uri uri = Uri.parse(imageUrl);
+        view.setImageURI(uri);
+
+        GenericDraweeHierarchy hierarchy = view.getHierarchy();
+        hierarchy.setFadeDuration(250);
+        hierarchy.setPlaceholderImage(resources.getDrawable(R.drawable.bunny));
+        hierarchy.setProgressBarImage(new FreskoCircleProgressBarDrawable());
     }
 
-    @BindingAdapter("android:src")
-    public static void setImageUri(ImageView view, String imageUri) {
-        if (imageUri == null) {
-            view.setImageURI(null);
-        } else {
-            view.setImageURI(Uri.parse(imageUri));
-        }
-    }
-
-    @BindingAdapter("android:src")
-    public static void setImageUri(ImageView view, Uri imageUri) {
-        view.setImageURI(imageUri);
-    }
-
+    // Binding Drawable to ImageView
     @BindingAdapter("android:src")
     public static void setImageDrawable(ImageView view, Drawable drawable) {
         view.setImageDrawable(drawable);

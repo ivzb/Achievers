@@ -11,6 +11,10 @@
             type="com.achievers.AchievementDetail.AchievementDetailContract.Presenter" />
 
         <variable
+            name="resources"
+            type="android.content.res.Resources" />
+
+        <variable
             name="viewModel"
             type="com.achievers.AchievementDetail.AchievementDetailViewModel" />
     </data>
@@ -53,10 +57,12 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.3">
 
-                    <ImageView
+                    <com.facebook.drawee.view.SimpleDraweeView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:imageUrl="@{ viewModel.achievement.imageUrl }" />
+                        android:adjustViewBounds="true"
+                        app:url="@{ viewModel.achievement.imageUrl }"
+                        app:resources="@{ resources }" />
                 </LinearLayout>
 
                 <LinearLayout

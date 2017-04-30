@@ -10,6 +10,10 @@
             type="com.achievers.data.Evidence" />
 
         <variable
+            name="resources"
+            type="android.content.res.Resources" />
+
+        <variable
             name="actionHandler"
             type="com.achievers.Evidence.EvidenceItemActionHandler" />
     </data>
@@ -31,12 +35,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{ evidence.comment }"/>
+                android:text="@{ evidence.comment }" />
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:imageUrl="@{ evidence.url }" />
+                android:adjustViewBounds="true"
+                app:url="@{ evidence.url }"
+                app:resources="@{ resources }" />
         </LinearLayout>
     </LinearLayout>
 </layout>

@@ -43,6 +43,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         Category category = this.mCategories.get(position);
 
         viewHolder.getBinding().setVariable(BR.category, category);
+        viewHolder.getBinding().setVariable(BR.resources, this.mContext.getResources());
         viewHolder.getBinding().setVariable(BR.actionHandler, this.mCategoriesItemActionHandler);
         viewHolder.getBinding().executePendingBindings();
     }

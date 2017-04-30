@@ -58,6 +58,7 @@ public class AchievementsAdapter extends RecyclerView.Adapter<AchievementsAdapte
         Achievement achievement = this.mAchievements.get(position);
 
         viewHolder.getBinding().setVariable(BR.achievement, achievement);
+        viewHolder.getBinding().setVariable(BR.resources, this.mContext.getResources());
         viewHolder.getBinding().setVariable(BR.actionHandler, this.mAchievementsItemActionHandler);
         viewHolder.getBinding().executePendingBindings();
     }

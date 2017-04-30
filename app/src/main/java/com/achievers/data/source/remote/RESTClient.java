@@ -19,12 +19,12 @@ public class RESTClient {
                     .setDateFormat(DATE_FORMAT)
                     .create();
 
-            OkHttpClient client = new OkHttpClient.Builder()
+            OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .addNetworkInterceptor(new StethoInterceptor())
                     .build();
 
             RETROFIT = new Retrofit.Builder()
-                    .client(client)
+                    .client(okHttpClient)
                     .baseUrl(REST_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();

@@ -10,6 +10,10 @@
             type="com.achievers.data.Achievement" />
 
         <variable
+            name="resources"
+            type="android.content.res.Resources" />
+
+        <variable
             name="actionHandler"
             type="com.achievers.Achievements.AchievementsItemActionHandler" />
     </data>
@@ -28,10 +32,12 @@
             android:layout_height="match_parent"
             android:layout_weight="0.3">
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:imageUrl="@{ achievement.imageUrl }" />
+                android:adjustViewBounds="true"
+                app:url="@{ achievement.imageUrl }"
+                app:resources="@{ resources }" />
         </LinearLayout>
 
         <LinearLayout
