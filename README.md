@@ -32,3 +32,12 @@ He might swipe left for dislike current **Evidence** or opposite - swipe right t
 4) [Work In Progress] AchievementDetailView/Evidence RecyclerView layout
 5) User profile
 6) Achievements structure
+
+# Dependencies
+1) GSON - A Java serialization/deserialization library to convert Java Objects into JSON and back. [GitHub](https://github.com/google/gson)
+2) OkHttp - HTTP & HTTP/2 client. [GitHub](https://github.com/square/okhttp)
+3) Retrofit - Type-safe HTTP client on the top of OkHttp. [GitHub](https://github.com/square/retrofit)
+4) Stetho - Sophisticated debug bridge, enabling the powerful Chrome Developer Tools. [GitHub](https://github.com/facebook/stetho)
+5) Faker - Provides fake data, used while developing in order not to make server requests. [GitHub](https://github.com/thiagokimo/Faker)
+6) Toro - Video list auto playback made simple, specially built for RecyclerView. [GitHub](https://github.com/eneim/Toro)
+7) Fresco - Powerful system for displaying images. [GitHub](https://github.com/facebook/fresco)

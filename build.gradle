@@ -41,5 +41,12 @@ ext {
     runnerVersion = '0.5'
     rulesVersion = '0.5'
     espressoVersion = '2.2.2'
+
+    // User defined dependencies
+    gsonVersion = '2.7'
+    retrofitVersion = '2.1.0'
+    stethoVersion = '1.4.2'
+    fakerVersion = '1.2.5'
     toroVersion = '2.2.0'
+    frescoVersion = '1.3.0'
 }

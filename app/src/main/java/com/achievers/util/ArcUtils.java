@@ -5,8 +5,8 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.ceil;
@@ -32,8 +32,8 @@ public final class ArcUtils {
      * @param paint        The paint to use then drawing the arc.
      * @see #drawArc(android.graphics.Canvas, android.graphics.PointF, float, float, float, android.graphics.Paint, int, boolean)
      */
-    public static void drawArc(@NotNull Canvas canvas, PointF circleCenter, float circleRadius,
-                               float startAngle, float sweepAngle, @NotNull Paint paint) {
+    public static void drawArc(@NonNull Canvas canvas, PointF circleCenter, float circleRadius,
+                               float startAngle, float sweepAngle, @NonNull Paint paint) {
         drawArc(canvas, circleCenter, circleRadius, startAngle, sweepAngle, paint, 8, false);
     }
 
@@ -50,8 +50,8 @@ public final class ArcUtils {
      * @param arcsOverlayPoints  See {@link #createBezierArcDegrees(android.graphics.PointF, float, float, float, int, boolean, android.graphics.Path)}.
      * @see #drawArc(android.graphics.Canvas, android.graphics.PointF, float, float, float, android.graphics.Paint)
      */
-    public static void drawArc(@NotNull Canvas canvas, PointF circleCenter, float circleRadius,
-                               float startAngle, float sweepAngle, @NotNull Paint paint,
+    public static void drawArc(@NonNull Canvas canvas, PointF circleCenter, float circleRadius,
+                               float startAngle, float sweepAngle, @NonNull Paint paint,
                                int arcsPointsOnCircle, boolean arcsOverlayPoints) {
         if (sweepAngle == 0f) {
             final PointF p = pointFromAngleDegrees(circleCenter, circleRadius, startAngle);
@@ -90,8 +90,8 @@ public final class ArcUtils {
      * @return The point of the given angle on the specified circle.
      * @see #pointFromAngleDegrees(android.graphics.PointF, float, float)
      */
-    @NotNull
-    public static PointF pointFromAngleRadians(@NotNull PointF center, float radius, double angleRadians) {
+    @NonNull
+    public static PointF pointFromAngleRadians(@NonNull PointF center, float radius, double angleRadians) {
         return new PointF((float) (center.x + radius * cos(angleRadians)),
                 (float) (center.y + radius * sin(angleRadians)));
     }
@@ -105,8 +105,8 @@ public final class ArcUtils {
      * @return The point of the given angle on the specified circle.
      * @see #pointFromAngleRadians(android.graphics.PointF, float, double)
      */
-    @NotNull
-    public static PointF pointFromAngleDegrees(@NotNull PointF center, float radius, float angleDegrees) {
+    @NonNull
+    public static PointF pointFromAngleDegrees(@NonNull PointF center, float radius, float angleDegrees) {
         return pointFromAngleRadians(center, radius, toRadians(angleDegrees));
     }
 
@@ -137,8 +137,8 @@ public final class ArcUtils {
      * @see #createBezierArcDegrees(android.graphics.PointF, float, float, float, int, boolean, android.graphics.Path)
      * @see #createBezierArcRadians(android.graphics.PointF, float, double, double, int, boolean, android.graphics.Path)
      */
-    public static void addBezierArcToPath(@NotNull Path path, @NotNull PointF center,
-                                          @NotNull PointF start, @NotNull PointF end, boolean moveToStart) {
+    public static void addBezierArcToPath(@NonNull Path path, @NonNull PointF center,
+                                          @NonNull PointF start, @NonNull PointF end, boolean moveToStart) {
         if (moveToStart) {
             path.moveTo(start.x, start.y);
         }
@@ -213,10 +213,10 @@ public final class ArcUtils {
      * @return {@code addToPath} if it's not {@code null}, otherwise a new path.
      * @see #createBezierArcDegrees(android.graphics.PointF, float, float, float, int, boolean, android.graphics.Path)
      */
-    @NotNull
-    public static Path createBezierArcRadians(@NotNull PointF center, float radius, double startAngleRadians,
+    @NonNull
+    public static Path createBezierArcRadians(@NonNull PointF center, float radius, double startAngleRadians,
                                               double sweepAngleRadians, int pointsOnCircle, boolean overlapPoints,
-                                              @Nullable Path addToPath) {
+                                              @NonNull Path addToPath) {
         final Path path = addToPath != null ? addToPath : new Path();
         if (sweepAngleRadians == 0d) {
             return path;
@@ -318,8 +318,8 @@ public final class ArcUtils {
      * @return {@code addToPath} if it's not {@code null}, otherwise a new path.
      * @see #createBezierArcRadians(android.graphics.PointF, float, double, double, int, boolean, android.graphics.Path)
      */
-    @NotNull
-    public static Path createBezierArcDegrees(@NotNull PointF center, float radius, float startAngleDegrees,
+    @NonNull
+    public static Path createBezierArcDegrees(@NonNull PointF center, float radius, float startAngleDegrees,
                                               float sweepAngleDegrees, int pointsOnCircle, boolean overlapPoints,
                                               @Nullable Path addToPath) {
         return createBezierArcRadians(center, radius, toRadians(startAngleDegrees), toRadians(sweepAngleDegrees),

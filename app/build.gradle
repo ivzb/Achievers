@@ -91,28 +91,24 @@ dependencies {
     androidTestCompile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     androidTestCompile "com.android.support:design:$rootProject.supportLibraryVersion"
 
+    // GSON
+    compile "com.google.code.gson:gson:${ gsonVersion }"
+
     // Retrofit
-    compile 'com.google.code.gson:gson:2.7'
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile "com.squareup.retrofit2:retrofit:${ retrofitVersion }"
+    compile "com.squareup.retrofit2:converter-gson:${ retrofitVersion }"
 
     // Stetho
-    compile 'com.facebook.stetho:stetho:1.4.2'
-    compile 'com.facebook.stetho:stetho-okhttp3:1.4.2'
+    compile "com.facebook.stetho:stetho:${ stethoVersion }"
+    compile "com.facebook.stetho:stetho-okhttp3:${ stethoVersion }"
 
     // Faker
-    compile 'com.github.blocoio:faker:1.2.5'
-
-    // Picasso
-    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile "com.github.blocoio:faker:${ fakerVersion }"
 
     // Toro
-    compile "im.ene.toro2:toro:${toroVersion}"
+    compile "im.ene.toro2:toro:${ toroVersion }"
 
     // Fresco
-    compile 'com.facebook.fresco:fresco:1.3.0'
-    compile "com.facebook.fresco:imagepipeline-okhttp3:1.3.0"
-
-    // Java5 Annotations
-    compile 'org.jetbrains:annotations-java5:15.0'
+    compile "com.facebook.fresco:fresco:${ frescoVersion }"
+    compile "com.facebook.fresco:imagepipeline-okhttp3:${ frescoVersion }"
 }
