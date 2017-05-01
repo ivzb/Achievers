@@ -1,6 +1,7 @@
 package com.achievers.Evidence;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,10 @@ import com.achievers.databinding.EvidenceItemVoiceBinding;
 
 import java.util.List;
 
-public class EvidenceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+import im.ene.toro.BaseAdapter;
+import im.ene.toro.ToroAdapter;
+
+public class EvidenceAdapter extends BaseAdapter<ToroAdapter.ViewHolder> {//RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Evidence> mEvidence;
     private EvidenceItemActionHandler mEvidenceItemActionHandler;
@@ -56,11 +60,11 @@ public class EvidenceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      * @return viewHolder to be inflated
      */
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
         this.mContext = viewGroup.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(this.mContext);
-        RecyclerView.ViewHolder viewHolder;
+        ViewHolder viewHolder;
 
         switch (EvidenceType.values()[viewType - 1]) {
             case Image:
@@ -96,7 +100,9 @@ public class EvidenceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      * @param position Item position in the viewgroup.
      */
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(ToroAdapter.ViewHolder viewHolder, int position) {
+        super.onBindViewHolder(viewHolder, position);
+
         switch (EvidenceType.getById(viewHolder.getItemViewType())) {
             case Image:
                 EvidenceItemImageViewHolder imageViewHolder = (EvidenceItemImageViewHolder) viewHolder;
@@ -106,14 +112,14 @@ public class EvidenceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 EvidenceItemVideoViewHolder videoViewHolder = (EvidenceItemVideoViewHolder) viewHolder;
                 ConfigureVideoViewHolder(videoViewHolder, position);
                 break;
-            case Voice:
-                EvidenceItemVoiceViewHolder voiceViewHolder = (EvidenceItemVoiceViewHolder) viewHolder;
-                ConfigureVoiceViewHolder(voiceViewHolder, position);
-                break;
-            case Location:
-                EvidenceItemLocationViewHolder locationViewHolder = (EvidenceItemLocationViewHolder) viewHolder;
-                ConfigureLocationViewHolder(locationViewHolder, position);
-                break;
+//            case Voice:
+//                EvidenceItemVoiceViewHolder voiceViewHolder = (EvidenceItemVoiceViewHolder) viewHolder;
+//                ConfigureVoiceViewHolder(voiceViewHolder, position);
+//                break;
+//            case Location:
+//                EvidenceItemLocationViewHolder locationViewHolder = (EvidenceItemLocationViewHolder) viewHolder;
+//                ConfigureLocationViewHolder(locationViewHolder, position);
+//                break;
         }
     }
 
@@ -150,4 +156,9 @@ public class EvidenceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         locationViewHolder.getBinding().executePendingBindings();
     }
 
+    @Nullable
+    @Override
+    protected Evidence getItem(int position) {
+        return this.mEvidence.get(position);
+    }
 }

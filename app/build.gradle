@@ -106,7 +106,7 @@ dependencies {
     compile "com.github.blocoio:faker:${ fakerVersion }"
 
     // Toro
-    compile "im.ene.toro2:toro:${ toroVersion }"
+    compile "im.ene.toro2:toro-ext-exoplayer2:${toroVersion}"
 
     // Fresco
     compile "com.facebook.fresco:fresco:${ frescoVersion }"

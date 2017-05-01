@@ -44,6 +44,7 @@ public class EvidenceRemoteDataSource implements EvidenceDataSource {
                 newEvidence.setUrl("https://unsplash.it/500/500/?random&a=" + faker.number.number(2));
                 break;
             case Video:
+                newEvidence.setUrl("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4");
                 break;
             case Voice:
                 break;

@@ -22,6 +22,8 @@ import com.achievers.util.ScrollChildSwipeRefreshLayout;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import im.ene.toro.Toro;
+
 public class AdapterSetters {
     // Fresco
     @BindingAdapter({ "bind:url", "bind:resources" })
@@ -89,8 +91,11 @@ public class AdapterSetters {
     @BindingAdapter("rvEvidenceAdapter")
     public static void setRvEvidenceAdapter(RecyclerView view, EvidenceAdapter adapter) {
         if (adapter != null) {
+            view.setHasFixedSize(false);
             view.setAdapter(adapter);
             view.setLayoutManager(new LinearLayoutManager(adapter.getContext()));
+
+            Toro.register(view);
         }
     }
 

@@ -47,11 +47,17 @@
                 Here I use 192dp as for the ratio 16:9 of mainstream Videos with the plus/minus of UI measurement.
                 This size will be automatically updated by the View.
                 -->
-                <!--<im.ene.toro.exoplayer2.ExoVideoView-->
-                    <!--android:id="@+id/video"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="192dp"-->
-                    <!--android:layout_gravity="center" />-->
+                <im.ene.toro.exoplayer2.ExoPlayerView
+                    android:id="@+id/video"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:minHeight="96dp"
+                    app:resize_mode="fixed_width"
+                    app:surface_type="texture_view"
+                    app:use_artwork="true"
+                    app:use_controller="false"
+                    />
             </FrameLayout>
         </LinearLayout>
     </LinearLayout>
