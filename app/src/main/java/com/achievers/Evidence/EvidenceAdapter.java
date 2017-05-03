@@ -23,7 +23,7 @@ import java.util.List;
 import im.ene.toro.BaseAdapter;
 import im.ene.toro.ToroAdapter;
 
-public class EvidenceAdapter extends BaseAdapter<ToroAdapter.ViewHolder> {//RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class EvidenceAdapter extends BaseAdapter<ToroAdapter.ViewHolder> {
 
     private List<Evidence> mEvidence;
     private EvidenceItemActionHandler mEvidenceItemActionHandler;
@@ -64,7 +64,7 @@ public class EvidenceAdapter extends BaseAdapter<ToroAdapter.ViewHolder> {//Recy
 
         this.mContext = viewGroup.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(this.mContext);
-        ViewHolder viewHolder;
+        ViewHolder viewHolder = null;
 
         switch (EvidenceType.values()[viewType - 1]) {
             case Image:
@@ -84,7 +84,7 @@ public class EvidenceAdapter extends BaseAdapter<ToroAdapter.ViewHolder> {//Recy
                 viewHolder = new EvidenceItemLocationViewHolder(locationBinding);
                 break;
             default:
-                viewHolder = null;
+                // TODO: show error message
                 break;
         }
 
@@ -112,14 +112,14 @@ public class EvidenceAdapter extends BaseAdapter<ToroAdapter.ViewHolder> {//Recy
                 EvidenceItemVideoViewHolder videoViewHolder = (EvidenceItemVideoViewHolder) viewHolder;
                 ConfigureVideoViewHolder(videoViewHolder, position);
                 break;
-//            case Voice:
-//                EvidenceItemVoiceViewHolder voiceViewHolder = (EvidenceItemVoiceViewHolder) viewHolder;
-//                ConfigureVoiceViewHolder(voiceViewHolder, position);
-//                break;
-//            case Location:
-//                EvidenceItemLocationViewHolder locationViewHolder = (EvidenceItemLocationViewHolder) viewHolder;
-//                ConfigureLocationViewHolder(locationViewHolder, position);
-//                break;
+            case Voice:
+                EvidenceItemVoiceViewHolder voiceViewHolder = (EvidenceItemVoiceViewHolder) viewHolder;
+                ConfigureVoiceViewHolder(voiceViewHolder, position);
+                break;
+            case Location:
+                EvidenceItemLocationViewHolder locationViewHolder = (EvidenceItemLocationViewHolder) viewHolder;
+                ConfigureLocationViewHolder(locationViewHolder, position);
+                break;
         }
     }
 

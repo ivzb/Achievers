@@ -1,13 +1,19 @@
 package com.achievers.Evidence;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.achievers.R;
 import com.achievers.data.Evidence;
 import com.achievers.databinding.EvidenceItemVideoBinding;
+import com.achievers.util.FreskoCircleProgressBarDrawable;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
@@ -17,46 +23,35 @@ import im.ene.toro.exoplayer2.ExoPlayerHelper;
 import im.ene.toro.exoplayer2.ExoPlayerView;
 import im.ene.toro.exoplayer2.ExoPlayerViewHolder;
 
-//public class EvidenceItemVideoViewHolder extends RecyclerView.ViewHolder {
-//    private EvidenceItemVideoBinding binding;
-//
-//    public EvidenceItemVideoViewHolder(EvidenceItemVideoBinding binding) {
-//        super(binding.getRoot());
-//        this.binding = binding;
-//    }
-//
-//    public EvidenceItemVideoBinding getBinding() {
-//        return this.binding;
-//    }
-//}
+class EvidenceItemVideoViewHolder extends ExoPlayerViewHolder {
 
-public class EvidenceItemVideoViewHolder extends ExoPlayerViewHolder {
+    private SimpleDraweeView mThumbnail;
 
-//    public static final int LAYOUT_RES = R.layout.vh_toro_video_basic_4;
-
-//    private SimpleVideoObject videoItem;
     private EvidenceItemVideoBinding binding;
     private Evidence evidence;
     private MediaSource mediaSource;
 
-    public EvidenceItemVideoViewHolder(EvidenceItemVideoBinding binding) {
+    EvidenceItemVideoViewHolder(EvidenceItemVideoBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
+        this.mThumbnail = (SimpleDraweeView) this.binding.getRoot().findViewById(R.id.thumbnail);
     }
 
     @Override protected void onBind(RecyclerView.Adapter adapter, Object item) {
-//        if (!(item instanceof SimpleVideoObject)) {
-//            throw new IllegalArgumentException("Invalid Object: " + item);
-//        }
         this.evidence = (Evidence) item;
-        // prepare mediaSource
-        this.mediaSource = ExoPlayerHelper.buildMediaSource(itemView.getContext(), //
-                Uri.parse(this.evidence.getUrl()), new DefaultDataSourceFactory(itemView.getContext(),
-                        Util.getUserAgent(itemView.getContext(), "Toro-Sample")), itemView.getHandler(), null);
+        this.mediaSource = ExoPlayerHelper.buildMediaSource(
+            itemView.getContext(),
+            Uri.parse(this.evidence.getUrl()),
+            new DefaultDataSourceFactory(itemView.getContext(), Util.getUserAgent(itemView.getContext(), "Toro-Sample")),
+            itemView.getHandler(),
+            null
+        );
+
         try {
-          this.playerView.setMediaSource(mediaSource, true);
+          this.playerView.setMediaSource(mediaSource, false);
         } catch (ParserException e) {
           e.printStackTrace();
+            // TODO: show error message and display refresh button
         }
     }
 
@@ -66,7 +61,6 @@ public class EvidenceItemVideoViewHolder extends ExoPlayerViewHolder {
 
     @Override protected ExoPlayerView findVideoView(View itemView) {
         return (ExoPlayerView) itemView.findViewById(R.id.video);
-//        return (ExoPlayerView) binding.getRoot().findViewById(R.id.video);
     }
 
     @Override protected MediaSource getMediaSource() {
@@ -76,5 +70,63 @@ public class EvidenceItemVideoViewHolder extends ExoPlayerViewHolder {
     @Nullable
     @Override public String getMediaId() {
         return this.evidence != null ? this.evidence.getUrl() + "@" + getAdapterPosition() : null;
+    }
+
+    @Override public void onVideoPreparing() {
+        super.onVideoPreparing();
+        Log.v("video", "Preparing");
+    }
+
+    @Override public void onVideoPrepared() {
+        super.onVideoPrepared();
+        Log.v("video", "Prepared");
+    }
+
+    @Override public void onViewHolderBound() {
+        super.onViewHolderBound();
+
+        GenericDraweeHierarchy hierarchy = this.mThumbnail.getHierarchy();
+        hierarchy.setFadeDuration(250);
+        hierarchy.setPlaceholderImage(getBinding().getRoot().getResources().getDrawable(R.drawable.bunny));
+        hierarchy.setProgressBarImage(new FreskoCircleProgressBarDrawable());
+
+        Log.v("video", "Bound");
+    }
+
+    @Override public void onPlaybackStarted() {
+        mThumbnail.animate().alpha(0.f).setDuration(250).setListener(new AnimatorListenerAdapter() {
+            @Override public void onAnimationEnd(Animator animation) {
+                EvidenceItemVideoViewHolder.super.onPlaybackStarted();
+            }
+        }).start();
+        Log.v("video", "Started");
+    }
+
+    @Override public void onPlaybackPaused() {
+        mThumbnail.animate().alpha(1.f).setDuration(250).setListener(new AnimatorListenerAdapter() {
+            @Override public void onAnimationEnd(Animator animation) {
+                EvidenceItemVideoViewHolder.super.onPlaybackPaused();
+            }
+        }).start();
+        Log.v("video", "Paused");
+    }
+
+    @Override public void onPlaybackCompleted() {
+        mThumbnail.animate().alpha(1.f).setDuration(250).setListener(new AnimatorListenerAdapter() {
+            @Override public void onAnimationEnd(Animator animation) {
+                EvidenceItemVideoViewHolder.super.onPlaybackCompleted();
+            }
+        }).start();
+        Log.v("video", "Completed");
+    }
+
+    @Override public boolean onPlaybackError(Exception error) {
+        mThumbnail.animate().alpha(1.f).setDuration(0).setListener(new AnimatorListenerAdapter() {
+            @Override public void onAnimationEnd(Animator animation) {
+                // TODO: Immediately finish the animation.
+            }
+        }).start();
+        Log.v("video", "Error: videoId = " + getMediaId());
+        return super.onPlaybackError(error);
     }
 }
