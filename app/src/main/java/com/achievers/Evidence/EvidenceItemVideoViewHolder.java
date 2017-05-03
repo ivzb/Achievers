@@ -47,12 +47,26 @@ class EvidenceItemVideoViewHolder extends ExoPlayerViewHolder {
             null
         );
 
+        this.playerView.setControllerShowTimeoutMs(1500);
+        this.playerView.setUseController(true);
+
         try {
           this.playerView.setMediaSource(mediaSource, false);
         } catch (ParserException e) {
           e.printStackTrace();
             // TODO: show error message and display refresh button
         }
+
+        this.playerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (playerView.isPlaying()) {
+                    playerView.pause();
+                } else {
+                    playerView.start();
+                }
+            }
+        });
     }
 
     public EvidenceItemVideoBinding getBinding() {
@@ -103,29 +117,29 @@ class EvidenceItemVideoViewHolder extends ExoPlayerViewHolder {
     }
 
     @Override public void onPlaybackPaused() {
-        mThumbnail.animate().alpha(1.f).setDuration(250).setListener(new AnimatorListenerAdapter() {
-            @Override public void onAnimationEnd(Animator animation) {
-                EvidenceItemVideoViewHolder.super.onPlaybackPaused();
-            }
-        }).start();
+//        mThumbnail.animate().alpha(1.f).setDuration(250).setListener(new AnimatorListenerAdapter() {
+//            @Override public void onAnimationEnd(Animator animation) {
+//                EvidenceItemVideoViewHolder.super.onPlaybackPaused();
+//            }
+//        }).start();
         Log.v("video", "Paused");
     }
 
     @Override public void onPlaybackCompleted() {
-        mThumbnail.animate().alpha(1.f).setDuration(250).setListener(new AnimatorListenerAdapter() {
-            @Override public void onAnimationEnd(Animator animation) {
-                EvidenceItemVideoViewHolder.super.onPlaybackCompleted();
-            }
-        }).start();
+//        mThumbnail.animate().alpha(1.f).setDuration(250).setListener(new AnimatorListenerAdapter() {
+//            @Override public void onAnimationEnd(Animator animation) {
+//                EvidenceItemVideoViewHolder.super.onPlaybackCompleted();
+//            }
+//        }).start();
         Log.v("video", "Completed");
     }
 
     @Override public boolean onPlaybackError(Exception error) {
-        mThumbnail.animate().alpha(1.f).setDuration(0).setListener(new AnimatorListenerAdapter() {
-            @Override public void onAnimationEnd(Animator animation) {
-                // TODO: Immediately finish the animation.
-            }
-        }).start();
+//        mThumbnail.animate().alpha(1.f).setDuration(0).setListener(new AnimatorListenerAdapter() {
+//            @Override public void onAnimationEnd(Animator animation) {
+//                // TODO: Immediately finish the animation.
+//            }
+//        }).start();
         Log.v("video", "Error: videoId = " + getMediaId());
         return super.onPlaybackError(error);
     }
