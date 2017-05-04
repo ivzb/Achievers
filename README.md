@@ -26,14 +26,15 @@ User may choose between LinearLayout and CardView layouts.
 He might swipe left for dislike current **Evidence** or opposite - swipe right to like it. After every interaction, next **Evidence** which he hasn't reviewed yet is being loaded.
 
 # TODO
-1) ScrollChildSwipeRefreshLayout - show user friendly message when there is no data in inner RecyclerView
-2) Migrate to Master/Detail views
-3) Create back-end service
-4) [Work In Progress] AchievementDetailView/Evidence RecyclerView layout
-5) User profile
-6) Achievements structure
-7) Quests - essential part
-8) Groups - achieve something with friends/strangers
+1. ScrollChildSwipeRefreshLayout - show user friendly message when there is no data in inner RecyclerView
+2. Migrate to Master/Detail views
+3. Create back-end service
+4. [Work In Progress] AchievementDetailView/Evidence RecyclerView layout
+   1. Audio support inside RecyclerView - possibly extend Toro
+5. User profile
+6. Achievements structure
+7. Quests - essential part
+8. Groups - achieve something with friends/strangers
 
 # Dependencies
 1) GSON - A Java serialization/deserialization library to convert Java Objects into JSON and back. [GitHub](https://github.com/google/gson)
