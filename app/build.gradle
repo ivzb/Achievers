@@ -76,8 +76,6 @@ dependencies {
     // Dependencies for Android unit tests
     androidTestCompile "junit:junit:$rootProject.ext.junitVersion"
     androidTestCompile "org.mockito:mockito-core:$rootProject.ext.mockitoVersion"
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
 
     // Espresso UI Testing
     androidTestCompile "com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion"
@@ -92,23 +90,26 @@ dependencies {
     androidTestCompile "com.android.support:design:$rootProject.supportLibraryVersion"
 
     // GSON
-    compile "com.google.code.gson:gson:${ gsonVersion }"
+    compile "com.google.code.gson:gson:${gsonVersion}"
 
     // Retrofit
-    compile "com.squareup.retrofit2:retrofit:${ retrofitVersion }"
-    compile "com.squareup.retrofit2:converter-gson:${ retrofitVersion }"
+    compile "com.squareup.retrofit2:retrofit:${retrofitVersion}"
+    compile "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
 
     // Stetho
-    compile "com.facebook.stetho:stetho:${ stethoVersion }"
-    compile "com.facebook.stetho:stetho-okhttp3:${ stethoVersion }"
+    compile "com.facebook.stetho:stetho:${stethoVersion}"
+    compile "com.facebook.stetho:stetho-okhttp3:${stethoVersion}"
 
     // Faker
-    compile "com.github.blocoio:faker:${ fakerVersion }"
+    compile "com.github.blocoio:faker:${fakerVersion}"
 
     // Toro
     compile "im.ene.toro2:toro-ext-exoplayer2:${toroVersion}"
 
     // Fresco
-    compile "com.facebook.fresco:fresco:${ frescoVersion }"
-    compile "com.facebook.fresco:imagepipeline-okhttp3:${ frescoVersion }"
+    compile "com.facebook.fresco:fresco:${frescoVersion}"
+    compile "com.facebook.fresco:imagepipeline-okhttp3:${frescoVersion}"
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta3'
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
 }
