@@ -5,28 +5,23 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.achievers.Achievements.AchievementsViewModel;
 import com.achievers.BaseActivity;
+import com.achievers.CategoriesMvpController;
 import com.achievers.R;
-import com.achievers.data.source.AchievementsRepository;
-import com.achievers.data.source.CategoriesRepository;
-import com.achievers.data.source.local.AchievementsLocalDataSource;
-import com.achievers.data.source.local.CategoriesLocalDataSource;
-import com.achievers.data.source.remote.AchievementsRemoteDataSource;
-import com.achievers.data.source.remote.CategoriesRemoteDataSource;
-import com.achievers.util.ActivityUtils;
 
 public class CategoriesActivity extends BaseActivity {
 
     private static final String CURRENT_FILTERING_KEY = "CURRENT_FILTERING_KEY";
 
+    private static final String CURRENT_CATEGORY_ID_KEY = "CURRENT_CATEGORY_ID_KEY";
+
     private DrawerLayout mDrawerLayout;
 
-    private CategoriesPresenter mCategoriesPresenter;
+//    private CategoriesPresenter mCategoriesPresenter;
+    private CategoriesMvpController categoriesMvpTabletController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,39 +43,60 @@ public class CategoriesActivity extends BaseActivity {
             setupDrawerContent(navigationView);
         }
 
-        CategoriesFragment categoriesFragment =
-                (CategoriesFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-        if (categoriesFragment == null) {
-            // Create the fragment
-            categoriesFragment = CategoriesFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(
-                    getSupportFragmentManager(), categoriesFragment, R.id.contentFrame);
+        // Load previously saved state, if available.
+        Integer categoryId = null;
+        CategoriesFilterType currentFiltering = null;
+        if (savedInstanceState != null) {
+            currentFiltering =
+                    (CategoriesFilterType) savedInstanceState.getSerializable(CURRENT_FILTERING_KEY);
+            categoryId = savedInstanceState.getInt(CURRENT_CATEGORY_ID_KEY, 0);
+            if (categoryId == 0) categoryId = null;
         }
 
+        // Create a CategoriesMvpController every time, even after rotation.
+        categoriesMvpTabletController = CategoriesMvpController.createCategoriesView(this, categoryId);
+        if (currentFiltering != null) {
+            categoriesMvpTabletController.setFiltering(currentFiltering);
+        }
+
+//        CategoriesFragment categoriesFragment =
+//                (CategoriesFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+//        if (categoriesFragment == null) {
+//            // Create the fragment
+//            categoriesFragment = CategoriesFragment.newInstance();
+//            ActivityUtils.addFragmentToActivity(
+//                    getSupportFragmentManager(), categoriesFragment, R.id.contentFrame);
+//        }
+
         // Instantiate repositories
-        CategoriesRepository categoriesRepository = CategoriesRepository.getInstance(
-                CategoriesRemoteDataSource.getInstance(),
-                CategoriesLocalDataSource.getInstance(super.mRealm));
+//        CategoriesRepository categoriesRepository = CategoriesRepository.getInstance(
+//                CategoriesRemoteDataSource.getInstance(),
+//                CategoriesLocalDataSource.getInstance(super.mRealm));
+//
+//        AchievementsRepository achievementsRepository = AchievementsRepository.getInstance(
+//                AchievementsRemoteDataSource.getInstance(),
+//                AchievementsLocalDataSource.getInstance(super.mRealm));
+//
+//        // Create the presenter
+//        mCategoriesPresenter = new CategoriesPresenter(categoriesRepository, achievementsRepository, categoriesFragment);
+//
+//        CategoriesViewModel categoriesViewModel =
+//                new CategoriesViewModel(getApplicationContext(), mCategoriesPresenter);
+//
+//        AchievementsViewModel achievementsViewModel =
+//                new AchievementsViewModel(getApplicationContext());
 
-        AchievementsRepository achievementsRepository = AchievementsRepository.getInstance(
-                AchievementsRemoteDataSource.getInstance(),
-                AchievementsLocalDataSource.getInstance(super.mRealm));
-
-        // Create the presenter
-        mCategoriesPresenter = new CategoriesPresenter(categoriesRepository, achievementsRepository, categoriesFragment);
-
-        CategoriesViewModel categoriesViewModel =
-                new CategoriesViewModel(getApplicationContext(), mCategoriesPresenter);
-
-        AchievementsViewModel achievementsViewModel =
-                new AchievementsViewModel(getApplicationContext());
-
-        categoriesFragment.setViewModels(categoriesViewModel, achievementsViewModel);
+//        categoriesFragment.setViewModels(categoriesViewModel, achievementsViewModel);
     }
+
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(CURRENT_FILTERING_KEY, mCategoriesPresenter.getFiltering());
+        outState.putSerializable(CURRENT_FILTERING_KEY,
+                categoriesMvpTabletController.getFiltering());
+        outState.putInt(CURRENT_CATEGORY_ID_KEY,
+                categoriesMvpTabletController.getCategoryId());
 
         super.onSaveInstanceState(outState);
     }
@@ -93,15 +109,16 @@ public class CategoriesActivity extends BaseActivity {
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 
-    @Override
-    public void onBackPressed() {
-        if (this.mCategoriesPresenter.navigateToPreviousCategory()) return;
-
-        super.onBackPressed();
-    }
+    // TODO: fix this
+//    @Override
+//    public void onBackPressed() {
+//        if (this.mCategoriesPresenter.navigateToPreviousCategory()) return;
+//
+//        super.onBackPressed();
+//    }
 
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(

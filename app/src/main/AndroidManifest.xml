@@ -10,27 +10,17 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MasterDetail.ItemsListActivity">
-                <intent-filter>
-                    <action android:name="android.intent.action.MAIN" />
-                    <category android:name="android.intent.category.LAUNCHER" />
-                </intent-filter>
-            </activity>
-        <!-- <activity -->
-        <!-- android:name=".Categories.CategoriesActivity" -->
-        <!-- android:theme="@style/AppTheme.OverlapSystemBar"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.intent.action.MAIN" /> -->
+         <activity
+         android:name=".Categories.CategoriesActivity"
+         android:theme="@style/AppTheme.OverlapSystemBar">
+         <intent-filter>
+         <action android:name="android.intent.action.MAIN" />
 
 
-        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-        <!-- </intent-filter> -->
-        <!-- </activity> -->
+         <category android:name="android.intent.category.LAUNCHER" />
+         </intent-filter>
+         </activity>
         <activity android:name=".AchievementDetail.AchievementDetailActivity" />
-        <activity
-            android:name=".MasterDetail.ItemDetailActivity"
-            android:label="@string/title_activity_item_detail"
-            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

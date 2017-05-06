@@ -110,7 +110,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
 
                 // categories with this parentId not found -> show category achievements
                 // todo: set forceUpdate to false when migrate to real backend
-                loadAchievements(parentId, true);
+//                loadAchievements(parentId, true);
             }
         });
     }
@@ -122,57 +122,6 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
 
         // saving first parent as -1 because stack cant handle nulls
         mCategoriesNavigationState.add(requestedCategory.getParent() == null || requestedCategory.getParent().getId() == null ? -1 : requestedCategory.getParent().getId());
-    }
-
-    @Override
-    public void loadAchievements(Integer categoryId, boolean forceUpdate) {
-        // a network reload will be forced on first load.
-        this.loadAchievements(categoryId, forceUpdate || this.mFirstLoad, true);
-        this.mFirstLoad = false;
-    }
-
-    /**
-     * @param forceUpdate   Pass in true to refresh the data in the {@link CategoriesDataSource}
-     * @param showLoadingUI Pass in true to display a loading icon in the UI
-     */
-    private void loadAchievements(final Integer categoryId, boolean forceUpdate, final boolean showLoadingUI) {
-        if (showLoadingUI) mCategoriesView.setLoadingIndicator(true);
-        if (forceUpdate) mAchievementsRepository.refreshCache();
-
-        mAchievementsRepository.loadAchievements(categoryId, new AchievementsDataSource.LoadAchievementsCallback() {
-            @Override
-            public void onLoaded(final List<Achievement> achievements) {
-                // The view may not be able to handle UI updates anymore
-                if (!mCategoriesView.isActive()) return;
-                if (showLoadingUI) mCategoriesView.setLoadingIndicator(false);
-
-                mCategoriesRepository.getCategory(categoryId, new CategoriesDataSource.GetCategoryCallback() {
-                    @Override
-                    public void onLoaded(Category category) {
-                        mCategoriesView.showAchievements(category, achievements);
-                    }
-
-                    @Override
-                    public void onDataNotAvailable() {
-                        mCategoriesView.showLoadingAchievementsError();
-                    }
-                });
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                // The view may not be able to handle UI updates anymore
-                if (!mCategoriesView.isActive()) return;
-                mCategoriesView.showLoadingAchievementsError();
-                mCategoriesView.setLoadingIndicator(false);
-            }
-        });
-    }
-
-    @Override
-    public void openAchievementDetails(@NonNull Achievement requestedAchievement) {
-        checkNotNull(requestedAchievement, "requestedAchievement cannot be null!");
-        this.mCategoriesView.showAchievementDetailsUi(requestedAchievement.getId());
     }
 
     /**
