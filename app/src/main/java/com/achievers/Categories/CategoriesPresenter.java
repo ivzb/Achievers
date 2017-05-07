@@ -1,7 +1,9 @@
 package com.achievers.Categories;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 
+import com.achievers.AchievementDetail.AchievementDetailActivity;
 import com.achievers.data.Achievement;
 import com.achievers.data.Category;
 import com.achievers.data.source.AchievementsDataSource;
@@ -49,9 +51,9 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
     }
 
     @Override
-    public void loadCategories(Integer parentId, boolean forceUpdate) {
+    public void loadCategories(Integer parentId, boolean forceUpdate, OpenCategoryCallback callback) {
         // a network reload will be forced on first load.
-        this.loadCategories(parentId, forceUpdate || this.mFirstLoad, true);
+        this.loadCategories(parentId, forceUpdate || this.mFirstLoad, true, callback);
         this.mFirstLoad = false;
     }
 
@@ -59,7 +61,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
      * @param forceUpdate   Pass in true to refresh the data in the {@link CategoriesDataSource}
      * @param showLoadingUI Pass in true to display a loading icon in the UI
      */
-    private void loadCategories(final Integer parentId, boolean forceUpdate, final boolean showLoadingUI) {
+    private void loadCategories(final Integer parentId, boolean forceUpdate, final boolean showLoadingUI, final OpenCategoryCallback callback) {
         if (showLoadingUI) mCategoriesView.setLoadingIndicator(true);
         if (forceUpdate) mCategoriesRepository.refreshCache();
 
@@ -84,7 +86,11 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
 
                 mCategoriesView.showCategories(categories);
 
-                if (parentId != null) {
+                if (callback == null) { // phone
+                    Intent intent = new Intent(getContext(), AchievementDetailActivity.class);
+                    intent.putExtra(AchievementDetailActivity.EXTRA_ACHIEVEMENT_ID, achievementId);
+                    startActivity(intent);
+                } else { // tablet
                     mCategoriesRepository.getCategory(parentId, new CategoriesDataSource.GetCategoryCallback() {
                         @Override
                         public void onLoaded(Category category) {
@@ -110,7 +116,8 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
                 // categories with this parentId not found -> show category achievements
                 // todo: set forceUpdate to false when migrate to real backend
 //                loadAchievements(parentId, true);
-                throw new ArithmeticException();
+                // new Intent
+                callback.onAchievement(parentId);
             }
         });
     }
@@ -118,7 +125,8 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
     @Override
     public void openCategoryDetails(@NonNull Category requestedCategory) {
         checkNotNull(requestedCategory, "requestedCategory cannot be null!");
-        this.loadCategories(requestedCategory.getId(), true);
+
+        this.loadCategories(requestedCategory.getId(), true, null);
 
         // saving first parent as -1 because stack cant handle nulls
         mCategoriesNavigationState.add(requestedCategory.getParent() == null || requestedCategory.getParent().getId() == null ? -1 : requestedCategory.getParent().getId());
@@ -148,7 +156,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
     public boolean navigateToPreviousCategory() {
         try {
             Integer categoryId = this.mCategoriesNavigationState.pop();
-            this.loadCategories(categoryId == -1 ? null : categoryId, true);
+            this.loadCategories(categoryId == -1 ? null : categoryId, true, null);
 
             return true;
         } catch (EmptyStackException exc) {

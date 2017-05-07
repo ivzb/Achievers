@@ -28,9 +28,16 @@ public class CategoriesContract {
 
     public interface Presenter {
 
+        interface OpenCategoryCallback {
+
+            void onCategory(Integer parentId);
+
+            void onAchievement(Integer categoryId);
+        }
+
         void result(int requestCode, int resultCode);
 
-        void loadCategories(Integer parentId, boolean forceUpdate);
+        void loadCategories(Integer parentId, boolean forceUpdate, OpenCategoryCallback callback);
 
         void openCategoryDetails(@NonNull Category requestedCategory);
 

@@ -112,7 +112,7 @@ public class AdapterSetters {
             @Override
             public void onRefresh() {
                 Integer parentId = parent != null ? parent.getId() : null;
-                presenter.loadCategories(parentId, true);
+                presenter.loadCategories(parentId, true, null);
             }
         });
     }

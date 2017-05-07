@@ -1,4 +1,4 @@
-package com.achievers.AchievementDetail;
+package com.achievers.Achievements;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -17,17 +17,17 @@ import com.achievers.data.source.remote.EvidenceRemoteDataSource;
 import com.achievers.util.ActivityUtils;
 
 /**
- * Displays achievement details screen.
+ * Displays achievements list screen.
  */
-public class AchievementDetailActivity extends BaseActivity {
+public class AchievementsActivity extends BaseActivity {
 
-    public static final String EXTRA_ACHIEVEMENT_ID = "ACHIEVEMENT_ID";
+    public static final String EXTRA_CATEGORY_ID = "CATEGORY_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.achievement_detail_act);
+        setContentView(R.layout.achievements_act);
 
         // Set up the toolbar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -36,17 +36,17 @@ public class AchievementDetailActivity extends BaseActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
 
-        // Get the requested achievement id
-        int achievementId = getIntent().getIntExtra(EXTRA_ACHIEVEMENT_ID, 0);
+        // Get the requested category id
+        int categoryId = getIntent().getIntExtra(EXTRA_CATEGORY_ID, 0);
 
-        AchievementDetailFragment achievementDetailFragment = (AchievementDetailFragment) getSupportFragmentManager()
+        AchievementsFragment achievementsFragment = (AchievementsFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
 
-        if (achievementDetailFragment == null) {
-            achievementDetailFragment = AchievementDetailFragment.newInstance(achievementId);
+        if (achievementsFragment == null) {
+            achievementsFragment = AchievementsFragment.newInstance(categoryId);
 
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
-                    achievementDetailFragment, R.id.contentFrame);
+                    achievementsFragment, R.id.contentFrame);
         }
 
         // Instantiate repositories
@@ -54,16 +54,16 @@ public class AchievementDetailActivity extends BaseActivity {
                 AchievementsRemoteDataSource.getInstance(),
                 AchievementsLocalDataSource.getInstance(super.mRealm));
 
-        EvidenceRepository evidenceRepository = EvidenceRepository.getInstance(
-                EvidenceRemoteDataSource.getInstance(),
-                EvidenceLocalDataSource.getInstance(super.mRealm));
+        AchievementsPresenter presenter = new AchievementsPresenter(achievementsRepository, achievementsFragment);
 
-        AchievementDetailPresenter presenter = new AchievementDetailPresenter(achievementId,
-                achievementsRepository, evidenceRepository,
-                achievementDetailFragment);
+        achievementsFragment.setPresenter(presenter);
 
-        AchievementDetailViewModel viewModel = new AchievementDetailViewModel(getApplicationContext(), presenter);
-        achievementDetailFragment.setViewModel(viewModel);
+        AchievementsViewModel viewModel = new AchievementsViewModel(getApplicationContext());
+
+        // todo: get category from repo and pass it to viewModel
+        viewModel.setCategory();
+
+        achievementsFragment.setViewModel(viewModel);
     }
 
     @Override

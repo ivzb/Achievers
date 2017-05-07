@@ -27,6 +27,7 @@ import com.achievers.Categories.CategoriesPresenter;
 import com.achievers.data.Achievement;
 import com.achievers.data.Category;
 import com.achievers.data.source.AchievementsRepository;
+import com.achievers.data.source.CategoriesDataSource;
 import com.achievers.data.source.CategoriesRepository;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -79,13 +80,41 @@ public class CategoriesTabletPresenter implements CategoriesContract.Presenter, 
     }
 
     @Override
-    public void loadCategories(Integer parentId, boolean forceUpdate) {
-        this.mCategoriesPresenter.loadCategories(parentId, forceUpdate);
+    public void loadCategories(Integer parentId, boolean forceUpdate, OpenCategoryCallback callback) {
+        this.mCategoriesPresenter.loadCategories(parentId, forceUpdate, callback);
     }
 
     @Override
     public void openCategoryDetails(@NonNull Category requestedCategory) {
-        this.mCategoriesPresenter.openCategoryDetails(requestedCategory);
+        checkNotNull(requestedCategory, "requestedCategory cannot be null!");
+
+        this.loadCategories(requestedCategory.getId(), true, new OpenCategoryCallback() {
+            @Override
+            public void onCategory(Integer parentId) {
+                // todo: maybe add CategoryId to stack here?
+            }
+
+            @Override
+            public void onAchievement(Integer categoryId) {
+                if (categoryId != null) {
+                    mCategoriesRepository.getCategory(categoryId, new CategoriesDataSource.GetCategoryCallback() {
+                        @Override
+                        public void onLoaded(Category category) {
+                            mAchievementsPresenter.loadAchievements(category, true);
+                        }
+
+                        @Override
+                        public void onDataNotAvailable() {
+                            // .showLoadingParentError();
+                        }
+                    });
+                }
+            }
+        });
+
+        // saving first parent as -1 because stack cant handle nulls
+        //mCategoriesNavigationState.add(requestedCategory.getParent() == null || requestedCategory.getParent().getId() == null ? -1 : requestedCategory.getParent().getId());
+//        this.mCategoriesPresenter.openCategoryDetails(requestedCategory);
     }
 
     @Override

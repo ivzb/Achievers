@@ -55,7 +55,7 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     @Override
     public void onResume() {
         super.onResume();
-        this.mPresenter.loadCategories(null, true);
+        this.mPresenter.loadCategories(null, true, null);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
                 break;
             case R.id.menu_refresh:
                 Integer parentId = mCategoriesViewModel.getParent() != null ? mCategoriesViewModel.getParent().getId() : null;
-                mPresenter.loadCategories(parentId, true);
+                mPresenter.loadCategories(parentId, true, null);
 //                Integer categoryId = mAchievementsViewModel.getCategory() != null ? mAchievementsViewModel.getCategory().getId() : null;
 //                mPresenter.loadAchievements(categoryId, true);
                 break;
@@ -143,7 +143,7 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
                 }
 
                 Integer parentId = mCategoriesViewModel.getParent() != null ? mCategoriesViewModel.getParent().getId() : null;
-                mPresenter.loadCategories(parentId, false);
+                mPresenter.loadCategories(parentId, false, null);
 //                Integer categoryId = mAchievementsViewModel.getCategory() != null ? mAchievementsViewModel.getCategory().getId() : null;
 //                mPresenter.loadAchievements(categoryId, false);
 
