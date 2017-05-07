@@ -29,7 +29,7 @@ public class AchievementsContract {
 
         void result(int requestCode, int resultCode);
 
-        void loadAchievements(Integer categoryId, boolean forceUpdate);
+        void loadAchievements(Category category, boolean forceUpdate);
 
         void openAchievementDetails(@NonNull Achievement requestedAchievement);
     }

@@ -9,9 +9,9 @@ import com.achievers.data.Achievement;
  */
 public class AchievementsItemActionHandler {
 
-    private CategoriesContract.Presenter mListener;
+    private AchievementsContract.Presenter mListener;
 
-    public AchievementsItemActionHandler(CategoriesContract.Presenter listener) {
+    public AchievementsItemActionHandler(AchievementsContract.Presenter listener) {
         this.mListener = listener;
     }
 

@@ -26,7 +26,7 @@ public class CategoriesViewModel extends BaseObservable {
 
     private Context mContext;
 
-    CategoriesViewModel(Context context, CategoriesContract.Presenter presenter) {
+    public CategoriesViewModel(Context context, CategoriesContract.Presenter presenter) {
         mContext = context;
         mPresenter = presenter;
     }

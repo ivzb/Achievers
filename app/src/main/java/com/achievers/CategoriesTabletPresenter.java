@@ -24,6 +24,7 @@ import com.achievers.Achievements.AchievementsPresenter;
 import com.achievers.Categories.CategoriesContract;
 import com.achievers.Categories.CategoriesPresenter;
 import com.achievers.data.Category;
+import com.achievers.data.source.AchievementsRepository;
 import com.achievers.data.source.CategoriesRepository;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -36,7 +37,10 @@ public class CategoriesTabletPresenter implements CategoriesContract.Presenter, 
     @NonNull
     private final CategoriesRepository mCategoriesRepository;
     @NonNull
-    private CategoriesPresenter mCategoriesPresenter;
+    private final CategoriesPresenter mCategoriesPresenter;
+
+    @NonNull
+    private AchievementsRepository mAchievementsRepository;
     @Nullable
     private AchievementsPresenter mAchievementsPresenter;
 
@@ -46,18 +50,24 @@ public class CategoriesTabletPresenter implements CategoriesContract.Presenter, 
         mCategoriesPresenter = checkNotNull(categoriesPresenter);
     }
 
-    @Nullable public AchievementsPresenter getAchievementsPresenter() {
+    @Nullable
+    public AchievementsRepository getAchievementsRepository() {
+        return this.mAchievementsRepository;
+    }
+
+    public void setAchievementsRepository(AchievementsRepository achievementsRepository) {
+        this.mAchievementsRepository = achievementsRepository;
+    }
+
+    @Nullable
+    public AchievementsPresenter getAchievementsPresenter() {
         return mAchievementsPresenter;
     }
 
-    public void setCategoryDetailPresenter(AchievementsPresenter achievementsPresenter) {
+    public void setAchievementsPresenter(AchievementsPresenter achievementsPresenter) {
         mAchievementsPresenter = achievementsPresenter;
     }
 
     /* CategoriesContract.Presenter methods can be called with or without a detail pane */
 
-    @Override
-    public void onCategoriesResult(int requestCode, int resultCode) {
-        mCategoriesPresenter.onCategoriesResult(requestCode, resultCode);
-    }
 }

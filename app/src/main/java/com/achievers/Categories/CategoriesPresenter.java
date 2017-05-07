@@ -22,15 +22,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class CategoriesPresenter implements CategoriesContract.Presenter {
 
     private final CategoriesRepository mCategoriesRepository;
-    private final AchievementsRepository mAchievementsRepository;
     private final CategoriesContract.View mCategoriesView;
     private CategoriesFilterType mCurrentFiltering = CategoriesFilterType.ALL_CATEGORIES;
     private boolean mFirstLoad;
     private Stack<Integer> mCategoriesNavigationState;
 
-    public CategoriesPresenter(@NonNull CategoriesRepository categoriesRepository, @NonNull AchievementsRepository achievementsRepository, @NonNull CategoriesContract.View categoriesView) {
+    public CategoriesPresenter(@NonNull CategoriesRepository categoriesRepository, @NonNull CategoriesContract.View categoriesView) {
         this.mCategoriesRepository = checkNotNull(categoriesRepository, "categoriesRepository cannot be null");
-        this.mAchievementsRepository = checkNotNull(achievementsRepository, "achievementsRepository cannot be null");
         this.mCategoriesView = checkNotNull(categoriesView, "categoriesView cannot be null!");
         this.mCategoriesView.setPresenter(this);
         this.mFirstLoad = true;

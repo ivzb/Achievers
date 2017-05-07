@@ -38,7 +38,6 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     private CategoriesContract.Presenter mPresenter;
     private CategoriesFragBinding mViewDataBinding;
     private CategoriesViewModel mCategoriesViewModel;
-    private AchievementsViewModel mAchievementsViewModel;
 
     public CategoriesFragment() {
         // Requires empty public constructor
@@ -71,7 +70,6 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
 
         this.mViewDataBinding = CategoriesFragBinding.bind(view);
         this.mViewDataBinding.setCategories(this.mCategoriesViewModel);
-        this.mViewDataBinding.setAchievements(this.mAchievementsViewModel);
         this.mViewDataBinding.setActionHandler(this.mPresenter);
 
         setHasOptionsMenu(true);
@@ -110,8 +108,8 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
             case R.id.menu_refresh:
                 Integer parentId = mCategoriesViewModel.getParent() != null ? mCategoriesViewModel.getParent().getId() : null;
                 mPresenter.loadCategories(parentId, true);
-                Integer categoryId = mAchievementsViewModel.getCategory() != null ? mAchievementsViewModel.getCategory().getId() : null;
-                mPresenter.loadAchievements(categoryId, true);
+//                Integer categoryId = mAchievementsViewModel.getCategory() != null ? mAchievementsViewModel.getCategory().getId() : null;
+//                mPresenter.loadAchievements(categoryId, true);
                 break;
         }
         return true;
@@ -122,9 +120,8 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
         inflater.inflate(R.menu.categories_fragment_menu, menu);
     }
 
-    public void setViewModels(CategoriesViewModel categoriesViewModel, AchievementsViewModel achievementsViewModel) {
+    public void setViewModel(CategoriesViewModel categoriesViewModel) {
         this.mCategoriesViewModel = categoriesViewModel;
-        this.mAchievementsViewModel = achievementsViewModel;
     }
 
     private void showFilteringPopUpMenu() {
@@ -147,8 +144,8 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
 
                 Integer parentId = mCategoriesViewModel.getParent() != null ? mCategoriesViewModel.getParent().getId() : null;
                 mPresenter.loadCategories(parentId, false);
-                Integer categoryId = mAchievementsViewModel.getCategory() != null ? mAchievementsViewModel.getCategory().getId() : null;
-                mPresenter.loadAchievements(categoryId, false);
+//                Integer categoryId = mAchievementsViewModel.getCategory() != null ? mAchievementsViewModel.getCategory().getId() : null;
+//                mPresenter.loadAchievements(categoryId, false);
 
                 return true;
             }
@@ -179,18 +176,6 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
         mCategoriesViewModel.setCategoriesListSize(categories.size());
     }
 
-    @Override
-    public void showAchievements(Category category, List<Achievement> achievements) {
-        if (this.mAchievementsViewModel.getCategory() != null &&
-                this.mAchievementsViewModel.getCategory().equals(category) &&
-                this.mAchievementsViewModel.getAdapter().getItemCount() > 0) { // endless scroll is loading more items
-            this.mAchievementsViewModel.getAdapter().addAchievements(achievements);
-        } else { // new category has been loaded
-            AchievementsAdapter adapter = new AchievementsAdapter(achievements, category, this.mPresenter);
-            this.mAchievementsViewModel.setAdapter(adapter);
-            this.mAchievementsViewModel.setCategory(category);
-        }
-    }
 
     @Override
     public void showParent(Category parent) {
@@ -198,22 +183,8 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     }
 
     @Override
-    public void showAchievementDetailsUi(int achievementId) {
-        // in it's own Activity, since it makes more sense that way and it gives us the flexibility
-        // to show some Intent stubbing.
-        Intent intent = new Intent(getContext(), AchievementDetailActivity.class);
-        intent.putExtra(AchievementDetailActivity.EXTRA_ACHIEVEMENT_ID, achievementId);
-        startActivity(intent);
-    }
-
-    @Override
     public void showLoadingCategoriesError() {
         showMessage(getString(R.string.loading_categories_error));
-    }
-
-    @Override
-    public void showLoadingAchievementsError() {
-        showMessage(getString(R.string.loading_achievements_error));
     }
 
     @Override

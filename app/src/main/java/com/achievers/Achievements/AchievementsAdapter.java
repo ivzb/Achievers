@@ -19,10 +19,10 @@ public class AchievementsAdapter extends RecyclerView.Adapter<AchievementsAdapte
     private List<Achievement> mAchievements;
     private Category mCategory;
     private AchievementsItemActionHandler mAchievementsItemActionHandler;
-    private CategoriesContract.Presenter mUserActionsListener;
+    private AchievementsContract.Presenter mUserActionsListener;
     private Context mContext;
 
-    public AchievementsAdapter(List<Achievement> achievements, Category category, CategoriesContract.Presenter userActionsListener) {
+    public AchievementsAdapter(List<Achievement> achievements, Category category, AchievementsContract.Presenter userActionsListener) {
         this.mAchievements = achievements;
         this.mCategory = category;
         this.mAchievementsItemActionHandler = new AchievementsItemActionHandler(userActionsListener);

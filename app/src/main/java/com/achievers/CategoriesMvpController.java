@@ -23,11 +23,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
+import com.achievers.Achievements.AchievementsFragment;
 import com.achievers.Achievements.AchievementsPresenter;
+import com.achievers.Achievements.AchievementsViewModel;
 import com.achievers.Categories.CategoriesFilterType;
 import com.achievers.Categories.CategoriesFragment;
 import com.achievers.Categories.CategoriesPresenter;
+import com.achievers.Categories.CategoriesViewModel;
+import com.achievers.data.source.AchievementsRepository;
+import com.achievers.data.source.CategoriesRepository;
+import com.achievers.data.source.local.AchievementsLocalDataSource;
+import com.achievers.data.source.local.CategoriesLocalDataSource;
+import com.achievers.data.source.remote.AchievementsRemoteDataSource;
+import com.achievers.data.source.remote.CategoriesRemoteDataSource;
 import com.achievers.util.ActivityUtils;
+
+import io.realm.Realm;
 
 import static com.achievers.util.ActivityUtils.isTablet;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -38,19 +49,20 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class CategoriesMvpController {
 
     private final FragmentActivity mFragmentActivity;
+    private final Realm mRealm;
 
     // Null category ID means there's no category selected (or in phone mode)
     @Nullable private final Integer mCategoryId;
 
     private CategoriesTabletPresenter mCategoriesTabletPresenter;
-
     private CategoriesPresenter mCategoriesPresenter;
 
     // Force factory method, prevent direct instantiation:
     private CategoriesMvpController(
-            @NonNull FragmentActivity fragmentActivity, @Nullable  int cateogryId) {
-        mFragmentActivity = fragmentActivity;
-        mCategoryId = cateogryId;
+            @NonNull FragmentActivity fragmentActivity, @NonNull Realm realm, @Nullable  int cateogryId) {
+        this.mFragmentActivity = fragmentActivity;
+        this.mRealm = realm;
+        this.mCategoryId = cateogryId;
     }
 
     /**
@@ -59,11 +71,12 @@ public class CategoriesMvpController {
      * @return a CategoriesMvpController
      */
     public static CategoriesMvpController createCategoriesView(
-            @NonNull FragmentActivity fragmentActivity, @Nullable Integer categoryId) {
+            @NonNull FragmentActivity fragmentActivity, @NonNull Realm realm, @Nullable Integer categoryId) {
         checkNotNull(fragmentActivity);
+        checkNotNull(realm);
 
         CategoriesMvpController categoriesMvpController =
-                new CategoriesMvpController(fragmentActivity, categoryId);
+                new CategoriesMvpController(fragmentActivity, realm, categoryId);
 
         categoriesMvpController.initCategoriesView();
         return categoriesMvpController;
@@ -86,16 +99,16 @@ public class CategoriesMvpController {
     private void createTabletElements() {
         // Fragment 1: List
         CategoriesFragment categoriesFragment = findOrCreateCategoriesFragment(R.id.contentFrame_list);
-        mCategoriesPresenter = createListPresenter(categoriesFragment);
+        this.mCategoriesPresenter = createListPresenter(categoriesFragment);
 
         // Fragment 2: Detail
         AchievementsFragment achievementsFragment = findOrCreateCategoryDetailFragmentForTablet();
         AchievementsPresenter achievementsPresenter = createDetailPresenter(achievementsFragment);
 
         // Fragments connect to their presenters through a tablet presenter:
-        mCategoriesTabletPresenter = new CategoriesTabletPresenter(
-                Injection.provideCategoryRepository(mFragmentActivity),
-                mCategoriesPresenter);
+        CategoriesRepository categoriesRepository = this.createCategoriesRepository();
+
+        mCategoriesTabletPresenter = new CategoriesTabletPresenter(categoriesRepository, mCategoriesPresenter);
 
         categoriesFragment.setPresenter(mCategoriesTabletPresenter);
         achievementsFragment.setPresenter(mCategoriesTabletPresenter);
@@ -103,19 +116,43 @@ public class CategoriesMvpController {
     }
 
     @NonNull
-    private AchievementsPresenter createDetailPresenter(AchievementsFragment achievementsFragment) {
-        return new AchievementsPresenter(
-                mCategoryId,
-                Injection.provideTasksRepository(mFragmentActivity.getApplicationContext()),
-                achievementsFragment);
+    private CategoriesPresenter createListPresenter(CategoriesFragment categoriesFragment) {
+        CategoriesRepository categoriesRepository = this.createCategoriesRepository();
+        this.mCategoriesPresenter = new CategoriesPresenter(categoriesRepository, categoriesFragment);
+
+        CategoriesViewModel categoriesViewModel = new CategoriesViewModel(this.mFragmentActivity, mCategoriesPresenter);
+        categoriesFragment.setViewModel(categoriesViewModel);
+
+        return this.mCategoriesPresenter;
     }
 
-    private CategoriesPresenter createListPresenter(CategoriesFragment categoriesFragment) {
-        this.mCategoriesPresenter = new CategoriesPresenter(
-                Injection.provideTasksRepository(mFragmentActivity.getApplicationContext()),
-                categoriesFragment);
+    @NonNull
+    private AchievementsPresenter createDetailPresenter(AchievementsFragment achievementsFragment) {
+        AchievementsRepository achievementsRepository = this.createAchievementsRepository();
+        AchievementsPresenter achievementsPresenter = new AchievementsPresenter(achievementsRepository, achievementsFragment);
 
-        return mCategoriesPresenter;
+        AchievementsViewModel achievementsViewModel = new AchievementsViewModel(this.mFragmentActivity);
+        achievementsFragment.setViewModel(achievementsViewModel);
+
+        return achievementsPresenter;
+    }
+
+    @NonNull
+    private CategoriesRepository createCategoriesRepository() {
+        CategoriesRepository categoriesRepository = CategoriesRepository.getInstance(
+                CategoriesRemoteDataSource.getInstance(),
+                CategoriesLocalDataSource.getInstance(this.mRealm));
+
+        return categoriesRepository;
+    }
+
+    @NonNull
+    private AchievementsRepository createAchievementsRepository() {
+        AchievementsRepository achievementsRepository = AchievementsRepository.getInstance(
+                AchievementsRemoteDataSource.getInstance(),
+                AchievementsLocalDataSource.getInstance(this.mRealm));
+
+        return achievementsRepository;
     }
 
     @NonNull
@@ -147,8 +184,8 @@ public class CategoriesMvpController {
         return achievementsFragment;
     }
 
-    private Fragment getFragmentById(int contentFrame_detail) {
-        return getSupportFragmentManager().findFragmentById(contentFrame_detail);
+    private Fragment getFragmentById(int fragmentId) {
+        return getSupportFragmentManager().findFragmentById(fragmentId);
     }
 
     public void setFiltering(CategoriesFilterType filtering) {
