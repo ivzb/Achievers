@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.achievers.AchievementDetail.AchievementDetailContract;
 import com.achievers.Achievements.AchievementsAdapter;
+import com.achievers.Achievements.AchievementsContract;
 import com.achievers.Categories.CategoriesAdapter;
 import com.achievers.Categories.CategoriesContract;
 import com.achievers.Evidence.EvidenceAdapter;
@@ -66,7 +67,7 @@ public class AdapterSetters {
      */
     // CategoriesFragment
     @BindingAdapter({ "adapter:onLoadMore", "adapter:rvAchievementsAdapter" })
-    public static void setRvAchievementsAdapter(RecyclerView view, final CategoriesContract.Presenter presenter, final AchievementsAdapter adapter) {
+    public static void setRvAchievementsAdapter(RecyclerView view, final AchievementsContract.Presenter presenter, final AchievementsAdapter adapter) {
         if (adapter != null) {
             view.setAdapter(adapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(adapter.getContext());
@@ -79,7 +80,7 @@ public class AdapterSetters {
                     // Triggered only when new data needs to be appended to the list
                     // Add whatever code is needed to append new items to the bottom of the list
                     Category category = adapter.getCategory();
-                    presenter.loadAchievements(category.getId(), true);
+                    presenter.loadAchievements(category, true);
                 }
             };
             // Adds the scroll listener to RecyclerView

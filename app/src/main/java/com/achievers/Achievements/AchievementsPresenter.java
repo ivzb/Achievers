@@ -26,11 +26,11 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
         this.mFirstLoad = true;
     }
 
-    @Override
-    public void start() {
-        // TODO: pass categoryId instead of null
-        loadAchievements(null, false);
-    }
+//    @Override
+//    public void start() {
+//        // TODO: pass categoryId instead of null
+//        loadAchievements(null, false);
+//    }
 
     @Override
     public void result(int requestCode, int resultCode) {
@@ -52,6 +52,7 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
      * @param showLoadingUI Pass in true to display a loading icon in the UI
      */
     private void loadAchievements(final Category category, boolean forceUpdate, final boolean showLoadingUI) {
+        if (category == null) return;
         if (showLoadingUI) mAchievementsView.setLoadingIndicator(true);
         if (forceUpdate) mAchievementsRepository.refreshCache();
 

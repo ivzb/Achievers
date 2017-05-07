@@ -35,10 +35,10 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
         this.mCategoriesNavigationState = new Stack<>();
     }
 
-    @Override
-    public void start() {
-        loadCategories(null, false);
-    }
+//    @Override
+//    public void start() {
+//        loadCategories(null, false);
+//    }
 
     @Override
     public void result(int requestCode, int resultCode) {
@@ -66,6 +66,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
         mCategoriesRepository.loadCategories(parentId, new CategoriesDataSource.LoadCategoriesCallback() {
             @Override
             public void onLoaded(List<Category> categories) {
+                // TODO: Fix filtering
 //                List<Category> categoriesToShow = new ArrayList<>();
 //
                 // filter the categories based on the requestType
@@ -109,6 +110,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
                 // categories with this parentId not found -> show category achievements
                 // todo: set forceUpdate to false when migrate to real backend
 //                loadAchievements(parentId, true);
+                throw new ArithmeticException();
             }
         });
     }
@@ -142,6 +144,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
      * navigated back and if there are any, pops last one, refreshes adapter and returns true.
      * Otherwise returns false.
      */
+    @Override
     public boolean navigateToPreviousCategory() {
         try {
             Integer categoryId = this.mCategoriesNavigationState.pop();

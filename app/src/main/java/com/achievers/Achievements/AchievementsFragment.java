@@ -44,7 +44,7 @@ public class AchievementsFragment extends Fragment implements AchievementsContra
     @Override
     public void onResume() {
         super.onResume();
-        this.mPresenter.start();
+        this.mPresenter.loadAchievements(this.mAchievementsViewModel.getCategory(), true);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class AchievementsFragment extends Fragment implements AchievementsContra
         View view = inflater.inflate(R.layout.achievements_frag, container, false);
 
         this.mViewDataBinding = AchievementsFragBinding.bind(view);
-        this.mViewDataBinding.setAchievements(this.mAchievementsViewModel);
+        this.mViewDataBinding.setViewModel(this.mAchievementsViewModel);
         this.mViewDataBinding.setActionHandler(this.mPresenter);
 
         setHasOptionsMenu(true);

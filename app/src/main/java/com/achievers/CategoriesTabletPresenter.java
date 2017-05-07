@@ -22,7 +22,9 @@ import android.support.annotation.Nullable;
 import com.achievers.Achievements.AchievementsContract;
 import com.achievers.Achievements.AchievementsPresenter;
 import com.achievers.Categories.CategoriesContract;
+import com.achievers.Categories.CategoriesFilterType;
 import com.achievers.Categories.CategoriesPresenter;
+import com.achievers.data.Achievement;
 import com.achievers.data.Category;
 import com.achievers.data.source.AchievementsRepository;
 import com.achievers.data.source.CategoriesRepository;
@@ -70,4 +72,46 @@ public class CategoriesTabletPresenter implements CategoriesContract.Presenter, 
 
     /* CategoriesContract.Presenter methods can be called with or without a detail pane */
 
+    @Override
+    public void result(int requestCode, int resultCode) {
+        // todo: consider removing this code
+        this.mCategoriesPresenter.result(requestCode, resultCode);
+    }
+
+    @Override
+    public void loadCategories(Integer parentId, boolean forceUpdate) {
+        this.mCategoriesPresenter.loadCategories(parentId, forceUpdate);
+    }
+
+    @Override
+    public void openCategoryDetails(@NonNull Category requestedCategory) {
+        this.mCategoriesPresenter.openCategoryDetails(requestedCategory);
+    }
+
+    @Override
+    public void setFiltering(CategoriesFilterType requestType) {
+        this.mCategoriesPresenter.setFiltering(requestType);
+    }
+
+    @Override
+    public CategoriesFilterType getFiltering() {
+        return this.mCategoriesPresenter.getFiltering();
+    }
+
+    @Override
+    public boolean navigateToPreviousCategory() {
+        return this.mCategoriesPresenter.navigateToPreviousCategory();
+    }
+
+    /* CategoriesContract.Presenter methods */
+
+    @Override
+    public void loadAchievements(Category category, boolean forceUpdate) {
+        this.mAchievementsPresenter.loadAchievements(category, forceUpdate);
+    }
+
+    @Override
+    public void openAchievementDetails(@NonNull Achievement requestedAchievement) {
+        this.mAchievementsPresenter.openAchievementDetails(requestedAchievement);
+    }
 }

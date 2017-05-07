@@ -55,7 +55,7 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     @Override
     public void onResume() {
         super.onResume();
-        this.mPresenter.start();
+        this.mPresenter.loadCategories(null, true);
     }
 
     @Override
@@ -75,13 +75,13 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
         setHasOptionsMenu(true);
         setRetainInstance(true);
 
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_add_category);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // not implemented yet
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_add_category);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // not implemented yet
+//            }
+//        });
 
         // Set up progress indicator
         final ScrollChildSwipeRefreshLayout swipeRefreshLayout = mViewDataBinding.refreshLayout;

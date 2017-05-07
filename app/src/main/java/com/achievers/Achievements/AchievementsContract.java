@@ -23,9 +23,7 @@ public class AchievementsContract {
         boolean isActive();
     }
 
-    public interface Presenter extends BasePresenter {
-
-        void start();
+    public interface Presenter {
 
         void result(int requestCode, int resultCode);
 

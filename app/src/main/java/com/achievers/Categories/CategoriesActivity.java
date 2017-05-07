@@ -58,45 +58,17 @@ public class CategoriesActivity extends BaseActivity {
         if (currentFiltering != null) {
             categoriesMvpTabletController.setFiltering(currentFiltering);
         }
-
-//        CategoriesFragment categoriesFragment =
-//                (CategoriesFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-//        if (categoriesFragment == null) {
-//            // Create the fragment
-//            categoriesFragment = CategoriesFragment.newInstance();
-//            ActivityUtils.addFragmentToActivity(
-//                    getSupportFragmentManager(), categoriesFragment, R.id.contentFrame);
-//        }
-
-        // Instantiate repositories
-//        CategoriesRepository categoriesRepository = CategoriesRepository.getInstance(
-//                CategoriesRemoteDataSource.getInstance(),
-//                CategoriesLocalDataSource.getInstance(super.mRealm));
-//
-//        AchievementsRepository achievementsRepository = AchievementsRepository.getInstance(
-//                AchievementsRemoteDataSource.getInstance(),
-//                AchievementsLocalDataSource.getInstance(super.mRealm));
-//
-//        // Create the presenter
-//        mCategoriesPresenter = new CategoriesPresenter(categoriesRepository, achievementsRepository, categoriesFragment);
-//
-//        CategoriesViewModel categoriesViewModel =
-//                new CategoriesViewModel(getApplicationContext(), mCategoriesPresenter);
-//
-//        AchievementsViewModel achievementsViewModel =
-//                new AchievementsViewModel(getApplicationContext());
-
-//        categoriesFragment.setViewModels(categoriesViewModel, achievementsViewModel);
     }
-
-
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putSerializable(CURRENT_FILTERING_KEY,
                 categoriesMvpTabletController.getFiltering());
-        outState.putInt(CURRENT_CATEGORY_ID_KEY,
-                categoriesMvpTabletController.getCategoryId());
+
+        int categoryId = 0;
+        if (categoriesMvpTabletController.getCategoryId() != null)
+            categoryId = categoriesMvpTabletController.getCategoryId();
+        outState.putInt(CURRENT_CATEGORY_ID_KEY, categoryId);
 
         super.onSaveInstanceState(outState);
     }
@@ -112,13 +84,12 @@ public class CategoriesActivity extends BaseActivity {
         return false;
     }
 
-    // TODO: fix this
-//    @Override
-//    public void onBackPressed() {
-//        if (this.mCategoriesPresenter.navigateToPreviousCategory()) return;
-//
-//        super.onBackPressed();
-//    }
+    @Override
+    public void onBackPressed() {
+        if (this.categoriesMvpTabletController.navigateToPreviousCategory()) return;
+
+        super.onBackPressed();
+    }
 
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(

@@ -59,10 +59,10 @@ public class CategoriesMvpController {
 
     // Force factory method, prevent direct instantiation:
     private CategoriesMvpController(
-            @NonNull FragmentActivity fragmentActivity, @NonNull Realm realm, @Nullable  int cateogryId) {
+            @NonNull FragmentActivity fragmentActivity, @NonNull Realm realm, @Nullable Integer categoryId) {
         this.mFragmentActivity = fragmentActivity;
         this.mRealm = realm;
-        this.mCategoryId = cateogryId;
+        this.mCategoryId = categoryId;
     }
 
     /**
@@ -202,5 +202,9 @@ public class CategoriesMvpController {
 
     private FragmentManager getSupportFragmentManager() {
         return mFragmentActivity.getSupportFragmentManager();
+    }
+
+    public boolean navigateToPreviousCategory() {
+        return this.mCategoriesPresenter.navigateToPreviousCategory();
     }
 }

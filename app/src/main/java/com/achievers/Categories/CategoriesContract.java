@@ -26,9 +26,7 @@ public class CategoriesContract {
         boolean isActive();
     }
 
-    public interface Presenter extends BasePresenter {
-
-        void start();
+    public interface Presenter {
 
         void result(int requestCode, int resultCode);
 
@@ -39,5 +37,7 @@ public class CategoriesContract {
         void setFiltering(CategoriesFilterType requestType);
 
         CategoriesFilterType getFiltering();
+
+        boolean navigateToPreviousCategory();
     }
 }
