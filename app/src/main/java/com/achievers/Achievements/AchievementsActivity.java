@@ -7,12 +7,17 @@ import android.view.MenuItem;
 
 import com.achievers.BaseActivity;
 import com.achievers.R;
+import com.achievers.data.Category;
 import com.achievers.data.Evidence;
 import com.achievers.data.source.AchievementsRepository;
+import com.achievers.data.source.CategoriesDataSource;
+import com.achievers.data.source.CategoriesRepository;
 import com.achievers.data.source.EvidenceRepository;
 import com.achievers.data.source.local.AchievementsLocalDataSource;
+import com.achievers.data.source.local.CategoriesLocalDataSource;
 import com.achievers.data.source.local.EvidenceLocalDataSource;
 import com.achievers.data.source.remote.AchievementsRemoteDataSource;
+import com.achievers.data.source.remote.CategoriesRemoteDataSource;
 import com.achievers.data.source.remote.EvidenceRemoteDataSource;
 import com.achievers.util.ActivityUtils;
 
@@ -39,14 +44,14 @@ public class AchievementsActivity extends BaseActivity {
         // Get the requested category id
         int categoryId = getIntent().getIntExtra(EXTRA_CATEGORY_ID, 0);
 
-        AchievementsFragment achievementsFragment = (AchievementsFragment) getSupportFragmentManager()
+        AchievementsFragment fragment = (AchievementsFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
 
-        if (achievementsFragment == null) {
-            achievementsFragment = AchievementsFragment.newInstance(categoryId);
+        if (fragment == null) {
+            fragment = AchievementsFragment.newInstance();
 
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
-                    achievementsFragment, R.id.contentFrame);
+                    fragment, R.id.contentFrame);
         }
 
         // Instantiate repositories
@@ -54,16 +59,31 @@ public class AchievementsActivity extends BaseActivity {
                 AchievementsRemoteDataSource.getInstance(),
                 AchievementsLocalDataSource.getInstance(super.mRealm));
 
-        AchievementsPresenter presenter = new AchievementsPresenter(achievementsRepository, achievementsFragment);
+        CategoriesRepository categoriesRepository = CategoriesRepository.getInstance(
+                CategoriesRemoteDataSource.getInstance(),
+                CategoriesLocalDataSource.getInstance(super.mRealm));
 
+        final AchievementsFragment achievementsFragment = fragment;
+
+        final AchievementsPresenter presenter = new AchievementsPresenter(achievementsRepository, achievementsFragment);
         achievementsFragment.setPresenter(presenter);
+        final AchievementsViewModel viewModel = new AchievementsViewModel(getApplicationContext());
 
-        AchievementsViewModel viewModel = new AchievementsViewModel(getApplicationContext());
+        categoriesRepository.getCategory(categoryId, new CategoriesDataSource.GetCategoryCallback() {
+            @Override
+            public void onLoaded(Category category) {
+                // todo: get category from repo and pass it to viewModel
+                viewModel.setCategory(category);
+                achievementsFragment.setViewModel(viewModel);
+            }
 
-        // todo: get category from repo and pass it to viewModel
-        viewModel.setCategory();
+            @Override
+            public void onDataNotAvailable() {
+                // todo: show error in result?
+                //presenter.result();
+            }
+        });
 
-        achievementsFragment.setViewModel(viewModel);
     }
 
     @Override

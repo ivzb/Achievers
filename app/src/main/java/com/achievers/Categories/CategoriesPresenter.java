@@ -1,9 +1,11 @@
 package com.achievers.Categories;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.achievers.AchievementDetail.AchievementDetailActivity;
+import com.achievers.Achievements.AchievementsActivity;
 import com.achievers.data.Achievement;
 import com.achievers.data.Category;
 import com.achievers.data.source.AchievementsDataSource;
@@ -23,13 +25,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class CategoriesPresenter implements CategoriesContract.Presenter {
 
+    private final Context mContext;
     private final CategoriesRepository mCategoriesRepository;
     private final CategoriesContract.View mCategoriesView;
     private CategoriesFilterType mCurrentFiltering = CategoriesFilterType.ALL_CATEGORIES;
     private boolean mFirstLoad;
     private Stack<Integer> mCategoriesNavigationState;
 
-    public CategoriesPresenter(@NonNull CategoriesRepository categoriesRepository, @NonNull CategoriesContract.View categoriesView) {
+    public CategoriesPresenter(@NonNull Context context, @NonNull CategoriesRepository categoriesRepository, @NonNull CategoriesContract.View categoriesView) {
+        this.mContext = context;
         this.mCategoriesRepository = checkNotNull(categoriesRepository, "categoriesRepository cannot be null");
         this.mCategoriesView = checkNotNull(categoriesView, "categoriesView cannot be null!");
         this.mCategoriesView.setPresenter(this);
@@ -87,9 +91,9 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
                 mCategoriesView.showCategories(categories);
 
                 if (callback == null) { // phone
-                    Intent intent = new Intent(getContext(), AchievementDetailActivity.class);
-                    intent.putExtra(AchievementDetailActivity.EXTRA_ACHIEVEMENT_ID, achievementId);
-                    startActivity(intent);
+                    Intent intent = new Intent(mContext, AchievementDetailActivity.class);
+                    intent.putExtra(AchievementsActivity.EXTRA_CATEGORY_ID, parentId);
+                    mContext.startActivity(intent);
                 } else { // tablet
                     mCategoriesRepository.getCategory(parentId, new CategoriesDataSource.GetCategoryCallback() {
                         @Override

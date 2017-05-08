@@ -118,7 +118,7 @@ public class CategoriesMvpController {
     @NonNull
     private CategoriesPresenter createListPresenter(CategoriesFragment categoriesFragment) {
         CategoriesRepository categoriesRepository = this.createCategoriesRepository();
-        this.mCategoriesPresenter = new CategoriesPresenter(categoriesRepository, categoriesFragment);
+        this.mCategoriesPresenter = new CategoriesPresenter(this.mFragmentActivity, categoriesRepository, categoriesFragment);
 
         CategoriesViewModel categoriesViewModel = new CategoriesViewModel(this.mFragmentActivity, mCategoriesPresenter);
         categoriesFragment.setViewModel(categoriesViewModel);
