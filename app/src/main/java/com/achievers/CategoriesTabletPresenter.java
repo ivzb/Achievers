@@ -88,11 +88,11 @@ public class CategoriesTabletPresenter implements CategoriesContract.Presenter, 
     public void openCategoryDetails(@NonNull Category requestedCategory) {
         checkNotNull(requestedCategory, "requestedCategory cannot be null!");
 
-        // bug here
         this.loadCategories(requestedCategory.getId(), true, new OpenCategoryCallback() {
             @Override
             public void onCategory(Integer parentId) {
                 // todo: maybe add CategoryId to stack here?
+
             }
 
             @Override

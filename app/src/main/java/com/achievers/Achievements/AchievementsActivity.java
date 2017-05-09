@@ -8,17 +8,13 @@ import android.view.MenuItem;
 import com.achievers.BaseActivity;
 import com.achievers.R;
 import com.achievers.data.Category;
-import com.achievers.data.Evidence;
 import com.achievers.data.source.AchievementsRepository;
 import com.achievers.data.source.CategoriesDataSource;
 import com.achievers.data.source.CategoriesRepository;
-import com.achievers.data.source.EvidenceRepository;
 import com.achievers.data.source.local.AchievementsLocalDataSource;
 import com.achievers.data.source.local.CategoriesLocalDataSource;
-import com.achievers.data.source.local.EvidenceLocalDataSource;
 import com.achievers.data.source.remote.AchievementsRemoteDataSource;
 import com.achievers.data.source.remote.CategoriesRemoteDataSource;
-import com.achievers.data.source.remote.EvidenceRemoteDataSource;
 import com.achievers.util.ActivityUtils;
 
 /**
@@ -72,7 +68,6 @@ public class AchievementsActivity extends BaseActivity {
         categoriesRepository.getCategory(categoryId, new CategoriesDataSource.GetCategoryCallback() {
             @Override
             public void onLoaded(Category category) {
-                // todo: get category from repo and pass it to viewModel
                 viewModel.setCategory(category);
                 achievementsFragment.setViewModel(viewModel);
             }

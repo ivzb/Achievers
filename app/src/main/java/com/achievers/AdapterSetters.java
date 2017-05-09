@@ -29,13 +29,15 @@ public class AdapterSetters {
     // Fresco
     @BindingAdapter({ "bind:url", "bind:resources" })
     public static void loadImage(SimpleDraweeView view, String imageUrl, Resources resources) {
-        Uri uri = Uri.parse(imageUrl);
-        view.setImageURI(uri);
+        if (imageUrl != null) {
+            Uri uri = Uri.parse(imageUrl);
+            view.setImageURI(uri);
 
-        GenericDraweeHierarchy hierarchy = view.getHierarchy();
-        hierarchy.setFadeDuration(250);
-        hierarchy.setPlaceholderImage(resources.getDrawable(R.drawable.bunny));
-        hierarchy.setProgressBarImage(new FreskoCircleProgressBarDrawable());
+            GenericDraweeHierarchy hierarchy = view.getHierarchy();
+            hierarchy.setFadeDuration(250);
+            hierarchy.setPlaceholderImage(resources.getDrawable(R.drawable.bunny));
+            hierarchy.setProgressBarImage(new FreskoCircleProgressBarDrawable());
+        }
     }
 
     // Binding Drawable to ImageView

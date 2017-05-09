@@ -89,24 +89,6 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
                 if (showLoadingUI) mCategoriesView.setLoadingIndicator(false);
 
                 mCategoriesView.showCategories(categories);
-
-                if (callback == null) { // phone
-                    Intent intent = new Intent(mContext, AchievementDetailActivity.class);
-                    intent.putExtra(AchievementsActivity.EXTRA_CATEGORY_ID, parentId);
-                    mContext.startActivity(intent);
-                } else { // tablet
-                    mCategoriesRepository.getCategory(parentId, new CategoriesDataSource.GetCategoryCallback() {
-                        @Override
-                        public void onLoaded(Category category) {
-                            mCategoriesView.showParent(category);
-                        }
-
-                        @Override
-                        public void onDataNotAvailable() {
-                            mCategoriesView.showLoadingParentError();
-                        }
-                    });
-                }
             }
 
             @Override
@@ -117,11 +99,13 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
                 mCategoriesView.setLoadingIndicator(false);
                 if (mCategoriesNavigationState.size() > 0) mCategoriesNavigationState.pop();
 
-                // categories with this parentId not found -> show category achievements
-                // todo: set forceUpdate to false when migrate to real backend
-//                loadAchievements(parentId, true);
-                // new Intent
-                callback.onAchievement(parentId);
+                if (callback == null) { // phone
+                    Intent intent = new Intent(mContext, AchievementsActivity.class);
+                    intent.putExtra(AchievementsActivity.EXTRA_CATEGORY_ID, parentId);
+                    mContext.startActivity(intent);
+                } else { // tablet
+                    callback.onAchievement(parentId);
+                }
             }
         });
     }

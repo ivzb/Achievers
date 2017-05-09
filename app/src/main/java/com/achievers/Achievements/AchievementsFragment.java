@@ -24,6 +24,7 @@ import java.util.List;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class AchievementsFragment extends Fragment implements AchievementsContract.View {
+
     private AchievementsContract.Presenter mPresenter;
     private AchievementsFragBinding mViewDataBinding;
     private AchievementsViewModel mAchievementsViewModel;
@@ -85,6 +86,7 @@ public class AchievementsFragment extends Fragment implements AchievementsContra
     public void showAchievements(Category category, List<Achievement> achievements) {
         if (this.mAchievementsViewModel.getCategory() != null &&
                 this.mAchievementsViewModel.getCategory().equals(category) &&
+                this.mAchievementsViewModel.getAdapter() != null &&
                 this.mAchievementsViewModel.getAdapter().getItemCount() > 0) { // endless scroll is loading more items
             this.mAchievementsViewModel.getAdapter().addAchievements(achievements);
         } else { // new category has been loaded
