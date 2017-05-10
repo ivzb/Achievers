@@ -2,9 +2,7 @@ package com.achievers.Categories;
 
 import android.support.annotation.NonNull;
 
-import com.achievers.BasePresenter;
 import com.achievers.BaseView;
-import com.achievers.data.Achievement;
 import com.achievers.data.Category;
 
 import java.util.List;
@@ -28,18 +26,15 @@ public class CategoriesContract {
 
     public interface Presenter {
 
-        interface OpenCategoryCallback {
-
-            void onCategory(Integer parentId);
-
-            void onAchievement(Integer categoryId);
+        interface OpenAchievementCallback {
+            void onOpen(Integer categoryId);
         }
 
         void result(int requestCode, int resultCode);
 
-        void loadCategories(Integer parentId, boolean forceUpdate, OpenCategoryCallback callback);
+        void loadCategories(Integer parentId, boolean forceUpdate);
 
-        void openCategoryDetails(@NonNull Category requestedCategory);
+        void openCategoryDetails(@NonNull Category requestedCategory, OpenAchievementCallback callback);
 
         void setFiltering(CategoriesFilterType requestType);
 

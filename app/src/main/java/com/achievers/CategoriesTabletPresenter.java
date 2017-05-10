@@ -30,6 +30,8 @@ import com.achievers.data.source.AchievementsRepository;
 import com.achievers.data.source.CategoriesDataSource;
 import com.achievers.data.source.CategoriesRepository;
 
+import java.util.Stack;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -38,28 +40,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class CategoriesTabletPresenter implements CategoriesContract.Presenter, AchievementsContract.Presenter {
 
     @NonNull
-    private final CategoriesRepository mCategoriesRepository;
-    @NonNull
     private final CategoriesPresenter mCategoriesPresenter;
-
-    @NonNull
-    private AchievementsRepository mAchievementsRepository;
     @Nullable
     private AchievementsPresenter mAchievementsPresenter;
 
-    public CategoriesTabletPresenter(@NonNull CategoriesRepository categoriesRepository,
-                                @NonNull CategoriesPresenter categoriesPresenter) {
-        mCategoriesRepository = checkNotNull(categoriesRepository);
-        mCategoriesPresenter = checkNotNull(categoriesPresenter);
-    }
-
-    @Nullable
-    public AchievementsRepository getAchievementsRepository() {
-        return this.mAchievementsRepository;
-    }
-
-    public void setAchievementsRepository(AchievementsRepository achievementsRepository) {
-        this.mAchievementsRepository = achievementsRepository;
+    public CategoriesTabletPresenter(@NonNull CategoriesPresenter categoriesPresenter) {
+        this.mCategoriesPresenter = checkNotNull(categoriesPresenter);
     }
 
     @Nullable
@@ -80,42 +66,20 @@ public class CategoriesTabletPresenter implements CategoriesContract.Presenter, 
     }
 
     @Override
-    public void loadCategories(Integer parentId, boolean forceUpdate, OpenCategoryCallback callback) {
-        this.mCategoriesPresenter.loadCategories(parentId, forceUpdate, callback);
+    public void loadCategories(Integer parentId, boolean forceUpdate) {
+        this.mCategoriesPresenter.loadCategories(parentId, forceUpdate);
     }
 
     @Override
-    public void openCategoryDetails(@NonNull Category requestedCategory) {
+    public void openCategoryDetails(@NonNull final Category requestedCategory, OpenAchievementCallback callback) {
         checkNotNull(requestedCategory, "requestedCategory cannot be null!");
 
-        this.loadCategories(requestedCategory.getId(), true, new OpenCategoryCallback() {
+        this.mCategoriesPresenter.openCategoryDetails(requestedCategory, new OpenAchievementCallback() {
             @Override
-            public void onCategory(Integer parentId) {
-                // todo: maybe add CategoryId to stack here?
-
-            }
-
-            @Override
-            public void onAchievement(Integer categoryId) {
-                if (categoryId != null) {
-                    mCategoriesRepository.getCategory(categoryId, new CategoriesDataSource.GetCategoryCallback() {
-                        @Override
-                        public void onLoaded(Category category) {
-                            mAchievementsPresenter.loadAchievements(category, true);
-                        }
-
-                        @Override
-                        public void onDataNotAvailable() {
-                            // .showLoadingParentError();
-                        }
-                    });
-                }
+            public void onOpen(Integer categoryId) {
+                mAchievementsPresenter.loadAchievements(requestedCategory, true);
             }
         });
-
-        // saving first parent as -1 because stack cant handle nulls
-        //mCategoriesNavigationState.add(requestedCategory.getParent() == null || requestedCategory.getParent().getId() == null ? -1 : requestedCategory.getParent().getId());
-//        this.mCategoriesPresenter.openCategoryDetails(requestedCategory);
     }
 
     @Override

@@ -106,10 +106,7 @@ public class CategoriesMvpController {
         AchievementsPresenter achievementsPresenter = createDetailPresenter(achievementsFragment);
 
         // Fragments connect to their presenters through a tablet presenter:
-        CategoriesRepository categoriesRepository = this.createCategoriesRepository();
-
-        mCategoriesTabletPresenter = new CategoriesTabletPresenter(categoriesRepository, mCategoriesPresenter);
-
+        mCategoriesTabletPresenter = new CategoriesTabletPresenter(mCategoriesPresenter);
         categoriesFragment.setPresenter(mCategoriesTabletPresenter);
         achievementsFragment.setPresenter(mCategoriesTabletPresenter);
         mCategoriesTabletPresenter.setAchievementsPresenter(achievementsPresenter);
@@ -205,6 +202,10 @@ public class CategoriesMvpController {
     }
 
     public boolean navigateToPreviousCategory() {
+        if (isTablet(mFragmentActivity)) {
+            return this.mCategoriesTabletPresenter.navigateToPreviousCategory();
+        }
+
         return this.mCategoriesPresenter.navigateToPreviousCategory();
     }
 }

@@ -4,12 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
-import com.achievers.AchievementDetail.AchievementDetailActivity;
 import com.achievers.Achievements.AchievementsActivity;
-import com.achievers.data.Achievement;
 import com.achievers.data.Category;
-import com.achievers.data.source.AchievementsDataSource;
-import com.achievers.data.source.AchievementsRepository;
 import com.achievers.data.source.CategoriesDataSource;
 import com.achievers.data.source.CategoriesRepository;
 
@@ -41,11 +37,6 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
         this.mCategoriesNavigationState = new Stack<>();
     }
 
-//    @Override
-//    public void start() {
-//        loadCategories(null, false);
-//    }
-
     @Override
     public void result(int requestCode, int resultCode) {
         // If a Category was successfully added, show snackbar
@@ -55,9 +46,17 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
     }
 
     @Override
-    public void loadCategories(Integer parentId, boolean forceUpdate, OpenCategoryCallback callback) {
+    public void loadCategories(Integer parentId, boolean forceUpdate) {
         // a network reload will be forced on first load.
-        this.loadCategories(parentId, forceUpdate || this.mFirstLoad, true, callback);
+        this.loadCategories(parentId, forceUpdate || this.mFirstLoad, true, new OpenAchievementCallback() {
+            @Override
+            public void onOpen(Integer categoryId) {
+                Intent intent = new Intent(mContext, AchievementsActivity.class);
+                intent.putExtra(AchievementsActivity.EXTRA_CATEGORY_ID, categoryId);
+                mContext.startActivity(intent);
+            }
+        });
+
         this.mFirstLoad = false;
     }
 
@@ -65,11 +64,11 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
      * @param forceUpdate   Pass in true to refresh the data in the {@link CategoriesDataSource}
      * @param showLoadingUI Pass in true to display a loading icon in the UI
      */
-    private void loadCategories(final Integer parentId, boolean forceUpdate, final boolean showLoadingUI, final OpenCategoryCallback callback) {
+    private void loadCategories(final Integer parentCategoryId, boolean forceUpdate, final boolean showLoadingUI, final OpenAchievementCallback callback) {
         if (showLoadingUI) mCategoriesView.setLoadingIndicator(true);
         if (forceUpdate) mCategoriesRepository.refreshCache();
 
-        mCategoriesRepository.loadCategories(parentId, new CategoriesDataSource.LoadCategoriesCallback() {
+        mCategoriesRepository.loadCategories(parentCategoryId, new CategoriesDataSource.LoadCategoriesCallback() {
             @Override
             public void onLoaded(List<Category> categories) {
                 // TODO: Fix filtering
@@ -99,22 +98,16 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
                 mCategoriesView.setLoadingIndicator(false);
                 if (mCategoriesNavigationState.size() > 0) mCategoriesNavigationState.pop();
 
-                if (callback == null) { // phone
-                    Intent intent = new Intent(mContext, AchievementsActivity.class);
-                    intent.putExtra(AchievementsActivity.EXTRA_CATEGORY_ID, parentId);
-                    mContext.startActivity(intent);
-                } else { // tablet
-                    callback.onAchievement(parentId);
-                }
+                callback.onOpen(parentCategoryId);
             }
         });
     }
 
     @Override
-    public void openCategoryDetails(@NonNull Category requestedCategory) {
+    public void openCategoryDetails(@NonNull Category requestedCategory, OpenAchievementCallback callback) {
         checkNotNull(requestedCategory, "requestedCategory cannot be null!");
 
-        this.loadCategories(requestedCategory.getId(), true, null);
+        this.loadCategories(requestedCategory.getId(), true, true, callback);
 
         // saving first parent as -1 because stack cant handle nulls
         mCategoriesNavigationState.add(requestedCategory.getParent() == null || requestedCategory.getParent().getId() == null ? -1 : requestedCategory.getParent().getId());
@@ -144,7 +137,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
     public boolean navigateToPreviousCategory() {
         try {
             Integer categoryId = this.mCategoriesNavigationState.pop();
-            this.loadCategories(categoryId == -1 ? null : categoryId, true, null);
+            this.loadCategories(categoryId == -1 ? null : categoryId, true);
 
             return true;
         } catch (EmptyStackException exc) {

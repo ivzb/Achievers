@@ -18,6 +18,6 @@ public class CategoriesItemActionHandler {
      * Called by the Data Binding library when the row is clicked.
      */
     public void categoryClicked(Category category) {
-        mListener.openCategoryDetails(category);
+        mListener.openCategoryDetails(category, null);
     }
 }
