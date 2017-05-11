@@ -74,8 +74,7 @@ public class AchievementsActivity extends BaseActivity {
 
             @Override
             public void onDataNotAvailable() {
-                // todo: show error in result?
-                //presenter.result();
+                // todo: show error in category result?
             }
         });
 
