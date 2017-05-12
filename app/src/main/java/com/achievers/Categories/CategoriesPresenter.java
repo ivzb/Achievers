@@ -27,6 +27,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
     private CategoriesFilterType mCurrentFiltering = CategoriesFilterType.ALL_CATEGORIES;
     private boolean mFirstLoad;
     private Stack<Integer> mCategoriesNavigationState;
+    private OpenAchievementCallback mOpenAchievementCallback;
 
     public CategoriesPresenter(@NonNull Context context, @NonNull CategoriesRepository categoriesRepository, @NonNull CategoriesContract.View categoriesView) {
         this.mContext = context;
@@ -35,6 +36,14 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
         this.mCategoriesView.setPresenter(this);
         this.mFirstLoad = true;
         this.mCategoriesNavigationState = new Stack<>();
+        this.mOpenAchievementCallback = new OpenAchievementCallback() {
+            @Override
+            public void onOpen(Integer categoryId) {
+                Intent intent = new Intent(mContext, AchievementsActivity.class);
+                intent.putExtra(AchievementsActivity.EXTRA_CATEGORY_ID, categoryId);
+                mContext.startActivity(intent);
+            }
+        };
     }
 
     @Override
@@ -48,14 +57,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
     @Override
     public void loadCategories(Integer parentId, boolean forceUpdate) {
         // a network reload will be forced on first load.
-        this.loadCategories(parentId, forceUpdate || this.mFirstLoad, true, new OpenAchievementCallback() {
-            @Override
-            public void onOpen(Integer categoryId) {
-                Intent intent = new Intent(mContext, AchievementsActivity.class);
-                intent.putExtra(AchievementsActivity.EXTRA_CATEGORY_ID, categoryId);
-                mContext.startActivity(intent);
-            }
-        });
+        this.loadCategories(parentId, forceUpdate || this.mFirstLoad, true, this.getOpenAchievementCallback());
 
         this.mFirstLoad = false;
     }
@@ -106,6 +108,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
     @Override
     public void openCategoryDetails(@NonNull Category requestedCategory, OpenAchievementCallback callback) {
         checkNotNull(requestedCategory, "requestedCategory cannot be null!");
+        checkNotNull(callback, "callback cannot be null!");
 
         this.loadCategories(requestedCategory.getId(), true, true, callback);
 
@@ -126,6 +129,11 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
     @Override
     public CategoriesFilterType getFiltering() {
         return mCurrentFiltering;
+    }
+
+    @Override
+    public OpenAchievementCallback getOpenAchievementCallback() {
+        return this.mOpenAchievementCallback;
     }
 
     /**

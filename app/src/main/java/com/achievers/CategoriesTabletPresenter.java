@@ -93,6 +93,11 @@ public class CategoriesTabletPresenter implements CategoriesContract.Presenter, 
     }
 
     @Override
+    public OpenAchievementCallback getOpenAchievementCallback() {
+       return null; // not used for now
+    }
+
+    @Override
     public boolean navigateToPreviousCategory() {
         return this.mCategoriesPresenter.navigateToPreviousCategory();
     }

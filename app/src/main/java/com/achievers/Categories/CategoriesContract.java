@@ -40,6 +40,8 @@ public class CategoriesContract {
 
         CategoriesFilterType getFiltering();
 
+        OpenAchievementCallback getOpenAchievementCallback();
+
         boolean navigateToPreviousCategory();
     }
 }
