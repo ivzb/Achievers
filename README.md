@@ -31,6 +31,7 @@ He might swipe left for dislike current **Evidence** or opposite - swipe right t
 3. [Work In Progress] AchievementDetailView/Evidence RecyclerView layout
    1. Audio support inside RecyclerView - possibly extend Toro
    2. Show Location as map
+   3. Upload Evidence
 4. User profile
 5. Achievements structure
 6. Quests - essential part

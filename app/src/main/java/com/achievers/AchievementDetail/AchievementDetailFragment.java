@@ -2,12 +2,16 @@ package com.achievers.AchievementDetail;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,13 +19,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.achievers.AchievementDetail.Adapters.UploadEvidenceDialogSimpleAdapter;
 import com.achievers.Evidence.EvidenceAdapter;
 import com.achievers.R;
 import com.achievers.data.Achievement;
 import com.achievers.data.Evidence;
+import com.achievers.data.UploadEvidenceItem;
 import com.achievers.databinding.AchievementDetailFragBinding;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.GridHolder;
+import com.orhanobut.dialogplus.Holder;
+import com.orhanobut.dialogplus.OnCancelListener;
+import com.orhanobut.dialogplus.OnClickListener;
+import com.orhanobut.dialogplus.OnDismissListener;
+import com.orhanobut.dialogplus.OnItemClickListener;
 
 /**
  * Main UI for the task detail screen.
@@ -87,12 +101,56 @@ public class AchievementDetailFragment extends Fragment implements AchievementDe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Holder holder = new GridHolder(2);
+        boolean isGrid = true;
+
+        Resources resources = getContext().getResources();
+        List<UploadEvidenceItem> uploadEvidenceItems = new ArrayList<>();
+        uploadEvidenceItems.add(new UploadEvidenceItem("Photo", resources.getDrawable(R.drawable.ic_camera_alt_black_48dp)));
+        uploadEvidenceItems.add(new UploadEvidenceItem("Video", resources.getDrawable(R.drawable.ic_videocam_black_48dp)));
+        UploadEvidenceDialogSimpleAdapter adapter = new UploadEvidenceDialogSimpleAdapter(getContext(), uploadEvidenceItems, isGrid);
+
         switch (item.getItemId()) {
-            case R.id.menu_something:
-//                int achievementId = getArguments().getInt(ARGUMENT_ACHIEVEMENT_ID, 0);
-//                mPresenter.something();
+            case R.id.menu_upload:
+                final DialogPlus dialog = DialogPlus.newDialog(getContext())
+                    .setContentHolder(holder)
+                    .setHeader(R.layout.evidence_upload_dialog_header)
+                    .setCancelable(true)
+                    .setGravity(Gravity.CENTER)
+                    .setAdapter(adapter)
+                    .setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(DialogPlus dialog, View view) {
+                            // todo
+                        }
+                    })
+                    .setOnItemClickListener(new OnItemClickListener() {
+                        @Override public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                            Log.d("DialogPlus", "onItemClick() called with: " + "item = [" +
+                                    item + "], position = [" + position + "]");
+                        }
+                    })
+                    .setOnDismissListener(new OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogPlus dialog) {
+                            // todo
+                        }
+                    })
+                    .setOnCancelListener(new OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogPlus dialog) {
+
+                        }
+                    })
+                    .setExpanded(false)
+                    .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
+                        .setInAnimation(R.anim.fade_in_center)
+                    .create();
+
+                dialog.show();
                 return true;
         }
+
         return false;
     }
 

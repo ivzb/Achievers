@@ -6,7 +6,7 @@
 
     <string name="refresh">Refresh</string>
     <string name="no_data">No url</string>
-    <string name="menu_something">Something</string>
+    <string name="menu_upload">Upload</string>
     <string name="label_all_categories">All Categories</string>
     <string name="label_completed">Completed</string>
     <string name="label_not_completed">Not Completed</string>

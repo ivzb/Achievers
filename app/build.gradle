@@ -112,4 +112,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta3'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+
+    // DialogPlus
+    compile 'com.orhanobut:dialogplus:1.11@aar'
 }
