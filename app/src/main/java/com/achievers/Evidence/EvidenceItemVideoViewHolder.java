@@ -42,7 +42,7 @@ class EvidenceItemVideoViewHolder extends ExoPlayerViewHolder {
         this.mediaSource = ExoPlayerHelper.buildMediaSource(
             itemView.getContext(),
             Uri.parse(this.evidence.getUrl()),
-            new DefaultDataSourceFactory(itemView.getContext(), Util.getUserAgent(itemView.getContext(), "Toro-Sample")),
+            new DefaultDataSourceFactory(itemView.getContext(), Util.getUserAgent(itemView.getContext(), "Achievers")),
             itemView.getHandler(),
             null
         );
