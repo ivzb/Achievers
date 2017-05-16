@@ -22,7 +22,6 @@ import io.realm.Realm;
 public class EvidenceRemoteDataSource implements EvidenceDataSource {
 
     private static EvidenceRemoteDataSource INSTANCE;
-    private static final int SERVICE_LATENCY_IN_MILLIS = 500;
 
     // for developing purposes I am not fetching data from web service
     private final static Map<Integer, Evidence> EVIDENCE_SERVICE_DATA;
@@ -90,19 +89,11 @@ public class EvidenceRemoteDataSource implements EvidenceDataSource {
     @Override
     public void getEvidence(@NonNull int id, final @NonNull GetEvidenceCallback callback) {
         final Evidence evidence = EVIDENCE_SERVICE_DATA.get(id);
-
-        // Simulate network by delaying the execution.
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                callback.onLoaded(evidence);
-            }
-        }, SERVICE_LATENCY_IN_MILLIS);
+        callback.onLoaded(evidence);
     }
 
     @Override
-    public void saveEvidence(@NonNull Evidence evidence) {
+    public void saveEvidence(@NonNull List<Evidence> evidence) {
         // not implemented yet
     }
 

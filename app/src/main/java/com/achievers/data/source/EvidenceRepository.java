@@ -136,22 +136,13 @@ public class EvidenceRepository implements EvidenceDataSource {
     /**
      * Saves Evidence object to local data source.
      */
-    public void saveEvidence(@NonNull Evidence evidence) {
+    @Override
+    public void saveEvidence(@NonNull List<Evidence> evidence) {
         this.mEvidenceLocalDataSource.saveEvidence(evidence);
     }
 
     @Override
     public void refreshCache() {
         this.mCacheIsDirty = true;
-    }
-
-    private void saveEvidence(List<Evidence> evidence) {
-        if (evidence.size() == 0) return;
-
-        int lastElementIndex = evidence.size() - 1;
-        Evidence evidenceToBeSaved = evidence.remove(lastElementIndex);
-        this.saveEvidence(evidenceToBeSaved);
-
-        this.saveEvidence(evidence);
     }
 }

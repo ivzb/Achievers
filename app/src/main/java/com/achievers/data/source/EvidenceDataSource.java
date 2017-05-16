@@ -12,16 +12,12 @@ import java.util.List;
  */
 public interface EvidenceDataSource {
     interface GetEvidenceCallback {
-
         void onLoaded(Evidence evidence);
-
         void onDataNotAvailable();
     }
 
     interface LoadEvidenceCallback {
-
         void onLoaded(List<Evidence> evidence);
-
         void onDataNotAvailable();
     }
 
@@ -29,7 +25,7 @@ public interface EvidenceDataSource {
 
     void loadEvidence(int achievementId, @NonNull LoadEvidenceCallback callback);
 
-    void saveEvidence(@NonNull Evidence evidence);
+    void saveEvidence(@NonNull List<Evidence> evidence);
 
     void refreshCache();
 }

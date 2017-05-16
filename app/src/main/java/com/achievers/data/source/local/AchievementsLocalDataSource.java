@@ -80,11 +80,11 @@ public class AchievementsLocalDataSource implements AchievementsDataSource {
     }
 
     @Override
-    public void saveAchievement(@NonNull final Achievement achievement) {
+    public void saveAchievements(@NonNull final List<Achievement> achievements) {
         this.mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.copyToRealmOrUpdate(achievement);
+                realm.copyToRealmOrUpdate(achievements);
             }
         });
     }

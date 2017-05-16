@@ -80,7 +80,7 @@ public class EvidenceLocalDataSource implements EvidenceDataSource {
     }
 
     @Override
-    public void saveEvidence(@NonNull final Evidence evidence) {
+    public void saveEvidence(@NonNull final List<Evidence> evidence) {
         this.mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

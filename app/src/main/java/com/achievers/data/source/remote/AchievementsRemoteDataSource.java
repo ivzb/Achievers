@@ -25,7 +25,6 @@ import io.realm.Realm;
 public class AchievementsRemoteDataSource implements AchievementsDataSource {
 
     private static AchievementsRemoteDataSource INSTANCE;
-    private static final int SERVICE_LATENCY_IN_MILLIS = 500;
 
     // for developing purposes I am not fetching data from web service
     private final static Map<Integer, Achievement> ACHIEVEMENTS_SERVICE_DATA;
@@ -93,20 +92,12 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
     @Override
     public void getAchievement(@NonNull Integer id, final @NonNull GetAchievementCallback callback) {
         final Achievement achievement = ACHIEVEMENTS_SERVICE_DATA.get(id);
-
-        // Simulate network by delaying the execution.
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                callback.onLoaded(achievement);
-            }
-        }, SERVICE_LATENCY_IN_MILLIS);
+        callback.onLoaded(achievement);
     }
 
     @Override
-    public void saveAchievement(@NonNull Achievement achievement) {
-        // not implemented yet
+    public void saveAchievements(@NonNull List<Achievement> achievements) {
+        // not being used
     }
 
     @Override

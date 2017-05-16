@@ -24,7 +24,6 @@ import retrofit2.Response;
 public class CategoriesRemoteDataSource implements CategoriesDataSource {
 
     private static CategoriesRemoteDataSource INSTANCE;
-    private static final int SERVICE_LATENCY_IN_MILLIS = 500;
 
     // for developing purposes I am not fetching data from web service
     private final static Map<Integer, Category> CATEGORIES_SERVICE_DATA;
@@ -74,23 +73,16 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
      */
     @Override
     public void loadCategories(final Integer parentId, final @NonNull LoadCategoriesCallback callback) {
-        // Simulate network by delaying the execution.
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                List<Category> categoriesToShow = new ArrayList<Category>();
+        List<Category> categoriesToShow = new ArrayList<Category>();
 
-                for(Category category: CATEGORIES_SERVICE_DATA.values())
-                {
-                    if ((category.getParent() != null && category.getParent().getId().equals(parentId)) ||
-                            (category.getParent() == null && parentId == null))
-                        categoriesToShow.add(category);
-                }
+        for(Category category: CATEGORIES_SERVICE_DATA.values())
+        {
+            if ((category.getParent() != null && category.getParent().getId().equals(parentId)) ||
+                    (category.getParent() == null && parentId == null))
+                categoriesToShow.add(category);
+        }
 
-                callback.onLoaded(categoriesToShow);
-            }
-        }, SERVICE_LATENCY_IN_MILLIS);
+        callback.onLoaded(categoriesToShow);
         return;
 
 //        CategoriesEndpointInterface apiService = RESTClient
@@ -121,20 +113,12 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
     @Override
     public void getCategory(@NonNull Integer categoryId, final @NonNull GetCategoryCallback callback) {
         final Category category = CATEGORIES_SERVICE_DATA.get(categoryId);
-
-        // Simulate network by delaying the execution.
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                callback.onLoaded(category);
-            }
-        }, SERVICE_LATENCY_IN_MILLIS);
+        callback.onLoaded(category);
     }
 
     @Override
-    public void saveCategory(@NonNull Category category) {
-        // not implemented yet
+    public void saveCategories(@NonNull List<Category> categories) {
+        // not being used yet
     }
 
     @Override

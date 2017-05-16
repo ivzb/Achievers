@@ -28,7 +28,7 @@ public interface AchievementsDataSource {
 
     void loadAchievements(Integer categoryId, @NonNull LoadAchievementsCallback callback);
 
-    void saveAchievement(@NonNull Achievement achievement);
+    void saveAchievements(@NonNull List<Achievement> achievements);
 
     void refreshCache();
 }

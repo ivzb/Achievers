@@ -26,7 +26,7 @@ public class AchievementsRepository implements AchievementsDataSource {
     private AchievementsRepository(@NonNull AchievementsDataSource achievementsRemoteDataSource, @NonNull AchievementsDataSource achievementsLocalDataSource) {
         this.mAchievementsRemoteDataSource = checkNotNull(achievementsRemoteDataSource);
         this.mAchievementsLocalDataSource = checkNotNull(achievementsLocalDataSource);
-        this.mCacheIsDirty = true;
+        this.refreshCache();
     }
 
     /**
@@ -70,7 +70,7 @@ public class AchievementsRepository implements AchievementsDataSource {
                 public void onLoaded(List<Achievement> achievements) {
                     mCacheIsDirty = false; // cache is clean so the next call will return results form local data source
                     saveAchievements(achievements); // saving results to local data source
-                    loadAchievements(categoryId, callback); // recursively call SELF in order to return data from local data source
+                    callback.onLoaded(achievements);
                 }
 
                 @Override
@@ -91,8 +91,9 @@ public class AchievementsRepository implements AchievementsDataSource {
 
             @Override
             public void onDataNotAvailable() {
-                mCacheIsDirty = true; // if no data available make cache dirty in order to fetch data from the network next time
-                callback.onDataNotAvailable();
+                // table is new or empty so load data from remote data source
+                refreshCache(); // if no data available make cache dirty in order to fetch data from the network next time
+                loadAchievements(categoryId, callback);
             }
         });
     }
@@ -136,22 +137,13 @@ public class AchievementsRepository implements AchievementsDataSource {
     /**
      * Saves Achievement object to local data source.
      */
-    public void saveAchievement(@NonNull Achievement achievement) {
-        this.mAchievementsLocalDataSource.saveAchievement(achievement);
+    @Override
+    public void saveAchievements(@NonNull List<Achievement> achievements) {
+        this.mAchievementsLocalDataSource.saveAchievements(achievements);
     }
 
     @Override
     public void refreshCache() {
         this.mCacheIsDirty = true;
-    }
-
-    private void saveAchievements(List<Achievement> achievements) {
-        if (achievements.size() == 0) return;
-
-        int lastElementIndex = achievements.size() - 1;
-        Achievement achievementToBeSaved = achievements.remove(lastElementIndex);
-        this.saveAchievement(achievementToBeSaved);
-
-        this.saveAchievements(achievements);
     }
 }

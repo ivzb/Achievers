@@ -20,13 +20,14 @@ public class CategoriesRepository implements CategoriesDataSource {
     private static CategoriesRepository INSTANCE = null;
     private final CategoriesDataSource mCategoriesRemoteDataSource;
     private final CategoriesDataSource mCategoriesLocalDataSource;
+    // todo: implement cache as hashtable/dictionary with key categoryId and boolean value if it should be cached
     private boolean mCacheIsDirty;
 
     // Prevent direct instantiation
     private CategoriesRepository(@NonNull CategoriesDataSource categoriesRemoteDataSource, @NonNull CategoriesDataSource categoriesLocalDataSource) {
         this.mCategoriesRemoteDataSource = checkNotNull(categoriesRemoteDataSource);
         this.mCategoriesLocalDataSource = checkNotNull(categoriesLocalDataSource);
-        this.mCacheIsDirty = true;
+        this.refreshCache();
     }
 
     /**
@@ -64,13 +65,14 @@ public class CategoriesRepository implements CategoriesDataSource {
     public void loadCategories(final Integer parentId, @NonNull final LoadCategoriesCallback callback) {
         checkNotNull(callback);
 
-        if (this.mCacheIsDirty) { // the cache is dirty so we need to fetch new data from the network
+        if (this.mCacheIsDirty) { // the cache is dirty so we need to load new data from the remote data source
             this.mCategoriesRemoteDataSource.loadCategories(parentId, new LoadCategoriesCallback() {
                 @Override
                 public void onLoaded(List<Category> categories) {
                     mCacheIsDirty = false; // cache is clean so the next call will return results form local data source
+                    // todo: save categories async
                     saveCategories(categories); // saving results to local data source
-                    loadCategories(parentId, callback); // recursively call SELF in order to return data from local data source
+                    callback.onLoaded(categories);
                 }
 
                 @Override
@@ -79,10 +81,10 @@ public class CategoriesRepository implements CategoriesDataSource {
                 }
             });
 
-            return; // stop execution until saved all categories
+            return; // we are done
         }
 
-        // return result by querying the local storage
+        // return result by querying the local storage (realm)
         mCategoriesLocalDataSource.loadCategories(parentId, new LoadCategoriesCallback() {
             @Override
             public void onLoaded(List<Category> categories) {
@@ -91,8 +93,10 @@ public class CategoriesRepository implements CategoriesDataSource {
 
             @Override
             public void onDataNotAvailable() {
-                mCacheIsDirty = true; // if no data available make cache dirty in order to fetch data from the network next time
-                callback.onDataNotAvailable();
+                // table is new or empty so load data from remote data source
+                refreshCache();
+//                callback.onDataNotAvailable();
+                loadCategories(parentId, callback);
             }
         });
     }
@@ -134,24 +138,15 @@ public class CategoriesRepository implements CategoriesDataSource {
     }
 
     /**
-     * Saves Category object to local data source.
+     * Saves Categories list only to local data source.
      */
-    public void saveCategory(@NonNull Category category) {
-        this.mCategoriesLocalDataSource.saveCategory(category);
+    @Override
+    public void saveCategories(@NonNull List<Category> categories) {
+        this.mCategoriesLocalDataSource.saveCategories(categories);
     }
 
     @Override
     public void refreshCache() {
         this.mCacheIsDirty = true;
-    }
-
-    private void saveCategories(List<Category> categories) {
-        if (categories.size() == 0) return;
-
-        int lastElementIndex = categories.size() - 1;
-        Category categoryToBeSaved = categories.remove(lastElementIndex);
-        this.saveCategory(categoryToBeSaved);
-
-        this.saveCategories(categories);
     }
 }

@@ -89,18 +89,22 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
                 if (!mCategoriesView.isActive()) return;
                 if (showLoadingUI) mCategoriesView.setLoadingIndicator(false);
 
-                mCategoriesView.showCategories(categories);
+                if (categories.size() > 0) {
+                    mCategoriesView.showCategories(categories);
+                } else {
+                    callback.onOpen(parentCategoryId);
+                }
             }
 
             @Override
             public void onDataNotAvailable() {
                 // The view may not be able to handle UI updates anymore
                 if (!mCategoriesView.isActive()) return;
-                //mCategoriesView.showLoadingCategoriesError();
+                mCategoriesView.showLoadingCategoriesError();
                 mCategoriesView.setLoadingIndicator(false);
                 if (mCategoriesNavigationState.size() > 0) mCategoriesNavigationState.pop();
 
-                callback.onOpen(parentCategoryId);
+                //callback.onOpen(parentCategoryId);
             }
         });
     }
@@ -148,7 +152,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
             this.loadCategories(categoryId == -1 ? null : categoryId, true);
 
             return true;
-        } catch (EmptyStackException exc) {
+        } catch (EmptyStackException exc) { // stack is empty so there is no previous category
             return false;
         }
     }
