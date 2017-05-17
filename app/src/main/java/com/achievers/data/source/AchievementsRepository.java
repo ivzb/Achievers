@@ -68,9 +68,9 @@ public class AchievementsRepository implements AchievementsDataSource {
             this.mAchievementsRemoteDataSource.loadAchievements(categoryId, new LoadAchievementsCallback() {
                 @Override
                 public void onLoaded(List<Achievement> achievements) {
+                    callback.onLoaded(achievements);
                     mCacheIsDirty = false; // cache is clean so the next call will return results form local data source
                     saveAchievements(achievements); // saving results to local data source
-                    callback.onLoaded(achievements);
                 }
 
                 @Override

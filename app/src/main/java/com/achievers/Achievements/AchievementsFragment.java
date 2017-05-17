@@ -106,7 +106,6 @@ public class AchievementsFragment extends Fragment implements AchievementsContra
         startActivity(intent);
     }
 
-
     @Override
     public void setLoadingIndicator(final boolean active) {
         if (getView() == null) return;

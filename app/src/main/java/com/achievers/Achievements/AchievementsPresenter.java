@@ -1,7 +1,9 @@
 package com.achievers.Achievements;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 
+import com.achievers.AchievementDetail.AchievementDetailActivity;
 import com.achievers.data.Achievement;
 import com.achievers.data.Category;
 import com.achievers.data.source.AchievementsDataSource;
