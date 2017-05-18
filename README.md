@@ -27,8 +27,8 @@ He might swipe left for dislike current **Evidence** or opposite - swipe right t
 
 # TODO
 1. ScrollChildSwipeRefreshLayout - show user friendly message when there is no data in inner RecyclerView
-2. Create back-end service
-3. [Work In Progress] AchievementDetailView/Evidence RecyclerView layout
+2. [Work In Progress] Create back-end service
+3. AchievementDetailView/Evidence RecyclerView layout
    1. Audio support inside RecyclerView - possibly extend Toro
    2. Show Location as map
    3. Upload Evidence
