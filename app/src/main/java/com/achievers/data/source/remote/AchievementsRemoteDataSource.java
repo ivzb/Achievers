@@ -96,7 +96,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
     }
 
     @Override
-    public void saveAchievements(@NonNull List<Achievement> achievements) {
+    public void saveAchievements(@NonNull List<Achievement> achievements, @NonNull final SaveAchievementsCallback callback) {
         // not being used
     }
 

@@ -11,24 +11,25 @@ import java.util.List;
  */
 public interface AchievementsDataSource {
     interface GetAchievementCallback {
-
         void onLoaded(Achievement achievement);
-
         void onDataNotAvailable();
     }
 
     interface LoadAchievementsCallback {
-
         void onLoaded(List<Achievement> achievements);
-
         void onDataNotAvailable();
+    }
+
+    interface SaveAchievementsCallback {
+        void onSuccess();
+        void onError();
     }
 
     void getAchievement(@NonNull Integer id, @NonNull GetAchievementCallback callback);
 
     void loadAchievements(Integer categoryId, @NonNull LoadAchievementsCallback callback);
 
-    void saveAchievements(@NonNull List<Achievement> achievements);
+    void saveAchievements(@NonNull List<Achievement> achievements, @NonNull SaveAchievementsCallback callback);
 
     void refreshCache();
 }

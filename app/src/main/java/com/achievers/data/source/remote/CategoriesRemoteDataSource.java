@@ -117,7 +117,7 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
     }
 
     @Override
-    public void saveCategories(@NonNull List<Category> categories) {
+    public void saveCategories(@NonNull List<Category> categories, @NonNull SaveCategoriesCallback callback) {
         // not being used yet
     }
 

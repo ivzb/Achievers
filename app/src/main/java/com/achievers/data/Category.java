@@ -7,6 +7,8 @@ import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 import java.util.Date;
 
 import io.realm.RealmObject;
@@ -15,6 +17,13 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Immutable model class for a Category.
  */
+// All classes that extend RealmObject will have a matching RealmProxy class created
+// by the annotation processor. Parceler must be made aware of this class. Note that
+// the class is not available until the project has been compiled at least once.
+@Parcel(
+//        implementations = { CategoryRealmProxy.class },
+        value = Parcel.Serialization.BEAN,
+        analyze = { Category.class })
 public class Category extends RealmObject {
 
     @SerializedName("Id")

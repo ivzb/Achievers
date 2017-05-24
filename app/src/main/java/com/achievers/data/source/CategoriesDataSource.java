@@ -18,11 +18,16 @@ public interface CategoriesDataSource {
         void onDataNotAvailable();
     }
 
+    interface SaveCategoriesCallback {
+        void onSuccess();
+        void onError();
+    }
+
     void getCategory(@NonNull Integer categoryId, @NonNull GetCategoryCallback callback);
 
     void loadCategories(Integer parentId, @NonNull LoadCategoriesCallback callback);
 
-    void saveCategories(@NonNull List<Category> categories);
+    void saveCategories(@NonNull List<Category> categories, @NonNull SaveCategoriesCallback callback);
 
     void refreshCache();
 }

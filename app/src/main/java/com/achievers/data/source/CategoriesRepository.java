@@ -69,10 +69,19 @@ public class CategoriesRepository implements CategoriesDataSource {
             this.mCategoriesRemoteDataSource.loadCategories(parentId, new LoadCategoriesCallback() {
                 @Override
                 public void onLoaded(List<Category> categories) {
-                    mCacheIsDirty = false; // cache is clean so the next call will return results form local data source
-                    // todo: save categories async
-                    saveCategories(categories); // saving results to local data source
                     callback.onLoaded(categories);
+
+                    saveCategories(categories, new SaveCategoriesCallback() {
+                        @Override
+                        public void onSuccess() {
+                            mCacheIsDirty = false; // cache is clean so the next call will return results form local data source
+                        }
+
+                        @Override
+                        public void onError() {
+                            refreshCache();
+                        }
+                    });
                 }
 
                 @Override
@@ -112,8 +121,9 @@ public class CategoriesRepository implements CategoriesDataSource {
     public void getCategory(@NonNull final Integer categoryId, @NonNull final GetCategoryCallback callback) {
         checkNotNull(callback);
 
+        // todo: implement cache strategy
         // Load from server/persisted
-        // Is the task in the local data source? If not, query the network.
+        // Is category in the local data source? If not, query the network.
         mCategoriesLocalDataSource.getCategory(categoryId, new GetCategoryCallback() {
             @Override
             public void onLoaded(Category category) {
@@ -141,8 +151,8 @@ public class CategoriesRepository implements CategoriesDataSource {
      * Saves Categories list only to local data source.
      */
     @Override
-    public void saveCategories(@NonNull List<Category> categories) {
-        this.mCategoriesLocalDataSource.saveCategories(categories);
+    public void saveCategories(@NonNull List<Category> categories, @NonNull SaveCategoriesCallback callback) {
+        this.mCategoriesLocalDataSource.saveCategories(categories, callback);
     }
 
     @Override

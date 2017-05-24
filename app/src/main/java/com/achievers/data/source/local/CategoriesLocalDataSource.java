@@ -79,11 +79,21 @@ public class CategoriesLocalDataSource implements CategoriesDataSource {
     }
 
     @Override
-    public void saveCategories(@NonNull final List<Category> categories) {
-        this.mRealm.executeTransaction(new Realm.Transaction() {
+    public void saveCategories(@NonNull final List<Category> categories, @NonNull final SaveCategoriesCallback callback) {
+        this.mRealm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 realm.copyToRealmOrUpdate(categories);
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                callback.onSuccess();;
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                callback.onError();
             }
         });
     }

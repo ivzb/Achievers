@@ -69,8 +69,18 @@ public class AchievementsRepository implements AchievementsDataSource {
                 @Override
                 public void onLoaded(List<Achievement> achievements) {
                     callback.onLoaded(achievements);
-                    mCacheIsDirty = false; // cache is clean so the next call will return results form local data source
-                    saveAchievements(achievements); // saving results to local data source
+
+                    saveAchievements(achievements, new SaveAchievementsCallback() {
+                        @Override
+                        public void onSuccess() {
+                            mCacheIsDirty = false; // cache is clean so the next call will return results form local data source
+                        }
+
+                        @Override
+                        public void onError() {
+                            refreshCache();
+                        }
+                    });
                 }
 
                 @Override
@@ -109,6 +119,7 @@ public class AchievementsRepository implements AchievementsDataSource {
     public void getAchievement(@NonNull final Integer id, final @NonNull GetAchievementCallback callback) {
         checkNotNull(callback);
 
+        // todo: implement cache strategy
         // Load from server/persisted
         // Is the task in the local data source? If not, query the network.
         mAchievementsLocalDataSource.getAchievement(id, new GetAchievementCallback() {
@@ -138,8 +149,8 @@ public class AchievementsRepository implements AchievementsDataSource {
      * Saves Achievement object to local data source.
      */
     @Override
-    public void saveAchievements(@NonNull List<Achievement> achievements) {
-        this.mAchievementsLocalDataSource.saveAchievements(achievements);
+    public void saveAchievements(@NonNull List<Achievement> achievements, @NonNull SaveAchievementsCallback callback) {
+        this.mAchievementsLocalDataSource.saveAchievements(achievements, callback);
     }
 
     @Override
