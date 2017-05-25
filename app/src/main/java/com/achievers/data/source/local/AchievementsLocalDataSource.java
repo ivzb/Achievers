@@ -38,7 +38,7 @@ public class AchievementsLocalDataSource implements AchievementsDataSource {
      * or the table is empty.
      */
     @Override
-    public void loadAchievements(Integer categoryId, @NonNull LoadAchievementsCallback callback) {
+    public void loadAchievements(int categoryId, @NonNull LoadAchievementsCallback callback) {
         RealmResults<Achievement> realmResults = this.mRealm
                 .where(Achievement.class)
                 .equalTo("category.id", categoryId)
@@ -60,7 +60,7 @@ public class AchievementsLocalDataSource implements AchievementsDataSource {
      * found.
      */
     @Override
-    public void getAchievement(@NonNull Integer id, @NonNull GetAchievementCallback callback) {
+    public void getAchievement(int id, @NonNull GetAchievementCallback callback) {
         Achievement achievement = this.mRealm
                 .where(Achievement.class)
                 .equalTo("id", id)

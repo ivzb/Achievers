@@ -61,7 +61,7 @@ public class AchievementsRepository implements AchievementsDataSource {
      * </p>
      */
     @Override
-    public void loadAchievements(final Integer categoryId, final @NonNull LoadAchievementsCallback callback) {
+    public void loadAchievements(final int categoryId, final @NonNull LoadAchievementsCallback callback) {
         checkNotNull(callback);
 
         if (this.mCacheIsDirty) { // the cache is dirty so we need to fetch new data from the network
@@ -116,7 +116,7 @@ public class AchievementsRepository implements AchievementsDataSource {
      * get the data.
      */
     @Override
-    public void getAchievement(@NonNull final Integer id, final @NonNull GetAchievementCallback callback) {
+    public void getAchievement(final int id, final @NonNull GetAchievementCallback callback) {
         checkNotNull(callback);
 
         // todo: implement cache strategy

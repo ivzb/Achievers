@@ -25,9 +25,9 @@ public interface AchievementsDataSource {
         void onError();
     }
 
-    void getAchievement(@NonNull Integer id, @NonNull GetAchievementCallback callback);
+    void getAchievement(final int id, @NonNull GetAchievementCallback callback);
 
-    void loadAchievements(Integer categoryId, @NonNull LoadAchievementsCallback callback);
+    void loadAchievements(final int categoryId, @NonNull LoadAchievementsCallback callback);
 
     void saveAchievements(@NonNull List<Achievement> achievements, @NonNull SaveAchievementsCallback callback);
 
