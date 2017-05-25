@@ -25,39 +25,40 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
 
     private static CategoriesRemoteDataSource INSTANCE;
 
+    private CategoriesEndpointInterface apiService;
     // for developing purposes I am not fetching data from web service
-    private final static Map<Integer, Category> CATEGORIES_SERVICE_DATA;
+//    private final static Map<Integer, Category> CATEGORIES_SERVICE_DATA;
+//
+//    static {
+//        CATEGORIES_SERVICE_DATA = new LinkedHashMap<>();
+//        generateCategories(15, new Faker());
+//    }
 
-    static {
-        CATEGORIES_SERVICE_DATA = new LinkedHashMap<>();
-        generateCategories(15, new Faker());
-    }
+//    private static void generateCategories(int count, Faker faker)
+//    {
+//        if (count == 0) return;
+//
+//        Category parent = generateCategory(faker, null);
+//        for (int i = 0; i < 5; i++) {
+//            Category innerParent = generateCategory(faker, parent);
+//
+//            for (int j = 0; j < 3; j++) generateCategory(faker, innerParent);
+//        }
+//
+//        generateCategories(--count, faker);
+//    }
 
-    private static void generateCategories(int count, Faker faker)
-    {
-        if (count == 0) return;
-
-        Category parent = generateCategory(faker, null);
-        for (int i = 0; i < 5; i++) {
-            Category innerParent = generateCategory(faker, parent);
-
-            for (int j = 0; j < 3; j++) generateCategory(faker, innerParent);
-        }
-
-        generateCategories(--count, faker);
-    }
-
-    private static Category generateCategory(Faker faker, Category parent) {
-        Category newCategory = new Category(CATEGORIES_SERVICE_DATA.size() + 1, faker.lorem.word(), faker.lorem.sentence(5), "https://unsplash.it/500/500/?random&a=" + faker.number.number(2),
-        faker.date.backward());
-
-        if (parent != null) {
-            newCategory.setParent(parent);
-        }
-
-        CATEGORIES_SERVICE_DATA.put(newCategory.getId(), newCategory);
-        return newCategory;
-    }
+//    private static Category generateCategory(Faker faker, Category parent) {
+//        Category newCategory = new Category(CATEGORIES_SERVICE_DATA.size() + 1, faker.lorem.word(), faker.lorem.sentence(5), "https://unsplash.it/500/500/?random&a=" + faker.number.number(2),
+//        faker.date.backward());
+//
+//        if (parent != null) {
+//            newCategory.setParent(parent);
+//        }
+//
+//        CATEGORIES_SERVICE_DATA.put(newCategory.getId(), newCategory);
+//        return newCategory;
+//    }
 
     public static CategoriesRemoteDataSource getInstance() {
         if (INSTANCE == null) INSTANCE = new CategoriesRemoteDataSource();
@@ -65,7 +66,11 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
     }
 
     // Prevent direct instantiation.
-    private CategoriesRemoteDataSource() { }
+    private CategoriesRemoteDataSource() {
+         this.apiService = RESTClient
+                .getClient()
+                .create(CategoriesEndpointInterface.class);
+    }
 
     /**
      * Note: {@link LoadCategoriesCallback#onDataNotAvailable()} is fired if the server can't be contacted or the server
@@ -73,37 +78,44 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
      */
     @Override
     public void loadCategories(final Integer parentId, final @NonNull LoadCategoriesCallback callback) {
-        List<Category> categoriesToShow = new ArrayList<Category>();
-
-        for(Category category: CATEGORIES_SERVICE_DATA.values())
-        {
-            if ((category.getParent() != null && category.getParent().getId().equals(parentId)) ||
-                    (category.getParent() == null && parentId == null))
-                categoriesToShow.add(category);
-        }
-
-        callback.onLoaded(categoriesToShow);
-        return;
-
-//        CategoriesEndpointInterface apiService = RESTClient
-//            .getClient()
-//            .create(CategoriesEndpointInterface.class);
+//        List<Category> categoriesToShow = new ArrayList<Category>();
 //
-//        final Call<ODataResponseArray<Category>> call = apiService.loadCategories();
-//        call.enqueue(new Callback<ODataResponseArray<Category>>() {
-//            @Override
-//            public void onResponse(Call<ODataResponseArray<Category>> call, Response<ODataResponseArray<Category>> response) {
-//                int statusCode = response.code();
-//                List<Category> categories = response.body().getResult();
-//                callback.onLoaded(categories);
-//            }
+//        for(Category category: CATEGORIES_SERVICE_DATA.values())
+//        {
+//            if ((category.getParent() != null && category.getParent().getId().equals(parentId)) ||
+//                    (category.getParent() == null && parentId == null))
+//                categoriesToShow.add(category);
+//        }
 //
-//            @Override
-//            public void onFailure(Call<ODataResponseArray<Category>> call, Throwable t) {
-//                // Log error here since request failed
-//                callback.onDataNotAvailable();
-//            }
-//        });
+//        callback.onLoaded(categoriesToShow);
+//        return;
+
+        final Call<ODataResponseArray<Category>> call =
+                (parentId == null ?
+                        this.apiService.getRootCategoryChildren() :
+                        this.apiService.getChildren(parentId)
+                );
+
+        call.enqueue(new Callback<ODataResponseArray<Category>>() {
+            @Override
+            public void onResponse(Call<ODataResponseArray<Category>> call, Response<ODataResponseArray<Category>> response) {
+                int statusCode = response.code();
+
+                if (statusCode != 200) {
+                    callback.onDataNotAvailable();
+                    return;
+                }
+
+                List<Category> categories = response.body().getResult();
+                callback.onLoaded(categories);
+            }
+
+            @Override
+            public void onFailure(Call<ODataResponseArray<Category>> call, Throwable t) {
+                // Log error here since request failed
+                callback.onDataNotAvailable();
+            }
+        });
     }
 
     /**
@@ -112,8 +124,28 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
      */
     @Override
     public void getCategory(@NonNull Integer categoryId, final @NonNull GetCategoryCallback callback) {
-        final Category category = CATEGORIES_SERVICE_DATA.get(categoryId);
-        callback.onLoaded(category);
+        final Call<Category> call = this.apiService.getCategory(categoryId);
+
+        call.enqueue(new Callback<Category>() {
+            @Override
+            public void onResponse(Call<Category> call, Response<Category> response) {
+                int statusCode = response.code();
+
+                if (statusCode != 200) {
+                    callback.onDataNotAvailable();
+                    return;
+                }
+
+                Category category = response.body();
+                callback.onLoaded(category);
+            }
+
+            @Override
+            public void onFailure(Call<Category> call, Throwable t) {
+                // Log error here since request failed
+                callback.onDataNotAvailable();
+            }
+        });
     }
 
     @Override
