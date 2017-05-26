@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.achievers.data.Achievement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,10 +16,7 @@ public interface AchievementsDataSource {
         void onDataNotAvailable();
     }
 
-    interface LoadAchievementsCallback {
-        void onLoaded(List<Achievement> achievements);
-        void onDataNotAvailable();
-    }
+
 
     interface SaveAchievementsCallback {
         void onSuccess();
@@ -27,7 +25,7 @@ public interface AchievementsDataSource {
 
     void getAchievement(final int id, @NonNull GetAchievementCallback callback);
 
-    void loadAchievements(final int categoryId, @NonNull LoadAchievementsCallback callback);
+    void loadAchievements(final int categoryId, @NonNull LoadCallback<ArrayList<Achievement>> callback);
 
     void saveAchievements(@NonNull List<Achievement> achievements, @NonNull SaveAchievementsCallback callback);
 

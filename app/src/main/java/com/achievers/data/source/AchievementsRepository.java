@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.achievers.data.Achievement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -61,14 +62,14 @@ public class AchievementsRepository implements AchievementsDataSource {
      * </p>
      */
     @Override
-    public void loadAchievements(final int categoryId, final @NonNull LoadAchievementsCallback callback) {
+    public void loadAchievements(final int categoryId, final @NonNull LoadCallback<ArrayList<Achievement>> callback) {
         checkNotNull(callback);
 
         if (this.mCacheIsDirty) { // the cache is dirty so we need to fetch new data from the network
-            this.mAchievementsRemoteDataSource.loadAchievements(categoryId, new LoadAchievementsCallback() {
+            this.mAchievementsRemoteDataSource.loadAchievements(categoryId, new LoadCallback<ArrayList<Achievement>>() {
                 @Override
-                public void onLoaded(List<Achievement> achievements) {
-                    callback.onLoaded(achievements);
+                public void onSuccess(ArrayList<Achievement> achievements) {
+                    callback.onSuccess(achievements);
 
                     saveAchievements(achievements, new SaveAchievementsCallback() {
                         @Override
@@ -84,8 +85,13 @@ public class AchievementsRepository implements AchievementsDataSource {
                 }
 
                 @Override
-                public void onDataNotAvailable() {
-                    callback.onDataNotAvailable();
+                public void onNoMoreData() {
+                    callback.onNoMoreData();
+                }
+
+                @Override
+                public void onFailure(String message) {
+                    callback.onFailure(message);
                 }
             });
 

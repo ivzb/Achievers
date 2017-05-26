@@ -10,6 +10,7 @@ import com.achievers.data.Achievement;
 import com.achievers.data.Category;
 import com.achievers.data.Involvement;
 import com.achievers.data.source.AchievementsDataSource;
+import com.achievers.data.source.LoadCallback;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
@@ -31,6 +32,9 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
     private static AchievementsRemoteDataSource INSTANCE;
 
     private AchievementsEndpointInterface apiService;
+    private final int pageSize = 21;
+    private int currentPage = -1;
+    private boolean loadMore = true;
 
     // for developing purposes I am not fetching data from web service
 //    private final static Map<Integer, Achievement> ACHIEVEMENTS_SERVICE_DATA;
@@ -65,12 +69,8 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
                 .create(AchievementsEndpointInterface.class);
     }
 
-    /**
-     * Note: {@link LoadAchievementsCallback#onDataNotAvailable()} is fired if the server can't be contacted or the server
-     * returns an error.
-     */
     @Override
-    public void loadAchievements(final int categoryId, final @NonNull LoadAchievementsCallback callback) {
+    public void loadAchievements(final int categoryId, final @NonNull LoadCallback<ArrayList<Achievement>> callback) {
 //        Realm realm = Realm.getDefaultInstance();
 //        final Category category = realm.where(Category.class).equalTo("id", categoryId).findFirstAsync();
 //        realm.close();
@@ -102,18 +102,18 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
                 int statusCode = response.code();
 
                 if (statusCode != 200) {
-                    callback.onDataNotAvailable();
+                    callback.onFailure("Error occurred. Please try again.");
                     return;
                 }
 
-                List<Achievement> achievements = response.body().getResult();
-                callback.onLoaded(achievements);
+                ArrayList<Achievement> achievements = response.body().getResult();
+                callback.onSuccess(achievements);
             }
 
             @Override
             public void onFailure(Call<ODataResponseArray<Achievement>> call, Throwable t) {
                 // Log error here since request failed
-                callback.onDataNotAvailable();
+                callback.onFailure("Server could not be reached. Please try again.");
             }
         });
     }
