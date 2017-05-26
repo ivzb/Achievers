@@ -1,6 +1,7 @@
 package com.achievers.data;
 
 import com.achievers.R;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.Arrays;
 import java.util.Collections;

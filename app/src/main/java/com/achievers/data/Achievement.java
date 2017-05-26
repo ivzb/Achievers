@@ -40,7 +40,7 @@ public class Achievement extends RealmObject {
 
     @SerializedName("Involvement")
     @NonNull
-    private int involvement;
+    private String involvement;
 
     @SerializedName("CreatedOn")
     @NonNull
@@ -63,13 +63,13 @@ public class Achievement extends RealmObject {
      * @param createdOn   creation date of the achievement
      */
     public Achievement(Integer id, @NonNull String title, @NonNull String description, @NonNull String imageUrl,
-                    @NonNull Category category, @NonNull Involvement involvement, @Nullable Date createdOn) {
+                    @NonNull Category category, @NonNull String involvement, @Nullable Date createdOn) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.imageUrl = imageUrl;
         this.category = category;
-        this.involvement = involvement.getId();
+        this.involvement = involvement;
         this.createdOn = createdOn;
     }
 
@@ -108,7 +108,7 @@ public class Achievement extends RealmObject {
 
     @NonNull
     public Involvement getInvolvement() {
-        return Involvement.values()[involvement - 1];
+        return Involvement.valueOf(involvement);
     }
 
     @Nullable
