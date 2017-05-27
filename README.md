@@ -27,15 +27,16 @@ He might swipe left for dislike current **Evidence** or opposite - swipe right t
 
 # TODO
 1. ScrollChildSwipeRefreshLayout - show user friendly message when there is no data in inner RecyclerView
-2. [Work In Progress] Create back-end service
-3. AchievementDetailView/Evidence RecyclerView layout
+2. AchievementDetailView/Evidence RecyclerView layout
    1. Audio support inside RecyclerView - possibly extend Toro
    2. Show Location as map
    3. Upload Evidence
-4. User profile
-5. Achievements structure
-6. Quests - essential part
-7. Groups - achieve something with friends/strangers
+3. User profile
+4. Achievements structure
+5. Quests - essential part
+6. Groups - achieve something with friends/strangers
+7. Optimize repositories
+8. Use TDD
 
 # Dependencies
 1) GSON - A Java serialization/deserialization library to convert Java Objects into JSON and back. [GitHub](https://github.com/google/gson)
