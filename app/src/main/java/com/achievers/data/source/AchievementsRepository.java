@@ -57,7 +57,7 @@ public class AchievementsRepository implements AchievementsDataSource {
      * Gets Achievements from local data source (realm) or remote data source, whichever is
      * available first.
      * <p>
-     * Note: {@link LoadAchievementsCallback#onDataNotAvailable()} is fired if all data sources fail to
+     * Note: {@link LoadCallback<ArrayList<Achievement>>#onFailure()} is fired if all data sources fail to
      * get the data.
      * </p>
      */
@@ -99,14 +99,19 @@ public class AchievementsRepository implements AchievementsDataSource {
         }
 
         // return result by querying the local storage
-        mAchievementsLocalDataSource.loadAchievements(categoryId, new LoadAchievementsCallback() {
+        mAchievementsLocalDataSource.loadAchievements(categoryId, new LoadCallback<ArrayList<Achievement>>() {
             @Override
-            public void onLoaded(List<Achievement> achievements) {
-                callback.onLoaded(achievements);
+            public void onSuccess(ArrayList<Achievement> achievements) {
+                callback.onSuccess(achievements);
             }
 
             @Override
-            public void onDataNotAvailable() {
+            public void onNoMoreData() {
+                callback.onNoMoreData();
+            }
+
+            @Override
+            public void onFailure(String message) {
                 // table is new or empty so load data from remote data source
                 refreshCache(); // if no data available make cache dirty in order to fetch data from the network next time
                 loadAchievements(categoryId, callback);

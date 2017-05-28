@@ -5,7 +5,9 @@ import android.support.annotation.NonNull;
 
 import com.achievers.data.Achievement;
 import com.achievers.data.source.AchievementsDataSource;
+import com.achievers.data.source.LoadCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
@@ -34,24 +36,24 @@ public class AchievementsLocalDataSource implements AchievementsDataSource {
     }
 
     /**
-     * Note: {@link LoadAchievementsCallback#onDataNotAvailable()} is fired if the database doesn't exist
+     * Note: {@link LoadCallback<ArrayList<Achievement>>#onFailure()} is fired if the database doesn't exist
      * or the table is empty.
      */
     @Override
-    public void loadAchievements(int categoryId, @NonNull LoadAchievementsCallback callback) {
+    public void loadAchievements(int categoryId, @NonNull LoadCallback<ArrayList<Achievement>> callback) {
         RealmResults<Achievement> realmResults = this.mRealm
                 .where(Achievement.class)
                 .equalTo("category.id", categoryId)
                 .findAll()
                 .sort("createdOn", Sort.DESCENDING);
 
-        List<Achievement> achievements = this.mRealm.copyFromRealm(realmResults);
+        ArrayList<Achievement> achievements = (ArrayList<Achievement>) this.mRealm.copyFromRealm(realmResults);
 
         if (achievements.isEmpty()) {
             // This will be called if the table is new or just empty.
-            callback.onDataNotAvailable();
+            callback.onFailure(null);
         } else {
-            callback.onLoaded(achievements);
+            callback.onSuccess(achievements);
         }
     }
 

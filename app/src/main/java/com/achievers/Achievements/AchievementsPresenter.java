@@ -9,7 +9,10 @@ import com.achievers.data.Category;
 import com.achievers.data.source.AchievementsDataSource;
 import com.achievers.data.source.AchievementsRepository;
 import com.achievers.data.source.CategoriesDataSource;
+import com.achievers.data.source.LoadCallback;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -58,9 +61,9 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
         if (showLoadingUI) mAchievementsView.setLoadingIndicator(true);
         if (forceUpdate) mAchievementsRepository.refreshCache();
 
-        mAchievementsRepository.loadAchievements(category.getId(), new AchievementsDataSource.LoadAchievementsCallback() {
+        mAchievementsRepository.loadAchievements(category.getId(), new LoadCallback<ArrayList<Achievement>>() {
             @Override
-            public void onLoaded(final List<Achievement> achievements) {
+            public void onSuccess(final ArrayList<Achievement> achievements) {
                 // The view may not be able to handle UI updates anymore
                 if (!mAchievementsView.isActive()) return;
                 if (showLoadingUI) mAchievementsView.setLoadingIndicator(false);
@@ -69,7 +72,12 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
             }
 
             @Override
-            public void onDataNotAvailable() {
+            public void onNoMoreData() {
+                // TODO
+            }
+
+            @Override
+            public void onFailure(String message) {
                 // The view may not be able to handle UI updates anymore
                 if (!mAchievementsView.isActive()) return;
                 mAchievementsView.showLoadingError();
