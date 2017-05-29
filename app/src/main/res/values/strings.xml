@@ -23,6 +23,10 @@
     <string name="loading_evidence_error">Error while loading Evidence</string>
     <string name="loading_achievements_error">Error while loading Achievements</string>
     <string name="loading_parent_category_error">Error while loading Category Info</string>
-    <string name="title_activity_items_list_acivity">ItemsListAcivity</string>
-    <string name="title_activity_item_detail">ItemDetailActivity</string>
+    <string name="involvement">Involvement</string>
+    <string name="add_evidence">Add Evidence</string>
+    <string name="logo">Logo</string>
+    <string name="please_select_category">Please select category</string>
+    <string name="voice">Voice</string>
+    <string name="upload_evidence">Upload evidence</string>
 </resources>

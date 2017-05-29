@@ -12,6 +12,7 @@
         android:id="@+id/image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/add_evidence"
         android:src="@drawable/ic_add"
         android:layout_marginBottom="16dp"/>
 

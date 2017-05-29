@@ -13,6 +13,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:contentDescription="@string/logo"
         android:src="@drawable/logo" />
 
     <TextView

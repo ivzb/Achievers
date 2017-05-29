@@ -25,6 +25,7 @@
         android:background="#ccc"
         android:padding="5dp"
         android:layout_margin="5dp"
+        android:baselineAligned="false"
         android:onClick="@{ () -> actionHandler.achievementClicked(achievement) }">
 
         <LinearLayout
@@ -74,6 +75,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/involvement"
                     android:src="@{ achievement.involvement.drawable }" />
             </LinearLayout>
         </LinearLayout>

@@ -68,6 +68,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center"
+                    android:contentDescription="@string/no_categories"
                     android:src="@{categories.noCategoriesIconRes}" />
 
                 <TextView

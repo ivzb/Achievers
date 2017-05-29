@@ -1,10 +1,12 @@
 package com.achievers;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import io.realm.Realm;
 
+@SuppressLint("Registered")
 public class BaseActivity extends AppCompatActivity {
 
     protected Realm mRealm;

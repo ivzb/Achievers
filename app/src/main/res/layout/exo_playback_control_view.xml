@@ -9,6 +9,7 @@
         android:layout_gravity="center"
         android:background="#000"
         android:alpha="0.7"
+        android:contentDescription="@string/exo_controls_play_description"
         style="@style/ExoMediaButton.Play"/>
 
     <ImageButton android:id="@id/exo_pause"
@@ -17,6 +18,7 @@
         android:layout_gravity="center"
         android:background="#000"
         android:alpha="0.7"
+        android:contentDescription="@string/exo_controls_pause_description"
         style="@style/ExoMediaButton.Pause"/>
 
     <LinearLayout
