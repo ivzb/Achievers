@@ -32,30 +32,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
     private static AchievementsRemoteDataSource INSTANCE;
 
     private AchievementsEndpointInterface apiService;
-    private final int pageSize = 21;
-    private int currentPage = -1;
-    private boolean loadMore = true;
-
-    // for developing purposes I am not fetching data from web service
-//    private final static Map<Integer, Achievement> ACHIEVEMENTS_SERVICE_DATA;
-
-//    static {
-//        ACHIEVEMENTS_SERVICE_DATA = new LinkedHashMap<>();
-//    }
-
-//    private static void generateAchievements(int count, final Category category, Faker faker)
-//    {
-//        if (count == 0) return;
-//
-//        Achievement newAchievement = new Achievement(
-//                ACHIEVEMENTS_SERVICE_DATA.size() + 1, faker.lorem.word(), faker.lorem.sentence(5),
-//                "https://unsplash.it/500/500/?random&a=" + faker.number.number(2),
-//                category, Involvement.getRandomInvolvement(), faker.date.backward());
-//
-//        ACHIEVEMENTS_SERVICE_DATA.put(newAchievement.getId(), newAchievement);
-//
-//        generateAchievements(--count, category, faker);
-//    }
+    private final int pageSize = RESTClient.getPageSize();
 
     public static AchievementsRemoteDataSource getInstance() {
         if (INSTANCE == null) INSTANCE = new AchievementsRemoteDataSource();
@@ -70,31 +47,8 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
     }
 
     @Override
-    public void loadAchievements(final int categoryId, final @NonNull LoadCallback<ArrayList<Achievement>> callback) {
-//        Realm realm = Realm.getDefaultInstance();
-//        final Category category = realm.where(Category.class).equalTo("id", categoryId).findFirstAsync();
-//        realm.close();
-//
-//        // generating achievements on another thread so as not to block the ui thread
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                ACHIEVEMENTS_SERVICE_DATA.clear();
-//                generateAchievements(15, category, new Faker());
-//                final List<Achievement> achievementsToShow = new ArrayList<>(ACHIEVEMENTS_SERVICE_DATA.values());
-//
-//                Handler mainHandler = new Handler(Looper.getMainLooper());
-//                Runnable myRunnable = new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        callback.onLoaded(achievementsToShow);
-//                    }
-//                };
-//                mainHandler.post(myRunnable);
-//            }
-//        }).start();
-
-        final Call<ODataResponseArray<Achievement>> call = this.apiService.getAchievements(categoryId);
+    public void loadAchievements(final int categoryId, final int page, final @NonNull LoadCallback<ArrayList<Achievement>> callback) {
+        final Call<ODataResponseArray<Achievement>> call = this.apiService.getAchievements(categoryId, pageSize, page * pageSize);
 
         call.enqueue(new Callback<ODataResponseArray<Achievement>>() {
             @Override
@@ -107,7 +61,12 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
                 }
 
                 ArrayList<Achievement> achievements = response.body().getResult();
-                callback.onSuccess(achievements);
+
+                if (achievements.isEmpty()) {
+                    callback.onNoMoreData();
+                } else {
+                    callback.onSuccess(achievements);
+                }
             }
 
             @Override

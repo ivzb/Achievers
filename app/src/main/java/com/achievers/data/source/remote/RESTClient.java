@@ -12,6 +12,7 @@ public class RESTClient {
     private static Retrofit RETROFIT;
     private final static String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
     private final static String REST_URL = "http://192.168.0.164:11218/odata/";
+    private final static int PAGE_SIZE = 21;
 
     public static Retrofit getClient() {
         if (RETROFIT == null) {
@@ -35,6 +36,10 @@ public class RESTClient {
 
     public static void destroyClient() {
         RETROFIT = null;
+    }
+
+    public static int getPageSize() {
+        return PAGE_SIZE;
     }
 
     // Prevent direct instantiation.

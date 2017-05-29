@@ -16,8 +16,6 @@ public interface AchievementsDataSource {
         void onDataNotAvailable();
     }
 
-
-
     interface SaveAchievementsCallback {
         void onSuccess();
         void onError();
@@ -25,7 +23,7 @@ public interface AchievementsDataSource {
 
     void getAchievement(final int id, @NonNull GetAchievementCallback callback);
 
-    void loadAchievements(final int categoryId, @NonNull LoadCallback<ArrayList<Achievement>> callback);
+    void loadAchievements(final int categoryId, final int page, @NonNull LoadCallback<ArrayList<Achievement>> callback);
 
     void saveAchievements(@NonNull List<Achievement> achievements, @NonNull SaveAchievementsCallback callback);
 

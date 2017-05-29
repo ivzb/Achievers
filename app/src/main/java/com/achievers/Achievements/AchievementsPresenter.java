@@ -2,6 +2,8 @@ package com.achievers.Achievements;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.util.SparseBooleanArray;
+import android.util.SparseIntArray;
 
 import com.achievers.AchievementDetail.AchievementDetailActivity;
 import com.achievers.data.Achievement;
@@ -10,9 +12,11 @@ import com.achievers.data.source.AchievementsDataSource;
 import com.achievers.data.source.AchievementsRepository;
 import com.achievers.data.source.CategoriesDataSource;
 import com.achievers.data.source.LoadCallback;
+import com.achievers.data.source.remote.RESTClient;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -22,6 +26,9 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
     private final AchievementsRepository mAchievementsRepository;
     private final AchievementsContract.View mAchievementsView;
     private boolean mFirstLoad;
+    //private int mPage;
+    private SparseBooleanArray mNoMoreData;
+    private SparseIntArray mPages;
 
     public AchievementsPresenter(@NonNull AchievementsRepository achievementsRepository,
                                  @NonNull AchievementsContract.View achievementsView) {
@@ -29,6 +36,9 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
         this.mAchievementsView = checkNotNull(achievementsView, "achievementsView cannot be null");
         this.mAchievementsView.setPresenter(this);
         this.mFirstLoad = true;
+        //this.mPage = 0;
+        this.mNoMoreData = new SparseBooleanArray();
+        this.mPages = new SparseIntArray();
     }
 
 //    @Override
@@ -58,22 +68,32 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
      */
     private void loadAchievements(final Category category, boolean forceUpdate, final boolean showLoadingUI) {
         if (category == null) return;
+
+        if (this.mNoMoreData.get(category.getId(), false)) return; // no more data for this categoryId
+        final int currentPage = this.mPages.get(category.getId(), 0);
+
         if (showLoadingUI) mAchievementsView.setLoadingIndicator(true);
         if (forceUpdate) mAchievementsRepository.refreshCache();
 
-        mAchievementsRepository.loadAchievements(category.getId(), new LoadCallback<ArrayList<Achievement>>() {
+        mAchievementsRepository.loadAchievements(category.getId(), currentPage, new LoadCallback<ArrayList<Achievement>>() {
             @Override
             public void onSuccess(final ArrayList<Achievement> achievements) {
                 // The view may not be able to handle UI updates anymore
                 if (!mAchievementsView.isActive()) return;
                 if (showLoadingUI) mAchievementsView.setLoadingIndicator(false);
 
+                mPages.put(category.getId(), currentPage + 1); // current category page++
+                if (achievements.size() < RESTClient.getPageSize()) mNoMoreData.put(category.getId(), true); // no more data for this categoryId
+
                 mAchievementsView.showAchievements(category, achievements);
             }
 
             @Override
             public void onNoMoreData() {
-                // TODO
+                if (!mAchievementsView.isActive()) return;
+                if (showLoadingUI) mAchievementsView.setLoadingIndicator(false);
+
+                mNoMoreData.put(category.getId(), true); // no more data for this categoryId
             }
 
             @Override
@@ -81,7 +101,7 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
                 // The view may not be able to handle UI updates anymore
                 if (!mAchievementsView.isActive()) return;
                 mAchievementsView.showLoadingError();
-                mAchievementsView.setLoadingIndicator(false);
+                if (showLoadingUI) mAchievementsView.setLoadingIndicator(false);
             }
         });
     }

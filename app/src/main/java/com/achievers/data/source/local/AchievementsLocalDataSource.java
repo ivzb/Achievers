@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.achievers.data.Achievement;
 import com.achievers.data.source.AchievementsDataSource;
 import com.achievers.data.source.LoadCallback;
+import com.achievers.data.source.remote.RESTClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class AchievementsLocalDataSource implements AchievementsDataSource {
 
     private static AchievementsLocalDataSource INSTANCE;
     private Realm mRealm;
+    private final int pageSize = RESTClient.getPageSize();
 
     // Prevent direct instantiation.
     private AchievementsLocalDataSource(@NonNull Realm realm) {
@@ -40,18 +42,24 @@ public class AchievementsLocalDataSource implements AchievementsDataSource {
      * or the table is empty.
      */
     @Override
-    public void loadAchievements(int categoryId, @NonNull LoadCallback<ArrayList<Achievement>> callback) {
+    public void loadAchievements(final int categoryId, final int page, @NonNull LoadCallback<ArrayList<Achievement>> callback) {
         RealmResults<Achievement> realmResults = this.mRealm
                 .where(Achievement.class)
                 .equalTo("category.id", categoryId)
                 .findAll()
-                .sort("createdOn", Sort.DESCENDING);
+                .sort("id", Sort.DESCENDING);
 
-        ArrayList<Achievement> achievements = (ArrayList<Achievement>) this.mRealm.copyFromRealm(realmResults);
+        ArrayList<Achievement> arrayList = new ArrayList<>();
+
+        int start = page * pageSize;
+        for (int i = start; i < Math.max(start + pageSize, realmResults.size()); i++) {
+            arrayList.add(realmResults.get(i));
+        }
+
+        ArrayList<Achievement> achievements = (ArrayList<Achievement>) this.mRealm.copyFromRealm(arrayList);
 
         if (achievements.isEmpty()) {
-            // This will be called if the table is new or just empty.
-            callback.onFailure(null);
+            callback.onNoMoreData();
         } else {
             callback.onSuccess(achievements);
         }

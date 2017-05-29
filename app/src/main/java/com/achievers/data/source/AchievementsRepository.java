@@ -22,6 +22,7 @@ public class AchievementsRepository implements AchievementsDataSource {
     private final AchievementsDataSource mAchievementsRemoteDataSource;
     private final AchievementsDataSource mAchievementsLocalDataSource;
     private boolean mCacheIsDirty;
+    private boolean loadMore;
 
     // Prevent direct instantiation
     private AchievementsRepository(@NonNull AchievementsDataSource achievementsRemoteDataSource, @NonNull AchievementsDataSource achievementsLocalDataSource) {
@@ -62,11 +63,11 @@ public class AchievementsRepository implements AchievementsDataSource {
      * </p>
      */
     @Override
-    public void loadAchievements(final int categoryId, final @NonNull LoadCallback<ArrayList<Achievement>> callback) {
+    public void loadAchievements(final int categoryId, final int page, final @NonNull LoadCallback<ArrayList<Achievement>> callback) {
         checkNotNull(callback);
 
         if (this.mCacheIsDirty) { // the cache is dirty so we need to fetch new data from the network
-            this.mAchievementsRemoteDataSource.loadAchievements(categoryId, new LoadCallback<ArrayList<Achievement>>() {
+            this.mAchievementsRemoteDataSource.loadAchievements(categoryId, page, new LoadCallback<ArrayList<Achievement>>() {
                 @Override
                 public void onSuccess(ArrayList<Achievement> achievements) {
                     callback.onSuccess(achievements);
@@ -95,11 +96,11 @@ public class AchievementsRepository implements AchievementsDataSource {
                 }
             });
 
-            return; // stop execution until saved all achievements
+            return;
         }
 
         // return result by querying the local storage
-        mAchievementsLocalDataSource.loadAchievements(categoryId, new LoadCallback<ArrayList<Achievement>>() {
+        mAchievementsLocalDataSource.loadAchievements(categoryId, page, new LoadCallback<ArrayList<Achievement>>() {
             @Override
             public void onSuccess(ArrayList<Achievement> achievements) {
                 callback.onSuccess(achievements);
@@ -114,7 +115,7 @@ public class AchievementsRepository implements AchievementsDataSource {
             public void onFailure(String message) {
                 // table is new or empty so load data from remote data source
                 refreshCache(); // if no data available make cache dirty in order to fetch data from the network next time
-                loadAchievements(categoryId, callback);
+                loadAchievements(categoryId, page, callback);
             }
         });
     }
