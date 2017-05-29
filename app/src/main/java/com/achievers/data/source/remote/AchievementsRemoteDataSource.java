@@ -1,25 +1,17 @@
 package com.achievers.data.source.remote;
 
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 
 import com.achievers.Achievements.AchievementsEndpointInterface;
 import com.achievers.data.Achievement;
-import com.achievers.data.Category;
-import com.achievers.data.Involvement;
 import com.achievers.data.source.AchievementsDataSource;
-import com.achievers.data.source.LoadCallback;
-import com.google.common.collect.Lists;
+import com.achievers.data.source.callbacks.GetCallback;
+import com.achievers.data.source.callbacks.LoadCallback;
+import com.achievers.data.source.callbacks.SaveCallback;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-import io.bloco.faker.Faker;
-import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -78,13 +70,11 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
     }
 
     /**
-     * Note: {@link GetAchievementCallback#onDataNotAvailable()} is fired if the server can't be contacted or the server
+     * Note: {@link GetCallback<Achievement>#onFailure()} is fired if the server can't be contacted or the server
      * returns an error.
      */
     @Override
-    public void getAchievement(final int id, final @NonNull GetAchievementCallback callback) {
-//        final Achievement achievement = ACHIEVEMENTS_SERVICE_DATA.get(id);
-//        callback.onLoaded(achievement);
+    public void getAchievement(final int id, final @NonNull GetCallback<Achievement> callback) {
         final Call<Achievement> call = this.apiService.getAchievement(id);
 
         call.enqueue(new Callback<Achievement>() {
@@ -93,24 +83,23 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
                 int statusCode = response.code();
 
                 if (statusCode != 200) {
-                    callback.onDataNotAvailable();
+                    callback.onFailure(null);
                     return;
                 }
 
                 Achievement achievement = response.body();
-                callback.onLoaded(achievement);
+                callback.onSuccess(achievement);
             }
 
             @Override
             public void onFailure(Call<Achievement> call, Throwable t) {
-                // Log error here since request failed
-                callback.onDataNotAvailable();
+                callback.onFailure(null);
             }
         });
     }
 
     @Override
-    public void saveAchievements(@NonNull List<Achievement> achievements, @NonNull final SaveAchievementsCallback callback) {
+    public void saveAchievements(@NonNull List<Achievement> achievements, @NonNull final SaveCallback<List<Achievement>> callback) {
         // not being used
     }
 

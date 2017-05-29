@@ -1,6 +1,7 @@
 package com.achievers.data.source;
 
 import android.support.annotation.NonNull;
+import android.util.SparseBooleanArray;
 
 import com.achievers.data.Category;
 
@@ -22,12 +23,14 @@ public class CategoriesRepository implements CategoriesDataSource {
     private final CategoriesDataSource mCategoriesLocalDataSource;
     // todo: implement cache as hashtable/dictionary with key categoryId and boolean value if it should be cached
     private boolean mCacheIsDirty;
+    private SparseBooleanArray mAlreadyBeenHere;
 
     // Prevent direct instantiation
     private CategoriesRepository(@NonNull CategoriesDataSource categoriesRemoteDataSource, @NonNull CategoriesDataSource categoriesLocalDataSource) {
         this.mCategoriesRemoteDataSource = checkNotNull(categoriesRemoteDataSource);
         this.mCategoriesLocalDataSource = checkNotNull(categoriesLocalDataSource);
         this.refreshCache();
+        this.mAlreadyBeenHere = new SparseBooleanArray();
     }
 
     /**
@@ -69,6 +72,7 @@ public class CategoriesRepository implements CategoriesDataSource {
             this.mCategoriesRemoteDataSource.loadCategories(parentId, new LoadCategoriesCallback() {
                 @Override
                 public void onLoaded(List<Category> categories) {
+                    mAlreadyBeenHere.put(parentId != null ? parentId : -1, false);
                     callback.onLoaded(categories);
 
                     saveCategories(categories, new SaveCategoriesCallback() {
@@ -86,7 +90,14 @@ public class CategoriesRepository implements CategoriesDataSource {
 
                 @Override
                 public void onDataNotAvailable() {
-                    callback.onDataNotAvailable();
+                    if (mAlreadyBeenHere.get(parentId != null ? parentId : -1, false)) {
+                        callback.onDataNotAvailable();
+                        return;
+                    }
+
+                    mCacheIsDirty = false;
+                    mAlreadyBeenHere.put(parentId != null ? parentId : -1, true);
+                    loadCategories(parentId, callback);
                 }
             });
 
@@ -97,6 +108,7 @@ public class CategoriesRepository implements CategoriesDataSource {
         mCategoriesLocalDataSource.loadCategories(parentId, new LoadCategoriesCallback() {
             @Override
             public void onLoaded(List<Category> categories) {
+                mAlreadyBeenHere.put(parentId != null ? parentId : -1, false);
                 callback.onLoaded(categories);
             }
 

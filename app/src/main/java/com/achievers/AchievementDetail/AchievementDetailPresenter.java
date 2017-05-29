@@ -8,6 +8,7 @@ import com.achievers.data.source.AchievementsDataSource;
 import com.achievers.data.source.AchievementsRepository;
 import com.achievers.data.source.EvidenceDataSource;
 import com.achievers.data.source.EvidenceRepository;
+import com.achievers.data.source.callbacks.GetCallback;
 
 import java.util.List;
 
@@ -37,7 +38,6 @@ public class AchievementDetailPresenter implements AchievementDetailContract.Pre
         this.mFirstLoad = true;
     }
 
-
     @Override
     public void start() {
         getAchievement();
@@ -45,10 +45,12 @@ public class AchievementDetailPresenter implements AchievementDetailContract.Pre
 
     @Override
     public void getAchievement() {
-        this.mAchievementsRepository.getAchievement(this.mAchievementId, new AchievementsDataSource.GetAchievementCallback() {
+        this.mAchievementsRepository.getAchievement(this.mAchievementId, new GetCallback<Achievement>() {
             @Override
-            public void onLoaded(final Achievement achievement) {
+            public void onSuccess(final Achievement achievement) {
                 // The view may not be able to handle UI updates anymore
+                if (!mAchievementDetailView.isActive()) return;
+
                 if (achievement != null) {
                     mAchievementDetailView.showAchievement(achievement);
                     loadEvidence(achievement.getId(), true);
@@ -58,8 +60,10 @@ public class AchievementDetailPresenter implements AchievementDetailContract.Pre
             }
 
             @Override
-            public void onDataNotAvailable() {
+            public void onFailure(String message) {
                 // The view may not be able to handle UI updates anymore
+                if (!mAchievementDetailView.isActive()) return;
+
                 mAchievementDetailView.showLoadingAchievementError();
             }
         });

@@ -27,7 +27,7 @@ public class AchieversApplication extends Application {
 
         Realm.init(this);
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
-        Realm.deleteRealm(realmConfiguration); // Clear the realm from last time
+//        Realm.deleteRealm(realmConfiguration); // Clear the realm from last time
         Realm.setDefaultConfiguration(realmConfiguration);
 
         Toro.init(this);

@@ -1,23 +1,17 @@
 package com.achievers.Achievements;
 
-import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
 
-import com.achievers.AchievementDetail.AchievementDetailActivity;
 import com.achievers.data.Achievement;
 import com.achievers.data.Category;
-import com.achievers.data.source.AchievementsDataSource;
 import com.achievers.data.source.AchievementsRepository;
 import com.achievers.data.source.CategoriesDataSource;
-import com.achievers.data.source.LoadCallback;
+import com.achievers.data.source.callbacks.LoadCallback;
 import com.achievers.data.source.remote.RESTClient;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

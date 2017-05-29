@@ -1,11 +1,12 @@
 package com.achievers.data.source.local;
 
-
 import android.support.annotation.NonNull;
 
 import com.achievers.data.Achievement;
 import com.achievers.data.source.AchievementsDataSource;
-import com.achievers.data.source.LoadCallback;
+import com.achievers.data.source.callbacks.GetCallback;
+import com.achievers.data.source.callbacks.LoadCallback;
+import com.achievers.data.source.callbacks.SaveCallback;
 import com.achievers.data.source.remote.RESTClient;
 
 import java.util.ArrayList;
@@ -66,21 +67,22 @@ public class AchievementsLocalDataSource implements AchievementsDataSource {
     }
 
     /**
-     * Note: {@link GetAchievementCallback#onDataNotAvailable()} is fired if the {@link Achievement} isn't
+     * Note: {@link GetCallback<Achievement>#onDataNotAvailable()} is fired if the {@link Achievement} isn't
      * found.
      */
     @Override
-    public void getAchievement(int id, @NonNull GetAchievementCallback callback) {
+    public void getAchievement(int id, @NonNull GetCallback<Achievement> callback) {
         Achievement achievement = this.mRealm
                 .where(Achievement.class)
                 .equalTo("id", id)
                 .findFirst();
 
-        if (achievement != null) {
-            callback.onLoaded(achievement);
-        } else {
-            callback.onDataNotAvailable();
+        if (achievement == null) {
+            callback.onFailure(null);
+            return;
         }
+
+        callback.onSuccess(achievement);
     }
 
     @Override
@@ -90,7 +92,7 @@ public class AchievementsLocalDataSource implements AchievementsDataSource {
     }
 
     @Override
-    public void saveAchievements(@NonNull final List<Achievement> achievements, @NonNull final SaveAchievementsCallback callback) {
+    public void saveAchievements(@NonNull final List<Achievement> achievements, @NonNull final SaveCallback<List<Achievement>> callback) {
         this.mRealm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -99,12 +101,12 @@ public class AchievementsLocalDataSource implements AchievementsDataSource {
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-                callback.onSuccess();;
+                callback.onSuccess(achievements);
             }
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(Throwable error) {
-                callback.onError();
+                callback.onFailure(error.getMessage());
             }
         });
     }
