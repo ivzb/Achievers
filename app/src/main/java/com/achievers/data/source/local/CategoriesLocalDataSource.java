@@ -4,6 +4,9 @@ import android.support.annotation.NonNull;
 
 import com.achievers.data.Category;
 import com.achievers.data.source.CategoriesDataSource;
+import com.achievers.data.source.callbacks.GetCallback;
+import com.achievers.data.source.callbacks.LoadCallback;
+import com.achievers.data.source.callbacks.SaveCallback;
 
 import java.util.List;
 
@@ -32,12 +35,11 @@ public class CategoriesLocalDataSource implements CategoriesDataSource {
         return INSTANCE;
     }
 
-    /**
-     * Note: {@link LoadCategoriesCallback#onDataNotAvailable()} is fired if the database doesn't exist
-     * or the table is empty.
-     */
     @Override
-    public void loadCategories(Integer parentId, @NonNull LoadCategoriesCallback callback) {
+    public void loadCategories(
+            final Integer parentId,
+            @NonNull final LoadCallback<List<Category>> callback
+    ) {
         RealmResults<Category> realmResults = this.mRealm
                 .where(Category.class)
                 .equalTo("parent.id", parentId)
@@ -47,29 +49,28 @@ public class CategoriesLocalDataSource implements CategoriesDataSource {
         List<Category> categories = this.mRealm.copyFromRealm(realmResults);
 
         if (categories.isEmpty()) {
-            // This will be called if the table is new or just empty.
-            callback.onDataNotAvailable();
-        } else {
-            callback.onLoaded(categories);
+            callback.onNoMoreData();
+            return;
         }
+
+        callback.onSuccess(categories);
     }
 
-    /**
-     * Note: {@link GetCategoryCallback#onDataNotAvailable()} is fired if the {@link Category} isn't
-     * found.
-     */
     @Override
-    public void getCategory(@NonNull Integer categoryId, @NonNull GetCategoryCallback callback) {
+    public void getCategory(
+            @NonNull final Integer categoryId,
+            @NonNull GetCallback<Category> callback
+    ) {
         Category category = this.mRealm
                 .where(Category.class)
                 .equalTo("id", categoryId)
                 .findFirst();
 
-        if (category != null) {
-            callback.onLoaded(category);
-        } else {
-            callback.onDataNotAvailable();
+        if (category == null) {
+            callback.onFailure(null);
         }
+
+        callback.onSuccess(category);
     }
 
     @Override
@@ -79,7 +80,10 @@ public class CategoriesLocalDataSource implements CategoriesDataSource {
     }
 
     @Override
-    public void saveCategories(@NonNull final List<Category> categories, @NonNull final SaveCategoriesCallback callback) {
+    public void saveCategories(
+            @NonNull final List<Category> categories,
+            @NonNull final SaveCallback<Void> callback
+    ) {
         this.mRealm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -88,12 +92,12 @@ public class CategoriesLocalDataSource implements CategoriesDataSource {
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-                callback.onSuccess();;
+                callback.onSuccess(null);
             }
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(Throwable error) {
-                callback.onError();
+                callback.onFailure(error.getMessage());
             }
         });
     }

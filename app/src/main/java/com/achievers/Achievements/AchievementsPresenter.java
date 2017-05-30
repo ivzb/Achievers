@@ -12,6 +12,7 @@ import com.achievers.data.source.callbacks.LoadCallback;
 import com.achievers.data.source.remote.RESTClient;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -69,9 +70,9 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
         if (showLoadingUI) mAchievementsView.setLoadingIndicator(true);
         if (forceUpdate) mAchievementsRepository.refreshCache();
 
-        mAchievementsRepository.loadAchievements(category.getId(), currentPage, new LoadCallback<ArrayList<Achievement>>() {
+        mAchievementsRepository.loadAchievements(category.getId(), currentPage, new LoadCallback<List<Achievement>>() {
             @Override
-            public void onSuccess(final ArrayList<Achievement> achievements) {
+            public void onSuccess(final List<Achievement> achievements) {
                 // The view may not be able to handle UI updates anymore
                 if (!mAchievementsView.isActive()) return;
                 if (showLoadingUI) mAchievementsView.setLoadingIndicator(false);

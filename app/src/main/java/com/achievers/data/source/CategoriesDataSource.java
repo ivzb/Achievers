@@ -2,32 +2,31 @@ package com.achievers.data.source;
 
 import android.support.annotation.NonNull;
 import com.achievers.data.Category;
+import com.achievers.data.source.callbacks.GetCallback;
+import com.achievers.data.source.callbacks.LoadCallback;
+import com.achievers.data.source.callbacks.SaveCallback;
+
 import java.util.List;
 
 /**
  * Main entry point for accessing Categories data.
  */
 public interface CategoriesDataSource {
-    interface GetCategoryCallback {
-        void onLoaded(Category category);
-        void onDataNotAvailable();
-    }
 
-    interface LoadCategoriesCallback {
-        void onLoaded(List<Category> categories);
-        void onDataNotAvailable();
-    }
+    void getCategory(
+            @NonNull final Integer categoryId,
+            @NonNull final GetCallback<Category> callback
+    );
 
-    interface SaveCategoriesCallback {
-        void onSuccess();
-        void onError();
-    }
+    void loadCategories(
+            final Integer parentId,
+            @NonNull final LoadCallback<List<Category>> callback
+    );
 
-    void getCategory(@NonNull Integer categoryId, @NonNull GetCategoryCallback callback);
-
-    void loadCategories(Integer parentId, @NonNull LoadCategoriesCallback callback);
-
-    void saveCategories(@NonNull List<Category> categories, @NonNull SaveCategoriesCallback callback);
+    void saveCategories(
+            @NonNull final List<Category> categories,
+            @NonNull final SaveCallback<Void> callback
+    );
 
     void refreshCache();
 }

@@ -38,40 +38,41 @@ public class AchievementsLocalDataSource implements AchievementsDataSource {
         return INSTANCE;
     }
 
-    /**
-     * Note: {@link LoadCallback<ArrayList<Achievement>>#onFailure()} is fired if the database doesn't exist
-     * or the table is empty.
-     */
     @Override
-    public void loadAchievements(final int categoryId, final int page, @NonNull LoadCallback<ArrayList<Achievement>> callback) {
+    public void loadAchievements(
+            final int categoryId,
+            final int page,
+            @NonNull LoadCallback<List<Achievement>> callback
+    ) {
         RealmResults<Achievement> realmResults = this.mRealm
                 .where(Achievement.class)
                 .equalTo("category.id", categoryId)
                 .findAll()
                 .sort("id", Sort.DESCENDING);
 
-        ArrayList<Achievement> arrayList = new ArrayList<>();
-
+        List<Achievement> results = new ArrayList<>();
         int start = page * pageSize;
-        for (int i = start; i < Math.max(start + pageSize, realmResults.size()); i++) {
-            arrayList.add(realmResults.get(i));
+        int end = Math.max(start + pageSize, realmResults.size());
+
+        for (int i = start; i < end; i++) {
+            results.add(realmResults.get(i));
         }
 
-        ArrayList<Achievement> achievements = (ArrayList<Achievement>) this.mRealm.copyFromRealm(arrayList);
+        List<Achievement> achievements = this.mRealm.copyFromRealm(results);
 
         if (achievements.isEmpty()) {
             callback.onNoMoreData();
-        } else {
-            callback.onSuccess(achievements);
+            return;
         }
+
+        callback.onSuccess(achievements);
     }
 
-    /**
-     * Note: {@link GetCallback<Achievement>#onDataNotAvailable()} is fired if the {@link Achievement} isn't
-     * found.
-     */
     @Override
-    public void getAchievement(int id, @NonNull GetCallback<Achievement> callback) {
+    public void getAchievement(
+            final int id,
+            @NonNull final GetCallback<Achievement> callback
+    ) {
         Achievement achievement = this.mRealm
                 .where(Achievement.class)
                 .equalTo("id", id)
@@ -92,7 +93,10 @@ public class AchievementsLocalDataSource implements AchievementsDataSource {
     }
 
     @Override
-    public void saveAchievements(@NonNull final List<Achievement> achievements, @NonNull final SaveCallback<List<Achievement>> callback) {
+    public void saveAchievements(
+            @NonNull final List<Achievement> achievements,
+            @NonNull final SaveCallback<Void> callback
+    ) {
         this.mRealm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -101,7 +105,7 @@ public class AchievementsLocalDataSource implements AchievementsDataSource {
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-                callback.onSuccess(achievements);
+                callback.onSuccess(null);
             }
         }, new Realm.Transaction.OnError() {
             @Override

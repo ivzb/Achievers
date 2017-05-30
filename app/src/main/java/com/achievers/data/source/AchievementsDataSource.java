@@ -15,11 +15,21 @@ import java.util.List;
  */
 public interface AchievementsDataSource {
 
-    void getAchievement(final int id, @NonNull GetCallback<Achievement> callback);
+    void getAchievement(
+            final int id,
+            @NonNull final GetCallback<Achievement> callback
+    );
 
-    void loadAchievements(final int categoryId, final int page, @NonNull LoadCallback<ArrayList<Achievement>> callback);
+    void loadAchievements(
+            final int categoryId,
+            final int page,
+            @NonNull final LoadCallback<List<Achievement>> callback
+    );
 
-    void saveAchievements(@NonNull final List<Achievement> achievements, @NonNull SaveCallback<List<Achievement>> callback);
+    void saveAchievements(
+            @NonNull final List<Achievement> achievements,
+            @NonNull final SaveCallback<Void> callback
+    );
 
     void refreshCache();
 }

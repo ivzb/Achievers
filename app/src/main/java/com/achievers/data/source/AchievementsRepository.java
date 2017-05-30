@@ -29,7 +29,10 @@ public class AchievementsRepository implements AchievementsDataSource {
     private SparseBooleanArray mAlreadyBeenHere;
 
     // Prevent direct instantiation
-    private AchievementsRepository(@NonNull AchievementsDataSource achievementsRemoteDataSource, @NonNull AchievementsDataSource achievementsLocalDataSource) {
+    private AchievementsRepository(
+            @NonNull AchievementsDataSource achievementsRemoteDataSource,
+            @NonNull AchievementsDataSource achievementsLocalDataSource
+    ) {
         this.mAchievementsRemoteDataSource = checkNotNull(achievementsRemoteDataSource);
         this.mAchievementsLocalDataSource = checkNotNull(achievementsLocalDataSource);
         this.refreshCache();
@@ -43,7 +46,10 @@ public class AchievementsRepository implements AchievementsDataSource {
      * @param achievementsLocalDataSource  the device storage data source
      * @return the {@link AchievementsRepository} instance
      */
-    public static AchievementsRepository getInstance(AchievementsDataSource achievementsRemoteDataSource, AchievementsDataSource achievementsLocalDataSource) {
+    public static AchievementsRepository getInstance(
+            AchievementsDataSource achievementsRemoteDataSource,
+            AchievementsDataSource achievementsLocalDataSource
+    ) {
         if (INSTANCE == null) {
             INSTANCE = new AchievementsRepository(achievementsRemoteDataSource, achievementsLocalDataSource);
         }
@@ -63,24 +69,28 @@ public class AchievementsRepository implements AchievementsDataSource {
      * Gets Achievements from local data source (realm) or remote data source, whichever is
      * available first.
      * <p>
-     * Note: {@link LoadCallback <ArrayList<Achievement>>#onFailure()} is fired if all data sources fail to
+     * Note: {@link LoadCallback<List<Achievement>>#onFailure()} is fired if all data sources fail to
      * get the data.
      * </p>
      */
     @Override
-    public void loadAchievements(final int categoryId, final int page, final @NonNull LoadCallback<ArrayList<Achievement>> callback) {
+    public void loadAchievements(
+            final int categoryId,
+            final int page,
+            final @NonNull LoadCallback<List<Achievement>> callback
+    ) {
         checkNotNull(callback);
 
         if (this.mCacheIsDirty) { // the cache is dirty so we need to fetch new data from the network
-            this.mAchievementsRemoteDataSource.loadAchievements(categoryId, page, new LoadCallback<ArrayList<Achievement>>() {
+            this.mAchievementsRemoteDataSource.loadAchievements(categoryId, page, new LoadCallback<List<Achievement>>() {
                 @Override
-                public void onSuccess(ArrayList<Achievement> achievements) {
+                public void onSuccess(List<Achievement> achievements) {
                     mAlreadyBeenHere.put(categoryId, false);
                     callback.onSuccess(achievements);
 
-                    saveAchievements(achievements, new SaveCallback<List<Achievement>>() {
+                    saveAchievements(achievements, new SaveCallback<Void>() {
                         @Override
-                        public void onSuccess(List<Achievement> achievement) {
+                        public void onSuccess(Void data) {
                             mCacheIsDirty = false; // cache is clean so the next call will return results form local data source
                         }
 
@@ -100,6 +110,7 @@ public class AchievementsRepository implements AchievementsDataSource {
                 @Override
                 public void onFailure(String message) {
                     if (mAlreadyBeenHere.get(categoryId, false)) {
+                        mAlreadyBeenHere.put(categoryId, false);
                         callback.onFailure(message);
                         return;
                     }
@@ -114,9 +125,9 @@ public class AchievementsRepository implements AchievementsDataSource {
         }
 
         // return result by querying the local storage
-        mAchievementsLocalDataSource.loadAchievements(categoryId, page, new LoadCallback<ArrayList<Achievement>>() {
+        mAchievementsLocalDataSource.loadAchievements(categoryId, page, new LoadCallback<List<Achievement>>() {
             @Override
-            public void onSuccess(ArrayList<Achievement> achievements) {
+            public void onSuccess(List<Achievement> achievements) {
                 mAlreadyBeenHere.put(categoryId, false);
                 callback.onSuccess(achievements);
             }
@@ -136,15 +147,11 @@ public class AchievementsRepository implements AchievementsDataSource {
         });
     }
 
-    /**
-     * Gets Achievement from local data source (realm) unless the table is new or empty. In that case it
-     * uses the network data source.
-     * <p>
-     * Note: {@link GetCallback<Achievement>#onFailure()} is fired if both data sources fail to
-     * get the data.
-     */
     @Override
-    public void getAchievement(final int id, final @NonNull GetCallback<Achievement> callback) {
+    public void getAchievement(
+            final int id,
+            final @NonNull GetCallback<Achievement> callback
+    ) {
         checkNotNull(callback);
 
         // todo: implement cache strategy
@@ -177,7 +184,10 @@ public class AchievementsRepository implements AchievementsDataSource {
      * Saves Achievement object to local data source.
      */
     @Override
-    public void saveAchievements(@NonNull List<Achievement> achievements, @NonNull SaveCallback<List<Achievement>> callback) {
+    public void saveAchievements(
+            @NonNull final List<Achievement> achievements,
+            @NonNull final SaveCallback<Void> callback
+    ) {
         this.mAchievementsLocalDataSource.saveAchievements(achievements, callback);
     }
 

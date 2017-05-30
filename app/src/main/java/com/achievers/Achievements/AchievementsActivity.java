@@ -11,6 +11,7 @@ import com.achievers.data.Category;
 import com.achievers.data.source.AchievementsRepository;
 import com.achievers.data.source.CategoriesDataSource;
 import com.achievers.data.source.CategoriesRepository;
+import com.achievers.data.source.callbacks.GetCallback;
 import com.achievers.data.source.local.AchievementsLocalDataSource;
 import com.achievers.data.source.local.CategoriesLocalDataSource;
 import com.achievers.data.source.remote.AchievementsRemoteDataSource;
@@ -65,15 +66,15 @@ public class AchievementsActivity extends BaseActivity {
         achievementsFragment.setPresenter(presenter);
         final AchievementsViewModel viewModel = new AchievementsViewModel(getApplicationContext());
 
-        categoriesRepository.getCategory(categoryId, new CategoriesDataSource.GetCategoryCallback() {
+        categoriesRepository.getCategory(categoryId, new GetCallback<Category>() {
             @Override
-            public void onLoaded(Category category) {
+            public void onSuccess(Category category) {
                 viewModel.setCategory(category);
                 achievementsFragment.setViewModel(viewModel);
             }
 
             @Override
-            public void onDataNotAvailable() {
+            public void onFailure(String message) {
                 // todo: show error in category result?
             }
         });

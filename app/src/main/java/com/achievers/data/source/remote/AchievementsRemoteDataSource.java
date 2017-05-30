@@ -39,7 +39,11 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
     }
 
     @Override
-    public void loadAchievements(final int categoryId, final int page, final @NonNull LoadCallback<ArrayList<Achievement>> callback) {
+    public void loadAchievements(
+            final int categoryId,
+            final int page,
+            final @NonNull LoadCallback<List<Achievement>> callback
+    ) {
         final Call<ODataResponseArray<Achievement>> call = this.apiService.getAchievements(categoryId, pageSize, page * pageSize);
 
         call.enqueue(new Callback<ODataResponseArray<Achievement>>() {
@@ -52,29 +56,28 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
                     return;
                 }
 
-                ArrayList<Achievement> achievements = response.body().getResult();
+                List<Achievement> achievements = response.body().getResult();
 
                 if (achievements.isEmpty()) {
                     callback.onNoMoreData();
-                } else {
-                    callback.onSuccess(achievements);
+                    return;
                 }
+
+                callback.onSuccess(achievements);
             }
 
             @Override
             public void onFailure(Call<ODataResponseArray<Achievement>> call, Throwable t) {
-                // Log error here since request failed
                 callback.onFailure("Server could not be reached. Please try again.");
             }
         });
     }
 
-    /**
-     * Note: {@link GetCallback<Achievement>#onFailure()} is fired if the server can't be contacted or the server
-     * returns an error.
-     */
     @Override
-    public void getAchievement(final int id, final @NonNull GetCallback<Achievement> callback) {
+    public void getAchievement(
+            final int id,
+            final @NonNull GetCallback<Achievement> callback
+    ) {
         final Call<Achievement> call = this.apiService.getAchievement(id);
 
         call.enqueue(new Callback<Achievement>() {
@@ -83,7 +86,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
                 int statusCode = response.code();
 
                 if (statusCode != 200) {
-                    callback.onFailure(null);
+                    callback.onFailure("Error occurred. Please try again.");
                     return;
                 }
 
@@ -93,13 +96,16 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
 
             @Override
             public void onFailure(Call<Achievement> call, Throwable t) {
-                callback.onFailure(null);
+                callback.onFailure("Server could not be reached. Please try again.");
             }
         });
     }
 
     @Override
-    public void saveAchievements(@NonNull List<Achievement> achievements, @NonNull final SaveCallback<List<Achievement>> callback) {
+    public void saveAchievements(
+            @NonNull List<Achievement> achievements,
+            @NonNull final SaveCallback<Void> callback
+    ) {
         // not being used
     }
 

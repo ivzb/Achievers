@@ -8,6 +8,7 @@ import com.achievers.Achievements.AchievementsActivity;
 import com.achievers.data.Category;
 import com.achievers.data.source.CategoriesDataSource;
 import com.achievers.data.source.CategoriesRepository;
+import com.achievers.data.source.callbacks.LoadCallback;
 
 import java.util.EmptyStackException;
 import java.util.List;
@@ -70,9 +71,9 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
         if (showLoadingUI) mCategoriesView.setLoadingIndicator(true);
         if (forceUpdate) mCategoriesRepository.refreshCache();
 
-        mCategoriesRepository.loadCategories(parentCategoryId, new CategoriesDataSource.LoadCategoriesCallback() {
+        mCategoriesRepository.loadCategories(parentCategoryId, new LoadCallback<List<Category>>() {
             @Override
-            public void onLoaded(List<Category> categories) {
+            public void onSuccess(List<Category> categories) {
                 // TODO: Fix filtering
 //                List<Category> categoriesToShow = new ArrayList<>();
 //
@@ -91,20 +92,25 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
 
                 if (categories.size() > 0) {
                     mCategoriesView.showCategories(categories);
-                } else {
-                    callback.onOpen(parentCategoryId);
+                    return;
                 }
+
+                callback.onOpen(parentCategoryId);
             }
 
             @Override
-            public void onDataNotAvailable() {
+            public void onNoMoreData() {
+                if (!mCategoriesView.isActive()) return;
+                if (showLoadingUI) mCategoriesView.setLoadingIndicator(false);
+            }
+
+            @Override
+            public void onFailure(String message) {
                 // The view may not be able to handle UI updates anymore
                 if (!mCategoriesView.isActive()) return;
                 mCategoriesView.showLoadingCategoriesError();
-                mCategoriesView.setLoadingIndicator(false);
+                if (showLoadingUI) mCategoriesView.setLoadingIndicator(false);
                 if (mCategoriesNavigationState.size() > 0) mCategoriesNavigationState.pop();
-
-                //callback.onOpen(parentCategoryId);
             }
         });
     }
