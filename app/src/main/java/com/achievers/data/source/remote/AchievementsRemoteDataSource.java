@@ -9,7 +9,6 @@ import com.achievers.data.source.callbacks.GetCallback;
 import com.achievers.data.source.callbacks.LoadCallback;
 import com.achievers.data.source.callbacks.SaveCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -44,7 +43,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
             final int page,
             final @NonNull LoadCallback<List<Achievement>> callback
     ) {
-        final Call<ODataResponseArray<Achievement>> call = this.apiService.getAchievements(categoryId, pageSize, page * pageSize);
+        final Call<ODataResponseArray<Achievement>> call = this.apiService.loadAchievements(categoryId, pageSize, page * pageSize);
 
         call.enqueue(new Callback<ODataResponseArray<Achievement>>() {
             @Override

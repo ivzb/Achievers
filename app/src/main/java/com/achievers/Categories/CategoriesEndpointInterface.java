@@ -12,11 +12,11 @@ public interface CategoriesEndpointInterface {
     Call<Category> getCategory(@Path("id") int id);
 
     @GET("Categories")
-    Call<ODataResponseArray<Category>> getCategories();
+    Call<ODataResponseArray<Category>> loadCategories();
 
     @GET("RootCategoryChildren")
-    Call<ODataResponseArray<Category>> getRootCategoryChildren();
+    Call<ODataResponseArray<Category>> loadRootCategoryChildren();
 
     @GET("Categories({id})/Children")
-    Call<ODataResponseArray<Category>> getChildren(@Path("id") int id);
+    Call<ODataResponseArray<Category>> loadChildren(@Path("id") int id);
 }

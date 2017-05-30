@@ -43,8 +43,8 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
     ) {
         final Call<ODataResponseArray<Category>> call =
                 (parentId == null ?
-                        this.apiService.getRootCategoryChildren() :
-                        this.apiService.getChildren(parentId)
+                        this.apiService.loadRootCategoryChildren() :
+                        this.apiService.loadChildren(parentId)
                 );
 
         call.enqueue(new Callback<ODataResponseArray<Category>>() {

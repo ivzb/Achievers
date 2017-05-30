@@ -21,13 +21,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class AchievementsLocalDataSource implements AchievementsDataSource {
 
     private static AchievementsLocalDataSource INSTANCE;
-    private Realm mRealm;
-    private final int pageSize = RESTClient.getPageSize();
+    private final Realm mRealm;
+    private final int mPageSize;
 
     // Prevent direct instantiation.
     private AchievementsLocalDataSource(@NonNull Realm realm) {
         checkNotNull(realm);
         this.mRealm = realm;
+        this.mPageSize = RESTClient.getPageSize();
     }
 
     public static AchievementsLocalDataSource getInstance(@NonNull Realm realm) {
@@ -47,12 +48,11 @@ public class AchievementsLocalDataSource implements AchievementsDataSource {
         RealmResults<Achievement> realmResults = this.mRealm
                 .where(Achievement.class)
                 .equalTo("category.id", categoryId)
-                .findAll()
-                .sort("id", Sort.DESCENDING);
+                .findAllSorted("id", Sort.DESCENDING);
 
         List<Achievement> results = new ArrayList<>();
-        int start = page * pageSize;
-        int end = Math.max(start + pageSize, realmResults.size());
+        int start = page * mPageSize;
+        int end = Math.max(start + mPageSize, realmResults.size());
 
         for (int i = start; i < end; i++) {
             results.add(realmResults.get(i));

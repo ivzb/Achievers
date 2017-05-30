@@ -3,10 +3,14 @@ package com.achievers.data.source.remote;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
+import com.achievers.Evidence.EvidenceEndpointInterface;
 import com.achievers.data.Achievement;
 import com.achievers.data.Evidence;
 import com.achievers.data.EvidenceType;
 import com.achievers.data.source.EvidenceDataSource;
+import com.achievers.data.source.callbacks.GetCallback;
+import com.achievers.data.source.callbacks.LoadCallback;
+import com.achievers.data.source.callbacks.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -15,6 +19,9 @@ import java.util.Map;
 
 import io.bloco.faker.Faker;
 import io.realm.Realm;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Implementation of remote network data source.
@@ -23,38 +30,8 @@ public class EvidenceRemoteDataSource implements EvidenceDataSource {
 
     private static EvidenceRemoteDataSource INSTANCE;
 
-    // for developing purposes I am not fetching data from web service
-    private final static Map<Integer, Evidence> EVIDENCE_SERVICE_DATA;
-
-    static {
-        EVIDENCE_SERVICE_DATA = new LinkedHashMap<>();
-    }
-
-    private static void generateEvidence(int count, final Achievement achievement, Faker faker)
-    {
-        if (count == 0) return;
-
-        Evidence newEvidence = new Evidence(
-                EVIDENCE_SERVICE_DATA.size() + 1, faker.lorem.sentence(5), EvidenceType.getRandomEvidenceType(),
-                "", achievement, faker.date.backward());
-
-        switch (EvidenceType.getById(newEvidence.getEvidenceType().getId())) {
-            case Image:
-                newEvidence.setUrl("https://unsplash.it/500/500/?random&a=" + faker.number.number(2));
-                break;
-            case Video:
-                newEvidence.setUrl("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4");
-                break;
-            case Voice:
-                break;
-            case Location:
-                break;
-        }
-
-        EVIDENCE_SERVICE_DATA.put(newEvidence.getId(), newEvidence);
-
-        generateEvidence(--count, achievement, faker);
-    }
+    private EvidenceEndpointInterface apiService;
+    private final int pageSize = RESTClient.getPageSize();
 
     public static EvidenceRemoteDataSource getInstance() {
         if (INSTANCE == null) INSTANCE = new EvidenceRemoteDataSource();
@@ -62,38 +39,80 @@ public class EvidenceRemoteDataSource implements EvidenceDataSource {
     }
 
     // Prevent direct instantiation.
-    private EvidenceRemoteDataSource() { }
-
-    /**
-     * Note: {@link LoadEvidenceCallback#onDataNotAvailable()} is fired if the server can't be contacted or the server
-     * returns an error.
-     */
-    @Override
-    public void loadEvidence(final int achievementId, final @NonNull LoadEvidenceCallback callback) {
-        EVIDENCE_SERVICE_DATA.clear();
-
-        Realm realm = Realm.getDefaultInstance();
-        Achievement achievement = realm.where(Achievement.class).equalTo("id", achievementId).findFirst();
-        realm.close();
-
-        generateEvidence(15, achievement, new Faker());
-
-        List<Evidence> evidenceToShow = new ArrayList<>(EVIDENCE_SERVICE_DATA.values());
-        callback.onLoaded(evidenceToShow);
-    }
-
-    /**
-     * Note: {@link GetEvidenceCallback#onDataNotAvailable()} is fired if the server can't be contacted or the server
-     * returns an error.
-     */
-    @Override
-    public void getEvidence(@NonNull int id, final @NonNull GetEvidenceCallback callback) {
-        final Evidence evidence = EVIDENCE_SERVICE_DATA.get(id);
-        callback.onLoaded(evidence);
+    private EvidenceRemoteDataSource() {
+        this.apiService = RESTClient
+                .getClient()
+                .create(EvidenceEndpointInterface.class);
     }
 
     @Override
-    public void saveEvidence(@NonNull List<Evidence> evidence) {
+    public void loadEvidence(
+            final int achievementId,
+            final int page,
+            final @NonNull LoadCallback<List<Evidence>> callback
+    ) {
+        final Call<ODataResponseArray<Evidence>> call = this.apiService.loadEvidence(achievementId, pageSize, page * pageSize);
+
+        call.enqueue(new Callback<ODataResponseArray<Evidence>>() {
+            @Override
+            public void onResponse(Call<ODataResponseArray<Evidence>> call, Response<ODataResponseArray<Evidence>> response) {
+                int statusCode = response.code();
+
+                if (statusCode != 200) {
+                    callback.onFailure("Error occurred. Please try again.");
+                    return;
+                }
+
+                List<Evidence> evidence = response.body().getResult();
+
+                if (evidence.isEmpty()) {
+                    callback.onNoMoreData();
+                    return;
+                }
+
+                callback.onSuccess(evidence);
+            }
+
+            @Override
+            public void onFailure(Call<ODataResponseArray<Evidence>> call, Throwable t) {
+                callback.onFailure("Server could not be reached. Please try again.");
+            }
+        });
+    }
+
+    @Override
+    public void getEvidence(
+            final int id,
+            final @NonNull GetCallback<Evidence> callback
+    ) {
+        final Call<Evidence> call = this.apiService.getEvidence(id);
+
+        call.enqueue(new Callback<Evidence>() {
+            @Override
+            public void onResponse(Call<Evidence> call, Response<Evidence> response) {
+                int statusCode = response.code();
+
+                if (statusCode != 200) {
+                    callback.onFailure("Error occurred. Please try again.");
+                    return;
+                }
+
+                Evidence evidence = response.body();
+                callback.onSuccess(evidence);
+            }
+
+            @Override
+            public void onFailure(Call<Evidence> call, Throwable t) {
+                callback.onFailure("Server could not be reached. Please try again.");
+            }
+        });
+    }
+
+    @Override
+    public void saveEvidence(
+            @NonNull List<Evidence> evidence,
+            @NonNull final SaveCallback<Void> callback
+    ) {
         // not implemented yet
     }
 

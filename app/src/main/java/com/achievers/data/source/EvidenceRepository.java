@@ -1,8 +1,12 @@
 package com.achievers.data.source;
 
 import android.support.annotation.NonNull;
+import android.util.SparseBooleanArray;
 
 import com.achievers.data.Evidence;
+import com.achievers.data.source.callbacks.GetCallback;
+import com.achievers.data.source.callbacks.LoadCallback;
+import com.achievers.data.source.callbacks.SaveCallback;
 
 import java.util.List;
 
@@ -21,12 +25,17 @@ public class EvidenceRepository implements EvidenceDataSource {
     private final EvidenceDataSource mEvidenceRemoteDataSource;
     private final EvidenceDataSource mEvidenceLocalDataSource;
     private boolean mCacheIsDirty;
+    private SparseBooleanArray mAlreadyBeenHere;
 
     // Prevent direct instantiation
-    private EvidenceRepository(@NonNull EvidenceDataSource evidenceRemoteDataSource, @NonNull EvidenceDataSource evidenceLocalDataSource) {
+    private EvidenceRepository(
+            @NonNull EvidenceDataSource evidenceRemoteDataSource,
+            @NonNull EvidenceDataSource evidenceLocalDataSource
+    ) {
         this.mEvidenceRemoteDataSource = checkNotNull(evidenceRemoteDataSource);
         this.mEvidenceLocalDataSource = checkNotNull(evidenceLocalDataSource);
-        this.mCacheIsDirty = true;
+        this.refreshCache();
+        this.mAlreadyBeenHere = new SparseBooleanArray();
     }
 
     /**
@@ -36,7 +45,10 @@ public class EvidenceRepository implements EvidenceDataSource {
      * @param evidenceLocalDataSource  the device storage data source
      * @return the {@link EvidenceRepository} instance
      */
-    public static EvidenceRepository getInstance(EvidenceDataSource evidenceRemoteDataSource, EvidenceDataSource evidenceLocalDataSource) {
+    public static EvidenceRepository getInstance(
+            EvidenceDataSource evidenceRemoteDataSource,
+            EvidenceDataSource evidenceLocalDataSource
+    ) {
         if (INSTANCE == null) {
             INSTANCE = new EvidenceRepository(evidenceRemoteDataSource, evidenceLocalDataSource);
         }
@@ -56,77 +68,111 @@ public class EvidenceRepository implements EvidenceDataSource {
      * Gets Evidence from local data source (realm) or remote data source, whichever is
      * available first.
      * <p>
-     * Note: {@link LoadEvidenceCallback#onDataNotAvailable()} is fired if all data sources fail to
+     * Note: {@link LoadCallback<List<Evidence>>#onFailure()} is fired if all data sources fail to
      * get the data.
      * </p>
      */
     @Override
-    public void loadEvidence(final int achievementId, final @NonNull LoadEvidenceCallback callback) {
+    public void loadEvidence(
+            final int achievementId,
+            final int page,
+            final @NonNull LoadCallback<List<Evidence>> callback
+    ) {
         checkNotNull(callback);
 
         if (this.mCacheIsDirty) { // the cache is dirty so we need to fetch new data from the network
-            this.mEvidenceRemoteDataSource.loadEvidence(achievementId, new LoadEvidenceCallback() {
+            this.mEvidenceRemoteDataSource.loadEvidence(achievementId, page, new LoadCallback<List<Evidence>>() {
                 @Override
-                public void onLoaded(List<Evidence> evidence) {
-                    mCacheIsDirty = false; // cache is clean so the next call will return results form local data source
-                    saveEvidence(evidence); // saving results to local data source
-                    loadEvidence(achievementId, callback); // recursively call SELF in order to return data from local data source
+                public void onSuccess(List<Evidence> evidence) {
+                    mAlreadyBeenHere.put(achievementId, false);
+                    callback.onSuccess(evidence);
+
+                    saveEvidence(evidence, new SaveCallback<Void>() {
+                        @Override
+                        public void onSuccess(Void data) {
+                            mCacheIsDirty = false; // cache is clean so the next call will return results form local data source
+                        }
+
+                        @Override
+                        public void onFailure(String message) {
+                            refreshCache();
+                        }
+                    });
                 }
 
                 @Override
-                public void onDataNotAvailable() {
-                    callback.onDataNotAvailable();
+                public void onNoMoreData() {
+                    mAlreadyBeenHere.put(achievementId, false);
+                    callback.onNoMoreData();
+                }
+
+                @Override
+                public void onFailure(String message) {
+                    if (mAlreadyBeenHere.get(achievementId, false)) {
+                        mAlreadyBeenHere.put(achievementId, false);
+                        callback.onFailure(message);
+                        return;
+                    }
+
+                    mCacheIsDirty = false;
+                    mAlreadyBeenHere.put(achievementId, true);
+                    loadEvidence(achievementId, page, callback);
                 }
             });
 
-            return; // stop execution until saved all evidence
+            return;
         }
 
         // return result by querying the local storage
-        mEvidenceLocalDataSource.loadEvidence(achievementId, new LoadEvidenceCallback() {
+        mEvidenceLocalDataSource.loadEvidence(achievementId, page, new LoadCallback<List<Evidence>>() {
             @Override
-            public void onLoaded(List<Evidence> evidence) {
-                callback.onLoaded(evidence);
+            public void onSuccess(List<Evidence> evidence) {
+                mAlreadyBeenHere.put(achievementId, false);
+                callback.onSuccess(evidence);
             }
 
             @Override
-            public void onDataNotAvailable() {
-                mCacheIsDirty = true; // if no data available make cache dirty in order to fetch data from the network next time
-                callback.onDataNotAvailable();
+            public void onNoMoreData() {
+                mAlreadyBeenHere.put(achievementId, false);
+                callback.onNoMoreData();
+            }
+
+            @Override
+            public void onFailure(String message) {
+                // table is new or empty so load data from remote data source
+                refreshCache(); // if no data available make cache dirty in order to fetch data from the network next time
+                loadEvidence(achievementId, page, callback);
             }
         });
     }
 
-    /**
-     * Gets Evidence from local data source (realm) unless the table is new or empty. In that case it
-     * uses the network data source.
-     * <p>
-     * Note: {@link GetEvidenceCallback#onDataNotAvailable()} is fired if both data sources fail to
-     * get the data.
-     */
     @Override
-    public void getEvidence(@NonNull final int id, final @NonNull GetEvidenceCallback callback) {
+    public void getEvidence(
+            final int id,
+            final @NonNull GetCallback<Evidence> callback
+    ) {
         checkNotNull(callback);
 
+        // todo: implement cache strategy
         // Load from server/persisted
         // Is the task in the local data source? If not, query the network.
-        mEvidenceLocalDataSource.getEvidence(id, new GetEvidenceCallback() {
+        mEvidenceLocalDataSource.getEvidence(id, new GetCallback<Evidence>() {
             @Override
-            public void onLoaded(Evidence evidence) {
-                callback.onLoaded(evidence);
+            public void onSuccess(Evidence evidence) {
+                callback.onSuccess(evidence);
             }
 
             @Override
-            public void onDataNotAvailable() {
-                mEvidenceRemoteDataSource.getEvidence(id, new GetEvidenceCallback() {
+            public void onFailure(final String message) {
+                mEvidenceRemoteDataSource.getEvidence(id, new GetCallback<Evidence>() {
                     @Override
-                    public void onLoaded(Evidence evidence) {
-                        callback.onLoaded(evidence);
+                    public void onSuccess(Evidence evidence) {
+                        callback.onSuccess(evidence);
                     }
 
                     @Override
-                    public void onDataNotAvailable() {
-                        callback.onDataNotAvailable();
+                    public void onFailure(String message) {
+                        callback.onFailure(message);
                     }
                 });
             }
@@ -137,8 +183,11 @@ public class EvidenceRepository implements EvidenceDataSource {
      * Saves Evidence object to local data source.
      */
     @Override
-    public void saveEvidence(@NonNull List<Evidence> evidence) {
-        this.mEvidenceLocalDataSource.saveEvidence(evidence);
+    public void saveEvidence(
+            @NonNull final List<Evidence> evidence,
+            @NonNull final SaveCallback<Void> callback
+    ) {
+        this.mEvidenceLocalDataSource.saveEvidence(evidence, callback);
     }
 
     @Override

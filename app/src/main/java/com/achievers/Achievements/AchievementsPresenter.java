@@ -21,7 +21,6 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
     private final AchievementsRepository mAchievementsRepository;
     private final AchievementsContract.View mAchievementsView;
     private boolean mFirstLoad;
-    //private int mPage;
     private SparseBooleanArray mNoMoreData;
     private SparseIntArray mPages;
 
@@ -31,7 +30,6 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
         this.mAchievementsView = checkNotNull(achievementsView, "achievementsView cannot be null");
         this.mAchievementsView.setPresenter(this);
         this.mFirstLoad = true;
-        //this.mPage = 0;
         this.mNoMoreData = new SparseBooleanArray();
         this.mPages = new SparseIntArray();
     }

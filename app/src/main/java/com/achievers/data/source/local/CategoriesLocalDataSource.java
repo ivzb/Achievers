@@ -43,8 +43,7 @@ public class CategoriesLocalDataSource implements CategoriesDataSource {
         RealmResults<Category> realmResults = this.mRealm
                 .where(Category.class)
                 .equalTo("parent.id", parentId)
-                .findAll()
-                .sort("createdOn", Sort.DESCENDING);
+                .findAllSorted("id", Sort.DESCENDING);
 
         List<Category> categories = this.mRealm.copyFromRealm(realmResults);
 
