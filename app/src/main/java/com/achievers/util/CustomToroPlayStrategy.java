@@ -15,17 +15,20 @@ public class CustomToroPlayStrategy implements ToroStrategy {
 
     public CustomToroPlayStrategy() { }
 
-    @Override public String getDescription() {
+    @Override
+    public String getDescription() {
         return "All Media should be played by order, start from 'firstMediaPosition'";
     }
 
     @Nullable
-    @Override public ToroPlayer findBestPlayer(List<ToroPlayer> candidates) {
+    @Override
+    public ToroPlayer findBestPlayer(List<ToroPlayer> candidates) {
         // Inherit the same behaviour with built-in one.
         return delegate.findBestPlayer(candidates);
     }
 
-    @Override public boolean allowsToPlay(ToroPlayer player, ViewParent parent) {
+    @Override
+    public boolean allowsToPlay(ToroPlayer player, ViewParent parent) {
         return false;
     }
 }
