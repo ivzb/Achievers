@@ -33,6 +33,8 @@ He might swipe left for dislike current **Evidence** or opposite - swipe right t
    2. Show Location as map
    3. Upload Evidence
 3. User profile
+   1. Own evidence
+   2. Own achievements
 4. Achievements structure
 5. Quests - essential part
 6. Groups - achieve something with friends/strangers
