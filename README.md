@@ -34,7 +34,8 @@ He might swipe left for dislike current **Evidence** or opposite - swipe right t
    3. Upload Evidence
 3. User profile
    1. Own evidence
-   2. Own achievements
+   2. Own achievements - define yourself goals and make little steps everyday and observe how you are improving yourself overtime.
+
 4. Achievements structure
 5. Quests - essential part
 6. Groups - achieve something with friends/strangers
