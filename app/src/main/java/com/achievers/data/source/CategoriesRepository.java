@@ -141,6 +141,7 @@ public class CategoriesRepository implements CategoriesDataSource {
             public void onFailure(String message) {
                 // table is new or empty so load data from remote data source
                 refreshCache();
+                mAlreadyBeenHere.put(parentId != null ? parentId : -1, true);
                 loadCategories(parentId, callback);
             }
         });

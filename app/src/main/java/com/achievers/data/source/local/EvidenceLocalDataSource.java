@@ -79,7 +79,7 @@ public class EvidenceLocalDataSource implements EvidenceDataSource {
                 .findFirst();
 
         if (evidence == null) {
-            callback.onFailure(null);
+            callback.onFailure("Please connect to Internet in order to load these Evidence");
             return;
         }
 

@@ -48,7 +48,7 @@ public class CategoriesLocalDataSource implements CategoriesDataSource {
         List<Category> categories = this.mRealm.copyFromRealm(realmResults);
 
         if (categories.isEmpty()) {
-            callback.onNoMoreData();
+            callback.onFailure("Please connect to Internet in order to load these Categories");
             return;
         }
 

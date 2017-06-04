@@ -142,6 +142,7 @@ public class AchievementsRepository implements AchievementsDataSource {
             public void onFailure(String message) {
                 // table is new or empty so load data from remote data source
                 refreshCache(); // if no data available make cache dirty in order to fetch data from the network next time
+                mAlreadyBeenHere.put(categoryId, true);
                 loadAchievements(categoryId, page, callback);
             }
         });

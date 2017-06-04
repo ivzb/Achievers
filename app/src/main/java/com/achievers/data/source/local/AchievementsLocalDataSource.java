@@ -61,7 +61,7 @@ public class AchievementsLocalDataSource implements AchievementsDataSource {
         List<Achievement> achievements = this.mRealm.copyFromRealm(results);
 
         if (achievements.isEmpty()) {
-            callback.onNoMoreData();
+            callback.onFailure("Please connect to Internet in order to load these Achievements");
             return;
         }
 
