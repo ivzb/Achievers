@@ -40,6 +40,7 @@ He might swipe left for dislike current **Evidence** or opposite - swipe right t
 5. Quests - essential part
 6. Groups - achieve something with friends/strangers
 7. Use TDD
+8. Privacy
 
 # Dependencies
 1) GSON - A Java serialization/deserialization library to convert Java Objects into JSON and back. [GitHub](https://github.com/google/gson)
