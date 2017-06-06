@@ -50,22 +50,27 @@ public class AchievementsLocalDataSource implements AchievementsDataSource {
                 .equalTo("category.id", categoryId)
                 .findAllSorted("id", Sort.DESCENDING);
 
-        List<Achievement> results = new ArrayList<>();
-        int start = page * mPageSize;
-        int end = Math.max(start + mPageSize, realmResults.size());
+        try {
+            List<Achievement> results = new ArrayList<>();
+            int start = page * mPageSize;
+            int end = Math.max(start + mPageSize, realmResults.size());
 
-        for (int i = start; i < end; i++) {
-            results.add(realmResults.get(i));
+            for (int i = start; i < end; i++) {
+                results.add(realmResults.get(i));
+            }
+
+            List<Achievement> achievements = this.mRealm.copyFromRealm(results);
+
+            if (achievements.isEmpty()) {
+                callback.onFailure("Please connect to Internet in order to load these Achievements");
+                return;
+            }
+
+            callback.onSuccess(achievements);
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            // no such rows in realm -> load them from remote data source
+            callback.onFailure(null);
         }
-
-        List<Achievement> achievements = this.mRealm.copyFromRealm(results);
-
-        if (achievements.isEmpty()) {
-            callback.onFailure("Please connect to Internet in order to load these Achievements");
-            return;
-        }
-
-        callback.onSuccess(achievements);
     }
 
     @Override

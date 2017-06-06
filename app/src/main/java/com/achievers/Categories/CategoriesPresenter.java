@@ -90,18 +90,15 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
                 if (!mCategoriesView.isActive()) return;
                 if (showLoadingUI) mCategoriesView.setLoadingIndicator(false);
 
-                if (categories.size() > 0) {
-                    mCategoriesView.showCategories(categories);
-                    return;
-                }
-
-                callback.onOpen(parentCategoryId);
+                mCategoriesView.showCategories(categories);
             }
 
             @Override
             public void onNoMoreData() {
                 if (!mCategoriesView.isActive()) return;
                 if (showLoadingUI) mCategoriesView.setLoadingIndicator(false);
+
+                callback.onOpen(parentCategoryId);
             }
 
             @Override
@@ -111,6 +108,8 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
                 mCategoriesView.showLoadingCategoriesError();
                 if (showLoadingUI) mCategoriesView.setLoadingIndicator(false);
                 if (mCategoriesNavigationState.size() > 0) mCategoriesNavigationState.pop();
+
+                // TODO: show error message
             }
         });
     }
