@@ -22,13 +22,11 @@ public class EvidenceLocalDataSource implements EvidenceDataSource {
 
     private static EvidenceLocalDataSource INSTANCE;
     private final Realm mRealm;
-    private final int mPageSize;
 
     // Prevent direct instantiation.
     private EvidenceLocalDataSource(@NonNull Realm realm) {
         checkNotNull(realm);
         this.mRealm = realm;
-        this.mPageSize = RESTClient.getPageSize();
     }
 
     public static EvidenceLocalDataSource getInstance(@NonNull Realm realm) {
@@ -45,18 +43,10 @@ public class EvidenceLocalDataSource implements EvidenceDataSource {
             final int page,
             @NonNull final LoadCallback<List<Evidence>> callback
     ) {
-        RealmResults<Evidence> realmResults = this.mRealm
+        RealmResults<Evidence> results = this.mRealm
                 .where(Evidence.class)
                 .equalTo("achievement.id", achievementId)
                 .findAllSorted("id", Sort.DESCENDING);
-
-        List<Evidence> results = new ArrayList<>();
-        int start = page * mPageSize;
-        int end = Math.max(start + mPageSize, realmResults.size());
-
-        for (int i = start; i < end; i++) {
-            results.add(realmResults.get(i));
-        }
 
         List<Evidence> evidence = this.mRealm.copyFromRealm(results);
 

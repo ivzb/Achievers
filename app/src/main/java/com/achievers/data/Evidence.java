@@ -27,7 +27,7 @@ public class Evidence extends RealmObject {
 
     @SerializedName("EvidenceType")
     @NonNull
-    private int evidenceType;
+    private String evidenceType;
 
     @SerializedName("Url")
     @NonNull
@@ -56,11 +56,11 @@ public class Evidence extends RealmObject {
      * @param achievement  achievement of the evidence
      * @param createdOn    creation date of the evidence
      */
-    public Evidence(Integer id, @NonNull String comment, @NonNull EvidenceType evidenceType,
+    public Evidence(Integer id, @NonNull String comment, @NonNull String evidenceType,
                     @NonNull String url, @NonNull Achievement achievement, @Nullable Date createdOn) {
         this.id = id;
         this.comment = comment;
-        this.evidenceType = evidenceType.getId();
+        this.evidenceType = evidenceType;
         this.url = url;
         this.achievement = achievement;
         this.createdOn = createdOn;
@@ -78,7 +78,7 @@ public class Evidence extends RealmObject {
 
     @NonNull
     public EvidenceType getEvidenceType() {
-        return EvidenceType.values()[evidenceType - 1];
+        return EvidenceType.valueOf(evidenceType);
     }
 
     @NonNull
