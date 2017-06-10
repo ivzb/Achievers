@@ -24,6 +24,7 @@ public interface CategoriesDataSource {
     );
 
     void saveCategories(
+            final Integer parentId,
             @NonNull final List<Category> categories,
             @NonNull final SaveCallback<Void> callback
     );

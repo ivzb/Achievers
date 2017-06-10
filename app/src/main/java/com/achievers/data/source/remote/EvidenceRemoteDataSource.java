@@ -1,24 +1,16 @@
 package com.achievers.data.source.remote;
 
-import android.os.Handler;
 import android.support.annotation.NonNull;
 
-import com.achievers.Evidence.EvidenceEndpointInterface;
-import com.achievers.data.Achievement;
+import com.achievers.data.source.endpoints.EvidenceAPI;
 import com.achievers.data.Evidence;
-import com.achievers.data.EvidenceType;
 import com.achievers.data.source.EvidenceDataSource;
 import com.achievers.data.source.callbacks.GetCallback;
 import com.achievers.data.source.callbacks.LoadCallback;
 import com.achievers.data.source.callbacks.SaveCallback;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-import io.bloco.faker.Faker;
-import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,7 +22,7 @@ public class EvidenceRemoteDataSource implements EvidenceDataSource {
 
     private static EvidenceRemoteDataSource INSTANCE;
 
-    private EvidenceEndpointInterface apiService;
+    private EvidenceAPI apiService;
     private final int pageSize = RESTClient.getPageSize();
 
     public static EvidenceRemoteDataSource getInstance() {
@@ -42,7 +34,7 @@ public class EvidenceRemoteDataSource implements EvidenceDataSource {
     private EvidenceRemoteDataSource() {
         this.apiService = RESTClient
                 .getClient()
-                .create(EvidenceEndpointInterface.class);
+                .create(EvidenceAPI.class);
     }
 
     @Override

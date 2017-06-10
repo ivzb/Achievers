@@ -2,7 +2,7 @@ package com.achievers.data.source.remote;
 
 import android.support.annotation.NonNull;
 
-import com.achievers.Categories.CategoriesEndpointInterface;
+import com.achievers.data.source.endpoints.CategoriesAPI;
 import com.achievers.data.Category;
 import com.achievers.data.source.CategoriesDataSource;
 import com.achievers.data.source.callbacks.GetCallback;
@@ -22,7 +22,7 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
 
     private static CategoriesRemoteDataSource INSTANCE;
 
-    private CategoriesEndpointInterface apiService;
+    private CategoriesAPI apiService;
 
     public static CategoriesRemoteDataSource getInstance() {
         if (INSTANCE == null) INSTANCE = new CategoriesRemoteDataSource();
@@ -33,7 +33,7 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
     private CategoriesRemoteDataSource() {
          this.apiService = RESTClient
                 .getClient()
-                .create(CategoriesEndpointInterface.class);
+                .create(CategoriesAPI.class);
     }
 
     @Override
@@ -104,9 +104,10 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
 
     @Override
     public void saveCategories(
+            final Integer parentId,
             @NonNull final List<Category> categories,
-            @NonNull SaveCallback<Void> callback
-    ) {
+            @NonNull SaveCallback<Void> callback) {
+
         // not being used yet
     }
 

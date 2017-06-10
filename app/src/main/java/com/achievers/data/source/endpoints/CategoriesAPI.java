@@ -1,4 +1,4 @@
-package com.achievers.Categories;
+package com.achievers.data.source.endpoints;
 
 import com.achievers.data.Category;
 import com.achievers.data.source.remote.ODataResponseArray;
@@ -7,9 +7,12 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-public interface CategoriesEndpointInterface {
+public interface CategoriesAPI {
+
     @GET("Categories({id})")
-    Call<Category> getCategory(@Path("id") int id);
+    Call<Category> getCategory(
+            @Path("id") int id
+    );
 
     @GET("Categories")
     Call<ODataResponseArray<Category>> loadCategories();
@@ -18,5 +21,7 @@ public interface CategoriesEndpointInterface {
     Call<ODataResponseArray<Category>> loadRootCategoryChildren();
 
     @GET("Categories({id})/Children")
-    Call<ODataResponseArray<Category>> loadChildren(@Path("id") int id);
+    Call<ODataResponseArray<Category>> loadChildren(
+            @Path("id") int id
+    );
 }

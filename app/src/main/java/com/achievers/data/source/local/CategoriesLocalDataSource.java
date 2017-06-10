@@ -80,12 +80,21 @@ public class CategoriesLocalDataSource implements CategoriesDataSource {
 
     @Override
     public void saveCategories(
+            final Integer parentId,
             @NonNull final List<Category> categories,
-            @NonNull final SaveCallback<Void> callback
-    ) {
+            @NonNull final SaveCallback<Void> callback) {
+
+        final Category parentCategory = this.mRealm.where(Category.class).equalTo("id", parentId).findFirst();
+
         this.mRealm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
+                // Consider expanding parent category in remote data source query
+                // instead of setting it here
+                for (Category category: categories) {
+                    category.setParent(parentCategory);
+                }
+
                 realm.copyToRealmOrUpdate(categories);
             }
         }, new Realm.Transaction.OnSuccess() {

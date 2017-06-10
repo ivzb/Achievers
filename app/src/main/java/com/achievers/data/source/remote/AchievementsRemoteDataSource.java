@@ -2,7 +2,7 @@ package com.achievers.data.source.remote;
 
 import android.support.annotation.NonNull;
 
-import com.achievers.Achievements.AchievementsEndpointInterface;
+import com.achievers.data.source.endpoints.AchievementsAPI;
 import com.achievers.data.Achievement;
 import com.achievers.data.source.AchievementsDataSource;
 import com.achievers.data.source.callbacks.GetCallback;
@@ -22,7 +22,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
 
     private static AchievementsRemoteDataSource INSTANCE;
 
-    private AchievementsEndpointInterface apiService;
+    private AchievementsAPI apiService;
     private final int pageSize = RESTClient.getPageSize();
 
     public static AchievementsRemoteDataSource getInstance() {
@@ -34,7 +34,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
     private AchievementsRemoteDataSource() {
         this.apiService = RESTClient
                 .getClient()
-                .create(AchievementsEndpointInterface.class);
+                .create(AchievementsAPI.class);
     }
 
     @Override

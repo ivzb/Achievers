@@ -87,7 +87,7 @@ public class CategoriesRepository implements CategoriesDataSource {
                     mAlreadyBeenHere.put(parentId != null ? parentId : -1, false);
                     callback.onSuccess(categories);
 
-                    saveCategories(categories, new SaveCallback<Void>() {
+                    saveCategories(parentId, categories, new SaveCallback<Void>() {
                         @Override
                         public void onSuccess(Void data) {
                             mCacheIsDirty = false; // cache is clean so the next call will return results form local data source
@@ -184,8 +184,12 @@ public class CategoriesRepository implements CategoriesDataSource {
      * Saves Categories list only to local data source.
      */
     @Override
-    public void saveCategories(@NonNull List<Category> categories, @NonNull SaveCallback<Void> callback) {
-        this.mCategoriesLocalDataSource.saveCategories(categories, callback);
+    public void saveCategories(
+            final Integer parentId,
+            final @NonNull List<Category> categories,
+            final @NonNull SaveCallback<Void> callback) {
+
+        this.mCategoriesLocalDataSource.saveCategories(parentId, categories, callback);
     }
 
     @Override

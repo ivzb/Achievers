@@ -1,6 +1,6 @@
-package com.achievers.Achievements;
+package com.achievers.data.source.endpoints;
 
-import com.achievers.data.Achievement;
+import com.achievers.data.Evidence;
 import com.achievers.data.source.remote.ODataResponseArray;
 
 import retrofit2.Call;
@@ -8,16 +8,17 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface AchievementsEndpointInterface {
-    @GET("Categories({id})/Achievements?$orderby=Id desc")
-    Call<ODataResponseArray<Achievement>> loadAchievements(
+public interface EvidenceAPI {
+
+    @GET("Achievements({id})/Evidence?$orderby=Id desc")
+    Call<ODataResponseArray<Evidence>> loadEvidence(
             @Path("id") int id,
             @Query("$top") int top,
             @Query("$skip") int skip
     );
 
-    @GET("Achievements({id})")
-    Call<Achievement> getAchievement(
+    @GET("Evidence({id})")
+    Call<Evidence> getEvidence(
             @Path("id") int id
     );
 }
