@@ -53,3 +53,6 @@ He might swipe left for dislike current **Evidence** or opposite - swipe right t
 5) Faker - Provides fake data, used while developing in order not to make server requests. [GitHub](https://github.com/thiagokimo/Faker)
 6) Toro - Video list auto playback made simple, specially built for RecyclerView. [GitHub](https://github.com/eneim/Toro)
 7) Fresco - Powerful system for displaying images. [GitHub](https://github.com/facebook/fresco)
+8) DialogPlus
+9) Parceler
+10) LeakCanary
