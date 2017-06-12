@@ -23,5 +23,6 @@
          </activity>
         <activity android:name=".AchievementDetail.AchievementDetailActivity" />
         <activity android:name=".Achievements.AchievementsActivity" />
+        <activity android:name=".AddAchievement.AddAchievementActivity" />
     </application>
 </manifest>

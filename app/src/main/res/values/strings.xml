@@ -29,4 +29,7 @@
     <string name="please_select_category">Please select category</string>
     <string name="voice">Voice</string>
     <string name="upload_evidence">Upload evidence</string>
+    <string name="add_achievement">New Achievement</string>
+    <string name="hint_title">Title</string>
+    <string name="hint_description">Description</string>
 </resources>

@@ -98,6 +98,29 @@ public class AchievementsLocalDataSource implements AchievementsDataSource {
     }
 
     @Override
+    public void saveAchievement(
+            final @NonNull Achievement achievement,
+            final @NonNull SaveCallback<Void> callback) {
+
+        this.mRealm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(achievement);
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                callback.onSuccess(null);
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                callback.onFailure(error.getMessage());
+            }
+        });
+    }
+
+    @Override
     public void saveAchievements(
             @NonNull final List<Achievement> achievements,
             @NonNull final SaveCallback<Void> callback

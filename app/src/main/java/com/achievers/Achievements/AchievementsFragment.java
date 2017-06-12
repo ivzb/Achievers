@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.achievers.AchievementDetail.AchievementDetailActivity;
+import com.achievers.AddAchievement.AddAchievementActivity;
 import com.achievers.R;
 import com.achievers.data.Achievement;
 import com.achievers.data.Category;
@@ -65,6 +67,14 @@ public class AchievementsFragment extends Fragment implements AchievementsContra
         setHasOptionsMenu(true);
         setRetainInstance(true);
 
+//        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_add_achievement);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showAddAchievementUi(-1);
+//            }
+//        });
+
         // Set up progress indicator
         final ScrollChildSwipeRefreshLayout swipeRefreshLayout = mViewDataBinding.refreshLayout;
         swipeRefreshLayout.setColorSchemeColors(
@@ -96,13 +106,19 @@ public class AchievementsFragment extends Fragment implements AchievementsContra
         }
     }
 
-
     @Override
     public void showAchievementDetailsUi(int achievementId) {
         // in it's own Activity, since it makes more sense that way and it gives us the flexibility
         // to show some Intent stubbing.
         Intent intent = new Intent(getContext(), AchievementDetailActivity.class);
         intent.putExtra(AchievementDetailActivity.EXTRA_ACHIEVEMENT_ID, achievementId);
+        startActivity(intent);
+    }
+
+    @Override
+    public void showAddAchievementUi(final int categoryId) {
+        Intent intent = new Intent(getContext(), AddAchievementActivity.class);
+        intent.putExtra(AddAchievementActivity.EXTRA_CATEGORY_ID, categoryId);
         startActivity(intent);
     }
 

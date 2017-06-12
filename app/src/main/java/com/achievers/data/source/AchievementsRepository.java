@@ -31,8 +31,8 @@ public class AchievementsRepository implements AchievementsDataSource {
     // Prevent direct instantiation
     private AchievementsRepository(
             @NonNull AchievementsDataSource achievementsRemoteDataSource,
-            @NonNull AchievementsDataSource achievementsLocalDataSource
-    ) {
+            @NonNull AchievementsDataSource achievementsLocalDataSource) {
+
         this.mAchievementsRemoteDataSource = checkNotNull(achievementsRemoteDataSource);
         this.mAchievementsLocalDataSource = checkNotNull(achievementsLocalDataSource);
         this.refreshCache();
@@ -48,8 +48,8 @@ public class AchievementsRepository implements AchievementsDataSource {
      */
     public static AchievementsRepository getInstance(
             AchievementsDataSource achievementsRemoteDataSource,
-            AchievementsDataSource achievementsLocalDataSource
-    ) {
+            AchievementsDataSource achievementsLocalDataSource) {
+
         if (INSTANCE == null) {
             INSTANCE = new AchievementsRepository(achievementsRemoteDataSource, achievementsLocalDataSource);
         }
@@ -77,8 +77,8 @@ public class AchievementsRepository implements AchievementsDataSource {
     public void loadAchievements(
             final int categoryId,
             final int page,
-            final @NonNull LoadCallback<List<Achievement>> callback
-    ) {
+            final @NonNull LoadCallback<List<Achievement>> callback) {
+
         checkNotNull(callback);
 
         if (this.mCacheIsDirty) { // the cache is dirty so we need to fetch new data from the network
@@ -151,8 +151,8 @@ public class AchievementsRepository implements AchievementsDataSource {
     @Override
     public void getAchievement(
             final int id,
-            final @NonNull GetCallback<Achievement> callback
-    ) {
+            final @NonNull GetCallback<Achievement> callback) {
+
         checkNotNull(callback);
 
         // todo: implement cache strategy
@@ -181,14 +181,33 @@ public class AchievementsRepository implements AchievementsDataSource {
         });
     }
 
+    @Override
+    public void saveAchievement(
+            final @NonNull Achievement achievement,
+            final @NonNull SaveCallback<Void> callback) {
+
+        this.mAchievementsLocalDataSource.saveAchievement(achievement, new SaveCallback<Void>() {
+            @Override
+            public void onSuccess(Void data) {
+                // TODO: Add to sync service
+                callback.onSuccess(data);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                callback.onFailure(message);
+            }
+        });
+    }
+
     /**
      * Saves Achievement object to local data source.
      */
     @Override
     public void saveAchievements(
             @NonNull final List<Achievement> achievements,
-            @NonNull final SaveCallback<Void> callback
-    ) {
+            @NonNull final SaveCallback<Void> callback) {
+
         this.mAchievementsLocalDataSource.saveAchievements(achievements, callback);
     }
 

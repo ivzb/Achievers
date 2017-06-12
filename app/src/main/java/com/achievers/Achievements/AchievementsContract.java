@@ -18,6 +18,8 @@ public class AchievementsContract {
 
         void showAchievementDetailsUi(int categoryId);
 
+        void showAddAchievementUi(int categoryId);
+
         void showLoadingError();
 
         boolean isActive();

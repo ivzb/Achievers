@@ -41,8 +41,8 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
     public void loadAchievements(
             final int categoryId,
             final int page,
-            final @NonNull LoadCallback<List<Achievement>> callback
-    ) {
+            final @NonNull LoadCallback<List<Achievement>> callback) {
+
         final Call<ODataResponseArray<Achievement>> call = this.apiService.loadAchievements(categoryId, pageSize, page * pageSize);
 
         call.enqueue(new Callback<ODataResponseArray<Achievement>>() {
@@ -75,8 +75,8 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
     @Override
     public void getAchievement(
             final int id,
-            final @NonNull GetCallback<Achievement> callback
-    ) {
+            final @NonNull GetCallback<Achievement> callback) {
+
         final Call<Achievement> call = this.apiService.getAchievement(id);
 
         call.enqueue(new Callback<Achievement>() {
@@ -101,10 +101,18 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
     }
 
     @Override
+    public void saveAchievement(
+            @NonNull Achievement achievement,
+            @NonNull SaveCallback<Void> callback) {
+
+        // not being used
+    }
+
+    @Override
     public void saveAchievements(
             @NonNull List<Achievement> achievements,
-            @NonNull final SaveCallback<Void> callback
-    ) {
+            @NonNull final SaveCallback<Void> callback) {
+
         // not being used
     }
 
