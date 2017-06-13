@@ -68,9 +68,11 @@ public class AchievementsActivity extends BaseActivity {
 
         categoriesRepository.getCategory(categoryId, new GetCallback<Category>() {
             @Override
-            public void onSuccess(Category category) {
+            public void onSuccess(final Category category) {
                 viewModel.setCategory(category);
                 achievementsFragment.setViewModel(viewModel);
+
+                presenter.loadAchievements(category, true);
             }
 
             @Override

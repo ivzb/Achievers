@@ -47,7 +47,6 @@ public class AchievementsFragment extends Fragment implements AchievementsContra
     @Override
     public void onResume() {
         super.onResume();
-        this.mPresenter.loadAchievements(this.mAchievementsViewModel.getCategory(), true);
     }
 
     @Override
@@ -67,13 +66,14 @@ public class AchievementsFragment extends Fragment implements AchievementsContra
         setHasOptionsMenu(true);
         setRetainInstance(true);
 
-//        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_add_achievement);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showAddAchievementUi(-1);
-//            }
-//        });
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_add_achievement);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddAchievementUi(-1);
+            }
+        });
 
         // Set up progress indicator
         final ScrollChildSwipeRefreshLayout swipeRefreshLayout = mViewDataBinding.refreshLayout;
