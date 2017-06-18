@@ -1,11 +1,18 @@
 package com.achievers.AddAchievement;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.Achievement;
 import com.achievers.data.Involvement;
 import com.achievers.data.source.AchievementsDataSource;
 import com.achievers.data.source.callbacks.SaveCallback;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AddAchievementPresenter implements AddAchievementContract.Presenter {
 
@@ -59,4 +66,5 @@ public class AddAchievementPresenter implements AddAchievementContract.Presenter
         Involvement[] involvements = Involvement.values();
         mAddAchievementView.showInvolvements(involvements);
     }
+
 }
