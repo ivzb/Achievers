@@ -61,6 +61,9 @@ public class AddAchievementActivity extends BaseActivity {
         );
 
         addAchievementFragment.setPresenter(mAddAchievementPresenter);
+
+        AddAchievementViewModel viewModel = new AddAchievementViewModel(getApplicationContext(), mAddAchievementPresenter);
+        addAchievementFragment.setViewModel(viewModel);
     }
 
     @Override

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.achievers.AchievementDetail.AchievementDetailContract;
 import com.achievers.Achievements.AchievementsAdapter;
 import com.achievers.Achievements.AchievementsContract;
+import com.achievers.AddAchievement.Adapters.InvolvementRecyclerViewAdapter;
 import com.achievers.Categories.CategoriesAdapter;
 import com.achievers.Categories.CategoriesContract;
 import com.achievers.Evidence.EvidenceAdapter;
@@ -133,5 +134,15 @@ public class AdapterSetters {
                 presenter.loadEvidence(achievement.getId(), true);
             }
         });
+    }
+
+    // AddAchievementFragment
+    @BindingAdapter("rvInvolvementAdapter")
+    public static void setRvInvolvementAdapter(RecyclerView recyclerView, InvolvementRecyclerViewAdapter adapter) {
+        if (adapter != null) {
+            LinearLayoutManager layoutManager = new LinearLayoutManager(adapter.getContext());
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(layoutManager);
+        }
     }
 }

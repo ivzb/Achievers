@@ -12,7 +12,9 @@ import com.achievers.data.source.AchievementsDataSource;
 import com.achievers.data.source.callbacks.SaveCallback;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class AddAchievementPresenter implements AddAchievementContract.Presenter {
 
@@ -63,8 +65,7 @@ public class AddAchievementPresenter implements AddAchievementContract.Presenter
 
     @Override
     public void getInvolvements() {
-        Involvement[] involvements = Involvement.values();
-        mAddAchievementView.showInvolvements(involvements);
+        List<Involvement> involvement = Arrays.asList(Involvement.values());
+        mAddAchievementView.showInvolvement(involvement);
     }
-
 }

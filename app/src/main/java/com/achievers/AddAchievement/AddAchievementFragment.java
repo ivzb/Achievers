@@ -15,6 +15,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.achievers.AddAchievement.Adapters.InvolvementRecyclerViewAdapter;
 import com.achievers.R;
 import com.achievers.data.Achievement;
 import com.achievers.data.Involvement;
@@ -34,7 +36,9 @@ import com.achievers.databinding.AddAchievementFragBinding;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -52,12 +56,14 @@ public class AddAchievementFragment extends Fragment implements AddAchievementCo
 
     private EditText mEtTitle;
     private EditText mEtDescription;
-    private Spinner mSpInvolvement;
+    private RecyclerView mRvInvolvement;
     private Button mBtnTakePicture;
     private Button mBtnChoosePicture;
     private ImageView mIvPicture;
 
     private AddAchievementFragBinding mViewDataBinding;
+
+    private AddAchievementViewModel mViewModel;
 
     public static AddAchievementFragment newInstance() {
         return new AddAchievementFragment();
@@ -90,8 +96,8 @@ public class AddAchievementFragment extends Fragment implements AddAchievementCo
             public void onClick(View v) {
                 String title = mEtTitle.getText().toString();
                 String description = mEtDescription.getText().toString();
-                String involvement = mSpInvolvement.getSelectedItem().toString();
-//                Integer cateogryId = mCategoryId;
+                // todo: get id
+                String involvement = mViewModel.getInvolvementRecyclerViewAdapter().getSelectedInvolvement().toString();
 
                 Achievement achievement = new Achievement();//title, description, involvement, equipmentId);
 
@@ -123,9 +129,11 @@ public class AddAchievementFragment extends Fragment implements AddAchievementCo
             mViewDataBinding = AddAchievementFragBinding.inflate(inflater, container, false);
         }
 
+        mViewDataBinding.setViewModel(mViewModel);
+
         mEtTitle = mViewDataBinding.etTitle;
         mEtDescription = mViewDataBinding.etDescription;
-        mSpInvolvement = mViewDataBinding.spInvolvement;
+        mRvInvolvement = mViewDataBinding.rvInvolvement;
         mBtnTakePicture = mViewDataBinding.btnTakePicture;
         mBtnChoosePicture = mViewDataBinding.btnChoosePicture;
         mIvPicture = mViewDataBinding.ivPicture;
@@ -170,8 +178,9 @@ public class AddAchievementFragment extends Fragment implements AddAchievementCo
     }
 
     @Override
-    public void showInvolvements(Involvement[] involvements) {
-        this.mSpInvolvement.setAdapter(new ArrayAdapter<>(getContext(), R.layout.simple_spinner_item, involvements));
+    public void showInvolvement(List<Involvement> involvement) {
+        InvolvementRecyclerViewAdapter involvementAdapter = new InvolvementRecyclerViewAdapter(this.getContext(), involvement);
+        this.mViewModel.setInvolvementRecyclerViewAdapter(involvementAdapter);
     }
 
     @Override
@@ -180,8 +189,8 @@ public class AddAchievementFragment extends Fragment implements AddAchievementCo
     }
 
     @Override
-    public void setAchievement(Achievement achievement) {
-        mViewDataBinding.setAchievement(achievement);
+    public void setViewModel(AddAchievementViewModel viewModel) {
+        mViewModel = viewModel;
     }
 
     public View.OnClickListener takePictureListener = new View.OnClickListener() {

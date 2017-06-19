@@ -7,15 +7,17 @@ import com.achievers.BaseView;
 import com.achievers.data.Achievement;
 import com.achievers.data.Involvement;
 
+import java.util.List;
+
 public class AddAchievementContract {
 
     interface View extends BaseView<Presenter> {
 
-        void showInvolvements(Involvement[] involvements);
+        void showInvolvement(List<Involvement> involvement);
 
         void showInvalidAchievementMessage(final String message);
 
-        void setAchievement(final Achievement achievement);
+        void setViewModel(final AddAchievementViewModel viewModel);
 
         void finishActivity();
 
