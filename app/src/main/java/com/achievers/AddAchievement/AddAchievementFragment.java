@@ -151,6 +151,13 @@ public class AddAchievementFragment extends Fragment implements AddAchievementCo
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == getActivity().RESULT_OK) {
+
+//            File path = new File(getFilesDir(), "your/path");
+//            if (!path.exists()) path.mkdirs();
+//            File imageFile = new File(path, "image.jpg");
+
+
+
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = false;
 

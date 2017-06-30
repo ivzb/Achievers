@@ -9,18 +9,12 @@ import retrofit2.http.Path;
 
 public interface CategoriesAPI {
 
-    @GET("Categories({id})")
+    @GET("Categories/Details/{id}")
     Call<Category> getCategory(
             @Path("id") int id
     );
 
-    @GET("Categories")
-    Call<ODataResponseArray<Category>> loadCategories();
-
-    @GET("RootCategoryChildren")
-    Call<ODataResponseArray<Category>> loadRootCategoryChildren();
-
-    @GET("Categories({id})/Children")
+    @GET("Categories/Children/{id}")
     Call<ODataResponseArray<Category>> loadChildren(
             @Path("id") int id
     );
