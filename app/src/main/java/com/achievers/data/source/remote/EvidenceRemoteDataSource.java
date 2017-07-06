@@ -43,7 +43,7 @@ public class EvidenceRemoteDataSource implements EvidenceDataSource {
             final int page,
             final @NonNull LoadCallback<List<Evidence>> callback
     ) {
-        final Call<ODataResponseArray<Evidence>> call = this.apiService.loadEvidence(achievementId, pageSize, page * pageSize);
+        final Call<ODataResponseArray<Evidence>> call = this.apiService.loadByAchievement(achievementId/*, pageSize, page * pageSize*/);
 
         call.enqueue(new Callback<ODataResponseArray<Evidence>>() {
             @Override

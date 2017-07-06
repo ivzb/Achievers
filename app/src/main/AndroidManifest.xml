@@ -4,7 +4,7 @@
     package="com.achievers">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -18,19 +18,19 @@
         android:allowBackup="true">
          <activity
              android:name=".Categories.CategoriesActivity"
-             android:theme="@style/AppTheme.OverlapSystemBar">
-
-             <intent-filter>
-                 <action android:name="android.intent.action.MAIN" />
-                 <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
-         </activity>
+             android:theme="@style/AppTheme.OverlapSystemBar" />
         <activity android:name=".AchievementDetail.AchievementDetailActivity" />
         <activity android:name=".Achievements.AchievementsActivity" />
-        <activity android:name=".AddAchievement.AddAchievementActivity" />
+        <activity android:name=".AddAchievement.AddAchievementActivity" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name=".util.Providers.GenericFileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">

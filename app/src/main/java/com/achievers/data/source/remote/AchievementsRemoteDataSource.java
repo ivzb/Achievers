@@ -43,7 +43,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
             final int page,
             final @NonNull LoadCallback<List<Achievement>> callback) {
 
-        final Call<ODataResponseArray<Achievement>> call = this.apiService.loadAchievements(categoryId, pageSize, page * pageSize);
+        final Call<ODataResponseArray<Achievement>> call = this.apiService.loadByCategory(categoryId/*, pageSize, page * pageSize*/);
 
         call.enqueue(new Callback<ODataResponseArray<Achievement>>() {
             @Override
