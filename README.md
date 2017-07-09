@@ -25,6 +25,9 @@ User may choose between LinearLayout and CardView layouts.
 * Custom layout has better UX as the user interacts only with one **Evidence** at a time.
 He might swipe left for dislike current **Evidence** or opposite - swipe right to like it. After every interaction, next **Evidence** which he hasn't reviewed yet is being loaded.
 
+## Involvement
+
+
 # TODO
 1. ScrollChildSwipeRefreshLayout - show user friendly message when there is no data in inner RecyclerView
    1. refresh correct category, now it is always root
