@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RESTClient {
     private static Retrofit RETROFIT;
     private final static String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
-    private final static String REST_URL = "http://192.168.0.164:11218/odata/";
+    private final static String REST_URL = "http://localhost:31772/";
     private final static int PAGE_SIZE = 21;
 
     public static Retrofit getClient() {
