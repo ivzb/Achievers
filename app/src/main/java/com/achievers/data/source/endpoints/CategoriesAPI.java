@@ -16,6 +16,6 @@ public interface CategoriesAPI {
 
     @GET("Categories/Children/{id}")
     Call<ODataResponseArray<Category>> loadChildren(
-            @Path("id") int id
+            @Path("id") Integer id
     );
 }

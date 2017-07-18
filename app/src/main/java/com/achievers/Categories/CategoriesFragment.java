@@ -168,7 +168,6 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
         mCategoriesViewModel.setCategoriesListSize(categories.size());
     }
 
-
     @Override
     public void showParent(Category parent) {
         mCategoriesViewModel.setParent(parent);
