@@ -41,7 +41,13 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
             final Integer parentId,
             final @NonNull LoadCallback<List<Category>> callback
     ) {
-        final Call<ODataResponseArray<Category>> call = this.apiService.loadChildren(parentId);
+        final Call<ODataResponseArray<Category>> call;
+
+        if (parentId != null) {
+            call = this.apiService.loadChildren(parentId);
+        } else {
+            call = this.apiService.loadRootChildren();
+        }
 
         call.enqueue(new Callback<ODataResponseArray<Category>>() {
             @Override
