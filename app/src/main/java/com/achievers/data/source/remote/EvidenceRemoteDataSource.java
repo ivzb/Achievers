@@ -43,11 +43,11 @@ public class EvidenceRemoteDataSource implements EvidenceDataSource {
             final int page,
             final @NonNull LoadCallback<List<Evidence>> callback
     ) {
-        final Call<ODataResponseArray<Evidence>> call = this.apiService.loadByAchievement(achievementId/*, pageSize, page * pageSize*/);
+        final Call<List<Evidence>> call = this.apiService.loadByAchievement(achievementId/*, pageSize, page * pageSize*/);
 
-        call.enqueue(new Callback<ODataResponseArray<Evidence>>() {
+        call.enqueue(new Callback<List<Evidence>>() {
             @Override
-            public void onResponse(Call<ODataResponseArray<Evidence>> call, Response<ODataResponseArray<Evidence>> response) {
+            public void onResponse(Call<List<Evidence>> call, Response<List<Evidence>> response) {
                 int statusCode = response.code();
 
                 if (statusCode != 200) {
@@ -55,7 +55,7 @@ public class EvidenceRemoteDataSource implements EvidenceDataSource {
                     return;
                 }
 
-                List<Evidence> evidence = response.body().getResult();
+                List<Evidence> evidence = response.body();
 
                 if (evidence.isEmpty()) {
                     callback.onNoMoreData();
@@ -66,7 +66,7 @@ public class EvidenceRemoteDataSource implements EvidenceDataSource {
             }
 
             @Override
-            public void onFailure(Call<ODataResponseArray<Evidence>> call, Throwable t) {
+            public void onFailure(Call<List<Evidence>> call, Throwable t) {
                 callback.onFailure("Server could not be reached. Please try again.");
             }
         });

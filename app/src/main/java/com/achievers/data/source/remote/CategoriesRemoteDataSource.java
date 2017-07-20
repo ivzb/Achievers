@@ -41,7 +41,7 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
             final Integer parentId,
             final @NonNull LoadCallback<List<Category>> callback
     ) {
-        final Call<ODataResponseArray<Category>> call;
+        final Call<List<Category>> call;
 
         if (parentId != null) {
             call = this.apiService.loadChildren(parentId);
@@ -49,9 +49,9 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
             call = this.apiService.loadRootChildren();
         }
 
-        call.enqueue(new Callback<ODataResponseArray<Category>>() {
+        call.enqueue(new Callback<List<Category>>() {
             @Override
-            public void onResponse(Call<ODataResponseArray<Category>> call, Response<ODataResponseArray<Category>> response) {
+            public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
                 int statusCode = response.code();
 
                 if (statusCode != 200) {
@@ -59,7 +59,7 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
                     return;
                 }
 
-                List<Category> categories = response.body().getResult();
+                List<Category> categories = response.body();
 
                 if (categories.isEmpty()) {
                     callback.onNoMoreData();
@@ -70,7 +70,7 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
             }
 
             @Override
-            public void onFailure(Call<ODataResponseArray<Category>> call, Throwable t) {
+            public void onFailure(Call<List<Category>> call, Throwable t) {
                 callback.onFailure("Server could not be reached. Please try again.");
             }
         });

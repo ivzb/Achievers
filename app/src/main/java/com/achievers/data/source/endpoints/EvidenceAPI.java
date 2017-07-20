@@ -1,7 +1,8 @@
 package com.achievers.data.source.endpoints;
 
 import com.achievers.data.Evidence;
-import com.achievers.data.source.remote.ODataResponseArray;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -10,7 +11,7 @@ import retrofit2.http.Path;
 public interface EvidenceAPI {
 
     @GET("Evidence/LoadByAchievement/{id}")
-    Call<ODataResponseArray<Evidence>> loadByAchievement(
+    Call<List<Evidence>> loadByAchievement(
             @Path("id") int id
     );
 

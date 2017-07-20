@@ -43,11 +43,11 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
             final int page,
             final @NonNull LoadCallback<List<Achievement>> callback) {
 
-        final Call<ODataResponseArray<Achievement>> call = this.apiService.loadByCategory(categoryId/*, pageSize, page * pageSize*/);
+        final Call<List<Achievement>> call = this.apiService.loadByCategory(categoryId/*, pageSize, page * pageSize*/);
 
-        call.enqueue(new Callback<ODataResponseArray<Achievement>>() {
+        call.enqueue(new Callback<List<Achievement>>() {
             @Override
-            public void onResponse(Call<ODataResponseArray<Achievement>> call, Response<ODataResponseArray<Achievement>> response) {
+            public void onResponse(Call<List<Achievement>> call, Response<List<Achievement>> response) {
                 int statusCode = response.code();
 
                 if (statusCode != 200) {
@@ -55,7 +55,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
                     return;
                 }
 
-                List<Achievement> achievements = response.body().getResult();
+                List<Achievement> achievements = response.body();
 
                 if (achievements.isEmpty()) {
                     callback.onNoMoreData();
@@ -66,7 +66,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
             }
 
             @Override
-            public void onFailure(Call<ODataResponseArray<Achievement>> call, Throwable t) {
+            public void onFailure(Call<List<Achievement>> call, Throwable t) {
                 callback.onFailure("Server could not be reached. Please try again.");
             }
         });
