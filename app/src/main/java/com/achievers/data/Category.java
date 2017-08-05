@@ -26,28 +26,28 @@ import io.realm.annotations.PrimaryKey;
         analyze = { Category.class })
 public class Category extends RealmObject {
 
-    @SerializedName("Id")
+    @SerializedName("id")
     @NonNull
     @PrimaryKey
     private Integer id;
 
-    @SerializedName("Title")
+    @SerializedName("title")
     @NonNull
     private String title;
 
-    @SerializedName("Description")
+    @SerializedName("description")
     @NonNull
     private String description;
 
-    @SerializedName("ImageUrl")
+    @SerializedName("imageUrl")
     @NonNull
     private String imageUrl;
 
-    @SerializedName("Parent")
+    @SerializedName("parent")
     @NonNull
     private Category parent;
 
-    @SerializedName("CreatedOn")
+    @SerializedName("createdOn")
     @NonNull
     private Date createdOn;
 

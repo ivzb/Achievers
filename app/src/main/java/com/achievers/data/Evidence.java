@@ -16,28 +16,28 @@ import io.realm.annotations.PrimaryKey;
  */
 public class Evidence extends RealmObject {
 
-    @SerializedName("Id")
+    @SerializedName("id")
     @NonNull
     @PrimaryKey
     private Integer id;
 
-    @SerializedName("Comment")
+    @SerializedName("comment")
     @NonNull
     private String comment;
 
-    @SerializedName("EvidenceType")
+    @SerializedName("evidenceType")
     @NonNull
     private String evidenceType;
 
-    @SerializedName("Url")
+    @SerializedName("url")
     @NonNull
     private String url;
 
-    @SerializedName("Achievement")
+    @SerializedName("achievement")
     @NonNull
     private Achievement achievement;
 
-    @SerializedName("CreatedOn")
+    @SerializedName("createdOn")
     @NonNull
     private Date createdOn;
 

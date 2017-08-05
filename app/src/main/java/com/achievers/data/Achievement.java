@@ -17,32 +17,32 @@ import io.realm.annotations.PrimaryKey;
  */
 public class Achievement extends RealmObject {
 
-    @SerializedName("Id")
+    @SerializedName("id")
     @NonNull
     @PrimaryKey
     private Integer id;
 
-    @SerializedName("Title")
+    @SerializedName("title")
     @NonNull
     private String title;
 
-    @SerializedName("Description")
+    @SerializedName("description")
     @NonNull
     private String description;
 
-    @SerializedName("ImageUrl")
+    @SerializedName("imageUrl")
     @NonNull
     private String imageUrl;
 
-    @SerializedName("Category")
+    @SerializedName("category")
     @NonNull
     private Category category;
 
-    @SerializedName("Involvement")
+    @SerializedName("involvement")
     @NonNull
     private String involvement;
 
-    @SerializedName("CreatedOn")
+    @SerializedName("createdOn")
     @NonNull
     private Date createdOn;
 
