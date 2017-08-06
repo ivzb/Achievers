@@ -20,6 +20,9 @@ android {
             minifyEnabled false
             // Uses new built-in shrinker http://tools.android.com/tech-docs/new-build-system/built-in-shrinker
             useProguard false
+
+            buildConfigField("String", "BASE_URL", "\"http://95.87.234.253/\"")
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-fresco.pro'
             testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguardTest-rules.pro'
         }
@@ -27,6 +30,9 @@ android {
         release {
             minifyEnabled true
             useProguard true
+
+            buildConfigField("String", "BASE_URL", "\"http://95.87.234.253/\"")
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-fresco.pro'
             testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguardTest-rules.pro'
         }

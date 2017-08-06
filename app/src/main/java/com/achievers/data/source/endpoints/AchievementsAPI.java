@@ -10,7 +10,7 @@ import retrofit2.http.Path;
 
 public interface AchievementsAPI {
 
-    @GET("Achievements/LoadByCategory/{id}")
+    @GET("Achievements/ByCategory/{id}")
     Call<List<Achievement>> loadByCategory(
             @Path("id") int id
     );

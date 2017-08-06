@@ -1,5 +1,6 @@
 package com.achievers.data.source.remote;
 
+import com.achievers.BuildConfig;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,7 +12,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RESTClient {
     private static Retrofit RETROFIT;
     private final static String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
-    private final static String REST_URL = "http://95.87.234.253/";
     private final static int PAGE_SIZE = 21;
 
     public static Retrofit getClient() {
@@ -26,7 +26,7 @@ public class RESTClient {
 
             RETROFIT = new Retrofit.Builder()
                     .client(okHttpClient)
-                    .baseUrl(REST_URL)
+                    .baseUrl(BuildConfig.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
