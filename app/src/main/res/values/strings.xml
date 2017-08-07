@@ -11,6 +11,7 @@
     <string name="label_completed">Completed</string>
     <string name="label_not_completed">Not Completed</string>
     <string name="no_categories">No Categories</string>
+    <string name="fail_categories">Failed to load Categories. Please try again.</string>
     <string name="menu_filter">Filter</string>
     <string name="menu_clear">Clear</string>
     <string name="categories_title">Categories</string>

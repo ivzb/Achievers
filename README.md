@@ -61,4 +61,3 @@ He might swipe left for dislike current **Evidence** or opposite - swipe right t
 7) Fresco - Powerful system for displaying images. [GitHub](https://github.com/facebook/fresco)
 8) DialogPlus
 9) Parceler
-10) LeakCanary
