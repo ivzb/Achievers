@@ -13,7 +13,7 @@ They come in several varieties:
 2. Progressive - involve a progress bar and require you to do something several times — such as give out 10 hugs. Once you complete an achievement to collect 10, you might next be asked to collect 25.
 4. Meta achievements - unlock when you complete other achievements
 
-**Achievements** are displayed when **Category** leaf has been reached, throught search or in users profiles.
+**Achievements** are displayed when **Category** leaf has been reached, through search or in users profiles.
 
 ## Evidence
 **Evidence** could be reviewed inside a specific **Achievement**. An **Evidence** is a proof that user accomplished certain **Achievement**.

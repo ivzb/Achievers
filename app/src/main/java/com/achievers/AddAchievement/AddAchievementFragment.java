@@ -1,11 +1,14 @@
 package com.achievers.AddAchievement;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -13,9 +16,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +34,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.achievers.AddAchievement.Adapters.InvolvementRecyclerViewAdapter;
+import com.achievers.BuildConfig;
 import com.achievers.R;
 import com.achievers.data.Achievement;
 import com.achievers.data.Involvement;
@@ -52,6 +59,7 @@ public class AddAchievementFragment extends Fragment implements AddAchievementCo
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
+    private static final int REQUEST_PERMISSION = 3;
 
     private AddAchievementContract.Presenter mPresenter;
 
@@ -152,26 +160,27 @@ public class AddAchievementFragment extends Fragment implements AddAchievementCo
     }
 
     @Override
+    public void onRequestPermissionsResult(
+            final int requestCode,
+            @NonNull final String[] permissions,
+            @NonNull final int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                takePicture();
+            } else {
+                Snackbar.make(mBtnChoosePicture, "Please grant access.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == getActivity().RESULT_OK) {
-
-//            File path = new File(getFilesDir(), "your/path");
-//            if (!path.exists()) path.mkdirs();
-//            File imageFile = new File(path, "image.jpg");
-
-
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = false;
-
-//            try {
-//                File dest = new File(mImageFilePath);
-//                FileInputStream fis;
-//                fis = new FileInputStream(dest);
-//                Bitmap img = BitmapFactory.decodeStream(fis);
-//                double a = 5;
-//            } catch (FileNotFoundException e) {
-//                double a = 5;
-//            }
 
             Bitmap bitmap = BitmapFactory.decodeFile(mImageFilePath, options);
             mIvPicture.setImageBitmap(bitmap);
@@ -215,30 +224,41 @@ public class AddAchievementFragment extends Fragment implements AddAchievementCo
     public View.OnClickListener takePictureListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-//            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-//
-//            mImageFilePath = Environment.getExternalStorageDirectory().toString() + "/Android/data/com.achievers/Image-" + timeStamp + ".png";
-//
-//            java.io.File imageFile = new java.io.File(mImageFilePath);
-//            Uri imageFileUri = FileProvider.getUriForFile(getContext(), getContext().getApplicationContext().getPackageName() + ".provider", imageFile);
-//
-//            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-//
-//            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-//                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-//            }
+            int permissionResult = ContextCompat.checkSelfPermission(
+                    getContext(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE);
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                    permissionResult != PackageManager.PERMISSION_GRANTED) {
 
+                ActivityCompat.requestPermissions(
+                        getActivity(),
+                        new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },
+                        REQUEST_PERMISSION);
 
+                return;
+            }
 
+            takePicture();
+        }
+    };
 
+    private void takePicture() {
+        try {
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            mImageFilePath = Environment.getExternalStorageDirectory().toString() + "/Android/data/com.achievers/Image-" + timeStamp + ".png";
+
+            mImageFilePath =
+                    Environment.getExternalStorageDirectory().toString() +
+                    "/Android/data/com.achievers/Image-" + timeStamp + ".png";
 
             java.io.File imageFile = new java.io.File(mImageFilePath);
-//                Uri imageFileUri = Uri.fromFile(imageFile);
-            Uri imageFileUri = FileProvider.getUriForFile(getContext(), getContext().getApplicationContext().getPackageName() + ".provider", imageFile);
+
+            if (!imageFile.exists()) {
+                imageFile.getParentFile().mkdirs();
+                imageFile.createNewFile();
+            }
+
+            Uri imageFileUri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".provider", imageFile);
 
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
@@ -246,18 +266,10 @@ public class AddAchievementFragment extends Fragment implements AddAchievementCo
             if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
-
-//            java.io.File imageFile = new java.io.File(mImageFilePath);
-//            Uri imageFileUri = Uri.fromFile(imageFile);
-//
-//            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
-//
-//            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-//                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-//            }
+        } catch (IOException e) {
+            showInvalidAchievementMessage("Could not take picture. Please try again.");
         }
-    };
+    }
 
     public View.OnClickListener choosePictureListener = new View.OnClickListener() {
         @Override

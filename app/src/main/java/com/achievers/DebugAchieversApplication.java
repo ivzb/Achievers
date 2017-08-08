@@ -1,7 +1,6 @@
 package com.achievers;
 
 import com.facebook.stetho.Stetho;
-import com.squareup.leakcanary.LeakCanary;
 
 public class DebugAchieversApplication extends AchieversApplication {
     @Override
