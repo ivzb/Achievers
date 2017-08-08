@@ -48,7 +48,7 @@ public class Category extends RealmObject {
     private Category parent;
 
     @SerializedName("createdOn")
-    @NonNull
+    @Nullable
     private Date createdOn;
 
     /**

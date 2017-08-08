@@ -144,6 +144,8 @@ public class AchievementsFragment extends Fragment implements AchievementsContra
 
 
     private void showMessage(String message) {
+        if (getView() == null) return;
+
         Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
     }
 

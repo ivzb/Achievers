@@ -2,17 +2,13 @@ package com.achievers.Evidence;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.achievers.AchievementDetail.AchievementDetailContract;
 import com.achievers.BR;
-import com.achievers.R;
 import com.achievers.data.Evidence;
 import com.achievers.data.EvidenceType;
-import com.achievers.databinding.EvidenceItemBinding;
 import com.achievers.databinding.EvidenceItemImageBinding;
 import com.achievers.databinding.EvidenceItemLocationBinding;
 import com.achievers.databinding.EvidenceItemVideoBinding;

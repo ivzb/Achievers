@@ -1,6 +1,5 @@
 package com.achievers.AchievementDetail;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -8,7 +7,6 @@ import android.view.MenuItem;
 
 import com.achievers.BaseActivity;
 import com.achievers.R;
-import com.achievers.data.Evidence;
 import com.achievers.data.source.AchievementsRepository;
 import com.achievers.data.source.EvidenceRepository;
 import com.achievers.data.source.local.AchievementsLocalDataSource;
@@ -34,8 +32,11 @@ public class AchievementDetailActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setDisplayShowHomeEnabled(true);
+
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setDisplayShowHomeEnabled(true);
+        }
 
         // Get the requested achievement id
         int achievementId = getIntent().getIntExtra(EXTRA_ACHIEVEMENT_ID, 0);

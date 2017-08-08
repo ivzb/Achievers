@@ -49,4 +49,5 @@ ext {
     fakerVersion = '1.2.5'
     toroVersion = '2.2.0'
     frescoVersion = '1.3.0'
+    parcelerVersion = '1.1.7'
 }

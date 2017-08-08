@@ -1,6 +1,10 @@
 package com.achievers.AddAchievement.Adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,15 +86,23 @@ public class InvolvementRecyclerViewAdapter extends RecyclerView.Adapter<Involve
             Involvement currentInvolvement = mInvolvement.get(position);
             TextView previousInvolvementTextView = getSelectedInvolvementTextView();
 
+            Resources resources = getContext().getResources();
+
             // return previous clicked item to default state
             if (getSelectedInvolvement() != null) {
                 previousInvolvementTextView.setBackgroundColor(0);
-                previousInvolvementTextView.setTextColor(getContext().getResources().getColor(R.color.colorAccent));
+
+                int textColor = ResourcesCompat.getColor(resources, R.color.colorAccent, null);
+                previousInvolvementTextView.setTextColor(textColor);
             }
 
             if (getSelectedInvolvement() == null || !getSelectedInvolvement().toString().equals(currentInvolvement.toString())) {
-                tvInvolvement.setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));
-                tvInvolvement.setTextColor(getContext().getResources().getColor(R.color.colorLight));
+
+                int backgroundColor = ResourcesCompat.getColor(resources, R.color.colorAccent, null);
+                tvInvolvement.setBackgroundColor(backgroundColor);
+
+                int textColor = ResourcesCompat.getColor(resources, R.color.colorLight, null);
+                tvInvolvement.setTextColor(textColor);
 
                 selectInvolvement(currentInvolvement);
                 selectInvolvementTextView(tvInvolvement);

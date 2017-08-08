@@ -26,11 +26,6 @@ import com.achievers.Categories.CategoriesFilterType;
 import com.achievers.Categories.CategoriesPresenter;
 import com.achievers.data.Achievement;
 import com.achievers.data.Category;
-import com.achievers.data.source.AchievementsRepository;
-import com.achievers.data.source.CategoriesDataSource;
-import com.achievers.data.source.CategoriesRepository;
-
-import java.util.Stack;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

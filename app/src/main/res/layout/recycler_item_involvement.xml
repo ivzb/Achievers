@@ -10,7 +10,7 @@
         android:id="@+id/tvInvolvement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
+        android:gravity="start"
         android:textColor="@color/colorAccent"
         android:drawablePadding="8dp"
         android:padding="16dp"

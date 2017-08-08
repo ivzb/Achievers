@@ -4,9 +4,10 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.res.ResourcesCompat;
 
-import com.achievers.R;
 import com.achievers.BR;
+import com.achievers.R;
 import com.achievers.data.Category;
 
 /**
@@ -59,7 +60,9 @@ public class CategoriesViewModel extends BaseObservable {
     public Drawable getNoCategoriesIconRes() {
         switch (mPresenter.getFiltering()) {
             case ALL_CATEGORIES:
-                return mContext.getResources().getDrawable(R.drawable.ic_assignment_turned_in_24dp);
+                Drawable allCategories = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_assignment_turned_in_24dp, null);
+
+                return allCategories;
         }
 
         return null;

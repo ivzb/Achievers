@@ -2,8 +2,11 @@ package com.achievers.Evidence;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -101,7 +104,10 @@ class EvidenceItemVideoViewHolder extends ExoPlayerViewHolder {
 
         GenericDraweeHierarchy hierarchy = this.mThumbnail.getHierarchy();
         hierarchy.setFadeDuration(250);
-        hierarchy.setPlaceholderImage(getBinding().getRoot().getResources().getDrawable(R.drawable.bunny));
+
+        Resources resources = getBinding().getRoot().getResources();
+        Drawable bunny = ResourcesCompat.getDrawable(resources, R.drawable.ic_camera_alt_black_48dp, null);
+        hierarchy.setPlaceholderImage(bunny);
         hierarchy.setProgressBarImage(new FreskoCircleProgressBarDrawable());
 
         Log.v("video", "Bound");

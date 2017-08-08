@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.achievers.BR;
-import com.achievers.Categories.CategoriesContract;
 import com.achievers.data.Achievement;
 import com.achievers.data.Category;
 import com.achievers.databinding.AchievementItemBinding;

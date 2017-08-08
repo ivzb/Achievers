@@ -3,11 +3,13 @@ package com.achievers.AchievementDetail;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Gravity;
@@ -101,13 +103,17 @@ public class AchievementDetailFragment extends Fragment implements AchievementDe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Holder holder = new GridHolder(2);
-        boolean isGrid = true;
 
-        Resources resources = getContext().getResources();
         List<UploadEvidenceItem> uploadEvidenceItems = new ArrayList<>();
-        uploadEvidenceItems.add(new UploadEvidenceItem("Photo", resources.getDrawable(R.drawable.ic_camera_alt_black_48dp)));
-        uploadEvidenceItems.add(new UploadEvidenceItem("Video", resources.getDrawable(R.drawable.ic_videocam_black_48dp)));
-        UploadEvidenceDialogSimpleAdapter adapter = new UploadEvidenceDialogSimpleAdapter(getContext(), uploadEvidenceItems, isGrid);
+
+        Drawable photo = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_camera_alt_black_48dp, null);
+        uploadEvidenceItems.add(new UploadEvidenceItem("Photo", photo));
+
+        Drawable video = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_videocam_black_48dp, null);
+        uploadEvidenceItems.add(new UploadEvidenceItem("Video", video));
+
+        UploadEvidenceDialogSimpleAdapter adapter = new UploadEvidenceDialogSimpleAdapter(
+                getContext(), uploadEvidenceItems, true);
 
         switch (item.getItemId()) {
             case R.id.menu_upload:
@@ -212,6 +218,8 @@ public class AchievementDetailFragment extends Fragment implements AchievementDe
     }
 
     private void showMessage(String message) {
+        if (getView() == null) return;
+
         Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
     }
 

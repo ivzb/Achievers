@@ -1,7 +1,5 @@
 package com.achievers.AddAchievement;
 
-import android.view.View.OnClickListener;
-
 import com.achievers.BasePresenter;
 import com.achievers.BaseView;
 import com.achievers.data.Achievement;

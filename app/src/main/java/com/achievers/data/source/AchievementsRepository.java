@@ -8,7 +8,6 @@ import com.achievers.data.source.callbacks.GetCallback;
 import com.achievers.data.source.callbacks.LoadCallback;
 import com.achievers.data.source.callbacks.SaveCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;

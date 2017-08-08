@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,7 +37,9 @@ public class AdapterSetters {
 
             GenericDraweeHierarchy hierarchy = view.getHierarchy();
             hierarchy.setFadeDuration(250);
-            hierarchy.setPlaceholderImage(resources.getDrawable(R.drawable.bunny));
+
+            Drawable bunny = ResourcesCompat.getDrawable(resources, R.drawable.bunny, null);
+            hierarchy.setPlaceholderImage(bunny);
             hierarchy.setProgressBarImage(new FreskoCircleProgressBarDrawable());
         }
     }

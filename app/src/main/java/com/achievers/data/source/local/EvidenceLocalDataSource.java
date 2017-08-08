@@ -7,9 +7,7 @@ import com.achievers.data.source.EvidenceDataSource;
 import com.achievers.data.source.callbacks.GetCallback;
 import com.achievers.data.source.callbacks.LoadCallback;
 import com.achievers.data.source.callbacks.SaveCallback;
-import com.achievers.data.source.remote.RESTClient;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;

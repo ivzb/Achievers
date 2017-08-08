@@ -1,7 +1,6 @@
 package com.achievers.Evidence;
 
 import com.achievers.AchievementDetail.AchievementDetailContract;
-import com.achievers.data.Achievement;
 import com.achievers.data.Evidence;
 
 /**

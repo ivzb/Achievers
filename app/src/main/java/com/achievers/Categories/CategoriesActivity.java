@@ -15,7 +15,6 @@ import com.achievers.R;
 public class CategoriesActivity extends BaseActivity {
 
     private static final String CURRENT_FILTERING_KEY = "CURRENT_FILTERING_KEY";
-
     private static final String CURRENT_CATEGORY_ID_KEY = "CURRENT_CATEGORY_ID_KEY";
 
     private DrawerLayout mDrawerLayout;
@@ -32,8 +31,11 @@ public class CategoriesActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-        ab.setDisplayHomeAsUpEnabled(true);
+
+        if (ab != null) {
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
 
         // Set up the navigation drawer.
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -50,11 +52,13 @@ public class CategoriesActivity extends BaseActivity {
             currentFiltering =
                     (CategoriesFilterType) savedInstanceState.getSerializable(CURRENT_FILTERING_KEY);
             categoryId = savedInstanceState.getInt(CURRENT_CATEGORY_ID_KEY, 0);
+
             if (categoryId == 0) categoryId = null;
         }
 
         // Create a CategoriesMvpController every time, even after rotation.
         categoriesMvpTabletController = CategoriesMvpController.createCategoriesView(this, super.mRealm, categoryId);
+
         if (currentFiltering != null) {
             categoriesMvpTabletController.setFiltering(currentFiltering);
         }
@@ -81,6 +85,7 @@ public class CategoriesActivity extends BaseActivity {
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
+
         return false;
     }
 

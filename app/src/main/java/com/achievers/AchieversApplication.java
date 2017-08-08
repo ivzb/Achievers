@@ -14,6 +14,7 @@ import io.realm.RealmConfiguration;
 import okhttp3.OkHttpClient;
 
 public class AchieversApplication extends Application {
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -24,7 +25,7 @@ public class AchieversApplication extends Application {
                 .deleteRealmIfMigrationNeeded()
                 .name("Achievers")
                 .build();
-//        Realm.deleteRealm(realmConfiguration); // Clear the realm from last time
+//        Realm.deleteRealm(realmConfiguration); // Clear the realm
         Realm.setDefaultConfiguration(realmConfiguration);
 
         Toro.init(this);

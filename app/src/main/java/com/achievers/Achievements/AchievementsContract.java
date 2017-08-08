@@ -2,7 +2,6 @@ package com.achievers.Achievements;
 
 import android.support.annotation.NonNull;
 
-import com.achievers.BasePresenter;
 import com.achievers.BaseView;
 import com.achievers.data.Achievement;
 import com.achievers.data.Category;

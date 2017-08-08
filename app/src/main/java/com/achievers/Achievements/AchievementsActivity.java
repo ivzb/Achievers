@@ -4,13 +4,11 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.achievers.BaseActivity;
 import com.achievers.R;
 import com.achievers.data.Category;
 import com.achievers.data.source.AchievementsRepository;
-import com.achievers.data.source.CategoriesDataSource;
 import com.achievers.data.source.CategoriesRepository;
 import com.achievers.data.source.callbacks.GetCallback;
 import com.achievers.data.source.local.AchievementsLocalDataSource;
@@ -36,8 +34,11 @@ public class AchievementsActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setDisplayShowHomeEnabled(true);
+
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setDisplayShowHomeEnabled(true);
+        }
 
         // Get the requested category id
         int categoryId = getIntent().getIntExtra(EXTRA_CATEGORY_ID, 0);

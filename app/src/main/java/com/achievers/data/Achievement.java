@@ -63,7 +63,7 @@ public class Achievement extends RealmObject {
      * @param createdOn   creation date of the achievement
      */
     public Achievement(Integer id, @NonNull String title, @NonNull String description, @NonNull String imageUrl,
-                    @NonNull Category category, @NonNull String involvement, @Nullable Date createdOn) {
+                    @NonNull Category category, @NonNull String involvement, @NonNull Date createdOn) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -127,7 +127,7 @@ public class Achievement extends RealmObject {
 
         Achievement other = (Achievement) o;
 
-        return this.getId() == other.getId() &&
+        return this.getId().equals(other.getId()) &&
                 this.getTitle().equals(other.getTitle()) &&
                 this.getDescription().equals(other.getDescription());
     }

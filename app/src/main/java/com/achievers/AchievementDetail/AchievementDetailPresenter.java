@@ -6,7 +6,6 @@ import android.util.SparseIntArray;
 
 import com.achievers.data.Achievement;
 import com.achievers.data.Evidence;
-import com.achievers.data.source.AchievementsDataSource;
 import com.achievers.data.source.AchievementsRepository;
 import com.achievers.data.source.EvidenceDataSource;
 import com.achievers.data.source.EvidenceRepository;

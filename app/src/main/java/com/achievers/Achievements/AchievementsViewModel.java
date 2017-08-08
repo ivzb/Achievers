@@ -4,8 +4,8 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
-import com.achievers.Categories.CategoriesContract;
 import com.achievers.BR;
+import com.achievers.Categories.CategoriesContract;
 import com.achievers.data.Category;
 
 /**

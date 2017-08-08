@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_title"
                 android:text="@{ viewModel.achievement.title }"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textColor="@color/colorPrimary"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
@@ -55,20 +55,21 @@
                     android:id="@+id/btnTakePicture"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Take Picture" />
+                    android:text="@string/take_picture" />
 
                 <Button
                     android:id="@+id/btnChoosePicture"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Choose Existing" />
+                    android:text="@string/choose_existing" />
             </LinearLayout>
 
             <ImageView
                 android:id="@+id/ivPicture"
                 android:src="@drawable/bunny"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/uploaded_image_preview" />
         </LinearLayout>
     </ScrollView>
 </layout>

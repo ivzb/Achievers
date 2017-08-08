@@ -11,7 +11,6 @@ import com.achievers.data.source.CategoriesDataSource;
 import com.achievers.data.source.callbacks.LoadCallback;
 import com.achievers.data.source.remote.RESTClient;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;

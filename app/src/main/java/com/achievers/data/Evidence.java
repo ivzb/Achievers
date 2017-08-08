@@ -38,7 +38,7 @@ public class Evidence extends RealmObject {
     private Achievement achievement;
 
     @SerializedName("createdOn")
-    @NonNull
+    @Nullable
     private Date createdOn;
 
     /**

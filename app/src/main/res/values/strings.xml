@@ -33,4 +33,7 @@
     <string name="add_achievement">New Achievement</string>
     <string name="hint_title">Title</string>
     <string name="hint_description">Description</string>
+    <string name="uploaded_image_preview">Uploaded image preview</string>
+    <string name="take_picture">Take Picture</string>
+    <string name="choose_existing">Choose Existing</string>
 </resources>
