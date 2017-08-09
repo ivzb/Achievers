@@ -29,7 +29,6 @@ public class AchievementDetailPresenter implements AchievementDetailContract.Pre
     private SparseBooleanArray mNoMoreData;
     private SparseIntArray mPages;
 
-    @NonNull
     private int mAchievementId;
 
     public AchievementDetailPresenter(int achievementId,

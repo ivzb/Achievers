@@ -136,20 +136,16 @@ public class CategoriesMvpController {
 
     @NonNull
     private CategoriesRepository createCategoriesRepository() {
-        CategoriesRepository categoriesRepository = CategoriesRepository.getInstance(
+        return CategoriesRepository.getInstance(
                 CategoriesRemoteDataSource.getInstance(),
                 CategoriesLocalDataSource.getInstance(this.mRealm));
-
-        return categoriesRepository;
     }
 
     @NonNull
     private AchievementsRepository createAchievementsRepository() {
-        AchievementsRepository achievementsRepository = AchievementsRepository.getInstance(
+        return AchievementsRepository.getInstance(
                 AchievementsRemoteDataSource.getInstance(),
                 AchievementsLocalDataSource.getInstance(this.mRealm));
-
-        return achievementsRepository;
     }
 
     @NonNull

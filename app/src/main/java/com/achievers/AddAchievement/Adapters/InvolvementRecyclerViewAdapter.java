@@ -38,9 +38,8 @@ public class InvolvementRecyclerViewAdapter extends RecyclerView.Adapter<Involve
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View contactView = inflater.inflate(R.layout.recycler_item_involvement, parent, false);
-        ViewHolder viewHolder = new ViewHolder(contactView);
 
-        return viewHolder;
+        return new ViewHolder(contactView);
     }
 
     @Override
