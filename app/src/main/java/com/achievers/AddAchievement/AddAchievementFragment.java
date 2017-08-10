@@ -20,21 +20,19 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.achievers.AddAchievement.Adapters.InvolvementRecyclerViewAdapter;
 import com.achievers.BuildConfig;
 import com.achievers.R;
-import com.achievers.data.Achievement;
-import com.achievers.data.Involvement;
+import com.achievers.data.callbacks.SaveCallback;
+import com.achievers.data.models.Achievement;
+import com.achievers.data.models.File;
+import com.achievers.data.models.Involvement;
 import com.achievers.databinding.AddAchievementFragBinding;
 
 import java.io.FileNotFoundException;
@@ -58,13 +56,6 @@ public class AddAchievementFragment extends Fragment implements AddAchievementCo
     private AddAchievementContract.Presenter mPresenter;
 
     private String mImageFilePath;
-
-    private EditText mEtTitle;
-    private EditText mEtDescription;
-    private RecyclerView mRvInvolvement;
-    private Button mBtnTakePicture;
-    private Button mBtnChoosePicture;
-    private ImageView mIvPicture;
 
     private AddAchievementFragBinding mViewDataBinding;
 
@@ -99,12 +90,13 @@ public class AddAchievementFragment extends Fragment implements AddAchievementCo
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = mEtTitle.getText().toString();
-                String description = mEtDescription.getText().toString();
-                // todo: get id
+                String title = mViewDataBinding.etTitle.getText().toString();
+                String description = mViewDataBinding.etDescription.getText().toString();
+                String imageUrl = "";
+                Integer categoryId = null;
                 String involvement = mViewModel.getInvolvementRecyclerViewAdapter().getSelectedInvolvement().toString();
 
-                Achievement achievement = new Achievement();//title, description, involvement, equipmentId);
+                Achievement achievement = new Achievement(title, description, imageUrl, categoryId, involvement);
 
                 if (!mPresenter.validateAchievement(achievement)) {
                     // TODO: compose proper message
@@ -136,15 +128,8 @@ public class AddAchievementFragment extends Fragment implements AddAchievementCo
 
         mViewDataBinding.setViewModel(mViewModel);
 
-        mEtTitle = mViewDataBinding.etTitle;
-        mEtDescription = mViewDataBinding.etDescription;
-        mRvInvolvement = mViewDataBinding.rvInvolvement;
-        mBtnTakePicture = mViewDataBinding.btnTakePicture;
-        mBtnChoosePicture = mViewDataBinding.btnChoosePicture;
-        mIvPicture = mViewDataBinding.ivPicture;
-
-        mBtnTakePicture.setOnClickListener(this.takePictureListener);
-        mBtnChoosePicture.setOnClickListener(this.choosePictureListener);
+        mViewDataBinding.btnTakePicture.setOnClickListener(this.takePictureListener);
+        mViewDataBinding.btnChoosePicture.setOnClickListener(this.choosePictureListener);
 
         setHasOptionsMenu(true);
         // Fragment is retained simply to persist the edits after rotation.
@@ -165,30 +150,52 @@ public class AddAchievementFragment extends Fragment implements AddAchievementCo
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 takePicture();
             } else {
-                Snackbar.make(mBtnChoosePicture, "Please grant access.", Toast.LENGTH_SHORT).show();
+                Snackbar.make(mViewDataBinding.btnChoosePicture, "Please grant access.", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == getActivity().RESULT_OK) {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = false;
+        if (resultCode == Activity.RESULT_OK) {
+            Bitmap bitmap = null;
 
-            Bitmap bitmap = BitmapFactory.decodeFile(mImageFilePath, options);
-            mIvPicture.setImageBitmap(bitmap);
-        }
+            if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = false;
 
-        if (requestCode == REQUEST_IMAGE_PICK && resultCode == getActivity().RESULT_OK) {
-            try {
-                Uri imageUri = data.getData();
-                InputStream imageStream = getActivity().getContentResolver().openInputStream(imageUri);
+                bitmap = BitmapFactory.decodeFile(mImageFilePath, options);
+            }
 
-                Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
-                mIvPicture.setImageBitmap(bitmap);
-            } catch (FileNotFoundException e) {
-                Snackbar.make(mBtnChoosePicture, "Error occurred. Please try again.", Toast.LENGTH_SHORT).show();
+            if (requestCode == REQUEST_IMAGE_PICK) {
+                try {
+                    Uri imageUri = data.getData();
+
+                    InputStream imageStream = getActivity()
+                            .getContentResolver()
+                            .openInputStream(imageUri);
+
+                    bitmap = BitmapFactory.decodeStream(imageStream);
+                } catch (FileNotFoundException e) {
+                    Snackbar.make(mViewDataBinding.btnChoosePicture, "Error occurred. Please try again.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            if (bitmap != null) {
+                // todo: show uploading indicator
+                mViewDataBinding.ivPicture.setImageBitmap(bitmap);
+
+                mPresenter.uploadImage(bitmap, new SaveCallback<File>() {
+                    @Override
+                    public void onSuccess(File data) {
+                        // todo: hide uploading indicator
+                    }
+
+                    @Override
+                    public void onFailure(String message) {
+                        // todo: retry button
+                    }
+                });
             }
         }
     }

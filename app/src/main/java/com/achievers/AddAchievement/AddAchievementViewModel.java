@@ -6,7 +6,7 @@ import android.databinding.Bindable;
 
 import com.achievers.AddAchievement.Adapters.InvolvementRecyclerViewAdapter;
 import com.achievers.BR;
-import com.achievers.data.Achievement;
+import com.achievers.data.models.Achievement;
 
 /**
  * Exposes the data to be used in the {@link AddAchievementContract.View}.

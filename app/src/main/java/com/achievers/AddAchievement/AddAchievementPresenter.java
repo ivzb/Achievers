@@ -1,12 +1,17 @@
 package com.achievers.AddAchievement;
 
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
-import com.achievers.data.Achievement;
-import com.achievers.data.Involvement;
-import com.achievers.data.source.AchievementsDataSource;
-import com.achievers.data.source.callbacks.SaveCallback;
+import com.achievers.data.models.Achievement;
+import com.achievers.data.models.File;
+import com.achievers.data.models.Involvement;
+import com.achievers.data.source.achievements.AchievementsDataSource;
+import com.achievers.data.callbacks.SaveCallback;
+import com.achievers.data.source.files.FilesDataSource;
+import com.google.android.exoplayer2.upstream.FileDataSource;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,6 +19,9 @@ public class AddAchievementPresenter implements AddAchievementContract.Presenter
 
     @NonNull
     private final AchievementsDataSource mAchievementsRepository;
+
+    @NonNull
+    private final FilesDataSource mFilesRepository;
 
     @NonNull
     private final AddAchievementContract.View mAddAchievementView;
@@ -26,9 +34,11 @@ public class AddAchievementPresenter implements AddAchievementContract.Presenter
      */
     public AddAchievementPresenter(
             @NonNull AchievementsDataSource achievementsRepository,
+            @NonNull FilesDataSource filesRepository,
             @NonNull AddAchievementContract.View addAchievementView) {
 
         this.mAchievementsRepository = achievementsRepository;
+        this.mFilesRepository = filesRepository;
         this.mAddAchievementView = addAchievementView;
     }
 
@@ -54,6 +64,8 @@ public class AddAchievementPresenter implements AddAchievementContract.Presenter
 
     @Override
     public boolean validateAchievement(Achievement achievement) {
+        // todo: implement validator
+        // todo: check if file has been uploaded
         return false;
     }
 
@@ -61,5 +73,16 @@ public class AddAchievementPresenter implements AddAchievementContract.Presenter
     public void getInvolvements() {
         List<Involvement> involvement = Arrays.asList(Involvement.values());
         mAddAchievementView.showInvolvement(involvement);
+    }
+
+    @Override
+    public void uploadImage(Bitmap bitmap, SaveCallback<File> callback) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+
+        File uploadFile = new File(byteArray, "image/jpeg");
+
+        this.mFilesRepository.storeFile(uploadFile, callback);
     }
 }

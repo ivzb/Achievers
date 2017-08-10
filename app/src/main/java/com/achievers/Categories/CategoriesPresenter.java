@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.achievers.Achievements.AchievementsActivity;
-import com.achievers.data.Category;
-import com.achievers.data.source.CategoriesDataSource;
-import com.achievers.data.source.CategoriesRepository;
-import com.achievers.data.source.callbacks.LoadCallback;
+import com.achievers.data.models.Category;
+import com.achievers.data.source.categories.CategoriesDataSource;
+import com.achievers.data.source.categories.CategoriesRepository;
+import com.achievers.data.callbacks.LoadCallback;
 
 import java.util.EmptyStackException;
 import java.util.List;

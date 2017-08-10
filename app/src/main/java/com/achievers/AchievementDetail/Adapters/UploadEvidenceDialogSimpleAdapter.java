@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.achievers.R;
-import com.achievers.data.UploadEvidenceItem;
+import com.achievers.data.models.UploadEvidenceItem;
 
 import java.util.List;
 

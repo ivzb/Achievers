@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 
 import com.achievers.AchievementDetail.AchievementDetailContract;
 import com.achievers.BR;
-import com.achievers.data.Evidence;
-import com.achievers.data.EvidenceType;
+import com.achievers.data.models.Evidence;
+import com.achievers.data.models.EvidenceType;
 import com.achievers.databinding.EvidenceItemImageBinding;
 import com.achievers.databinding.EvidenceItemLocationBinding;
 import com.achievers.databinding.EvidenceItemVideoBinding;

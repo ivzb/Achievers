@@ -30,12 +30,12 @@ import com.achievers.Categories.CategoriesFilterType;
 import com.achievers.Categories.CategoriesFragment;
 import com.achievers.Categories.CategoriesPresenter;
 import com.achievers.Categories.CategoriesViewModel;
-import com.achievers.data.source.AchievementsRepository;
-import com.achievers.data.source.CategoriesRepository;
-import com.achievers.data.source.local.AchievementsLocalDataSource;
-import com.achievers.data.source.local.CategoriesLocalDataSource;
-import com.achievers.data.source.remote.AchievementsRemoteDataSource;
-import com.achievers.data.source.remote.CategoriesRemoteDataSource;
+import com.achievers.data.source.achievements.AchievementsRepository;
+import com.achievers.data.source.categories.CategoriesRepository;
+import com.achievers.data.source.achievements.AchievementsLocalDataSource;
+import com.achievers.data.source.categories.CategoriesLocalDataSource;
+import com.achievers.data.source.achievements.AchievementsRemoteDataSource;
+import com.achievers.data.source.categories.CategoriesRemoteDataSource;
 import com.achievers.util.ActivityUtils;
 
 import io.realm.Realm;

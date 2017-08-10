@@ -4,14 +4,14 @@ import android.support.annotation.NonNull;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
 
-import com.achievers.data.Achievement;
-import com.achievers.data.Evidence;
-import com.achievers.data.source.AchievementsRepository;
-import com.achievers.data.source.EvidenceDataSource;
-import com.achievers.data.source.EvidenceRepository;
-import com.achievers.data.source.callbacks.GetCallback;
-import com.achievers.data.source.callbacks.LoadCallback;
-import com.achievers.data.source.remote.RESTClient;
+import com.achievers.data.models.Achievement;
+import com.achievers.data.models.Evidence;
+import com.achievers.data.source.achievements.AchievementsRepository;
+import com.achievers.data.source.evidence.EvidenceDataSource;
+import com.achievers.data.source.evidence.EvidenceRepository;
+import com.achievers.data.callbacks.GetCallback;
+import com.achievers.data.callbacks.LoadCallback;
+import com.achievers.data.source.RESTClient;
 
 import java.util.List;
 

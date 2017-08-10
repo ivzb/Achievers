@@ -1,7 +1,7 @@
 package com.achievers.Evidence;
 
 import com.achievers.AchievementDetail.AchievementDetailContract;
-import com.achievers.data.Evidence;
+import com.achievers.data.models.Evidence;
 
 /**
  * Listens to user actions from the list item in ({@link AchievementDetailContract.View}) and redirects them to the

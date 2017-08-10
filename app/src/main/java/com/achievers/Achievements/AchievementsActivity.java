@@ -7,14 +7,14 @@ import android.view.MenuItem;
 
 import com.achievers.BaseActivity;
 import com.achievers.R;
-import com.achievers.data.Category;
-import com.achievers.data.source.AchievementsRepository;
-import com.achievers.data.source.CategoriesRepository;
-import com.achievers.data.source.callbacks.GetCallback;
-import com.achievers.data.source.local.AchievementsLocalDataSource;
-import com.achievers.data.source.local.CategoriesLocalDataSource;
-import com.achievers.data.source.remote.AchievementsRemoteDataSource;
-import com.achievers.data.source.remote.CategoriesRemoteDataSource;
+import com.achievers.data.models.Category;
+import com.achievers.data.source.achievements.AchievementsRepository;
+import com.achievers.data.source.categories.CategoriesRepository;
+import com.achievers.data.callbacks.GetCallback;
+import com.achievers.data.source.achievements.AchievementsLocalDataSource;
+import com.achievers.data.source.categories.CategoriesLocalDataSource;
+import com.achievers.data.source.achievements.AchievementsRemoteDataSource;
+import com.achievers.data.source.categories.CategoriesRemoteDataSource;
 import com.achievers.util.ActivityUtils;
 
 /**

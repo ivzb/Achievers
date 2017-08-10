@@ -6,7 +6,7 @@ import android.databinding.Bindable;
 
 import com.achievers.AchievementDetail.AchievementDetailContract;
 import com.achievers.BR;
-import com.achievers.data.Achievement;
+import com.achievers.data.models.Achievement;
 
 /**
  * Exposes the data to be used in the {@link AchievementDetailContract.View}.

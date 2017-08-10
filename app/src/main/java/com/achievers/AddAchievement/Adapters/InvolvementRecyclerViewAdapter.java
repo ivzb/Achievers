@@ -2,8 +2,6 @@ package com.achievers.AddAchievement.Adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.achievers.R;
-import com.achievers.data.Involvement;
+import com.achievers.data.models.Involvement;
 
 import java.util.List;
 

@@ -24,8 +24,8 @@ import com.achievers.Achievements.AchievementsPresenter;
 import com.achievers.Categories.CategoriesContract;
 import com.achievers.Categories.CategoriesFilterType;
 import com.achievers.Categories.CategoriesPresenter;
-import com.achievers.data.Achievement;
-import com.achievers.data.Category;
+import com.achievers.data.models.Achievement;
+import com.achievers.data.models.Category;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

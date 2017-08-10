@@ -3,7 +3,7 @@ package com.achievers.Categories;
 import android.support.annotation.NonNull;
 
 import com.achievers.BaseView;
-import com.achievers.data.Category;
+import com.achievers.data.models.Category;
 
 import java.util.List;
 
