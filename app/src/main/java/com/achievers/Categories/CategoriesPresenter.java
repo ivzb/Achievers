@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import com.achievers.Achievements.AchievementsActivity;
 import com.achievers.data.models.Category;
 import com.achievers.data.source.categories.CategoriesDataSource;
-import com.achievers.data.source.categories.CategoriesRepository;
 import com.achievers.data.callbacks.LoadCallback;
 
 import java.util.EmptyStackException;
@@ -23,16 +22,20 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class CategoriesPresenter implements CategoriesContract.Presenter {
 
     private final Context mContext;
-    private final CategoriesRepository mCategoriesRepository;
+    private final CategoriesDataSource mCategoriesDataSource;
     private final CategoriesContract.View mCategoriesView;
     private CategoriesFilterType mCurrentFiltering = CategoriesFilterType.ALL_CATEGORIES;
     private boolean mFirstLoad;
     private Stack<Integer> mCategoriesNavigationState;
     private OpenAchievementCallback mOpenAchievementCallback;
 
-    public CategoriesPresenter(@NonNull Context context, @NonNull CategoriesRepository categoriesRepository, @NonNull CategoriesContract.View categoriesView) {
+    public CategoriesPresenter(
+            @NonNull Context context,
+            @NonNull CategoriesDataSource categoriesDataSource,
+            @NonNull CategoriesContract.View categoriesView) {
+
         this.mContext = context;
-        this.mCategoriesRepository = checkNotNull(categoriesRepository, "categoriesRepository cannot be null");
+        this.mCategoriesDataSource = checkNotNull(categoriesDataSource, "categoriesDataSource cannot be null");
         this.mCategoriesView = checkNotNull(categoriesView, "categoriesView cannot be null!");
         this.mCategoriesView.setPresenter(this);
         this.mFirstLoad = true;
@@ -67,11 +70,16 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
      * @param forceUpdate   Pass in true to refresh the data in the {@link CategoriesDataSource}
      * @param showLoadingUI Pass in true to display a loading icon in the UI
      */
-    private void loadCategories(final Integer parentCategoryId, boolean forceUpdate, final boolean showLoadingUI, final OpenAchievementCallback callback) {
-        if (showLoadingUI) mCategoriesView.setLoadingIndicator(true);
-        if (forceUpdate) mCategoriesRepository.refreshCache();
+    private void loadCategories(
+            final Integer parentCategoryId,
+            boolean forceUpdate,
+            final boolean showLoadingUI,
+            final OpenAchievementCallback callback) {
 
-        mCategoriesRepository.loadCategories(parentCategoryId, new LoadCallback<List<Category>>() {
+        if (showLoadingUI) mCategoriesView.setLoadingIndicator(true);
+        if (forceUpdate) mCategoriesDataSource.refreshCache();
+
+        mCategoriesDataSource.loadCategories(parentCategoryId, new LoadCallback<List<Category>>() {
             @Override
             public void onSuccess(List<Category> categories) {
                 // TODO: Fix filtering

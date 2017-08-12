@@ -9,8 +9,6 @@ import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import im.ene.toro.Toro;
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import okhttp3.OkHttpClient;
 
 public class AchieversApplication extends Application {
@@ -18,15 +16,6 @@ public class AchieversApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        Realm.init(this);
-        RealmConfiguration realmConfiguration = new RealmConfiguration
-                .Builder()
-                .deleteRealmIfMigrationNeeded()
-                .name("Achievers")
-                .build();
-//        Realm.deleteRealm(realmConfiguration); // Clear the realm
-        Realm.setDefaultConfiguration(realmConfiguration);
 
         Toro.init(this);
         Toro.setStrategy(new CustomToroPlayStrategy());

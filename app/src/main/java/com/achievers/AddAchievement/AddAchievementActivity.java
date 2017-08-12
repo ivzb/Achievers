@@ -8,12 +8,9 @@ import android.view.MenuItem;
 import com.achievers.BaseActivity;
 import com.achievers.R;
 import com.achievers.data.source.achievements.AchievementsDataSource;
-import com.achievers.data.source.achievements.AchievementsRepository;
-import com.achievers.data.source.achievements.AchievementsLocalDataSource;
 import com.achievers.data.source.achievements.AchievementsRemoteDataSource;
 import com.achievers.data.source.files.FilesDataSource;
 import com.achievers.data.source.files.FilesRemoteDataSource;
-import com.achievers.data.source.files.FilesRepository;
 import com.achievers.util.ActivityUtils;
 
 /**
@@ -55,18 +52,10 @@ public class AddAchievementActivity extends BaseActivity {
                     addAchievementFragment, R.id.contentFrame);
         }
 
-        // Instantiate repository
-        AchievementsDataSource achievementsRepository = AchievementsRepository.getInstance(
-                AchievementsRemoteDataSource.getInstance(),
-                AchievementsLocalDataSource.getInstance(this.mRealm));
-
-        FilesDataSource filesRepository = FilesRepository.getInstance(
-                FilesRemoteDataSource.getInstance());
-
         // Create the presenter
         mAddAchievementPresenter = new AddAchievementPresenter(
-                achievementsRepository,
-                filesRepository,
+                AchievementsRemoteDataSource.getInstance(),
+                FilesRemoteDataSource.getInstance(),
                 addAchievementFragment
         );
 

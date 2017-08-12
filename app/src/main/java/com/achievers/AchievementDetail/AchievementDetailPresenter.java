@@ -6,9 +6,8 @@ import android.util.SparseIntArray;
 
 import com.achievers.data.models.Achievement;
 import com.achievers.data.models.Evidence;
-import com.achievers.data.source.achievements.AchievementsRepository;
+import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.evidence.EvidenceDataSource;
-import com.achievers.data.source.evidence.EvidenceRepository;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.source.RESTClient;
@@ -23,21 +22,25 @@ public class AchievementDetailPresenter implements AchievementDetailContract.Pre
 
     private final AchievementDetailContract.View mAchievementDetailView;
 
-    private AchievementsRepository mAchievementsRepository;
-    private EvidenceRepository mEvidenceRepository;
+    private AchievementsDataSource mAchievementsDataSource;
+    private EvidenceDataSource mEvidenceDataSource;
     private boolean mFirstLoad;
     private SparseBooleanArray mNoMoreData;
     private SparseIntArray mPages;
 
     private int mAchievementId;
 
-    public AchievementDetailPresenter(int achievementId,
-           AchievementsRepository achievementsRepository, EvidenceRepository evidenceRepository,
+    public AchievementDetailPresenter(
+            int achievementId,
+           AchievementsDataSource achievementsDataSource,
+           EvidenceDataSource evidenceDataSource,
            @NonNull AchievementDetailContract.View view) {
+
         this.mAchievementId = achievementId;
-        this.mAchievementsRepository = achievementsRepository;
-        this.mEvidenceRepository = evidenceRepository;
+        this.mAchievementsDataSource = achievementsDataSource;
+        this.mEvidenceDataSource = evidenceDataSource;
         this.mAchievementDetailView = view;
+
         this.mAchievementDetailView.setPresenter(this);
         this.mFirstLoad = true;
         this.mNoMoreData = new SparseBooleanArray();
@@ -51,7 +54,7 @@ public class AchievementDetailPresenter implements AchievementDetailContract.Pre
 
     @Override
     public void getAchievement() {
-        this.mAchievementsRepository.getAchievement(this.mAchievementId, new GetCallback<Achievement>() {
+        this.mAchievementsDataSource.getAchievement(this.mAchievementId, new GetCallback<Achievement>() {
             @Override
             public void onSuccess(final Achievement achievement) {
                 // The view may not be able to handle UI updates anymore
@@ -91,9 +94,9 @@ public class AchievementDetailPresenter implements AchievementDetailContract.Pre
         final int currentPage = this.mPages.get(achievementId, 0);
 
         if (showLoadingUI) mAchievementDetailView.setLoadingIndicator(true);
-        if (forceUpdate) mAchievementsRepository.refreshCache();
+        if (forceUpdate) mAchievementsDataSource.refreshCache();
 
-        this.mEvidenceRepository.loadEvidence(achievementId, currentPage, new LoadCallback<List<Evidence>>() {
+        this.mEvidenceDataSource.loadEvidence(achievementId, currentPage, new LoadCallback<List<Evidence>>() {
             @Override
             public void onSuccess(final List<Evidence> evidence) {
                 // The view may not be able to handle UI updates anymore

@@ -7,11 +7,9 @@ import android.view.MenuItem;
 
 import com.achievers.BaseActivity;
 import com.achievers.R;
-import com.achievers.data.source.achievements.AchievementsRepository;
-import com.achievers.data.source.evidence.EvidenceRepository;
-import com.achievers.data.source.achievements.AchievementsLocalDataSource;
-import com.achievers.data.source.evidence.EvidenceLocalDataSource;
+import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.achievements.AchievementsRemoteDataSource;
+import com.achievers.data.source.evidence.EvidenceDataSource;
 import com.achievers.data.source.evidence.EvidenceRemoteDataSource;
 import com.achievers.util.ActivityUtils;
 
@@ -51,17 +49,10 @@ public class AchievementDetailActivity extends BaseActivity {
                     achievementDetailFragment, R.id.contentFrame);
         }
 
-        // Instantiate repositories
-        AchievementsRepository achievementsRepository = AchievementsRepository.getInstance(
+        AchievementDetailPresenter presenter = new AchievementDetailPresenter(
+                achievementId,
                 AchievementsRemoteDataSource.getInstance(),
-                AchievementsLocalDataSource.getInstance(super.mRealm));
-
-        EvidenceRepository evidenceRepository = EvidenceRepository.getInstance(
                 EvidenceRemoteDataSource.getInstance(),
-                EvidenceLocalDataSource.getInstance(super.mRealm));
-
-        AchievementDetailPresenter presenter = new AchievementDetailPresenter(achievementId,
-                achievementsRepository, evidenceRepository,
                 achievementDetailFragment);
 
         AchievementDetailViewModel viewModel = new AchievementDetailViewModel(getApplicationContext(), presenter);

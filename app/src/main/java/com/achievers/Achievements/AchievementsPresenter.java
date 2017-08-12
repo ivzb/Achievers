@@ -6,7 +6,7 @@ import android.util.SparseIntArray;
 
 import com.achievers.data.models.Achievement;
 import com.achievers.data.models.Category;
-import com.achievers.data.source.achievements.AchievementsRepository;
+import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.categories.CategoriesDataSource;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.source.RESTClient;
@@ -17,15 +17,17 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class AchievementsPresenter implements AchievementsContract.Presenter {
 
-    private final AchievementsRepository mAchievementsRepository;
+    private final AchievementsDataSource mAchievementsDataSource;
     private final AchievementsContract.View mAchievementsView;
     private boolean mFirstLoad;
     private SparseBooleanArray mNoMoreData;
     private SparseIntArray mPages;
 
-    public AchievementsPresenter(@NonNull AchievementsRepository achievementsRepository,
-                                 @NonNull AchievementsContract.View achievementsView) {
-        this.mAchievementsRepository = checkNotNull(achievementsRepository, "achievementsRepository cannot be null");
+    public AchievementsPresenter(
+            @NonNull AchievementsDataSource achievementsDataSource,
+            @NonNull AchievementsContract.View achievementsView) {
+
+        this.mAchievementsDataSource = checkNotNull(achievementsDataSource, "achievementsDataSource cannot be null");
         this.mAchievementsView = checkNotNull(achievementsView, "achievementsView cannot be null");
         this.mAchievementsView.setPresenter(this);
         this.mFirstLoad = true;
@@ -65,9 +67,9 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
         final int currentPage = this.mPages.get(category.getId(), 0);
 
         if (showLoadingUI) mAchievementsView.setLoadingIndicator(true);
-        if (forceUpdate) mAchievementsRepository.refreshCache();
+        if (forceUpdate) mAchievementsDataSource.refreshCache();
 
-        mAchievementsRepository.loadAchievements(category.getId(), currentPage, new LoadCallback<List<Achievement>>() {
+        mAchievementsDataSource.loadAchievements(category.getId(), currentPage, new LoadCallback<List<Achievement>>() {
             @Override
             public void onSuccess(final List<Achievement> achievements) {
                 // The view may not be able to handle UI updates anymore

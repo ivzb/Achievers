@@ -8,17 +8,13 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-
 /**
  * Immutable model class for an Evidence.
  */
-public class Evidence extends RealmObject {
+public class Evidence {
 
     @SerializedName("id")
     @NonNull
-    @PrimaryKey
     private Integer id;
 
     @SerializedName("comment")

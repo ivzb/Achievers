@@ -57,7 +57,7 @@ public class CategoriesActivity extends BaseActivity {
         }
 
         // Create a CategoriesMvpController every time, even after rotation.
-        categoriesMvpTabletController = CategoriesMvpController.createCategoriesView(this, super.mRealm, categoryId);
+        categoriesMvpTabletController = CategoriesMvpController.createCategoriesView(this, categoryId);
 
         if (currentFiltering != null) {
             categoriesMvpTabletController.setFiltering(currentFiltering);

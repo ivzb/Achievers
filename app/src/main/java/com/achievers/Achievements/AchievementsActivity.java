@@ -8,12 +8,10 @@ import android.view.MenuItem;
 import com.achievers.BaseActivity;
 import com.achievers.R;
 import com.achievers.data.models.Category;
-import com.achievers.data.source.achievements.AchievementsRepository;
-import com.achievers.data.source.categories.CategoriesRepository;
 import com.achievers.data.callbacks.GetCallback;
-import com.achievers.data.source.achievements.AchievementsLocalDataSource;
-import com.achievers.data.source.categories.CategoriesLocalDataSource;
+import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.achievements.AchievementsRemoteDataSource;
+import com.achievers.data.source.categories.CategoriesDataSource;
 import com.achievers.data.source.categories.CategoriesRemoteDataSource;
 import com.achievers.util.ActivityUtils;
 
@@ -49,26 +47,23 @@ public class AchievementsActivity extends BaseActivity {
         if (fragment == null) {
             fragment = AchievementsFragment.newInstance();
 
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
-                    fragment, R.id.contentFrame);
+            ActivityUtils.addFragmentToActivity(
+                    getSupportFragmentManager(),
+                    fragment,
+                    R.id.contentFrame);
         }
-
-        // Instantiate repositories
-        AchievementsRepository achievementsRepository = AchievementsRepository.getInstance(
-                AchievementsRemoteDataSource.getInstance(),
-                AchievementsLocalDataSource.getInstance(super.mRealm));
-
-        CategoriesRepository categoriesRepository = CategoriesRepository.getInstance(
-                CategoriesRemoteDataSource.getInstance(),
-                CategoriesLocalDataSource.getInstance(super.mRealm));
 
         final AchievementsFragment achievementsFragment = fragment;
 
-        final AchievementsPresenter presenter = new AchievementsPresenter(achievementsRepository, achievementsFragment);
+        final AchievementsPresenter presenter = new AchievementsPresenter(
+                AchievementsRemoteDataSource.getInstance(),
+                achievementsFragment);
+
         achievementsFragment.setPresenter(presenter);
         final AchievementsViewModel viewModel = new AchievementsViewModel(getApplicationContext());
 
-        categoriesRepository.getCategory(categoryId, new GetCallback<Category>() {
+        CategoriesRemoteDataSource.getInstance()
+                .getCategory(categoryId, new GetCallback<Category>() {
             @Override
             public void onSuccess(final Category category) {
                 viewModel.setCategory(category);

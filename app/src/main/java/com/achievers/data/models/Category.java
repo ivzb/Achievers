@@ -11,9 +11,6 @@ import org.parceler.Parcel;
 
 import java.util.Date;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-
 /**
  * Immutable model class for a Category.
  */
@@ -24,11 +21,10 @@ import io.realm.annotations.PrimaryKey;
 //        implementations = { CategoryRealmProxy.class },
         value = Parcel.Serialization.BEAN,
         analyze = { Category.class })
-public class Category extends RealmObject {
+public class Category {
 
     @SerializedName("id")
     @NonNull
-    @PrimaryKey
     private Integer id;
 
     @SerializedName("title")

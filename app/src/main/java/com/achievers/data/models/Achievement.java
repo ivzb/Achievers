@@ -9,17 +9,13 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-
 /**
  * Immutable model class for a Achievement.
  */
-public class Achievement extends RealmObject {
+public class Achievement {
 
     @SerializedName("id")
     @NonNull
-    @PrimaryKey
     private Integer id;
 
     @SerializedName("title")

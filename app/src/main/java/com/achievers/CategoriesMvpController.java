@@ -30,15 +30,11 @@ import com.achievers.Categories.CategoriesFilterType;
 import com.achievers.Categories.CategoriesFragment;
 import com.achievers.Categories.CategoriesPresenter;
 import com.achievers.Categories.CategoriesViewModel;
-import com.achievers.data.source.achievements.AchievementsRepository;
-import com.achievers.data.source.categories.CategoriesRepository;
-import com.achievers.data.source.achievements.AchievementsLocalDataSource;
-import com.achievers.data.source.categories.CategoriesLocalDataSource;
+import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.achievements.AchievementsRemoteDataSource;
+import com.achievers.data.source.categories.CategoriesDataSource;
 import com.achievers.data.source.categories.CategoriesRemoteDataSource;
 import com.achievers.util.ActivityUtils;
-
-import io.realm.Realm;
 
 import static com.achievers.util.ActivityUtils.isTablet;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -49,7 +45,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class CategoriesMvpController {
 
     private final FragmentActivity mFragmentActivity;
-    private final Realm mRealm;
 
     // Null category ID means there's no category selected (or in phone mode)
     @Nullable private final Integer mCategoryId;
@@ -59,9 +54,10 @@ public class CategoriesMvpController {
 
     // Force factory method, prevent direct instantiation:
     private CategoriesMvpController(
-            @NonNull FragmentActivity fragmentActivity, @NonNull Realm realm, @Nullable Integer categoryId) {
+            @NonNull FragmentActivity fragmentActivity,
+            @Nullable Integer categoryId) {
+
         this.mFragmentActivity = fragmentActivity;
-        this.mRealm = realm;
         this.mCategoryId = categoryId;
     }
 
@@ -71,12 +67,13 @@ public class CategoriesMvpController {
      * @return a CategoriesMvpController
      */
     public static CategoriesMvpController createCategoriesView(
-            @NonNull FragmentActivity fragmentActivity, @NonNull Realm realm, @Nullable Integer categoryId) {
+            @NonNull FragmentActivity fragmentActivity,
+            @Nullable Integer categoryId) {
+
         checkNotNull(fragmentActivity);
-        checkNotNull(realm);
 
         CategoriesMvpController categoriesMvpController =
-                new CategoriesMvpController(fragmentActivity, realm, categoryId);
+                new CategoriesMvpController(fragmentActivity, categoryId);
 
         categoriesMvpController.initCategoriesView();
         return categoriesMvpController;
@@ -114,8 +111,12 @@ public class CategoriesMvpController {
 
     @NonNull
     private CategoriesPresenter createListPresenter(CategoriesFragment categoriesFragment) {
-        CategoriesRepository categoriesRepository = this.createCategoriesRepository();
-        this.mCategoriesPresenter = new CategoriesPresenter(this.mFragmentActivity, categoriesRepository, categoriesFragment);
+        CategoriesDataSource categoriesDataSource = this.createCategoriesDataSource();
+
+        this.mCategoriesPresenter = new CategoriesPresenter(
+                this.mFragmentActivity,
+                categoriesDataSource,
+                categoriesFragment);
 
         CategoriesViewModel categoriesViewModel = new CategoriesViewModel(this.mFragmentActivity, mCategoriesPresenter);
         categoriesFragment.setViewModel(categoriesViewModel);
@@ -125,27 +126,28 @@ public class CategoriesMvpController {
 
     @NonNull
     private AchievementsPresenter createDetailPresenter(AchievementsFragment achievementsFragment) {
-        AchievementsRepository achievementsRepository = this.createAchievementsRepository();
-        AchievementsPresenter achievementsPresenter = new AchievementsPresenter(achievementsRepository, achievementsFragment);
+        AchievementsDataSource achievementsDataSource = this.createAchievementsDataSource();
 
-        AchievementsViewModel achievementsViewModel = new AchievementsViewModel(this.mFragmentActivity);
+        AchievementsPresenter achievementsPresenter = new AchievementsPresenter(
+                achievementsDataSource,
+                achievementsFragment);
+
+        AchievementsViewModel achievementsViewModel = new AchievementsViewModel(
+                this.mFragmentActivity);
+
         achievementsFragment.setViewModel(achievementsViewModel);
 
         return achievementsPresenter;
     }
 
     @NonNull
-    private CategoriesRepository createCategoriesRepository() {
-        return CategoriesRepository.getInstance(
-                CategoriesRemoteDataSource.getInstance(),
-                CategoriesLocalDataSource.getInstance(this.mRealm));
+    private CategoriesDataSource createCategoriesDataSource() {
+        return CategoriesRemoteDataSource.getInstance();
     }
 
     @NonNull
-    private AchievementsRepository createAchievementsRepository() {
-        return AchievementsRepository.getInstance(
-                AchievementsRemoteDataSource.getInstance(),
-                AchievementsLocalDataSource.getInstance(this.mRealm));
+    private AchievementsDataSource createAchievementsDataSource() {
+        return AchievementsRemoteDataSource.getInstance();
     }
 
     @NonNull
