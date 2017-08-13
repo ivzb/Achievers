@@ -1,7 +1,5 @@
 package com.achievers.Categories;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,6 +22,8 @@ import com.achievers.databinding.CategoriesFragBinding;
 import com.achievers.util.ScrollChildSwipeRefreshLayout;
 
 import java.util.List;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Display a screen with categories

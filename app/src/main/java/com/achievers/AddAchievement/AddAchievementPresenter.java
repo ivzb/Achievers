@@ -3,13 +3,12 @@ package com.achievers.AddAchievement;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
+import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.models.Achievement;
 import com.achievers.data.models.File;
 import com.achievers.data.models.Involvement;
 import com.achievers.data.source.achievements.AchievementsDataSource;
-import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.source.files.FilesDataSource;
-import com.google.android.exoplayer2.upstream.FileDataSource;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;

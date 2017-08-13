@@ -2,11 +2,11 @@ package com.achievers.data.source.categories;
 
 import android.support.annotation.NonNull;
 
-import com.achievers.data.endpoints.CategoriesAPI;
-import com.achievers.data.models.Category;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.callbacks.SaveCallback;
+import com.achievers.data.endpoints.CategoriesAPI;
+import com.achievers.data.models.Category;
 import com.achievers.data.source.RESTClient;
 
 import java.util.List;

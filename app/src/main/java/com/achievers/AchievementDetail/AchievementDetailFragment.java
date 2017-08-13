@@ -19,9 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.achievers.AchievementDetail.Adapters.UploadEvidenceDialogSimpleAdapter;
 import com.achievers.Evidence.EvidenceAdapter;
 import com.achievers.R;
@@ -36,6 +33,9 @@ import com.orhanobut.dialogplus.OnCancelListener;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnDismissListener;
 import com.orhanobut.dialogplus.OnItemClickListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Main UI for the task detail screen.

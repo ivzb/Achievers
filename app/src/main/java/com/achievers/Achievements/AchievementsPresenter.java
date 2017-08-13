@@ -4,12 +4,12 @@ import android.support.annotation.NonNull;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
 
+import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.models.Achievement;
 import com.achievers.data.models.Category;
+import com.achievers.data.source.RESTClient;
 import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.categories.CategoriesDataSource;
-import com.achievers.data.callbacks.LoadCallback;
-import com.achievers.data.source.RESTClient;
 
 import java.util.List;
 

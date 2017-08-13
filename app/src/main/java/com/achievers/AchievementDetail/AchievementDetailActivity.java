@@ -7,9 +7,7 @@ import android.view.MenuItem;
 
 import com.achievers.BaseActivity;
 import com.achievers.R;
-import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.achievements.AchievementsRemoteDataSource;
-import com.achievers.data.source.evidence.EvidenceDataSource;
 import com.achievers.data.source.evidence.EvidenceRemoteDataSource;
 import com.achievers.util.ActivityUtils;
 

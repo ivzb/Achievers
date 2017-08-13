@@ -7,11 +7,9 @@ import android.view.MenuItem;
 
 import com.achievers.BaseActivity;
 import com.achievers.R;
-import com.achievers.data.models.Category;
 import com.achievers.data.callbacks.GetCallback;
-import com.achievers.data.source.achievements.AchievementsDataSource;
+import com.achievers.data.models.Category;
 import com.achievers.data.source.achievements.AchievementsRemoteDataSource;
-import com.achievers.data.source.categories.CategoriesDataSource;
 import com.achievers.data.source.categories.CategoriesRemoteDataSource;
 import com.achievers.util.ActivityUtils;
 
