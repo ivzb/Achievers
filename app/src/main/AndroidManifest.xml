@@ -39,5 +39,26 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
         </provider>
+
+        <!-- Data, sync and schedule editing components -->
+
+        <provider
+            android:name=".data.provider.AchieversProvider"
+            android:authorities="com.achievers"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:syncable="true" />
+
+        <service
+            android:name="data.sync.SyncService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/sync_adapter" />
+        </service>
     </application>
 </manifest>
