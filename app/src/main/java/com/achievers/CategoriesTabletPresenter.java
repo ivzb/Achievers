@@ -19,11 +19,11 @@ package com.achievers;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.achievers.Achievements.AchievementsContract;
-import com.achievers.Achievements.AchievementsPresenter;
-import com.achievers.Categories.CategoriesContract;
-import com.achievers.Categories.CategoriesFilterType;
-import com.achievers.Categories.CategoriesPresenter;
+import com.achievers.ui.achievements.AchievementsContract;
+import com.achievers.ui.achievements.AchievementsPresenter;
+import com.achievers.ui.categories.CategoriesContract;
+import com.achievers.ui.categories.CategoriesFilterType;
+import com.achievers.ui.categories.CategoriesPresenter;
 import com.achievers.data.models.Achievement;
 import com.achievers.data.models.Category;
 

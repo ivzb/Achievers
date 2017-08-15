@@ -18,7 +18,7 @@
         android:allowBackup="true">
 
          <activity
-             android:name=".Categories.CategoriesActivity"
+             android:name=".ui.categories.CategoriesActivity"
              android:theme="@style/AppTheme.OverlapSystemBar">
 
              <intent-filter>
@@ -26,12 +26,12 @@
                  <category android:name="android.intent.category.LAUNCHER" />
              </intent-filter>
         </activity>
-        <activity android:name=".AchievementDetail.AchievementDetailActivity" />
-        <activity android:name=".Achievements.AchievementsActivity" />
-        <activity android:name=".AddAchievement.AddAchievementActivity" />
+        <activity android:name=".ui.achievement.AchievementDetailActivity" />
+        <activity android:name=".ui.achievements.AchievementsActivity" />
+        <activity android:name=".ui.addachievement.AddAchievementActivity" />
 
         <provider
-            android:name=".util.Providers.GenericFileProvider"
+            android:name=".util.providers.GenericFileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">

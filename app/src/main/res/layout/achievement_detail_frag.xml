@@ -8,7 +8,7 @@
 
         <variable
             name="actionHandler"
-            type="com.achievers.AchievementDetail.AchievementDetailContract.Presenter" />
+            type="com.achievers.ui.achievement.AchievementDetailContract.Presenter" />
 
         <variable
             name="resources"
@@ -16,7 +16,7 @@
 
         <variable
             name="viewModel"
-            type="com.achievers.AchievementDetail.AchievementDetailViewModel" />
+            type="com.achievers.ui.achievement.AchievementDetailViewModel" />
     </data>
 
     <LinearLayout

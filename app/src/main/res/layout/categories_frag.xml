@@ -8,11 +8,11 @@
 
         <variable
             name="categories"
-            type="com.achievers.Categories.CategoriesViewModel" />
+            type="com.achievers.ui.categories.CategoriesViewModel" />
 
         <variable
             name="actionHandler"
-            type="com.achievers.Categories.CategoriesContract.Presenter" />
+            type="com.achievers.ui.categories.CategoriesContract.Presenter" />
     </data>
 
     <com.achievers.util.ScrollChildSwipeRefreshLayout

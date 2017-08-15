@@ -15,7 +15,7 @@
 
         <variable
             name="actionHandler"
-            type="com.achievers.Achievements.AchievementsItemActionHandler" />
+            type="com.achievers.ui.achievements.AchievementsItemActionHandler" />
     </data>
 
     <LinearLayout
