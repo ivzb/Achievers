@@ -6,5 +6,5 @@
 
     <application
         tools:replace="android:name"
-        android:name=".DebugAchieversApplication" />
+        android:name=".AchieversDebugApplication" />
 </manifest>

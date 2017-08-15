@@ -1,4 +1,4 @@
-package com.achievers;
+package com.achievers.ui.base;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

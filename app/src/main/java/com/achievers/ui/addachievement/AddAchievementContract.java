@@ -2,8 +2,8 @@ package com.achievers.ui.addachievement;
 
 import android.graphics.Bitmap;
 
-import com.achievers.BasePresenter;
-import com.achievers.BaseView;
+import com.achievers.ui.base.BasePresenter;
+import com.achievers.ui.base.BaseView;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.models.Achievement;
 import com.achievers.data.models.File;

@@ -1,4 +1,4 @@
-package com.achievers;
+package com.achievers.ui.base;
 
 public interface BasePresenter {
 

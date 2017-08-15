@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.achievers;
+package com.achievers.ui.categories;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

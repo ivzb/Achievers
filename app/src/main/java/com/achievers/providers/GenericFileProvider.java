@@ -1,4 +1,4 @@
-package com.achievers.util.providers;
+package com.achievers.providers;
 
 import android.support.v4.content.FileProvider;
 

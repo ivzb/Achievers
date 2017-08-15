@@ -1,4 +1,4 @@
-package com.achievers;
+package com.achievers.ui;
 
 import android.content.res.Resources;
 import android.databinding.BindingAdapter;
@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
+import com.achievers.R;
 import com.achievers.ui.achievement.AchievementDetailContract;
 import com.achievers.ui.achievements.AchievementsAdapter;
 import com.achievers.ui.achievements.AchievementsContract;

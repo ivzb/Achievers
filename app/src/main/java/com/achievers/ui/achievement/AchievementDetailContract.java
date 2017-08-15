@@ -1,7 +1,7 @@
 package com.achievers.ui.achievement;
 
-import com.achievers.BasePresenter;
-import com.achievers.BaseView;
+import com.achievers.ui.base.BasePresenter;
+import com.achievers.ui.base.BaseView;
 import com.achievers.data.models.Achievement;
 import com.achievers.data.models.Evidence;
 

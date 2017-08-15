@@ -2,7 +2,7 @@ package com.achievers;
 
 import com.facebook.stetho.Stetho;
 
-public class DebugAchieversApplication extends AchieversApplication {
+public class AchieversDebugApplication extends AchieversApplication {
     @Override
     public void onCreate() {
         super.onCreate();

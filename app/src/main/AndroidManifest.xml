@@ -31,7 +31,7 @@
         <activity android:name=".ui.addachievement.AddAchievementActivity" />
 
         <provider
-            android:name=".util.providers.GenericFileProvider"
+            android:name=".providers.GenericFileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">

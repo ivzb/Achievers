@@ -8,8 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.achievers.BaseActivity;
-import com.achievers.CategoriesMvpController;
+import com.achievers.ui.base.BaseActivity;
 import com.achievers.R;
 
 public class CategoriesActivity extends BaseActivity {

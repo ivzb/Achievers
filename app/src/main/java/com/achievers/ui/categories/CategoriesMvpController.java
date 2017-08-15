@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.achievers;
+package com.achievers.ui.categories;
 
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -23,13 +23,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
+import com.achievers.R;
 import com.achievers.ui.achievements.AchievementsFragment;
 import com.achievers.ui.achievements.AchievementsPresenter;
 import com.achievers.ui.achievements.AchievementsViewModel;
-import com.achievers.ui.categories.CategoriesFilterType;
-import com.achievers.ui.categories.CategoriesFragment;
-import com.achievers.ui.categories.CategoriesPresenter;
-import com.achievers.ui.categories.CategoriesViewModel;
 import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.achievements.AchievementsRemoteDataSource;
 import com.achievers.data.source.categories.CategoriesDataSource;
