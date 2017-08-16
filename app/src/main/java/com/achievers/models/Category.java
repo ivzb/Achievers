@@ -43,6 +43,10 @@ public class Category {
     @NonNull
     private Category parent;
 
+    @SerializedName("parentId")
+    @NonNull
+    private Integer parentId;
+
     @SerializedName("createdOn")
     @Nullable
     private Date createdOn;
@@ -101,6 +105,11 @@ public class Category {
     @Nullable
     public Category getParent() {
         return parent;
+    }
+
+    @Nullable
+    public Integer getParentId() {
+        return parentId;
     }
 
     @Nullable

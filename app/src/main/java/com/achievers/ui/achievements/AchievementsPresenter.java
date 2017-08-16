@@ -67,9 +67,8 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
         final int currentPage = this.mPages.get(category.getId(), 0);
 
         if (showLoadingUI) mAchievementsView.setLoadingIndicator(true);
-        if (forceUpdate) mAchievementsDataSource.refreshCache();
 
-        mAchievementsDataSource.loadAchievements(category.getId(), currentPage, new LoadCallback<List<Achievement>>() {
+        mAchievementsDataSource.loadAchievements(category.getId(), currentPage, new LoadCallback<Achievement>() {
             @Override
             public void onSuccess(final List<Achievement> achievements) {
                 // The view may not be able to handle UI updates anymore
@@ -80,14 +79,6 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
                 if (achievements.size() < RESTClient.getPageSize()) mNoMoreData.put(category.getId(), true); // no more data for this categoryId
 
                 mAchievementsView.showAchievements(category, achievements);
-            }
-
-            @Override
-            public void onNoMoreData() {
-                if (!mAchievementsView.isActive()) return;
-                if (showLoadingUI) mAchievementsView.setLoadingIndicator(false);
-
-                mNoMoreData.put(category.getId(), true); // no more data for this categoryId
             }
 
             @Override

@@ -15,11 +15,14 @@ public interface CategoriesAPI {
             @Path("id") int id
     );
 
-    @GET("Categories/Children/null")
-    Call<List<Category>> loadRootChildren();
+    @GET("Categories")
+    Call<List<Category>> loadCategories();
 
-    @GET("Categories/Children/{id}")
-    Call<List<Category>> loadChildren(
-            @Path("id") Integer id
-    );
+//    @GET("Categories/Children/null")
+//    Call<List<Category>> loadRootChildren();
+//
+//    @GET("Categories/Children/{id}")
+//    Call<List<Category>> loadChildren(
+//            @Path("id") Integer id
+//    );
 }

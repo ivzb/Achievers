@@ -41,7 +41,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
     public void loadAchievements(
             final int categoryId,
             final int page,
-            final @NonNull LoadCallback<List<Achievement>> callback) {
+            final @NonNull LoadCallback<Achievement> callback) {
 
         final Call<List<Achievement>> call = this.apiService.loadByCategory(categoryId/*, pageSize, page * pageSize*/);
 
@@ -55,14 +55,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
                     return;
                 }
 
-                List<Achievement> achievements = response.body();
-
-                if (achievements.isEmpty()) {
-                    callback.onNoMoreData();
-                    return;
-                }
-
-                callback.onSuccess(achievements);
+                callback.onSuccess(response.body());
             }
 
             @Override
@@ -105,20 +98,6 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
             @NonNull Achievement achievement,
             @NonNull SaveCallback<Void> callback) {
 
-        // not being used
-    }
-
-    @Override
-    public void saveAchievements(
-            @NonNull List<Achievement> achievements,
-            @NonNull final SaveCallback<Void> callback) {
-
-        // not being used
-    }
-
-    @Override
-    public void refreshCache() {
-        // Not required because the {@link AchievementsRepository} handles the logic of refreshing the
-        // Achievements from all the available data sources.
+        // todo
     }
 }

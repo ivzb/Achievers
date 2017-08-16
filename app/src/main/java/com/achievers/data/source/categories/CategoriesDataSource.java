@@ -20,15 +20,6 @@ public interface CategoriesDataSource {
     );
 
     void loadCategories(
-            final Integer parentId,
-            @NonNull final LoadCallback<List<Category>> callback
+            @NonNull final LoadCallback<Category> callback
     );
-
-    void saveCategories(
-            final Integer parentId,
-            @NonNull final List<Category> categories,
-            @NonNull final SaveCallback<Void> callback
-    );
-
-    void refreshCache();
 }

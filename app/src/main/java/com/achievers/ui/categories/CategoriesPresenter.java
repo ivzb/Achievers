@@ -77,9 +77,8 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
             final OpenAchievementCallback callback) {
 
         if (showLoadingUI) mCategoriesView.setLoadingIndicator(true);
-        if (forceUpdate) mCategoriesDataSource.refreshCache();
 
-        mCategoriesDataSource.loadCategories(parentCategoryId, new LoadCallback<List<Category>>() {
+        mCategoriesDataSource.loadCategories(new LoadCallback<Category>() {
             @Override
             public void onSuccess(List<Category> categories) {
                 // TODO: Fix filtering
@@ -99,14 +98,6 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
                 if (showLoadingUI) mCategoriesView.setLoadingIndicator(false);
 
                 mCategoriesView.showCategories(categories);
-            }
-
-            @Override
-            public void onNoMoreData() {
-                if (!mCategoriesView.isActive()) return;
-                if (showLoadingUI) mCategoriesView.setLoadingIndicator(false);
-
-                callback.onOpen(parentCategoryId);
             }
 
             @Override

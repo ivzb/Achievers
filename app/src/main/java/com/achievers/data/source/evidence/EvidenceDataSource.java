@@ -22,7 +22,7 @@ public interface EvidenceDataSource {
     void loadEvidence(
             final int achievementId,
             final int page,
-            @NonNull final LoadCallback<List<Evidence>> callback
+            @NonNull final LoadCallback<Evidence> callback
     );
 
     void saveEvidence(

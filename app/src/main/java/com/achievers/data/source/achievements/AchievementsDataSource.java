@@ -22,18 +22,11 @@ public interface AchievementsDataSource {
     void loadAchievements(
             final int categoryId,
             final int page,
-            @NonNull final LoadCallback<List<Achievement>> callback
+            @NonNull final LoadCallback<Achievement> callback
     );
 
     void saveAchievement(
             @NonNull final Achievement achievement,
             @NonNull final SaveCallback<Void> callback
     );
-
-    void saveAchievements(
-            @NonNull final List<Achievement> achievements,
-            @NonNull final SaveCallback<Void> callback
-    );
-
-    void refreshCache();
 }

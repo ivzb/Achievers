@@ -41,7 +41,7 @@ public class EvidenceRemoteDataSource implements EvidenceDataSource {
     public void loadEvidence(
             final int achievementId,
             final int page,
-            final @NonNull LoadCallback<List<Evidence>> callback
+            final @NonNull LoadCallback<Evidence> callback
     ) {
         final Call<List<Evidence>> call = this.apiService.loadByAchievement(achievementId/*, pageSize, page * pageSize*/);
 
@@ -55,14 +55,7 @@ public class EvidenceRemoteDataSource implements EvidenceDataSource {
                     return;
                 }
 
-                List<Evidence> evidence = response.body();
-
-                if (evidence.isEmpty()) {
-                    callback.onNoMoreData();
-                    return;
-                }
-
-                callback.onSuccess(evidence);
+                callback.onSuccess(response.body());
             }
 
             @Override

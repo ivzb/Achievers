@@ -20,12 +20,13 @@ import retrofit2.Response;
  */
 public class CategoriesRemoteDataSource implements CategoriesDataSource {
 
-    private static CategoriesRemoteDataSource INSTANCE;
+    private static CategoriesDataSource INSTANCE;
 
     private CategoriesAPI apiService;
 
-    public static CategoriesRemoteDataSource getInstance() {
+    public static CategoriesDataSource getInstance() {
         if (INSTANCE == null) INSTANCE = new CategoriesRemoteDataSource();
+
         return INSTANCE;
     }
 
@@ -37,50 +38,34 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
     }
 
     @Override
-    public void loadCategories(
-            final Integer parentId,
-            final @NonNull LoadCallback<List<Category>> callback
-    ) {
-        final Call<List<Category>> call;
+    public void loadCategories(@NonNull final LoadCallback<Category> callback) {
+        this.apiService
+            .loadCategories()
+            .enqueue(new Callback<List<Category>>() {
+                @Override
+                public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
+                    int statusCode = response.code();
 
-        if (parentId != null) {
-            call = this.apiService.loadChildren(parentId);
-        } else {
-            call = this.apiService.loadRootChildren();
-        }
+                    if (statusCode != 200) {
+                        callback.onFailure("Error occurred. Please try again.");
+                        return;
+                    }
 
-        call.enqueue(new Callback<List<Category>>() {
-            @Override
-            public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
-                int statusCode = response.code();
-
-                if (statusCode != 200) {
-                    callback.onFailure("Error occurred. Please try again.");
-                    return;
+                    callback.onSuccess(response.body());
                 }
 
-                List<Category> categories = response.body();
-
-                if (categories.isEmpty()) {
-                    callback.onNoMoreData();
-                    return;
+                @Override
+                public void onFailure(Call<List<Category>> call, Throwable t) {
+                    callback.onFailure("Server could not be reached. Please try again.");
                 }
-
-                callback.onSuccess(categories);
-            }
-
-            @Override
-            public void onFailure(Call<List<Category>> call, Throwable t) {
-                callback.onFailure("Server could not be reached. Please try again.");
-            }
-        });
+            });
     }
 
     @Override
     public void getCategory(
             @NonNull final Integer categoryId,
-            final @NonNull GetCallback<Category> callback
-    ) {
+            @NonNull final GetCallback<Category> callback) {
+
         final Call<Category> call = this.apiService.getCategory(categoryId);
 
         call.enqueue(new Callback<Category>() {
@@ -102,20 +87,5 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
                 callback.onFailure("Server could not be reached. Please try again.");
             }
         });
-    }
-
-    @Override
-    public void saveCategories(
-            final Integer parentId,
-            @NonNull final List<Category> categories,
-            @NonNull SaveCallback<Void> callback) {
-
-        // not being used yet
-    }
-
-    @Override
-    public void refreshCache() {
-        // Not required because the {@link CategoriesRepository} handles the logic of refreshing the
-        // Categories from all the available data sources.
     }
 }

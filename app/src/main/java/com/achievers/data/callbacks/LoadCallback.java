@@ -1,5 +1,6 @@
 package com.achievers.data.callbacks;
 
-public interface LoadCallback<T> extends BaseCallback<T> {
-    void onNoMoreData();
+import java.util.List;
+
+public interface LoadCallback<T> extends BaseCallback<List<T>> {
 }

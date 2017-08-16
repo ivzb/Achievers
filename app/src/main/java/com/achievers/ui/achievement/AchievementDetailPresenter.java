@@ -94,9 +94,8 @@ public class AchievementDetailPresenter implements AchievementDetailContract.Pre
         final int currentPage = this.mPages.get(achievementId, 0);
 
         if (showLoadingUI) mAchievementDetailView.setLoadingIndicator(true);
-        if (forceUpdate) mAchievementsDataSource.refreshCache();
 
-        this.mEvidenceDataSource.loadEvidence(achievementId, currentPage, new LoadCallback<List<Evidence>>() {
+        this.mEvidenceDataSource.loadEvidence(achievementId, currentPage, new LoadCallback<Evidence>() {
             @Override
             public void onSuccess(final List<Evidence> evidence) {
                 // The view may not be able to handle UI updates anymore
@@ -108,14 +107,6 @@ public class AchievementDetailPresenter implements AchievementDetailContract.Pre
                 if (evidence.size() < RESTClient.getPageSize()) mNoMoreData.put(achievementId, true); // no more data for this categoryId
 
                 mAchievementDetailView.showEvidence(evidence);
-            }
-
-            @Override
-            public void onNoMoreData() {
-                if (!mAchievementDetailView.isActive()) return;
-                if (showLoadingUI) mAchievementDetailView.setLoadingIndicator(false);
-
-                mNoMoreData.put(achievementId, true); // no more data for this categoryId
             }
 
             @Override
