@@ -1,4 +1,4 @@
-package com.achievers.data.models;
+package com.achievers.models;
 
 import java.util.Arrays;
 import java.util.Collections;

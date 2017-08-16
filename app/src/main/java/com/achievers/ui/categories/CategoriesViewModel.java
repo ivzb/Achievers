@@ -8,7 +8,7 @@ import android.support.v4.content.res.ResourcesCompat;
 
 import com.achievers.BR;
 import com.achievers.R;
-import com.achievers.data.models.Category;
+import com.achievers.models.Category;
 
 /**
  * Exposes the data to be used in the {@link CategoriesContract.View}.

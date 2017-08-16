@@ -1,15 +1,15 @@
-package com.achievers.data.provider;
+package com.achievers.provider;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
-import com.achievers.data.provider.AchieversContract.Achievements;
-import com.achievers.data.provider.AchieversContract.AchievementsColumns;
-import com.achievers.data.provider.AchieversContract.Categories;
-import com.achievers.data.provider.AchieversContract.CategoriesColumns;
-import com.achievers.data.provider.AchieversContract.EvidenceColumns;
+import com.achievers.provider.AchieversContract.Achievements;
+import com.achievers.provider.AchieversContract.AchievementsColumns;
+import com.achievers.provider.AchieversContract.Categories;
+import com.achievers.provider.AchieversContract.CategoriesColumns;
+import com.achievers.provider.AchieversContract.EvidenceColumns;
 
 import static com.achievers.util.LogUtils.makeLogTag;
 

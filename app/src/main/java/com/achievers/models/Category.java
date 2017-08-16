@@ -1,4 +1,4 @@
-package com.achievers.data.models;
+package com.achievers.models;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,12 +7,21 @@ import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 import java.util.Date;
 
 /**
- * Immutable model class for a Achievement.
+ * Immutable model class for a Category.
  */
-public class Achievement {
+// All classes that extend RealmObject will have a matching RealmProxy class created
+// by the annotation processor. Parceler must be made aware of this class. Note that
+// the class is not available until the project has been compiled at least once.
+@Parcel(
+//        implementations = { CategoryRealmProxy.class },
+        value = Parcel.Serialization.BEAN,
+        analyze = { Category.class })
+public class Category {
 
     @SerializedName("id")
     @NonNull
@@ -30,43 +39,35 @@ public class Achievement {
     @NonNull
     private String imageUrl;
 
-    @SerializedName("category")
+    @SerializedName("parent")
     @NonNull
-    private Category category;
-
-    @SerializedName("categoryId")
-    @NonNull
-    private Integer categoryId;
-
-    @SerializedName("involvement")
-    @NonNull
-    private String involvement;
+    private Category parent;
 
     @SerializedName("createdOn")
-    @NonNull
+    @Nullable
     private Date createdOn;
 
     /**
      * An empty constructor is required by realm.
      */
-    public Achievement() { }
+    public Category() { }
 
     /**
-     * Use this constructor to specify a Achievement if the Achievement already has an id
+     * Use this constructor to specify a Category if the Category already has an id
      *
-     * @param title       title of the achievement
-     * @param description description of the achievement
-     * @param imageUrl    image url of the achievement
-     * @param categoryId    category the achievement
-     * @param involvement involvement of the achievement
+     * @param id          id of the category
+     * @param title       title of the category
+     * @param description description of the category
+     * @param imageUrl    image url of the category
+     * @param createdOn   creation date of the category
      */
-    public Achievement(@NonNull String title, @NonNull String description, @NonNull String imageUrl,
-                    @NonNull Integer categoryId, @NonNull String involvement) {
+    public Category(Integer id, @NonNull String title, @NonNull String description,
+                    @NonNull String imageUrl, @Nullable Date createdOn) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.imageUrl = imageUrl;
-        this.categoryId = categoryId;
-        this.involvement = involvement;
+        this.createdOn = createdOn;
     }
 
     public Integer getId() {
@@ -97,19 +98,18 @@ public class Achievement {
         return imageUrl;
     }
 
-    @NonNull
-    public Category getCategory() {
-        return category;
-    }
-
-    @NonNull
-    public Involvement getInvolvement() {
-        return Involvement.valueOf(involvement);
+    @Nullable
+    public Category getParent() {
+        return parent;
     }
 
     @Nullable
     public Date getCreatedOn() {
         return createdOn;
+    }
+
+    public void setParent(Category parent) {
+        this.parent = parent;
     }
 
     public boolean isNew() {
@@ -121,11 +121,9 @@ public class Achievement {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Achievement other = (Achievement) o;
+        Category other = (Category) o;
 
-        return this.getId().equals(other.getId()) &&
-                this.getTitle().equals(other.getTitle()) &&
-                this.getDescription().equals(other.getDescription());
+        return this.getId().equals(other.getId());
     }
 
     @Override
@@ -135,6 +133,6 @@ public class Achievement {
 
     @Override
     public String toString() {
-        return "Achievement #" + this.getId() + " with title: " + this.getTitle() + " and description: " + this.getDescription();
+        return "Category #" + this.getId() + " with title: " + this.getTitle() + " and description: " + this.getDescription();
     }
 }

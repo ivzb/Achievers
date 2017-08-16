@@ -43,14 +43,14 @@
         <!-- Data, sync and schedule editing components -->
 
         <provider
-            android:name=".data.provider.AchieversProvider"
+            android:name=".provider.AchieversProvider"
             android:authorities="com.achievers"
             android:exported="false"
             android:label="@string/app_name"
             android:syncable="true" />
 
         <service
-            android:name="data.sync.SyncService"
+            android:name=".sync.SyncService"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />

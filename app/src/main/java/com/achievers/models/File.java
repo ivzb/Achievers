@@ -1,4 +1,4 @@
-package com.achievers.data.models;
+package com.achievers.models;
 
 import android.support.annotation.NonNull;
 

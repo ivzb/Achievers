@@ -1,6 +1,6 @@
 package com.achievers.data.endpoints;
 
-import com.achievers.data.models.Evidence;
+import com.achievers.models.Evidence;
 
 import java.util.List;
 

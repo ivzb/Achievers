@@ -16,8 +16,8 @@ import android.view.ViewGroup;
 import com.achievers.ui.achievement.AchievementDetailActivity;
 import com.achievers.ui.addachievement.AddAchievementActivity;
 import com.achievers.R;
-import com.achievers.data.models.Achievement;
-import com.achievers.data.models.Category;
+import com.achievers.models.Achievement;
+import com.achievers.models.Category;
 import com.achievers.databinding.AchievementsFragBinding;
 import com.achievers.util.ScrollChildSwipeRefreshLayout;
 

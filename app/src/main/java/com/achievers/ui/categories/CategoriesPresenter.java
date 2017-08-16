@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 
 import com.achievers.ui.achievements.AchievementsActivity;
 import com.achievers.data.callbacks.LoadCallback;
-import com.achievers.data.models.Category;
+import com.achievers.models.Category;
 import com.achievers.data.source.categories.CategoriesDataSource;
 
 import java.util.EmptyStackException;

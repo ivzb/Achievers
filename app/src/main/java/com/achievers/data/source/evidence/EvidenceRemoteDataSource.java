@@ -6,7 +6,7 @@ import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.endpoints.EvidenceAPI;
-import com.achievers.data.models.Evidence;
+import com.achievers.models.Evidence;
 import com.achievers.data.source.RESTClient;
 
 import java.util.List;

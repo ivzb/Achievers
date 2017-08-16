@@ -3,8 +3,8 @@ package com.achievers.ui.achievements;
 import android.support.annotation.NonNull;
 
 import com.achievers.ui.base.BaseView;
-import com.achievers.data.models.Achievement;
-import com.achievers.data.models.Category;
+import com.achievers.models.Achievement;
+import com.achievers.models.Category;
 
 import java.util.List;
 

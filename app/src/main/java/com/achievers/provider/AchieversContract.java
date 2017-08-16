@@ -1,4 +1,4 @@
-package com.achievers.data.provider;
+package com.achievers.provider;
 
 import android.net.Uri;
 import android.provider.BaseColumns;

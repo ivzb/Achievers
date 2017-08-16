@@ -30,9 +30,9 @@ import com.achievers.ui.addachievement.Adapters.InvolvementRecyclerViewAdapter;
 import com.achievers.BuildConfig;
 import com.achievers.R;
 import com.achievers.data.callbacks.SaveCallback;
-import com.achievers.data.models.Achievement;
-import com.achievers.data.models.File;
-import com.achievers.data.models.Involvement;
+import com.achievers.models.Achievement;
+import com.achievers.models.File;
+import com.achievers.models.Involvement;
 import com.achievers.databinding.AddAchievementFragBinding;
 
 import java.io.FileNotFoundException;

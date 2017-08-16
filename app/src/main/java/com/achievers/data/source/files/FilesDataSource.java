@@ -3,7 +3,7 @@ package com.achievers.data.source.files;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.callbacks.SaveCallback;
-import com.achievers.data.models.File;
+import com.achievers.models.File;
 
 public interface FilesDataSource {
 

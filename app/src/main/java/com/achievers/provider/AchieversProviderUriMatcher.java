@@ -1,4 +1,4 @@
-package com.achievers.data.provider;
+package com.achievers.provider;
 
 import android.content.UriMatcher;
 import android.net.Uri;

@@ -1,4 +1,4 @@
-package com.achievers.data.provider;
+package com.achievers.provider;
 
 /**
  * The list of {@code Uri}s recognised by the {@code ContentProvider} of the app.

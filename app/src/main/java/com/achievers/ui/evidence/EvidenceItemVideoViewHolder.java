@@ -12,7 +12,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.achievers.R;
-import com.achievers.data.models.Evidence;
+import com.achievers.models.Evidence;
 import com.achievers.databinding.EvidenceItemVideoBinding;
 import com.achievers.util.FreskoCircleProgressBarDrawable;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;

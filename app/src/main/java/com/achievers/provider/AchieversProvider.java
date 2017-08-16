@@ -1,4 +1,4 @@
-package com.achievers.data.provider;
+package com.achievers.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentProviderOperation;
@@ -14,9 +14,9 @@ import android.os.ParcelFileDescriptor;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.achievers.data.provider.AchieversContract.Achievements;
-import com.achievers.data.provider.AchieversContract.Categories;
-import com.achievers.data.provider.AchieversDatabase.Tables;
+import com.achievers.provider.AchieversContract.Achievements;
+import com.achievers.provider.AchieversContract.Categories;
+import com.achievers.provider.AchieversDatabase.Tables;
 import com.achievers.util.SelectionBuilder;
 
 import java.io.FileNotFoundException;
@@ -28,7 +28,7 @@ import static com.achievers.util.LogUtils.makeLogTag;
 
 /**
  * {@link android.content.ContentProvider} that stores {@link AchieversContract} data. Data is
- * usually inserted by {@link com.achievers.data.sync.SyncAdapter}, and queried using
+ * usually inserted by {@link com.achievers.sync.SyncAdapter}, and queried using
  * {@link android.app.LoaderManager} pattern.
  */
 public class AchieversProvider extends ContentProvider {

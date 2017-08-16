@@ -21,11 +21,8 @@ import android.support.annotation.Nullable;
 
 import com.achievers.ui.achievements.AchievementsContract;
 import com.achievers.ui.achievements.AchievementsPresenter;
-import com.achievers.ui.categories.CategoriesContract;
-import com.achievers.ui.categories.CategoriesFilterType;
-import com.achievers.ui.categories.CategoriesPresenter;
-import com.achievers.data.models.Achievement;
-import com.achievers.data.models.Category;
+import com.achievers.models.Achievement;
+import com.achievers.models.Category;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

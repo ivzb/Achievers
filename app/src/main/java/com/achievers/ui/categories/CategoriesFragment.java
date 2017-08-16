@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.achievers.R;
-import com.achievers.data.models.Category;
+import com.achievers.models.Category;
 import com.achievers.databinding.CategoriesFragBinding;
 import com.achievers.util.ScrollChildSwipeRefreshLayout;
 

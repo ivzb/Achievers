@@ -7,7 +7,7 @@
 
         <variable
             name="evidence"
-            type="com.achievers.data.models.Evidence" />
+            type="com.achievers.models.Evidence" />
 
         <variable
             name="resources"

@@ -1,4 +1,4 @@
-package com.achievers.data.sync;
+package com.achievers.sync;
 
 import android.accounts.Account;
 import android.content.AbstractThreadedSyncAdapter;
