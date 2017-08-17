@@ -1,6 +1,6 @@
 package com.achievers.data.endpoints;
 
-import com.achievers.models.Category;
+import com.achievers.entities.Category;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface CategoriesAPI {
             @Path("id") int id
     );
 
-    @GET("Categories")
+    @GET("Categories/Get/1")
     Call<List<Category>> loadCategories();
 
 //    @GET("Categories/Children/null")

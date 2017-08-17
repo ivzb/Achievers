@@ -1,6 +1,6 @@
 package com.achievers.data.endpoints;
 
-import com.achievers.models.File;
+import com.achievers.entities.File;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;

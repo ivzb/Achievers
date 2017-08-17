@@ -5,9 +5,7 @@ import android.support.annotation.NonNull;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.callbacks.SaveCallback;
-import com.achievers.models.Achievement;
-
-import java.util.List;
+import com.achievers.entities.Achievement;
 
 /**
  * Main entry point for accessing Categories data.

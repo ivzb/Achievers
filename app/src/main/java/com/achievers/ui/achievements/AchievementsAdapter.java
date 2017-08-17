@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.achievers.BR;
-import com.achievers.models.Achievement;
-import com.achievers.models.Category;
+import com.achievers.entities.Achievement;
+import com.achievers.entities.Category;
 import com.achievers.databinding.AchievementItemBinding;
 
 import java.util.Collection;

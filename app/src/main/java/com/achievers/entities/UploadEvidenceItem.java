@@ -1,4 +1,4 @@
-package com.achievers.models;
+package com.achievers.entities;
 
 import android.graphics.drawable.Drawable;
 

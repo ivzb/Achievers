@@ -18,7 +18,7 @@ public class SyncIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Uri contentUri = intent.getData();
+        String contentUri = intent.getAction();
 
         if (AchieversContract.Categories.CONTENT_URI.equals(contentUri)) {
             SyncTask.syncCategories(this);

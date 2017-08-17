@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.callbacks.SaveCallback;
-import com.achievers.models.Evidence;
+import com.achievers.entities.Evidence;
 
 import java.util.List;
 

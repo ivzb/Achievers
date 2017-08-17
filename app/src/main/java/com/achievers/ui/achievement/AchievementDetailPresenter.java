@@ -6,8 +6,8 @@ import android.util.SparseIntArray;
 
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
-import com.achievers.models.Achievement;
-import com.achievers.models.Evidence;
+import com.achievers.entities.Achievement;
+import com.achievers.entities.Evidence;
 import com.achievers.data.source.RESTClient;
 import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.evidence.EvidenceDataSource;

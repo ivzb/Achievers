@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
+import com.achievers.provider.AchieversContract;
+import com.achievers.provider.AchieversDatabase;
+import com.achievers.sync.SyncUtils;
 import com.achievers.ui.achievements.AchievementsActivity;
 import com.achievers.data.callbacks.LoadCallback;
-import com.achievers.models.Category;
+import com.achievers.entities.Category;
 import com.achievers.data.source.categories.CategoriesDataSource;
 
 import java.util.EmptyStackException;
@@ -61,67 +64,68 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
     @Override
     public void loadCategories(Integer parentId, boolean forceUpdate) {
         // a network reload will be forced on first load.
-        this.loadCategories(parentId, forceUpdate || this.mFirstLoad, true, this.getOpenAchievementCallback());
+        //this.loadCategories(parentId, forceUpdate || this.mFirstLoad, true, this.getOpenAchievementCallback());
 
-        this.mFirstLoad = false;
+        //this.mFirstLoad = false;
+        SyncUtils.startSync(mContext, AchieversContract.Categories.CONTENT_URI);
     }
 
-    /**
-     * @param forceUpdate   Pass in true to refresh the data in the {@link CategoriesDataSource}
-     * @param showLoadingUI Pass in true to display a loading icon in the UI
-     */
-    private void loadCategories(
-            final Integer parentCategoryId,
-            boolean forceUpdate,
-            final boolean showLoadingUI,
-            final OpenAchievementCallback callback) {
-
-        if (showLoadingUI) mCategoriesView.setLoadingIndicator(true);
-
-        mCategoriesDataSource.loadCategories(new LoadCallback<Category>() {
-            @Override
-            public void onSuccess(List<Category> categories) {
-                // TODO: Fix filtering
-//                List<Category> categoriesToShow = new ArrayList<>();
+//    /**
+//     * @param forceUpdate   Pass in true to refresh the data in the {@link CategoriesDataSource}
+//     * @param showLoadingUI Pass in true to display a loading icon in the UI
+//     */
+//    private void loadCategories(
+//            final Integer parentCategoryId,
+//            boolean forceUpdate,
+//            final boolean showLoadingUI,
+//            final OpenAchievementCallback callback) {
 //
-                // filter the categories based on the requestType
-//                for (Category category: categories) {
-//                    switch (mCurrentFiltering) {
-//                        case ALL_CATEGORIES:
-//                            categories.add(category);
-//                            break;
-//                    }
-//                }
-
-                // The view may not be able to handle UI updates anymore
-                if (!mCategoriesView.isActive()) return;
-                if (showLoadingUI) mCategoriesView.setLoadingIndicator(false);
-
-                mCategoriesView.showCategories(categories);
-            }
-
-            @Override
-            public void onFailure(String message) {
-                // The view may not be able to handle UI updates anymore
-                if (!mCategoriesView.isActive()) return;
-                mCategoriesView.showLoadingCategoriesError();
-                if (showLoadingUI) mCategoriesView.setLoadingIndicator(false);
-                if (mCategoriesNavigationState.size() > 0) mCategoriesNavigationState.pop();
-
-                // TODO: show error message
-            }
-        });
-    }
+//        if (showLoadingUI) mCategoriesView.setLoadingIndicator(true);
+//
+//        mCategoriesDataSource.loadCategories(new LoadCallback<Category>() {
+//            @Override
+//            public void onSuccess(List<Category> categories) {
+//                // TODO: Fix filtering
+////                List<Category> categoriesToShow = new ArrayList<>();
+////
+//                // filter the categories based on the requestType
+////                for (Category category: categories) {
+////                    switch (mCurrentFiltering) {
+////                        case ALL_CATEGORIES:
+////                            categories.add(category);
+////                            break;
+////                    }
+////                }
+//
+//                // The view may not be able to handle UI updates anymore
+//                if (!mCategoriesView.isActive()) return;
+//                if (showLoadingUI) mCategoriesView.setLoadingIndicator(false);
+//
+//                mCategoriesView.showCategories(categories);
+//            }
+//
+//            @Override
+//            public void onFailure(String message) {
+//                // The view may not be able to handle UI updates anymore
+//                if (!mCategoriesView.isActive()) return;
+//                mCategoriesView.showLoadingCategoriesError();
+//                if (showLoadingUI) mCategoriesView.setLoadingIndicator(false);
+//                if (mCategoriesNavigationState.size() > 0) mCategoriesNavigationState.pop();
+//
+//                // TODO: show error message
+//            }
+//        });
+//    }
 
     @Override
     public void openCategoryDetails(@NonNull Category requestedCategory, OpenAchievementCallback callback) {
         checkNotNull(requestedCategory, "requestedCategory cannot be null!");
         checkNotNull(callback, "callback cannot be null!");
 
-        this.loadCategories(requestedCategory.getId(), true, true, callback);
+//        this.loadCategories(requestedCategory.getId(), true, true, callback);
 
         // saving first parent as -1 because stack cant handle nulls
-        mCategoriesNavigationState.add(requestedCategory.getParent() == null || requestedCategory.getParent().getId() == null ? -1 : requestedCategory.getParent().getId());
+//        mCategoriesNavigationState.add(requestedCategory.getParent() == null || requestedCategory.getParent().getId() == null ? -1 : requestedCategory.getParent().getId());
     }
 
     /**

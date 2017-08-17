@@ -49,5 +49,8 @@
             android:label="@string/app_name"
             android:syncable="true" />
 
+        <service
+            android:name=".sync.SyncIntentService"
+            android:exported="false" />
     </application>
 </manifest>

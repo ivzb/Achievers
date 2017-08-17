@@ -2,8 +2,8 @@ package com.achievers.ui.achievement;
 
 import com.achievers.ui.base.BasePresenter;
 import com.achievers.ui.base.BaseView;
-import com.achievers.models.Achievement;
-import com.achievers.models.Evidence;
+import com.achievers.entities.Achievement;
+import com.achievers.entities.Evidence;
 
 import java.util.List;
 

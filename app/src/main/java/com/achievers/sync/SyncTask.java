@@ -7,7 +7,7 @@ import android.content.Context;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.source.categories.CategoriesDataSource;
 import com.achievers.data.source.categories.CategoriesRemoteDataSource;
-import com.achievers.models.Category;
+import com.achievers.entities.Category;
 import com.achievers.provider.AchieversContract;
 
 import java.util.List;
@@ -30,8 +30,9 @@ public class SyncTask {
 
                 for (int i = 0; i < data.size(); i++) {
                     Category currentCategory = data.get(i);
-
                     ContentValues categoryValues = new ContentValues();
+
+                    categoryValues.put(AchieversContract.Categories.CATEGORY_TITLE, currentCategory.getTitle());
                     categoryValues.put(AchieversContract.Categories.CATEGORY_DESCRIPTION, currentCategory.getDescription());
                     categoryValues.put(AchieversContract.Categories.CATEGORY_IMAGE_URL, currentCategory.getImageUrl());
                     categoryValues.put(AchieversContract.Categories.CATEGORY_PARENT_ID, currentCategory.getParentId());

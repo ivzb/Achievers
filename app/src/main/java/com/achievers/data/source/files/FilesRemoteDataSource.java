@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.endpoints.FilesAPI;
-import com.achievers.models.File;
+import com.achievers.entities.File;
 import com.achievers.data.source.RESTClient;
 
 import java.io.IOException;

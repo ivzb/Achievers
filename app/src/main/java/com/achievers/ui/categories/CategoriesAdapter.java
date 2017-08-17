@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.achievers.BR;
-import com.achievers.models.Category;
+import com.achievers.entities.Category;
 import com.achievers.databinding.CategoryItemBinding;
 
 import java.util.List;

@@ -7,7 +7,7 @@
 
         <variable
             name="evidence"
-            type="com.achievers.models.Evidence" />
+            type="com.achievers.entities.Evidence" />
 
         <variable
             name="actionHandler"

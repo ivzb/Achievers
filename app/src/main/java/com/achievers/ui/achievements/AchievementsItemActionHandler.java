@@ -1,7 +1,7 @@
 package com.achievers.ui.achievements;
 
 import com.achievers.ui.categories.CategoriesContract;
-import com.achievers.models.Achievement;
+import com.achievers.entities.Achievement;
 
 /**
  * Listens to user actions from the list item in ({@link CategoriesContract.View}) and redirects them to the

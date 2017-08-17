@@ -1,4 +1,4 @@
-package com.achievers.models;
+package com.achievers.entities;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
