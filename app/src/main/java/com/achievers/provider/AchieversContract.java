@@ -23,7 +23,7 @@ public class AchieversContract {
     public static final String CONTENT_ITEM_TYPE_BASE = "vnd.android.cursor.item/vnd."
             + CONTENT_TYPE_APP_BASE;
 
-    public static final String CONTENT_AUTHORITY = "com.achievers.data";
+    public static final String CONTENT_AUTHORITY = "com.achievers";
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
@@ -100,7 +100,7 @@ public class AchieversContract {
      */
     public static class Categories implements CategoriesColumns, BaseColumns {
 
-        private static final String TABLE_NAME = "categories";
+        public static final String TABLE_NAME = "categories";
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(TABLE_NAME).build();
@@ -127,7 +127,7 @@ public class AchieversContract {
 
     public static class Achievements implements AchievementsColumns, BaseColumns {
 
-        private static final String TABLE_NAME = "achievements";
+        public static final String TABLE_NAME = "achievements";
 
         public static final String ACHIEVEMENT_INVOLVEMENT_BRONZE = "bronze";
 
@@ -170,7 +170,7 @@ public class AchieversContract {
 
     public static class Evidence implements EvidenceColumns, BaseColumns {
 
-        private static final String TABLE_NAME = "evidence";
+        public static final String TABLE_NAME = "evidence";
 
         public static final String EVIDENCE_TYPE_IMAGE = "image";
 

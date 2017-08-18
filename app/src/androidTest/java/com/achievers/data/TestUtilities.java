@@ -30,9 +30,7 @@ import static junit.framework.Assert.fail;
 
 class TestUtilities {
 
-    /* October 1st, 2016 at midnight, GMT time */
-    static final long DATE_NORMALIZED = 1475280000000L;
-
+    static final int ID_TO_INSERT = 1;
     static final int BULK_INSERT_RECORDS_TO_INSERT = 10;
 
     /**
@@ -86,43 +84,83 @@ class TestUtilities {
         }
     }
 
-    static ContentValues createTestCategoryContentValues() {
+    static ContentValues createTestCategoryContentValues(int id, boolean hasParentId) {
         ContentValues testCategoryValues = new ContentValues();
 
-        testCategoryValues.put(Categories.CATEGORY_ID, 1);
-        testCategoryValues.put(Categories.CATEGORY_TITLE, "title");
-        testCategoryValues.put(Categories.CATEGORY_DESCRIPTION, "description");
-        testCategoryValues.put(Categories.CATEGORY_IMAGE_URL, "image url");
-        testCategoryValues.put(Categories.CATEGORY_PARENT_ID, 5);
+        testCategoryValues.put(Categories.CATEGORY_ID, id);
+        testCategoryValues.put(Categories.CATEGORY_TITLE, "title" + id);
+        testCategoryValues.put(Categories.CATEGORY_DESCRIPTION, "description" + id);
+        testCategoryValues.put(Categories.CATEGORY_IMAGE_URL, "image url" + id);
+        if (hasParentId) testCategoryValues.put(Categories.CATEGORY_PARENT_ID, id);
 
         return testCategoryValues;
     }
 
-    static ContentValues createTestAchievementContentValues() {
+    static ContentValues[] createBulkInsertTestCategoryValues() {
+        ContentValues[] bulkTestValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
+
+        for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
+            int id = i + 1;
+            boolean hasParentId = i % 2 == 0;
+            ContentValues testCategoryValues = createTestCategoryContentValues(id, hasParentId);
+
+            bulkTestValues[i] = testCategoryValues;
+        }
+
+        return bulkTestValues;
+    }
+
+    static ContentValues createTestAchievementContentValues(int id) {
         ContentValues testCategoryValues = new ContentValues();
 
-        testCategoryValues.put(Achievements.ACHIEVEMENT_ID, 1);
-        testCategoryValues.put(Achievements.ACHIEVEMENT_TITLE, "title");
-        testCategoryValues.put(Achievements.ACHIEVEMENT_DESCRIPTION, "description");
-        testCategoryValues.put(Achievements.ACHIEVEMENT_IMAGE_URL, "image url");
-        testCategoryValues.put(Achievements.ACHIEVEMENT_CATEGORY_ID, 1);
-        testCategoryValues.put(Achievements.ACHIEVEMENT_INVOLVEMENT, 1);
-        testCategoryValues.put(Achievements.ACHIEVEMENT_AUTHOR_ID, 1);
+        testCategoryValues.put(Achievements.ACHIEVEMENT_ID, id);
+        testCategoryValues.put(Achievements.ACHIEVEMENT_TITLE, "title" + id);
+        testCategoryValues.put(Achievements.ACHIEVEMENT_DESCRIPTION, "description" + id);
+        testCategoryValues.put(Achievements.ACHIEVEMENT_IMAGE_URL, "image url" + id);
+        testCategoryValues.put(Achievements.ACHIEVEMENT_CATEGORY_ID, id);
+        testCategoryValues.put(Achievements.ACHIEVEMENT_INVOLVEMENT, id);
+        testCategoryValues.put(Achievements.ACHIEVEMENT_AUTHOR_ID, id);
 
         return testCategoryValues;
     }
 
-    static ContentValues createTestEvidenceContentValues() {
+    static ContentValues[] createBulkInsertTestAchievementValues() {
+        ContentValues[] bulkTestValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
+
+        for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
+            int id = i + 1;
+            ContentValues testCategoryValues = createTestAchievementContentValues(id);
+
+            bulkTestValues[i] = testCategoryValues;
+        }
+
+        return bulkTestValues;
+    }
+
+    static ContentValues createTestEvidenceContentValues(int id) {
         ContentValues testCategoryValues = new ContentValues();
 
-        testCategoryValues.put(Evidence.EVIDENCE_ID, 1);
-        testCategoryValues.put(Evidence.EVIDENCE_TITLE, "title");
-        testCategoryValues.put(Evidence.EVIDENCE_TYPE, 1);
-        testCategoryValues.put(Evidence.EVIDENCE_URL, "url");
-        testCategoryValues.put(Evidence.EVIDENCE_ACHIEVEMENT_ID, 1);
-        testCategoryValues.put(Evidence.EVIDENCE_AUTHOR_ID, 1);
+        testCategoryValues.put(Evidence.EVIDENCE_ID, id);
+        testCategoryValues.put(Evidence.EVIDENCE_TITLE, "title" + id);
+        testCategoryValues.put(Evidence.EVIDENCE_TYPE, id);
+        testCategoryValues.put(Evidence.EVIDENCE_URL, "url" + id);
+        testCategoryValues.put(Evidence.EVIDENCE_ACHIEVEMENT_ID, id);
+        testCategoryValues.put(Evidence.EVIDENCE_AUTHOR_ID, id);
 
         return testCategoryValues;
+    }
+
+    static ContentValues[] createBulkInsertTestEvidenceValues() {
+        ContentValues[] bulkTestValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
+
+        for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
+            int id = i + 1;
+            ContentValues testCategoryValues = createTestEvidenceContentValues(id);
+
+            bulkTestValues[i] = testCategoryValues;
+        }
+
+        return bulkTestValues;
     }
 
 
@@ -139,7 +177,7 @@ class TestUtilities {
     }
 
     /**
-     * The functions inside of TestWeatherProvider use TestContentObserver to test
+     * The functions inside of TestProvider use TestContentObserver to test
      * the ContentObserver callbacks using the PollingCheck class from the Android Compatibility
      * Test Suite tests.
      * <p>

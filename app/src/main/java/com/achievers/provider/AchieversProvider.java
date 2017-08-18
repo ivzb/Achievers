@@ -28,7 +28,7 @@ import static com.achievers.util.LogUtils.makeLogTag;
 
 /**
  * {@link android.content.ContentProvider} that stores {@link AchieversContract} data. Data is
- * usually inserted by {@link com.achievers.sync.SyncAdapter}, and queried using
+ * usually inserted by {@link com.achievers.sync.SyncIntentService}, and queried using
  * {@link android.app.LoaderManager} pattern.
  */
 public class AchieversProvider extends ContentProvider {

@@ -32,6 +32,7 @@ public class SyncTask {
                     Category currentCategory = data.get(i);
                     ContentValues categoryValues = new ContentValues();
 
+                    categoryValues.put(AchieversContract.Categories.CATEGORY_ID, currentCategory.getId());
                     categoryValues.put(AchieversContract.Categories.CATEGORY_TITLE, currentCategory.getTitle());
                     categoryValues.put(AchieversContract.Categories.CATEGORY_DESCRIPTION, currentCategory.getDescription());
                     categoryValues.put(AchieversContract.Categories.CATEGORY_IMAGE_URL, currentCategory.getImageUrl());
@@ -40,23 +41,14 @@ public class SyncTask {
                     categoriesContentValues[i] = categoryValues;
                 }
 
-                /*
-                 * In cases where our JSON contained an error code, getWeatherContentValuesFromJson
-                 * would have returned null. We need to check for those cases here to prevent any
-                 * NullPointerExceptions being thrown. We also have no reason to insert fresh data if
-                 * there isn't any to insert.
-                 */
                 if (categoriesContentValues.length != 0) {
-                    /* Get a handle on the ContentResolver to delete and insert data */
                     ContentResolver achieversContentResolver = context.getContentResolver();
 
-                    /* Delete old data */
                     achieversContentResolver.delete(
                             AchieversContract.Categories.CONTENT_URI,
                             null,
                             null);
 
-                    /* Insert our new weather data into Sunshine's ContentProvider */
                     achieversContentResolver.bulkInsert(
                             AchieversContract.Categories.CONTENT_URI,
                             categoriesContentValues);
