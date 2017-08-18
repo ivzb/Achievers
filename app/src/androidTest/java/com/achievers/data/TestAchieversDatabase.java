@@ -9,6 +9,8 @@ import android.provider.BaseColumns;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.achievers.provider.AchieversContract;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 
+import static com.achievers.data.TestUtilities.getConstantNameByStringValue;
 import static com.achievers.data.TestUtilities.getStaticIntegerField;
 import static com.achievers.data.TestUtilities.getStaticStringField;
 import static com.achievers.data.TestUtilities.readableClassNotFound;
@@ -197,7 +200,6 @@ public class TestAchieversDatabase {
                 null,
                 contentValues);
 
-        /* If the insert fails, database.insert returns -1 */
         int valueOfIdIfInsertFails = -1;
         String insertFailed = "Unable to insert into the database";
         assertNotSame(insertFailed,
@@ -205,20 +207,8 @@ public class TestAchieversDatabase {
                 rowId);
 
         Cursor cursor = database.query(
-                /* Name of table on which to perform the query */
                 tableName,
-                /* Columns; leaving this null returns every column in the table */
-                null,
-                /* Optional specification for columns in the "where" clause above */
-                null,
-                /* Values for "where" clause */
-                null,
-                /* Columns to group by */
-                null,
-                /* Columns to filter by row groups */
-                null,
-                /* Sort order to return in Cursor */
-                null);
+                null, null, null, null, null, null);
 
         String emptyQueryError = "Error: No Records returned from query";
         assertTrue(emptyQueryError,
@@ -230,15 +220,233 @@ public class TestAchieversDatabase {
                 cursor,
                 contentValues);
 
-        /*
-         * Since before every method annotated with the @Test annotation, the database is
-         * deleted, we can assume in this method that there should only be one record in our
-         * Weather table because we inserted it. If there is more than one record, an issue has
-         * occurred.
-         */
-        assertFalse("Error: More than one record returned from weather query",
+        assertFalse("Error: More than one record returned from query",
                 cursor.moveToNext());
 
         cursor.close();
+    }
+
+    @Test
+    public void testOnUpgradeBehavesCorrectly() {
+        testInsertSingleRecordIntoCategoriesTable();
+        testInsertSingleRecordIntoAchievementsTable();
+        testInsertSingleRecordIntoEvidenceTable();
+
+        dbHelper.onUpgrade(database, 13, 14);
+
+        testOnUpgrade(REFLECTED_CATEGORIES_TABLE_NAME);
+        testOnUpgrade(REFLECTED_ACHIEVEMENTS_TABLE_NAME);
+        testOnUpgrade(REFLECTED_EVIDENCE_TABLE_NAME);
+
+        database.close();
+    }
+
+    private void testOnUpgrade(String tableName) {
+        Cursor tableNameCursor = database.rawQuery(
+                "SELECT name FROM sqlite_master WHERE type='table' AND name='" + tableName + "'",
+                null);
+
+        int expectedTableCount = 1;
+        String shouldHaveSingleTable = "There should only be one table returned from this query.";
+        assertEquals(shouldHaveSingleTable,
+                expectedTableCount,
+                tableNameCursor.getCount());
+
+        tableNameCursor.close();
+
+        Cursor shouldBeEmptyCursor = database.query(
+                tableName,
+                null, null, null, null, null, null);
+
+        int expectedRecordCountAfterUpgrade = 0;
+
+        String tableShouldBeEmpty =
+                tableName + " table should be empty after upgrade, but wasn't."
+                        + "\nNumber of records: ";
+        assertEquals(tableShouldBeEmpty,
+                expectedRecordCountAfterUpgrade,
+                shouldBeEmptyCursor.getCount());
+    }
+
+    @Test
+    public void testIntegerAutoincrementCategories() {
+        testInsertSingleRecordIntoCategoriesTable();
+
+        String tableName = REFLECTED_CATEGORIES_TABLE_NAME;
+        String column = AchieversContract.Categories.CATEGORY_ID;
+        ContentValues contentValues = TestUtilities.createTestCategoryContentValues();
+
+        testIntegerAutoincrement(tableName, column, contentValues);
+    }
+
+    @Test
+    public void testIntegerAutoincrementAchievements() {
+        testInsertSingleRecordIntoAchievementsTable();
+
+        String tableName = REFLECTED_ACHIEVEMENTS_TABLE_NAME;
+        String column = AchieversContract.Achievements.ACHIEVEMENT_ID;
+        ContentValues contentValues = TestUtilities.createTestAchievementContentValues();
+
+        testIntegerAutoincrement(tableName, column, contentValues);
+    }
+
+    @Test
+    public void testIntegerAutoincrementEvidence() {
+        testInsertSingleRecordIntoEvidenceTable();
+
+        String tableName = REFLECTED_EVIDENCE_TABLE_NAME;
+        String column = AchieversContract.Evidence.EVIDENCE_ID;
+        ContentValues contentValues = TestUtilities.createTestEvidenceContentValues();
+
+        testIntegerAutoincrement(tableName, column, contentValues);
+    }
+
+    private void testIntegerAutoincrement(String tableName, String columnId, ContentValues contentValues) {
+
+        int originalId = contentValues.getAsInteger(columnId);
+
+        long firstRowId = database.insert(
+                tableName,
+                null,
+                contentValues);
+
+        database.delete(
+                tableName,
+                AchieversContract.Categories._ID + " == " + firstRowId,
+                null);
+
+        int nextId = originalId + 1;
+        contentValues.put(columnId, nextId);
+
+        long secondRowId = database.insert(
+                tableName,
+                null,
+                contentValues);
+
+        String sequentialInsertsDoNotAutoIncrementId =
+                "IDs were reused and shouldn't be if autoincrement is setup properly.";
+        assertNotSame(sequentialInsertsDoNotAutoIncrementId,
+                firstRowId, secondRowId);
+    }
+
+    @Test
+    public void testNullColumnConstraintsCategory() {
+        String tableName = REFLECTED_CATEGORIES_TABLE_NAME;
+
+        ContentValues contentValues = TestUtilities.createTestCategoryContentValues();
+        Class contractClass = AchieversContract.Categories.class;
+
+        testNullColumnConstraints(tableName, contentValues, contractClass);
+    }
+
+    @Test
+    public void testNullColumnConstraintsAchievement() {
+        String tableName = REFLECTED_ACHIEVEMENTS_TABLE_NAME;
+
+        ContentValues contentValues = TestUtilities.createTestAchievementContentValues();
+        Class contractClass = AchieversContract.Achievements.class;
+
+        testNullColumnConstraints(tableName, contentValues, contractClass);
+    }
+
+    @Test
+    public void testNullColumnConstraintsEvidence() {
+        String tableName = REFLECTED_EVIDENCE_TABLE_NAME;
+
+        ContentValues contentValues = TestUtilities.createTestEvidenceContentValues();
+        Class contractClass = AchieversContract.Evidence.class;
+
+        testNullColumnConstraints(tableName, contentValues, contractClass);
+    }
+
+    private void testNullColumnConstraints(String tableName, ContentValues contentValues, Class contractClass) {
+        Cursor tableCursor = database.query(
+                tableName,
+                null, null, null, null, null, null);
+
+        String[] tableColumnNames = tableCursor.getColumnNames();
+        tableCursor.close();
+
+        ContentValues testValuesReferenceCopy = new ContentValues(contentValues);
+
+        for (String columnName : tableColumnNames) {
+
+            if (columnName.equals(BaseColumns._ID)) continue;
+
+            contentValues.putNull(columnName);
+
+            long shouldFailRowId = database.insert(
+                    tableName,
+                    null,
+                    contentValues);
+
+            String variableName = getConstantNameByStringValue(
+                    contractClass,
+                    columnName);
+
+            String nullRowInsertShouldFail =
+                    "Insert should have failed due to a null value for column: '" + columnName + "'"
+                            + ", but didn't."
+                            + "\n Check that you've added NOT NULL to " + variableName
+                            + " in your create table statement in the Contract class."
+                            + "\n Row ID: ";
+
+            assertEquals(nullRowInsertShouldFail,
+                    -1,
+                    shouldFailRowId);
+
+            contentValues.put(columnName, testValuesReferenceCopy.getAsDouble(columnName));
+        }
+
+        dbHelper.close();
+    }
+
+    @Test
+    public void testDuplicateCategoryIdInsertBehaviorShouldReplace() {
+        String tableName = REFLECTED_CATEGORIES_TABLE_NAME;
+        ContentValues contentValues = TestUtilities.createTestCategoryContentValues();
+        String columnId = AchieversContract.Categories.CATEGORY_ID;
+
+        testDuplicateIdInsertBehaviorShouldReplace(tableName, contentValues, columnId);
+    }
+
+    @Test
+    public void testDuplicateAchievementIdInsertBehaviorShouldReplace() {
+        String tableName = REFLECTED_ACHIEVEMENTS_TABLE_NAME;
+        ContentValues contentValues = TestUtilities.createTestAchievementContentValues();
+        String columnId = AchieversContract.Achievements.ACHIEVEMENT_ID;
+
+        testDuplicateIdInsertBehaviorShouldReplace(tableName, contentValues, columnId);
+    }
+
+    @Test
+    public void testDuplicateEvidenceIdInsertBehaviorShouldReplace() {
+        String tableName = REFLECTED_EVIDENCE_TABLE_NAME;
+        ContentValues contentValues = TestUtilities.createTestEvidenceContentValues();
+        String columnId = AchieversContract.Evidence.EVIDENCE_ID;
+
+        testDuplicateIdInsertBehaviorShouldReplace(tableName, contentValues, columnId);
+    }
+
+    private void testDuplicateIdInsertBehaviorShouldReplace(String tableName, ContentValues contentValues, String columnId) {
+
+        for (int i = 0; i < 2; i++) {
+            database.insert(
+                    tableName,
+                    null,
+                    contentValues);
+        }
+
+        Cursor newIdCursor = database.query(
+                tableName,
+                new String[] { columnId },
+                null, null, null, null, null);
+
+        String recordWithNewIdNotFound =
+                "New record did not overwrite the previous record for the same id.";
+        assertTrue(recordWithNewIdNotFound,
+                newIdCursor.getCount() == 1);
+
+        newIdCursor.close();
     }
 }
