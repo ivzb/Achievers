@@ -6,17 +6,11 @@ import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.entities.Category;
 
-/**
- * Main entry point for accessing Categories data.
- */
 public interface CategoriesDataSource {
 
-    void getCategory(
-            @NonNull final Integer categoryId,
-            @NonNull final GetCallback<Category> callback
-    );
+    void get(int id, @NonNull GetCallback<Category> callback);
 
-    void loadCategories(
-            @NonNull final LoadCallback<Category> callback
-    );
+    void load(@NonNull LoadCallback<Category> callback);
+
+    void save(@NonNull Category category);
 }

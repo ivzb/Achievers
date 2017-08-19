@@ -112,6 +112,7 @@ public class CategoriesMvpController {
 
         this.mCategoriesPresenter = new CategoriesPresenter(
                 this.mFragmentActivity,
+                mFragmentActivity.getSupportLoaderManager(),
                 categoriesDataSource,
                 categoriesFragment);
 

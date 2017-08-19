@@ -50,7 +50,8 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     @Override
     public void onResume() {
         super.onResume();
-        this.mPresenter.loadCategories(null, true);
+        this.mPresenter.start();
+//        this.mPresenter.loadCategories(null, true);
     }
 
     @Override

@@ -52,6 +52,11 @@ public class CategoriesTabletPresenter implements CategoriesContract.Presenter, 
     /* CategoriesContract.Presenter methods can be called with or without a detail pane */
 
     @Override
+    public void start() {
+        this.mCategoriesPresenter.start();
+    }
+
+    @Override
     public void result(int requestCode, int resultCode) {
         // todo: consider removing this code
         this.mCategoriesPresenter.result(requestCode, resultCode);

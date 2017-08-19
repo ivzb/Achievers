@@ -30,6 +30,8 @@ public class CategoriesContract {
             void onOpen(Integer categoryId);
         }
 
+        void start();
+
         void result(int requestCode, int resultCode);
 
         void loadCategories(Integer parentId, boolean forceUpdate);

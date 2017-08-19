@@ -2,7 +2,14 @@ package com.achievers.ui.categories;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v7.widget.RecyclerView;
 
 import com.achievers.provider.AchieversContract;
 import com.achievers.provider.AchieversDatabase;
@@ -22,9 +29,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Listens to user actions from the UI ({@link CategoriesFragment}), retrieves the data and updates the
  * UI as required.
  */
-public class CategoriesPresenter implements CategoriesContract.Presenter {
+public class CategoriesPresenter implements CategoriesContract.Presenter,
+        LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final int ID_CATEGORIES_LOADER = 44;
 
     private final Context mContext;
+    private final LoaderManager mLoaderManager;
     private final CategoriesDataSource mCategoriesDataSource;
     private final CategoriesContract.View mCategoriesView;
     private CategoriesFilterType mCurrentFiltering = CategoriesFilterType.ALL_CATEGORIES;
@@ -34,10 +45,12 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
 
     public CategoriesPresenter(
             @NonNull Context context,
+            @NonNull LoaderManager loaderManager,
             @NonNull CategoriesDataSource categoriesDataSource,
             @NonNull CategoriesContract.View categoriesView) {
 
         this.mContext = context;
+        this.mLoaderManager = loaderManager;
         this.mCategoriesDataSource = checkNotNull(categoriesDataSource, "categoriesDataSource cannot be null");
         this.mCategoriesView = checkNotNull(categoriesView, "categoriesView cannot be null!");
         this.mCategoriesView.setPresenter(this);
@@ -54,6 +67,13 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
     }
 
     @Override
+    public void start() {
+        mLoaderManager.initLoader(ID_CATEGORIES_LOADER, null, this);
+
+        SyncUtils.startSync(mContext, AchieversContract.Categories.CONTENT_URI);
+    }
+
+    @Override
     public void result(int requestCode, int resultCode) {
         // If a Category was successfully added, show snackbar
 //        if (AddEditCategoryActivity.REQUEST_ADD_CATEGORY == requestCode && Activity.RESULT_OK == resultCode) {
@@ -67,10 +87,51 @@ public class CategoriesPresenter implements CategoriesContract.Presenter {
         //this.loadCategories(parentId, forceUpdate || this.mFirstLoad, true, this.getOpenAchievementCallback());
 
         //this.mFirstLoad = false;
-        SyncUtils.startSync(mContext, AchieversContract.Categories.CONTENT_URI);
     }
 
-//    /**
+    @Override
+    public Loader<Cursor> onCreateLoader(int loaderId, Bundle args) {
+        switch (loaderId) {
+
+            case ID_CATEGORIES_LOADER:
+                Uri categoriesQueryUri = AchieversContract.Categories.CONTENT_URI;
+
+                String[] projection = {
+                        AchieversContract.Categories.CATEGORY_ID,
+                        AchieversContract.Categories.CATEGORY_TITLE,
+                        AchieversContract.Categories.CATEGORY_DESCRIPTION,
+                        AchieversContract.Categories.CATEGORY_IMAGE_URL,
+                        AchieversContract.Categories.CATEGORY_PARENT_ID
+                };
+
+                String sortOrder = AchieversContract.Categories.CATEGORY_ID + " ASC";
+
+                return new CursorLoader(mContext,
+                        categoriesQueryUri,
+                        projection,
+                        null, null,
+                        sortOrder);
+
+            default:
+                throw new RuntimeException("Loader Not Implemented: " + loaderId);
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+//        mForecastAdapter.swapCursor(data);
+//        if (mPosition == RecyclerView.NO_POSITION) mPosition = 0;
+//        mRecyclerView.smoothScrollToPosition(mPosition);
+//        if (data.getCount() != 0) showWeatherDataView();
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+//        mForecastAdapter.swapCursor(null);
+        double a = Math.sqrt(5);
+    }
+
+    //    /**
 //     * @param forceUpdate   Pass in true to refresh the data in the {@link CategoriesDataSource}
 //     * @param showLoadingUI Pass in true to display a loading icon in the UI
 //     */
