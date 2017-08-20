@@ -1,6 +1,7 @@
 package com.achievers.ui.categories;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.graphics.drawable.Drawable;
@@ -19,10 +20,12 @@ import com.achievers.entities.Category;
  */
 public class CategoriesViewModel extends BaseObservable {
 
+    private boolean mIsLoading = true;
     private int mCategoriesListSize = 0;
 
     private final CategoriesContract.Presenter mPresenter;
     private CategoriesAdapter mAdapter;
+    private Cursor mCursor;
     private Category mParent;
 
     private Context mContext;
@@ -57,6 +60,11 @@ public class CategoriesViewModel extends BaseObservable {
     }
 
     @Bindable
+    public boolean isLoading() {
+        return mIsLoading;
+    }
+
+    @Bindable
     public Drawable getNoCategoriesIconRes() {
         switch (mPresenter.getFiltering()) {
             case ALL_CATEGORIES:
@@ -68,14 +76,19 @@ public class CategoriesViewModel extends BaseObservable {
         return null;
     }
 
-    @Bindable
-    public boolean getCategoriesAddViewVisible() {
-        return mPresenter.getFiltering() == CategoriesFilterType.ALL_CATEGORIES;
-    }
+//    @Bindable
+//    public boolean getCategoriesAddViewVisible() {
+//        return mPresenter.getFiltering() == CategoriesFilterType.ALL_CATEGORIES;
+//    }
 
     @Bindable
     public CategoriesAdapter getAdapter() {
         return this.mAdapter;
+    }
+
+    @Bindable
+    public Cursor getCursor() {
+        return this.mCursor;
     }
 
     @Bindable
@@ -94,16 +107,26 @@ public class CategoriesViewModel extends BaseObservable {
         notifyPropertyChanged(BR.noCategoriesLabel);
         notifyPropertyChanged(BR.currentFilteringLabel);
         notifyPropertyChanged(BR.notEmpty);
-        notifyPropertyChanged(BR.categoriesAddViewVisible);
-        notifyPropertyChanged(BR.adapter);
+//        notifyPropertyChanged(BR.categoriesAddViewVisible);
     }
 
     void setAdapter(CategoriesAdapter adapter) {
         this.mAdapter = adapter;
+        notifyPropertyChanged(BR.adapter);
+    }
+
+    void setCursor(Cursor cursor) {
+        this.mCursor = cursor;
+        notifyPropertyChanged(BR.cursor);
     }
 
     void setParent(Category parent) {
         this.mParent = parent;
         notifyPropertyChanged(BR.parent);
+    }
+
+    void setLoading(boolean isLoading) {
+        this.mIsLoading = isLoading;
+        notifyPropertyChanged(BR.loading);
     }
 }

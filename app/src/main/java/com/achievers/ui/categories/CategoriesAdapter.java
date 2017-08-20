@@ -1,25 +1,29 @@
 package com.achievers.ui.categories;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.support.v4.widget.CursorAdapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.achievers.BR;
+import com.achievers.data.source.categories.CategoriesCursor;
 import com.achievers.entities.Category;
 import com.achievers.databinding.CategoryItemBinding;
+import com.achievers.util.CursorUtils;
 
 import java.util.List;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
 
-    private List<Category> mCategories;
     private CategoriesItemActionHandler mCategoriesItemActionHandler;
     private CategoriesContract.Presenter mUserActionsListener;
     private Context mContext;
+    private Cursor mCursor;
 
-    public CategoriesAdapter(List<Category> categories, CategoriesContract.Presenter userActionsListener) {
-        this.mCategories = categories;
+    public CategoriesAdapter(CategoriesContract.Presenter userActionsListener) {
         this.mCategoriesItemActionHandler = new CategoriesItemActionHandler(userActionsListener);
         this.mUserActionsListener = userActionsListener;
     }
@@ -40,7 +44,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        Category category = this.mCategories.get(position);
+        mCursor.moveToPosition(position);
+        Category category = CategoriesCursor.from(mCursor);
 
         viewHolder.getBinding().setVariable(BR.category, category);
         viewHolder.getBinding().setVariable(BR.resources, this.mContext.getResources());
@@ -51,7 +56,12 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     // Returns the total count of items in the list
     @Override
     public int getItemCount() {
-        return this.mCategories.size();
+        return CursorUtils.getSize(mCursor);
+    }
+
+    public void swapCursor(Cursor newCursor) {
+        mCursor = newCursor;
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -8,18 +8,24 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.achievers.data.source.categories.CategoriesDataSource;
+import com.achievers.data.source.categories.CategoriesLoaderProvider;
+import com.achievers.data.source.categories.CategoriesRepository;
+import com.achievers.data.source.categories.local.CategoriesLocalDataSource;
+import com.achievers.data.source.categories.remote.CategoriesRemoteDataSource;
 import com.achievers.ui.base.BaseActivity;
 import com.achievers.R;
+import com.achievers.util.ActivityUtils;
 
 public class CategoriesActivity extends BaseActivity {
 
     private static final String CURRENT_FILTERING_KEY = "CURRENT_FILTERING_KEY";
-    private static final String CURRENT_CATEGORY_ID_KEY = "CURRENT_CATEGORY_ID_KEY";
+//    private static final String CURRENT_CATEGORY_ID_KEY = "CURRENT_CATEGORY_ID_KEY";
 
     private DrawerLayout mDrawerLayout;
 
-//    private CategoriesPresenter mCategoriesPresenter;
-    private CategoriesMvpController categoriesMvpTabletController;
+    private CategoriesPresenter mPresenter;
+    //private CategoriesMvpController categoriesMvpTabletController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,34 +50,65 @@ public class CategoriesActivity extends BaseActivity {
             setupDrawerContent(navigationView);
         }
 
-        // Load previously saved state, if available.
-        Integer categoryId = null;
+        // todo
+//        // Load previously saved state, if available.
+//        Integer categoryId = null;
         CategoriesFilterType currentFiltering = null;
         if (savedInstanceState != null) {
             currentFiltering =
                     (CategoriesFilterType) savedInstanceState.getSerializable(CURRENT_FILTERING_KEY);
-            categoryId = savedInstanceState.getInt(CURRENT_CATEGORY_ID_KEY, 0);
-
-            if (categoryId == 0) categoryId = null;
+//            categoryId = savedInstanceState.getInt(CURRENT_CATEGORY_ID_KEY, 0);
+//
+//            if (categoryId == 0) categoryId = null;
         }
 
+        int fragmentId = R.id.contentFrame;
+
+        CategoriesFragment categoriesFragment =
+                (CategoriesFragment) getSupportFragmentManager().findFragmentById(fragmentId);
+
+        if (categoriesFragment == null) {
+            // Create the fragment
+            categoriesFragment = CategoriesFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(
+                    getSupportFragmentManager(), categoriesFragment, fragmentId);
+        }
+
+        // presenter
+
+        CategoriesLoaderProvider loaderProvider = new CategoriesLoaderProvider(this);
+
+        CategoriesDataSource repository = CategoriesRepository.getInstance(
+                CategoriesRemoteDataSource.getInstance(),
+                CategoriesLocalDataSource.getInstance(getContentResolver()));
+
+        mPresenter = new CategoriesPresenter(
+                this,
+                getSupportLoaderManager(),
+                loaderProvider,
+                repository,
+                categoriesFragment);
+
+        CategoriesViewModel categoriesViewModel = new CategoriesViewModel(this, mPresenter);
+        categoriesFragment.setViewModel(categoriesViewModel);
+
         // Create a CategoriesMvpController every time, even after rotation.
-        categoriesMvpTabletController = CategoriesMvpController.createCategoriesView(this, categoryId);
+        categoriesFragment.setPresenter(mPresenter);
 
         if (currentFiltering != null) {
-            categoriesMvpTabletController.setFiltering(currentFiltering);
+            mPresenter.setFiltering(currentFiltering);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(CURRENT_FILTERING_KEY,
-                categoriesMvpTabletController.getFiltering());
+        outState.putSerializable(CURRENT_FILTERING_KEY, mPresenter.getFiltering());
 
-        int categoryId = 0;
-        if (categoriesMvpTabletController.getCategoryId() != null)
-            categoryId = categoriesMvpTabletController.getCategoryId();
-        outState.putInt(CURRENT_CATEGORY_ID_KEY, categoryId);
+        // todo
+//        int categoryId = 0;
+//        if (categoriesMvpTabletController.getCategoryId() != null)
+//            categoryId = categoriesMvpTabletController.getCategoryId();
+//        outState.putInt(CURRENT_CATEGORY_ID_KEY, categoryId);
 
         super.onSaveInstanceState(outState);
     }
@@ -90,7 +127,8 @@ public class CategoriesActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (this.categoriesMvpTabletController.navigateToPreviousCategory()) return;
+        // todo
+//        if (this.categoriesMvpTabletController.navigateToPreviousCategory()) return;
 
         super.onBackPressed();
     }

@@ -51,27 +51,15 @@ public class Category {
     @Nullable
     private Date createdOn;
 
-    /**
-     * An empty constructor is required by realm.
-     */
     public Category() { }
 
-    /**
-     * Use this constructor to specify a Category if the Category already has an id
-     *
-     * @param id          id of the category
-     * @param title       title of the category
-     * @param description description of the category
-     * @param imageUrl    image url of the category
-     * @param createdOn   creation date of the category
-     */
-    public Category(Integer id, @NonNull String title, @NonNull String description,
-                    @NonNull String imageUrl, @Nullable Date createdOn) {
+    public Category(int id, String title, String description,
+                    String imageUrl, Integer parentId) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.imageUrl = imageUrl;
-        this.createdOn = createdOn;
+        this.parentId = parentId;
     }
 
     public Integer getId() {

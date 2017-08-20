@@ -1,5 +1,6 @@
 package com.achievers.data.source.categories;
 
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.callbacks.GetCallback;
@@ -68,5 +69,15 @@ public class CategoriesRepository extends BaseRepository<CategoriesDataSource> i
         checkNotNull(categories);
 
         mLocalDataSource.save(categories);
+    }
+
+    public interface LoadDataCallback {
+        void onDataLoaded(Cursor data);
+
+        void onDataEmpty();
+
+        void onDataNotAvailable();
+
+        void onDataReset();
     }
 }

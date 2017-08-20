@@ -36,172 +36,172 @@ import com.achievers.util.ActivityUtils;
 import static com.achievers.util.ActivityUtils.isTablet;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-/**
- * Class that creates fragments (MVP views) and makes the necessary connections between them.
- */
-public class CategoriesMvpController {
-
-    private final FragmentActivity mFragmentActivity;
-
-    // Null category ID means there's no category selected (or in phone mode)
-    @Nullable private final Integer mCategoryId;
-
-    private CategoriesTabletPresenter mCategoriesTabletPresenter;
-    private CategoriesPresenter mCategoriesPresenter;
-
-    // Force factory method, prevent direct instantiation:
-    private CategoriesMvpController(
-            @NonNull FragmentActivity fragmentActivity,
-            @Nullable Integer categoryId) {
-
-        this.mFragmentActivity = fragmentActivity;
-        this.mCategoryId = categoryId;
-    }
-
-    /**
-     * Creates a controller for a category view for phones or tablets.
-     * @param fragmentActivity the context activity
-     * @return a CategoriesMvpController
-     */
-    public static CategoriesMvpController createCategoriesView(
-            @NonNull FragmentActivity fragmentActivity,
-            @Nullable Integer categoryId) {
-
-        checkNotNull(fragmentActivity);
-
-        CategoriesMvpController categoriesMvpController =
-                new CategoriesMvpController(fragmentActivity, categoryId);
-
-        categoriesMvpController.initCategoriesView();
-        return categoriesMvpController;
-    }
-
-    private void initCategoriesView() {
-        if (isTablet(mFragmentActivity)) {
-            createTabletElements();
-        } else {
-            createPhoneElements();
-        }
-    }
-
-    private void createPhoneElements() {
-        CategoriesFragment categoriesFragment = findOrCreateCategoriesFragment(R.id.contentFrame);
-        mCategoriesPresenter = createListPresenter(categoriesFragment);
-        categoriesFragment.setPresenter(mCategoriesPresenter);
-    }
-
-    private void createTabletElements() {
-        // Fragment 1: List
-        CategoriesFragment categoriesFragment = findOrCreateCategoriesFragment(R.id.contentFrame_list);
-        this.mCategoriesPresenter = createListPresenter(categoriesFragment);
-
-        // Fragment 2: Detail
-        AchievementsFragment achievementsFragment = findOrCreateCategoryDetailFragmentForTablet();
-        AchievementsPresenter achievementsPresenter = createDetailPresenter(achievementsFragment);
-
-        // Fragments connect to their presenters through a tablet presenter:
-        mCategoriesTabletPresenter = new CategoriesTabletPresenter(mCategoriesPresenter);
-        categoriesFragment.setPresenter(mCategoriesTabletPresenter);
-        achievementsFragment.setPresenter(mCategoriesTabletPresenter);
-        mCategoriesTabletPresenter.setAchievementsPresenter(achievementsPresenter);
-    }
-
-    @NonNull
-    private CategoriesPresenter createListPresenter(CategoriesFragment categoriesFragment) {
-        CategoriesDataSource categoriesDataSource = this.createCategoriesDataSource();
-
-        this.mCategoriesPresenter = new CategoriesPresenter(
-                this.mFragmentActivity,
-                mFragmentActivity.getSupportLoaderManager(),
-                categoriesDataSource,
-                categoriesFragment);
-
-        CategoriesViewModel categoriesViewModel = new CategoriesViewModel(this.mFragmentActivity, mCategoriesPresenter);
-        categoriesFragment.setViewModel(categoriesViewModel);
-
-        return this.mCategoriesPresenter;
-    }
-
-    @NonNull
-    private AchievementsPresenter createDetailPresenter(AchievementsFragment achievementsFragment) {
-        AchievementsDataSource achievementsDataSource = this.createAchievementsDataSource();
-
-        AchievementsPresenter achievementsPresenter = new AchievementsPresenter(
-                achievementsDataSource,
-                achievementsFragment);
-
-        AchievementsViewModel achievementsViewModel = new AchievementsViewModel(
-                this.mFragmentActivity);
-
-        achievementsFragment.setViewModel(achievementsViewModel);
-
-        return achievementsPresenter;
-    }
-
-    @NonNull
-    private CategoriesDataSource createCategoriesDataSource() {
-        return CategoriesRemoteDataSource.getInstance();
-    }
-
-    @NonNull
-    private AchievementsDataSource createAchievementsDataSource() {
-        return AchievementsRemoteDataSource.getInstance();
-    }
-
-    @NonNull
-    private CategoriesFragment findOrCreateCategoriesFragment(@IdRes int fragmentId) {
-        CategoriesFragment categoriesFragment =
-                (CategoriesFragment) getFragmentById(fragmentId);
-        if (categoriesFragment == null) {
-            // Create the fragment
-            categoriesFragment = CategoriesFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(
-                    getSupportFragmentManager(), categoriesFragment, fragmentId);
-        }
-
-        return categoriesFragment;
-    }
-
-    @NonNull
-    private AchievementsFragment findOrCreateCategoryDetailFragmentForTablet() {
-        AchievementsFragment achievementsFragment =
-                (AchievementsFragment) getFragmentById(R.id.contentFrame_detail);
-
-        if (achievementsFragment == null) {
-            // Create the fragment
-            achievementsFragment = AchievementsFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(
-                    getSupportFragmentManager(), achievementsFragment, R.id.contentFrame_detail);
-        }
-
-        return achievementsFragment;
-    }
-
-    private Fragment getFragmentById(int fragmentId) {
-        return getSupportFragmentManager().findFragmentById(fragmentId);
-    }
-
-    public void setFiltering(CategoriesFilterType filtering) {
-        mCategoriesPresenter.setFiltering(filtering);
-    }
-
-    public CategoriesFilterType getFiltering() {
-        return mCategoriesPresenter.getFiltering();
-    }
-
-    public Integer getCategoryId() {
-        return this.mCategoryId;
-    }
-
-    private FragmentManager getSupportFragmentManager() {
-        return mFragmentActivity.getSupportFragmentManager();
-    }
-
-    public boolean navigateToPreviousCategory() {
-        if (isTablet(mFragmentActivity)) {
-            return this.mCategoriesTabletPresenter.navigateToPreviousCategory();
-        }
-
-        return this.mCategoriesPresenter.navigateToPreviousCategory();
-    }
-}
+///**
+// * Class that creates fragments (MVP views) and makes the necessary connections between them.
+// */
+//public class CategoriesMvpController {
+//
+//    private final FragmentActivity mFragmentActivity;
+//
+//    // Null category ID means there's no category selected (or in phone mode)
+//    @Nullable private final Integer mCategoryId;
+//
+//    private CategoriesTabletPresenter mCategoriesTabletPresenter;
+//    private CategoriesPresenter mCategoriesPresenter;
+//
+//    // Force factory method, prevent direct instantiation:
+//    private CategoriesMvpController(
+//            @NonNull FragmentActivity fragmentActivity,
+//            @Nullable Integer categoryId) {
+//
+//        this.mFragmentActivity = fragmentActivity;
+//        this.mCategoryId = categoryId;
+//    }
+//
+//    /**
+//     * Creates a controller for a category view for phones or tablets.
+//     * @param fragmentActivity the context activity
+//     * @return a CategoriesMvpController
+//     */
+//    public static CategoriesMvpController createCategoriesView(
+//            @NonNull FragmentActivity fragmentActivity,
+//            @Nullable Integer categoryId) {
+//
+//        checkNotNull(fragmentActivity);
+//
+//        CategoriesMvpController categoriesMvpController =
+//                new CategoriesMvpController(fragmentActivity, categoryId);
+//
+//        categoriesMvpController.initCategoriesView();
+//        return categoriesMvpController;
+//    }
+//
+//    private void initCategoriesView() {
+//        if (isTablet(mFragmentActivity)) {
+//            createTabletElements();
+//        } else {
+//            createPhoneElements();
+//        }
+//    }
+//
+//    private void createPhoneElements() {
+//        CategoriesFragment categoriesFragment = findOrCreateCategoriesFragment(R.id.contentFrame);
+//        mCategoriesPresenter = createListPresenter(categoriesFragment);
+//        categoriesFragment.setPresenter(mCategoriesPresenter);
+//    }
+//
+//    private void createTabletElements() {
+//        // Fragment 1: List
+//        CategoriesFragment categoriesFragment = findOrCreateCategoriesFragment(R.id.contentFrame_list);
+//        this.mCategoriesPresenter = createListPresenter(categoriesFragment);
+//
+//        // Fragment 2: Detail
+//        AchievementsFragment achievementsFragment = findOrCreateCategoryDetailFragmentForTablet();
+//        AchievementsPresenter achievementsPresenter = createDetailPresenter(achievementsFragment);
+//
+//        // Fragments connect to their presenters through a tablet presenter:
+////        mCategoriesTabletPresenter = new CategoriesTabletPresenter(mCategoriesPresenter);
+////        categoriesFragment.setPresenter(mCategoriesTabletPresenter);
+////        achievementsFragment.setPresenter(mCategoriesTabletPresenter);
+////        mCategoriesTabletPresenter.setAchievementsPresenter(achievementsPresenter);
+//    }
+//
+//    @NonNull
+//    private CategoriesPresenter createListPresenter(CategoriesFragment categoriesFragment) {
+//        CategoriesDataSource categoriesDataSource = this.createCategoriesDataSource();
+//
+//        this.mCategoriesPresenter = new CategoriesPresenter(
+//                this.mFragmentActivity,
+//                mFragmentActivity.getSupportLoaderManager(),
+//                categoriesDataSource,
+//                categoriesFragment);
+//
+//        CategoriesViewModel categoriesViewModel = new CategoriesViewModel(this.mFragmentActivity, mCategoriesPresenter);
+//        categoriesFragment.setViewModel(categoriesViewModel);
+//
+//        return this.mCategoriesPresenter;
+//    }
+//
+//    @NonNull
+//    private AchievementsPresenter createDetailPresenter(AchievementsFragment achievementsFragment) {
+//        AchievementsDataSource achievementsDataSource = this.createAchievementsDataSource();
+//
+//        AchievementsPresenter achievementsPresenter = new AchievementsPresenter(
+//                achievementsDataSource,
+//                achievementsFragment);
+//
+//        AchievementsViewModel achievementsViewModel = new AchievementsViewModel(
+//                this.mFragmentActivity);
+//
+//        achievementsFragment.setViewModel(achievementsViewModel);
+//
+//        return achievementsPresenter;
+//    }
+//
+//    @NonNull
+//    private CategoriesDataSource createCategoriesDataSource() {
+//        return CategoriesRemoteDataSource.getInstance();
+//    }
+//
+//    @NonNull
+//    private AchievementsDataSource createAchievementsDataSource() {
+//        return AchievementsRemoteDataSource.getInstance();
+//    }
+//
+//    @NonNull
+//    private CategoriesFragment findOrCreateCategoriesFragment(@IdRes int fragmentId) {
+//        CategoriesFragment categoriesFragment =
+//                (CategoriesFragment) getFragmentById(fragmentId);
+//        if (categoriesFragment == null) {
+//            // Create the fragment
+//            categoriesFragment = CategoriesFragment.newInstance();
+//            ActivityUtils.addFragmentToActivity(
+//                    getSupportFragmentManager(), categoriesFragment, fragmentId);
+//        }
+//
+//        return categoriesFragment;
+//    }
+//
+//    @NonNull
+//    private AchievementsFragment findOrCreateCategoryDetailFragmentForTablet() {
+//        AchievementsFragment achievementsFragment =
+//                (AchievementsFragment) getFragmentById(R.id.contentFrame_detail);
+//
+//        if (achievementsFragment == null) {
+//            // Create the fragment
+//            achievementsFragment = AchievementsFragment.newInstance();
+//            ActivityUtils.addFragmentToActivity(
+//                    getSupportFragmentManager(), achievementsFragment, R.id.contentFrame_detail);
+//        }
+//
+//        return achievementsFragment;
+//    }
+//
+//    private Fragment getFragmentById(int fragmentId) {
+//        return getSupportFragmentManager().findFragmentById(fragmentId);
+//    }
+//
+//    public void setFiltering(CategoriesFilterType filtering) {
+//        mCategoriesPresenter.setFiltering(filtering);
+//    }
+//
+//    public CategoriesFilterType getFiltering() {
+//        return mCategoriesPresenter.getFiltering();
+//    }
+//
+//    public Integer getCategoryId() {
+//        return this.mCategoryId;
+//    }
+//
+//    private FragmentManager getSupportFragmentManager() {
+//        return mFragmentActivity.getSupportFragmentManager();
+//    }
+//
+////    public boolean navigateToPreviousCategory() {
+////        if (isTablet(mFragmentActivity)) {
+////            return this.mCategoriesTabletPresenter.navigateToPreviousCategory();
+////        }
+////
+////        return this.mCategoriesPresenter.navigateToPreviousCategory();
+////    }
+//}

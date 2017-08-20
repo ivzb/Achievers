@@ -52,7 +52,8 @@
                     android:id="@+id/rvCategories"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:rvCategoriesAdapter="@{categories.adapter}" />
+                    app:categoriesAdapter="@{ categories.adapter }"
+                    app:categoriesCursor="@{ categories.cursor }" />
             </LinearLayout>
 
             <LinearLayout

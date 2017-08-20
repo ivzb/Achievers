@@ -1,6 +1,7 @@
 package com.achievers.ui;
 
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -56,12 +57,25 @@ public class AdapterSetters {
         imageView.setImageResource(resource);
     }
 
+
+
     // CategoriesFragment
-    @BindingAdapter("rvCategoriesAdapter")
-    public static void setRvCategoriesAdapter(RecyclerView view, CategoriesAdapter adapter) {
+    @BindingAdapter("categoriesAdapter")
+//    @BindingAdapter({ "bind:adapter", "bind:cursor" })
+    public static void setRvCategoriesAdapter(RecyclerView view, CategoriesAdapter adapter/*, Cursor cursor*/) {
         if (adapter != null) {
             view.setAdapter(adapter);
             view.setLayoutManager(new LinearLayoutManager(adapter.getContext()));
+//            adapter.swapCursor(cursor);
+        }
+    }
+
+    @BindingAdapter("categoriesCursor")
+//    @BindingAdapter({ "bind:adapter", "bind:cursor" })
+    public static void setCategoriesCursor(RecyclerView view, Cursor cursor) {
+        if (view.getAdapter() != null) {
+            CategoriesAdapter adapter = (CategoriesAdapter) view.getAdapter();
+            adapter.swapCursor(cursor);
         }
     }
 
@@ -118,8 +132,8 @@ public class AdapterSetters {
         view.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Integer parentId = parent != null ? parent.getId() : null;
-                presenter.loadCategories(parentId, true);
+                //Integer parentId = parent != null ? parent.getId() : null;
+                presenter.loadCategories(/*parentId, true*/);
             }
         });
     }

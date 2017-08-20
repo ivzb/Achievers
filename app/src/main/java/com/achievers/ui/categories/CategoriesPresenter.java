@@ -11,6 +11,8 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.RecyclerView;
 
+import com.achievers.data.source.categories.CategoriesLoaderProvider;
+import com.achievers.data.source.categories.CategoriesRepository;
 import com.achievers.provider.AchieversContract;
 import com.achievers.provider.AchieversDatabase;
 import com.achievers.sync.SyncUtils;
@@ -30,47 +32,53 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * UI as required.
  */
 public class CategoriesPresenter implements CategoriesContract.Presenter,
-        LoaderManager.LoaderCallbacks<Cursor> {
+        LoaderManager.LoaderCallbacks<Cursor>,
+        LoadCallback<Category>,
+        CategoriesRepository.LoadDataCallback {
 
-    private static final int ID_CATEGORIES_LOADER = 44;
+    private static final int CATEGORIES_LOADER_ID = 1;
 
     private final Context mContext;
+    private final CategoriesLoaderProvider mLoaderProvider;
     private final LoaderManager mLoaderManager;
     private final CategoriesDataSource mCategoriesDataSource;
     private final CategoriesContract.View mCategoriesView;
     private CategoriesFilterType mCurrentFiltering = CategoriesFilterType.ALL_CATEGORIES;
-    private boolean mFirstLoad;
-    private Stack<Integer> mCategoriesNavigationState;
-    private OpenAchievementCallback mOpenAchievementCallback;
+//    private boolean mFirstLoad;
+//    private Stack<Integer> mCategoriesNavigationState;
+//    private OpenAchievementCallback mOpenAchievementCallback;
 
     public CategoriesPresenter(
             @NonNull Context context,
             @NonNull LoaderManager loaderManager,
+            @NonNull CategoriesLoaderProvider loaderProvider,
             @NonNull CategoriesDataSource categoriesDataSource,
             @NonNull CategoriesContract.View categoriesView) {
 
         this.mContext = context;
         this.mLoaderManager = loaderManager;
+        this.mLoaderProvider = checkNotNull(loaderProvider, "loaderProvider cannot be null!");
         this.mCategoriesDataSource = checkNotNull(categoriesDataSource, "categoriesDataSource cannot be null");
         this.mCategoriesView = checkNotNull(categoriesView, "categoriesView cannot be null!");
-        this.mCategoriesView.setPresenter(this);
-        this.mFirstLoad = true;
-        this.mCategoriesNavigationState = new Stack<>();
-        this.mOpenAchievementCallback = new OpenAchievementCallback() {
-            @Override
-            public void onOpen(Integer categoryId) {
-                Intent intent = new Intent(mContext, AchievementsActivity.class);
-                intent.putExtra(AchievementsActivity.EXTRA_CATEGORY_ID, categoryId);
-                mContext.startActivity(intent);
-            }
-        };
+
+//        this.mFirstLoad = true;
+//        this.mCategoriesNavigationState = new Stack<>();
+//        this.mOpenAchievementCallback = new OpenAchievementCallback() {
+//            @Override
+//            public void onOpen(Integer categoryId) {
+//                Intent intent = new Intent(mContext, AchievementsActivity.class);
+//                intent.putExtra(AchievementsActivity.EXTRA_CATEGORY_ID, categoryId);
+//                mContext.startActivity(intent);
+//            }
+//        };
     }
 
     @Override
     public void start() {
-        mLoaderManager.initLoader(ID_CATEGORIES_LOADER, null, this);
+//        mLoaderManager.initLoader(ID_CATEGORIES_LOADER, null, this);
 
-        SyncUtils.startSync(mContext, AchieversContract.Categories.buildCategoriesUri());
+//        SyncUtils.startSync(mContext, AchieversContract.Categories.buildCategoriesUri());
+        loadCategories();
     }
 
     @Override
@@ -82,52 +90,15 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
     }
 
     @Override
-    public void loadCategories(Integer parentId, boolean forceUpdate) {
+    public void loadCategories(/*Integer parentId, boolean forceUpdate*/) {
         // a network reload will be forced on first load.
         //this.loadCategories(parentId, forceUpdate || this.mFirstLoad, true, this.getOpenAchievementCallback());
 
         //this.mFirstLoad = false;
-    }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int loaderId, Bundle args) {
-        switch (loaderId) {
-            case ID_CATEGORIES_LOADER:
-                Uri categoriesQueryUri = AchieversContract.Categories.buildCategoriesUri();
+        mCategoriesView.setLoadingIndicator(true);
 
-                String[] projection = {
-                        AchieversContract.Categories.CATEGORY_ID,
-                        AchieversContract.Categories.CATEGORY_TITLE,
-                        AchieversContract.Categories.CATEGORY_DESCRIPTION,
-                        AchieversContract.Categories.CATEGORY_IMAGE_URL,
-                        AchieversContract.Categories.CATEGORY_PARENT_ID
-                };
-
-                String sortOrder = AchieversContract.Categories.CATEGORY_ID + " ASC";
-
-                return new CursorLoader(mContext,
-                        categoriesQueryUri,
-                        projection,
-                        null, null,
-                        sortOrder);
-
-            default:
-                throw new RuntimeException("Loader Not Implemented: " + loaderId);
-        }
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-//        mForecastAdapter.swapCursor(data);
-//        if (mPosition == RecyclerView.NO_POSITION) mPosition = 0;
-//        mRecyclerView.smoothScrollToPosition(mPosition);
-//        if (data.getCount() != 0) showWeatherDataView();
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-//        mForecastAdapter.swapCursor(null);
-        double a = Math.sqrt(5);
+        mCategoriesDataSource.load(this);
     }
 
     //    /**
@@ -177,17 +148,16 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
 //        });
 //    }
 
-    @Override
-    public void openCategoryDetails(@NonNull Category requestedCategory, OpenAchievementCallback callback) {
-        checkNotNull(requestedCategory, "requestedCategory cannot be null!");
-        checkNotNull(callback, "callback cannot be null!");
-
-//        this.loadCategories(requestedCategory.getId(), true, true, callback);
-
-        // saving first parent as -1 because stack cant handle nulls
-//        mCategoriesNavigationState.add(requestedCategory.getParent() == null || requestedCategory.getParent().getId() == null ? -1 : requestedCategory.getParent().getId());
-    }
-
+//    @Override
+//    public void openCategoryDetails(@NonNull Category requestedCategory, OpenAchievementCallback callback) {
+//        checkNotNull(requestedCategory, "requestedCategory cannot be null!");
+//        checkNotNull(callback, "callback cannot be null!");
+//
+////        this.loadCategories(requestedCategory.getId(), true, true, callback);
+//
+//        // saving first parent as -1 because stack cant handle nulls
+////        mCategoriesNavigationState.add(requestedCategory.getParent() == null || requestedCategory.getParent().getId() == null ? -1 : requestedCategory.getParent().getId());
+//    }
     /**
      * Sets the current category filtering type.
      *
@@ -203,25 +173,91 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
         return mCurrentFiltering;
     }
 
+//    @Override
+//    public OpenAchievementCallback getOpenAchievementCallback() {
+//        return this.mOpenAchievementCallback;
+//    }
+//
+//    /**
+//     * Checks if there are any Categories in the stack which can be
+//     * navigated back and if there are any, pops last one, refreshes adapter and returns true.
+//     * Otherwise returns false.
+//     */
+//    @Override
+//    public boolean navigateToPreviousCategory() {
+//        try {
+//            Integer categoryId = this.mCategoriesNavigationState.pop();
+//            this.loadCategories(categoryId == -1 ? null : categoryId, true);
+//
+//            return true;
+//        } catch (EmptyStackException exc) { // stack is empty so there is no previous category
+//            return false;
+//        }
+//    }
+
     @Override
-    public OpenAchievementCallback getOpenAchievementCallback() {
-        return this.mOpenAchievementCallback;
+    public void onSuccess(List<Category> data) {
+        // we don't care about the result since the CursorLoader will load the data for us
+        if (mLoaderManager.getLoader(CATEGORIES_LOADER_ID) == null) {
+            mLoaderManager.initLoader(CATEGORIES_LOADER_ID, null, this);
+            return;
+        }
+
+        mLoaderManager.restartLoader(CATEGORIES_LOADER_ID, null, this);
     }
 
-    /**
-     * Checks if there are any Categories in the stack which can be
-     * navigated back and if there are any, pops last one, refreshes adapter and returns true.
-     * Otherwise returns false.
-     */
     @Override
-    public boolean navigateToPreviousCategory() {
-        try {
-            Integer categoryId = this.mCategoriesNavigationState.pop();
-            this.loadCategories(categoryId == -1 ? null : categoryId, true);
+    public void onFailure(String message) {
+        mCategoriesView.setLoadingIndicator(false);
+        mCategoriesView.showLoadingCategoriesError(message);
+    }
 
-            return true;
-        } catch (EmptyStackException exc) { // stack is empty so there is no previous category
-            return false;
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return mLoaderProvider.createCategoriesLoader();
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (data != null) {
+            if (data.moveToLast()) {
+                onDataLoaded(data);
+            } else {
+                onDataEmpty();
+            }
+        } else {
+            onDataNotAvailable();
         }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        onDataReset();
+    }
+
+    @Override
+    public void onDataLoaded(Cursor data) {
+        mCategoriesView.setLoadingIndicator(false);
+        // Show the list of tasks
+        mCategoriesView.showCategories(data);
+        // Set the filter label's text.
+//        showFilterLabel();
+    }
+
+    @Override
+    public void onDataEmpty() {
+        mCategoriesView.setLoadingIndicator(false);
+        mCategoriesView.showNoCategories();
+    }
+
+    @Override
+    public void onDataNotAvailable() {
+        mCategoriesView.setLoadingIndicator(false);
+        mCategoriesView.showLoadingCategoriesError(null);
+    }
+
+    @Override
+    public void onDataReset() {
+        mCategoriesView.showCategories(null);
     }
 }

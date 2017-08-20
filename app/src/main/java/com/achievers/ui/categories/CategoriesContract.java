@@ -1,5 +1,6 @@
 package com.achievers.ui.categories;
 
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.achievers.ui.base.BaseView;
@@ -13,11 +14,13 @@ public class CategoriesContract {
 
         void setLoadingIndicator(boolean active);
 
-        void showCategories(List<Category> categories);
+        void showCategories(Cursor categories);
+
+        void showNoCategories();
 
         void showParent(Category parent);
 
-        void showLoadingCategoriesError();
+        void showLoadingCategoriesError(String message);
 
         void showLoadingParentError();
 
@@ -26,24 +29,24 @@ public class CategoriesContract {
 
     public interface Presenter {
 
-        interface OpenAchievementCallback {
-            void onOpen(Integer categoryId);
-        }
+//        interface OpenAchievementCallback {
+//            void onOpen(Integer categoryId);
+//        }
 
         void start();
 
         void result(int requestCode, int resultCode);
 
-        void loadCategories(Integer parentId, boolean forceUpdate);
+        void loadCategories(/*Integer parentId, boolean forceUpdate*/);
 
-        void openCategoryDetails(@NonNull Category requestedCategory, OpenAchievementCallback callback);
+//        void openCategoryDetails(@NonNull Category requestedCategory, OpenAchievementCallback callback);
 
         void setFiltering(CategoriesFilterType requestType);
 
         CategoriesFilterType getFiltering();
 
-        OpenAchievementCallback getOpenAchievementCallback();
+//        OpenAchievementCallback getOpenAchievementCallback();
 
-        boolean navigateToPreviousCategory();
+//        boolean navigateToPreviousCategory();
     }
 }

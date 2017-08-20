@@ -32,47 +32,29 @@ public class AchieversContract {
     }
 
     public interface CategoriesColumns {
-
         String CATEGORY_ID = "category_id";
-
         String CATEGORY_TITLE = "category_title";
-
         String CATEGORY_DESCRIPTION = "category_description";
-
         String CATEGORY_IMAGE_URL = "category_image_url";
-
         String CATEGORY_PARENT_ID = "category_parent_id";
     }
 
     interface AchievementsColumns {
-
         String ACHIEVEMENT_ID = "achievement_id";
-
         String ACHIEVEMENT_TITLE = "achievement_title";
-
         String ACHIEVEMENT_DESCRIPTION = "achievement_description";
-
         String ACHIEVEMENT_IMAGE_URL = "achievement_image_url";
-
         String ACHIEVEMENT_CATEGORY_ID = "achievement_category_id";
-
         String ACHIEVEMENT_INVOLVEMENT = "achievement_involvement";
-
         String ACHIEVEMENT_AUTHOR_ID = "achievement_author_id";
     }
 
     interface EvidenceColumns {
-
         String EVIDENCE_ID = "evidence_id";
-
         String EVIDENCE_TITLE = "evidence_title";
-
         String EVIDENCE_TYPE = "evidence_type";
-
         String EVIDENCE_URL = "evidence_url";
-
         String EVIDENCE_ACHIEVEMENT_ID = "evidence_achievement_id";
-
         String EVIDENCE_AUTHOR_ID = "evidence_author_id";
     }
 
@@ -106,6 +88,22 @@ public class AchieversContract {
                 BASE_CONTENT_URI.buildUpon().appendPath(TABLE_NAME).build();
 
         static final String CONTENT_TYPE_ID = "category";
+
+        public static String[] COLUMNS = new String[] {
+            AchieversContract.Categories.CATEGORY_ID,
+            AchieversContract.Categories.CATEGORY_TITLE,
+            AchieversContract.Categories.CATEGORY_DESCRIPTION,
+            AchieversContract.Categories.CATEGORY_IMAGE_URL,
+            AchieversContract.Categories.CATEGORY_PARENT_ID
+        };
+
+        public interface INDEXES {
+            int CATEGORY_ID = 0;
+            int CATEGORY_TITLE = 1;
+            int CATEGORY_DESCRIPTION = 2;
+            int CATEGORY_IMAGE_URL = 3;
+            int CATEGORY_PARENT_ID = 3;
+        }
 
         /**
          * Build {@link Uri} that references all tags.

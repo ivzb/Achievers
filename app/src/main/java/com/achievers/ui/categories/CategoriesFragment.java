@@ -1,6 +1,7 @@
 package com.achievers.ui.categories;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import com.achievers.R;
 import com.achievers.entities.Category;
 import com.achievers.databinding.CategoriesFragBinding;
+import com.achievers.util.CursorUtils;
 import com.achievers.util.ScrollChildSwipeRefreshLayout;
 
 import java.util.List;
@@ -64,9 +66,12 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.categories_frag, container, false);
 
-        this.mViewDataBinding = CategoriesFragBinding.bind(view);
-        this.mViewDataBinding.setCategories(this.mCategoriesViewModel);
-        this.mViewDataBinding.setActionHandler(this.mPresenter);
+        mViewDataBinding = CategoriesFragBinding.bind(view);
+        mViewDataBinding.setCategories(this.mCategoriesViewModel);
+        mViewDataBinding.setActionHandler(this.mPresenter);
+
+        CategoriesAdapter adapter = new CategoriesAdapter(mPresenter);
+        mCategoriesViewModel.setAdapter(adapter);
 
         setHasOptionsMenu(true);
         setRetainInstance(true);
@@ -95,7 +100,7 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
                 break;
             case R.id.menu_refresh:
                 Integer parentId = mCategoriesViewModel.getParent() != null ? mCategoriesViewModel.getParent().getId() : null;
-                mPresenter.loadCategories(parentId, true);
+                mPresenter.loadCategories(/*parentId, true*/);
 //                Integer categoryId = mAchievementsViewModel.getCategory() != null ? mAchievementsViewModel.getCategory().getId() : null;
 //                mPresenter.loadAchievements(categoryId, true);
                 break;
@@ -131,7 +136,7 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
                 }
 
                 Integer parentId = mCategoriesViewModel.getParent() != null ? mCategoriesViewModel.getParent().getId() : null;
-                mPresenter.loadCategories(parentId, false);
+                mPresenter.loadCategories(/*parentId, false*/);
 //                Integer categoryId = mAchievementsViewModel.getCategory() != null ? mAchievementsViewModel.getCategory().getId() : null;
 //                mPresenter.loadAchievements(categoryId, false);
 
@@ -158,10 +163,20 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     }
 
     @Override
-    public void showCategories(List<Category> categories) {
-        CategoriesAdapter adapter = new CategoriesAdapter(categories, mPresenter);
-        mCategoriesViewModel.setAdapter(adapter);
-        mCategoriesViewModel.setCategoriesListSize(categories.size());
+    public void showCategories(Cursor cursor) {
+//        CategoriesAdapter adapter = new CategoriesAdapter(categories, mPresenter);
+//        mCategoriesViewModel.setCursor(cursor);
+
+
+        mCategoriesViewModel.setCursor(cursor);
+
+        mCategoriesViewModel.setCategoriesListSize(CursorUtils.getSize(cursor));
+    }
+
+    @Override
+    public void showNoCategories() {
+        mCategoriesViewModel.setCategoriesListSize(0);
+        mCategoriesViewModel.setLoading(false);
     }
 
     @Override
@@ -170,8 +185,12 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     }
 
     @Override
-    public void showLoadingCategoriesError() {
-        showMessage(getString(R.string.loading_categories_error));
+    public void showLoadingCategoriesError(String message) {
+        if (message == null || message.length() == 0) {
+            message = getString(R.string.loading_categories_error);
+        }
+
+        showMessage(message);
     }
 
     @Override

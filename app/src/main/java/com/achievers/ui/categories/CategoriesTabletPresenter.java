@@ -29,7 +29,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Presenter for the tablet screen that can act as a Tasks Presenter and a Task Detail Presenter.
  */
-public class CategoriesTabletPresenter implements CategoriesContract.Presenter, AchievementsContract.Presenter {
+public abstract class CategoriesTabletPresenter implements CategoriesContract.Presenter, AchievementsContract.Presenter {
 
     @NonNull
     private final CategoriesPresenter mCategoriesPresenter;
@@ -62,22 +62,22 @@ public class CategoriesTabletPresenter implements CategoriesContract.Presenter, 
         this.mCategoriesPresenter.result(requestCode, resultCode);
     }
 
-    @Override
-    public void loadCategories(Integer parentId, boolean forceUpdate) {
-        this.mCategoriesPresenter.loadCategories(parentId, forceUpdate);
-    }
-
-    @Override
-    public void openCategoryDetails(@NonNull final Category requestedCategory, OpenAchievementCallback callback) {
-        checkNotNull(requestedCategory, "requestedCategory cannot be null!");
-
-        this.mCategoriesPresenter.openCategoryDetails(requestedCategory, new OpenAchievementCallback() {
-            @Override
-            public void onOpen(Integer categoryId) {
-                mAchievementsPresenter.loadAchievements(requestedCategory, true);
-            }
-        });
-    }
+//    @Override
+//    public void loadCategories(Integer parentId, boolean forceUpdate) {
+//        this.mCategoriesPresenter.loadCategories(parentId, forceUpdate);
+//    }
+//
+//    @Override
+//    public void openCategoryDetails(@NonNull final Category requestedCategory, OpenAchievementCallback callback) {
+//        checkNotNull(requestedCategory, "requestedCategory cannot be null!");
+//
+//        this.mCategoriesPresenter.openCategoryDetails(requestedCategory, new OpenAchievementCallback() {
+//            @Override
+//            public void onOpen(Integer categoryId) {
+//                mAchievementsPresenter.loadAchievements(requestedCategory, true);
+//            }
+//        });
+//    }
 
     @Override
     public void setFiltering(CategoriesFilterType requestType) {
@@ -89,15 +89,15 @@ public class CategoriesTabletPresenter implements CategoriesContract.Presenter, 
         return this.mCategoriesPresenter.getFiltering();
     }
 
-    @Override
-    public OpenAchievementCallback getOpenAchievementCallback() {
-       return null; // not used for now
-    }
-
-    @Override
-    public boolean navigateToPreviousCategory() {
-        return this.mCategoriesPresenter.navigateToPreviousCategory();
-    }
+//    @Override
+//    public OpenAchievementCallback getOpenAchievementCallback() {
+//       return null; // not used for now
+//    }
+//
+//    @Override
+//    public boolean navigateToPreviousCategory() {
+//        return this.mCategoriesPresenter.navigateToPreviousCategory();
+//    }
 
     /* CategoriesContract.Presenter methods */
 
