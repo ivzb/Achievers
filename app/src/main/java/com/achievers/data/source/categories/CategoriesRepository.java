@@ -52,7 +52,7 @@ public class CategoriesRepository extends BaseRepository<CategoriesDataSource> i
         mRemoteDataSource.load(new LoadCallback<Category>() {
             @Override
             public void onSuccess(List<Category> categories) {
-                refreshLocalDataSource(categories);
+                save(categories);
                 callback.onSuccess(null);
             }
 
@@ -64,15 +64,9 @@ public class CategoriesRepository extends BaseRepository<CategoriesDataSource> i
     }
 
     @Override
-    public void save(@NonNull Category category) {
-        checkNotNull(category);
-        mRemoteDataSource.save(category);
-        mLocalDataSource.save(category);
-    }
+    public void save(@NonNull List<Category> categories) {
+        checkNotNull(categories);
 
-    private void refreshLocalDataSource(List<Category> categories) {
-        for (Category category : categories) {
-            mLocalDataSource.save(category);
-        }
+        mLocalDataSource.save(categories);
     }
 }

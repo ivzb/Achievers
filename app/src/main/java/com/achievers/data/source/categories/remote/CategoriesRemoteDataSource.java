@@ -1,10 +1,12 @@
-package com.achievers.data.source.categories;
+package com.achievers.data.source.categories.remote;
 
 import android.support.annotation.NonNull;
 
+import com.achievers.data.callbacks.BaseCallback;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.endpoints.CategoriesAPI;
+import com.achievers.data.source.categories.CategoriesDataSource;
 import com.achievers.entities.Category;
 import com.achievers.data.source.RESTClient;
 
@@ -18,6 +20,8 @@ import retrofit2.Response;
  * Implementation of remote network data source.
  */
 public class CategoriesRemoteDataSource implements CategoriesDataSource {
+
+    private static final String GeneralErrorMessage = "Error occurred. Please try again.";
 
     private static CategoriesDataSource INSTANCE;
 
@@ -37,20 +41,13 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
     }
 
     @Override
-    public void loadCategories(@NonNull final LoadCallback<Category> callback) {
+    public void load(@NonNull final LoadCallback<Category> callback) {
         this.apiService
             .loadCategories()
             .enqueue(new Callback<List<Category>>() {
                 @Override
                 public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
-                    int statusCode = response.code();
-
-                    if (statusCode != 200) {
-                        callback.onFailure("Error occurred. Please try again.");
-                        return;
-                    }
-
-                    callback.onSuccess(response.body());
+                    processResponse(response, callback, GeneralErrorMessage);
                 }
 
                 @Override
@@ -61,24 +58,16 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
     }
 
     @Override
-    public void getCategory(
-            @NonNull final Integer categoryId,
+    public void get(
+            @NonNull final int id,
             @NonNull final GetCallback<Category> callback) {
 
-        final Call<Category> call = this.apiService.getCategory(categoryId);
+        final Call<Category> call = this.apiService.getCategory(id);
 
         call.enqueue(new Callback<Category>() {
             @Override
             public void onResponse(Call<Category> call, Response<Category> response) {
-                int statusCode = response.code();
-
-                if (statusCode != 200) {
-                    callback.onFailure(null);
-                    return;
-                }
-
-                Category category = response.body();
-                callback.onSuccess(category);
+                processResponse(response, callback, GeneralErrorMessage);
             }
 
             @Override
@@ -86,5 +75,25 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
                 callback.onFailure("Server could not be reached. Please try again.");
             }
         });
+    }
+
+    @Override
+    public void save(@NonNull final List<Category> categories) {
+        // saving categories to remote data source should not be possible
+    }
+
+    private <T> void processResponse(
+            final Response<T> response,
+            final BaseCallback<T> callback,
+            final String errorMessage) {
+
+        int statusCode = response.code();
+
+        if (statusCode != 200) {
+            callback.onFailure(errorMessage);
+            return;
+        }
+
+        callback.onSuccess(response.body());
     }
 }

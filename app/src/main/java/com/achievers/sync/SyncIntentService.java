@@ -20,7 +20,7 @@ public class SyncIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Uri contentUri = intent.getData();
 
-        if (AchieversContract.Categories.CONTENT_URI.equals(contentUri)) {
+        if (AchieversContract.Categories.buildCategoriesUri().equals(contentUri)) {
             SyncTask.syncCategories(this);
         }
     }

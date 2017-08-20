@@ -6,7 +6,7 @@ import android.content.Context;
 
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.source.categories.CategoriesDataSource;
-import com.achievers.data.source.categories.CategoriesRemoteDataSource;
+import com.achievers.data.source.categories.remote.CategoriesRemoteDataSource;
 import com.achievers.entities.Category;
 import com.achievers.provider.AchieversContract;
 
@@ -23,7 +23,7 @@ public class SyncTask {
     synchronized public static void syncCategories(final Context context) {
         CategoriesDataSource categoriesDataSource = CategoriesRemoteDataSource.getInstance();
 
-        categoriesDataSource.loadCategories(new LoadCallback<Category>() {
+        categoriesDataSource.load(new LoadCallback<Category>() {
             @Override
             public void onSuccess(List<Category> data) {
                 ContentValues[] categoriesContentValues = new ContentValues[data.size()];
@@ -45,12 +45,12 @@ public class SyncTask {
                     ContentResolver achieversContentResolver = context.getContentResolver();
 
                     achieversContentResolver.delete(
-                            AchieversContract.Categories.CONTENT_URI,
+                            AchieversContract.Categories.buildCategoriesUri(),
                             null,
                             null);
 
                     achieversContentResolver.bulkInsert(
-                            AchieversContract.Categories.CONTENT_URI,
+                            AchieversContract.Categories.buildCategoriesUri(),
                             categoriesContentValues);
                 }
             }

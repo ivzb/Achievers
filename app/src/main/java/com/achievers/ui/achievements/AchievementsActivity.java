@@ -10,7 +10,7 @@ import com.achievers.R;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.entities.Category;
 import com.achievers.data.source.achievements.AchievementsRemoteDataSource;
-import com.achievers.data.source.categories.CategoriesRemoteDataSource;
+import com.achievers.data.source.categories.remote.CategoriesRemoteDataSource;
 import com.achievers.util.ActivityUtils;
 
 /**
@@ -61,7 +61,7 @@ public class AchievementsActivity extends BaseActivity {
         final AchievementsViewModel viewModel = new AchievementsViewModel(getApplicationContext());
 
         CategoriesRemoteDataSource.getInstance()
-                .getCategory(categoryId, new GetCallback<Category>() {
+                .get(categoryId, new GetCallback<Category>() {
             @Override
             public void onSuccess(final Category category) {
                 viewModel.setCategory(category);

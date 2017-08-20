@@ -94,7 +94,7 @@ public class TestProvider {
     public void testBasicCategoryQuery() {
         String tableName = AchieversContract.Categories.TABLE_NAME;
         ContentValues contentValues = TestUtilities.createTestCategoryContentValues(ID_TO_INSERT, false);
-        Uri contentUri = AchieversContract.Categories.CONTENT_URI;
+        Uri contentUri = AchieversContract.Categories.buildCategoriesUri();
 
         testBasicQuery(contentValues, tableName, contentUri);
     }
@@ -103,7 +103,7 @@ public class TestProvider {
     public void testBasicAchievementsQuery() {
         String tableName = AchieversContract.Achievements.TABLE_NAME;
         ContentValues contentValues = TestUtilities.createTestAchievementContentValues(ID_TO_INSERT);
-        Uri contentUri = AchieversContract.Achievements.CONTENT_URI;
+        Uri contentUri = AchieversContract.Achievements.buildAchievementsUri();
 
         testBasicQuery(contentValues, tableName, contentUri);
     }
@@ -112,7 +112,7 @@ public class TestProvider {
     public void testBasicEvidenceQuery() {
         String tableName = AchieversContract.Evidence.TABLE_NAME;
         ContentValues contentValues = TestUtilities.createTestEvidenceContentValues(ID_TO_INSERT);
-        Uri contentUri = AchieversContract.Evidence.CONTENT_URI;
+        Uri contentUri = AchieversContract.Evidence.buildEvidenceUri();
 
         testBasicQuery(contentValues, tableName, contentUri);
     }
@@ -144,7 +144,7 @@ public class TestProvider {
     @Test
     public void testBulkInsertCategories() {
         ContentValues[] bulkInsertContentValues = createBulkInsertTestCategoryValues();
-        Uri insertUri = AchieversContract.Categories.CONTENT_URI;
+        Uri insertUri = AchieversContract.Categories.buildCategoriesUri();
         String sortColumn = AchieversContract.Categories.CATEGORY_ID;
         testBulkInsert(bulkInsertContentValues, insertUri, sortColumn);
     }
@@ -152,7 +152,7 @@ public class TestProvider {
     @Test
     public void testBulkInsertAchievements() {
         ContentValues[] bulkInsertContentValues = createBulkInsertTestAchievementValues();
-        Uri insertUri = AchieversContract.Achievements.CONTENT_URI;
+        Uri insertUri = AchieversContract.Achievements.buildAchievementsUri();
         String sortColumn = AchieversContract.Achievements.ACHIEVEMENT_ID;
         testBulkInsert(bulkInsertContentValues, insertUri, sortColumn);
     }
@@ -160,7 +160,7 @@ public class TestProvider {
     @Test
     public void testBulkInsertEvidence() {
         ContentValues[] bulkInsertContentValues = createBulkInsertTestEvidenceValues();
-        Uri insertUri = AchieversContract.Evidence.CONTENT_URI;
+        Uri insertUri = AchieversContract.Evidence.buildEvidenceUri();
         String sortColumn = AchieversContract.Evidence.EVIDENCE_ID;
         testBulkInsert(bulkInsertContentValues, insertUri, sortColumn);
     }
@@ -209,7 +209,7 @@ public class TestProvider {
     @Test
     public void testDeleteAllCategoriesRecordsFromProvider() {
         testBulkInsertCategories();
-        Uri contentUri = AchieversContract.Categories.CONTENT_URI;
+        Uri contentUri = AchieversContract.Categories.buildCategoriesUri();
 
         testDeleteAllRecordsFromProvider(contentUri);
     }
@@ -217,7 +217,7 @@ public class TestProvider {
     @Test
     public void testDeleteAllAchievementsRecordsFromProvider() {
         testBulkInsertCategories();
-        Uri contentUri = AchieversContract.Achievements.CONTENT_URI;
+        Uri contentUri = AchieversContract.Achievements.buildAchievementsUri();
 
         testDeleteAllRecordsFromProvider(contentUri);
     }
@@ -225,7 +225,7 @@ public class TestProvider {
     @Test
     public void testDeleteAllEvidenceRecordsFromProvider() {
         testBulkInsertCategories();
-        Uri contentUri = AchieversContract.Evidence.CONTENT_URI;
+        Uri contentUri = AchieversContract.Evidence.buildEvidenceUri();
 
         testDeleteAllRecordsFromProvider(contentUri);
     }

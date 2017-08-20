@@ -31,7 +31,7 @@ public class AchieversContract {
 
     }
 
-    interface CategoriesColumns {
+    public interface CategoriesColumns {
 
         String CATEGORY_ID = "category_id";
 
@@ -102,10 +102,10 @@ public class AchieversContract {
 
         public static final String TABLE_NAME = "categories";
 
-        public static final Uri CONTENT_URI =
+        private static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(TABLE_NAME).build();
 
-        public static final String CONTENT_TYPE_ID = "category";
+        static final String CONTENT_TYPE_ID = "category";
 
         /**
          * Build {@link Uri} that references all tags.
@@ -152,10 +152,17 @@ public class AchieversContract {
             return false;
         }
 
-        public static final Uri CONTENT_URI =
+        private static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(TABLE_NAME).build();
 
-        public static final String CONTENT_TYPE_ID = "achievement";
+        static final String CONTENT_TYPE_ID = "achievement";
+
+        /**
+         * Build {@link Uri} that references all tags.
+         */
+        public static Uri buildAchievementsUri() {
+            return CONTENT_URI;
+        }
 
         /** Build {@link Uri} for requested {@link #ACHIEVEMENT_ID}. */
         public static Uri buildAchievementUri(String achievementId) {
@@ -192,10 +199,17 @@ public class AchieversContract {
             return false;
         }
 
-        public static final Uri CONTENT_URI =
+        private static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(TABLE_NAME).build();
 
-        public static final String CONTENT_TYPE_ID = "evidence";
+        static final String CONTENT_TYPE_ID = "evidence";
+
+        /**
+         * Build {@link Uri} that references all tags.
+         */
+        public static Uri buildEvidenceUri() {
+            return CONTENT_URI;
+        }
 
         /** Build {@link Uri} for requested {@link #EVIDENCE_ID}. */
         public static Uri buildEvidenceUri(String evidenceId) {

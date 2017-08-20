@@ -70,7 +70,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
     public void start() {
         mLoaderManager.initLoader(ID_CATEGORIES_LOADER, null, this);
 
-        SyncUtils.startSync(mContext, AchieversContract.Categories.CONTENT_URI);
+        SyncUtils.startSync(mContext, AchieversContract.Categories.buildCategoriesUri());
     }
 
     @Override
@@ -92,9 +92,8 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
     @Override
     public Loader<Cursor> onCreateLoader(int loaderId, Bundle args) {
         switch (loaderId) {
-
             case ID_CATEGORIES_LOADER:
-                Uri categoriesQueryUri = AchieversContract.Categories.CONTENT_URI;
+                Uri categoriesQueryUri = AchieversContract.Categories.buildCategoriesUri();
 
                 String[] projection = {
                         AchieversContract.Categories.CATEGORY_ID,

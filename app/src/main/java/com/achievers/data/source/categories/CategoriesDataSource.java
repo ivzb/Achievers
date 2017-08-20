@@ -6,11 +6,13 @@ import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.entities.Category;
 
+import java.util.List;
+
 public interface CategoriesDataSource {
 
     void get(int id, @NonNull GetCallback<Category> callback);
 
     void load(@NonNull LoadCallback<Category> callback);
 
-    void save(@NonNull Category category);
+    void save(@NonNull List<Category> categories);
 }

@@ -30,7 +30,7 @@ import com.achievers.ui.achievements.AchievementsViewModel;
 import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.achievements.AchievementsRemoteDataSource;
 import com.achievers.data.source.categories.CategoriesDataSource;
-import com.achievers.data.source.categories.CategoriesRemoteDataSource;
+import com.achievers.data.source.categories.remote.CategoriesRemoteDataSource;
 import com.achievers.util.ActivityUtils;
 
 import static com.achievers.util.ActivityUtils.isTablet;
