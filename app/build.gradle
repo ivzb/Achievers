@@ -68,6 +68,8 @@ dependencies {
     compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
     compile "com.google.guava:guava:$rootProject.guavaVersion"
 
+    compile 'com.android.support.constraint:constraint-layout:1.0.0'
+
     // tests
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support:support-annotations:25.1.0'
@@ -101,7 +103,6 @@ dependencies {
     // Fresco
     compile "com.facebook.fresco:fresco:${frescoVersion}"
     compile "com.facebook.fresco:imagepipeline-okhttp3:${frescoVersion}"
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta3'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
 

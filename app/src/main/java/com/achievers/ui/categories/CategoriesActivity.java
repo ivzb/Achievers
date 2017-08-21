@@ -19,7 +19,6 @@ import com.achievers.util.ActivityUtils;
 
 public class CategoriesActivity extends BaseActivity {
 
-    private static final String CURRENT_FILTERING_KEY = "CURRENT_FILTERING_KEY";
 //    private static final String CURRENT_CATEGORY_ID_KEY = "CURRENT_CATEGORY_ID_KEY";
 
     private DrawerLayout mDrawerLayout;
@@ -53,14 +52,11 @@ public class CategoriesActivity extends BaseActivity {
         // todo
 //        // Load previously saved state, if available.
 //        Integer categoryId = null;
-        CategoriesFilterType currentFiltering = null;
-        if (savedInstanceState != null) {
-            currentFiltering =
-                    (CategoriesFilterType) savedInstanceState.getSerializable(CURRENT_FILTERING_KEY);
+//        if (savedInstanceState != null) {
 //            categoryId = savedInstanceState.getInt(CURRENT_CATEGORY_ID_KEY, 0);
 //
 //            if (categoryId == 0) categoryId = null;
-        }
+//        }
 
         int fragmentId = R.id.contentFrame;
 
@@ -94,16 +90,10 @@ public class CategoriesActivity extends BaseActivity {
 
         // Create a CategoriesMvpController every time, even after rotation.
         categoriesFragment.setPresenter(mPresenter);
-
-        if (currentFiltering != null) {
-            mPresenter.setFiltering(currentFiltering);
-        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(CURRENT_FILTERING_KEY, mPresenter.getFiltering());
-
         // todo
 //        int categoryId = 0;
 //        if (categoriesMvpTabletController.getCategoryId() != null)
