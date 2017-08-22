@@ -36,27 +36,8 @@ public class CategoriesViewModel extends BaseObservable {
     }
 
     @Bindable
-    public String getCurrentFilteringLabel() {
-        switch (mPresenter.getFiltering()) {
-            case ALL_CATEGORIES:
-                return mContext.getResources().getString(R.string.label_all_categories);
-            case COMPLETED:
-                return mContext.getResources().getString(R.string.label_completed);
-            case NOT_COMPLETED:
-                return mContext.getResources().getString(R.string.label_not_completed);
-        }
-
-        return null;
-    }
-
-    @Bindable
     public String getNoCategoriesLabel() {
-        switch (mPresenter.getFiltering()) {
-            case ALL_CATEGORIES:
-                return mContext.getResources().getString(R.string.no_categories);
-        }
-
-        return null;
+        return mContext.getResources().getString(R.string.no_categories);
     }
 
     @Bindable
@@ -66,14 +47,7 @@ public class CategoriesViewModel extends BaseObservable {
 
     @Bindable
     public Drawable getNoCategoriesIconRes() {
-        switch (mPresenter.getFiltering()) {
-            case ALL_CATEGORIES:
-                Drawable allCategories = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_assignment_turned_in_24dp, null);
-
-                return allCategories;
-        }
-
-        return null;
+        return ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_assignment_turned_in_24dp, null);
     }
 
 //    @Bindable
@@ -105,7 +79,6 @@ public class CategoriesViewModel extends BaseObservable {
         this.mCategoriesListSize = categoriesListSize;
         notifyPropertyChanged(BR.noCategoriesIconRes);
         notifyPropertyChanged(BR.noCategoriesLabel);
-        notifyPropertyChanged(BR.currentFilteringLabel);
         notifyPropertyChanged(BR.notEmpty);
 //        notifyPropertyChanged(BR.categoriesAddViewVisible);
     }

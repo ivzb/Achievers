@@ -92,12 +92,6 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_clear:
-                // todo: consider changing this to different functionality
-                break;
-            case R.id.menu_filter:
-                showFilteringPopUpMenu();
-                break;
             case R.id.menu_refresh:
                 Integer parentId = mCategoriesViewModel.getParent() != null ? mCategoriesViewModel.getParent().getId() : null;
                 mPresenter.loadCategories(/*parentId, true*/);
@@ -115,36 +109,6 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
 
     public void setViewModel(CategoriesViewModel categoriesViewModel) {
         this.mCategoriesViewModel = categoriesViewModel;
-    }
-
-    private void showFilteringPopUpMenu() {
-        PopupMenu popup = new PopupMenu(getContext(), getActivity().findViewById(R.id.menu_filter));
-        popup.getMenuInflater().inflate(R.menu.filter_categories, popup.getMenu());
-
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.completed:
-                        mPresenter.setFiltering(CategoriesFilterType.COMPLETED);
-                        break;
-                    case R.id.notCompleted:
-                        mPresenter.setFiltering(CategoriesFilterType.NOT_COMPLETED);
-                        break;
-                    default:
-                        mPresenter.setFiltering(CategoriesFilterType.ALL_CATEGORIES);
-                        break;
-                }
-
-                Integer parentId = mCategoriesViewModel.getParent() != null ? mCategoriesViewModel.getParent().getId() : null;
-                mPresenter.loadCategories(/*parentId, false*/);
-//                Integer categoryId = mAchievementsViewModel.getCategory() != null ? mAchievementsViewModel.getCategory().getId() : null;
-//                mPresenter.loadAchievements(categoryId, false);
-
-                return true;
-            }
-        });
-
-        popup.show();
     }
 
     @Override

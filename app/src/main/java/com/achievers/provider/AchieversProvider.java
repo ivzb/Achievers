@@ -26,11 +26,6 @@ import java.util.Arrays;
 import static com.achievers.util.LogUtils.LOGV;
 import static com.achievers.util.LogUtils.makeLogTag;
 
-/**
- * {@link android.content.ContentProvider} that stores {@link AchieversContract} data. Data is
- * usually inserted by {@link com.achievers.sync.SyncIntentService}, and queried using
- * {@link android.app.LoaderManager} pattern.
- */
 public class AchieversProvider extends ContentProvider {
 
     private static final String TAG = makeLogTag(AchieversProvider.class);

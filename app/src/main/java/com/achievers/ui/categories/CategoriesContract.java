@@ -41,10 +41,6 @@ public class CategoriesContract {
 
 //        void openCategoryDetails(@NonNull Category requestedCategory, OpenAchievementCallback callback);
 
-        void setFiltering(CategoriesFilterType requestType);
-
-        CategoriesFilterType getFiltering();
-
 //        OpenAchievementCallback getOpenAchievementCallback();
 
 //        boolean navigateToPreviousCategory();

@@ -1,29 +1,19 @@
 package com.achievers.ui.categories;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.RecyclerView;
 
 import com.achievers.data.source.categories.CategoriesLoaderProvider;
 import com.achievers.data.source.categories.CategoriesRepository;
-import com.achievers.provider.AchieversContract;
-import com.achievers.provider.AchieversDatabase;
-import com.achievers.sync.SyncUtils;
-import com.achievers.ui.achievements.AchievementsActivity;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.entities.Category;
 import com.achievers.data.source.categories.CategoriesDataSource;
 
-import java.util.EmptyStackException;
 import java.util.List;
-import java.util.Stack;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -43,7 +33,6 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
     private final LoaderManager mLoaderManager;
     private final CategoriesDataSource mCategoriesDataSource;
     private final CategoriesContract.View mCategoriesView;
-    private CategoriesFilterType mCurrentFiltering = CategoriesFilterType.ALL_CATEGORIES;
 //    private boolean mFirstLoad;
 //    private Stack<Integer> mCategoriesNavigationState;
 //    private OpenAchievementCallback mOpenAchievementCallback;
@@ -61,7 +50,6 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
         this.mCategoriesDataSource = checkNotNull(categoriesDataSource, "categoriesDataSource cannot be null");
         this.mCategoriesView = checkNotNull(categoriesView, "categoriesView cannot be null!");
 
-//        this.mFirstLoad = true;
 //        this.mCategoriesNavigationState = new Stack<>();
 //        this.mOpenAchievementCallback = new OpenAchievementCallback() {
 //            @Override
@@ -75,9 +63,6 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
 
     @Override
     public void start() {
-//        mLoaderManager.initLoader(ID_CATEGORIES_LOADER, null, this);
-
-//        SyncUtils.startSync(mContext, AchieversContract.Categories.buildCategoriesUri());
         loadCategories();
     }
 
@@ -158,20 +143,6 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
 //        // saving first parent as -1 because stack cant handle nulls
 ////        mCategoriesNavigationState.add(requestedCategory.getParent() == null || requestedCategory.getParent().getId() == null ? -1 : requestedCategory.getParent().getId());
 //    }
-    /**
-     * Sets the current category filtering type.
-     *
-     * @param requestType Can be {@link CategoriesFilterType#ALL_CATEGORIES}
-     */
-    @Override
-    public void setFiltering(CategoriesFilterType requestType) {
-        mCurrentFiltering = requestType;
-    }
-
-    @Override
-    public CategoriesFilterType getFiltering() {
-        return mCurrentFiltering;
-    }
 
 //    @Override
 //    public OpenAchievementCallback getOpenAchievementCallback() {
