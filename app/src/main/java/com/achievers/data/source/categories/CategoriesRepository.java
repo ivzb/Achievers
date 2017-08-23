@@ -46,11 +46,11 @@ public class CategoriesRepository extends BaseRepository<CategoriesDataSource> i
     }
 
     @Override
-    public void load(@NonNull final LoadCallback<Category> callback) {
+    public void load(final Integer parentId, @NonNull final LoadCallback<Category> callback) {
         checkNotNull(callback);
 
         // Load from server
-        mRemoteDataSource.load(new LoadCallback<Category>() {
+        mRemoteDataSource.load(parentId, new LoadCallback<Category>() {
             @Override
             public void onSuccess(List<Category> categories) {
                 save(categories);

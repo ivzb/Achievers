@@ -11,18 +11,8 @@ import retrofit2.http.Path;
 public interface CategoriesAPI {
 
     @GET("Categories/Details/{id}")
-    Call<Category> getCategory(
-            @Path("id") int id
-    );
+    Call<Category> getCategory(@Path("id") int id);
 
-    @GET("Categories/Get/1")
-    Call<List<Category>> loadCategories();
-
-//    @GET("Categories/Children/null")
-//    Call<List<Category>> loadRootChildren();
-//
-//    @GET("Categories/Children/{id}")
-//    Call<List<Category>> loadChildren(
-//            @Path("id") Integer id
-//    );
+    @GET("Categories/Children/{parentId}")
+    Call<List<Category>> loadChildren(@Path("parentId") String parentId);
 }

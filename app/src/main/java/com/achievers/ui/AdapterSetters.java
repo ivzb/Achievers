@@ -133,7 +133,8 @@ public class AdapterSetters {
             @Override
             public void onRefresh() {
                 //Integer parentId = parent != null ? parent.getId() : null;
-                presenter.loadCategories(/*parentId, true*/);
+                // todo: refresh accurate parent
+                presenter.loadCategories(null);
             }
         });
     }

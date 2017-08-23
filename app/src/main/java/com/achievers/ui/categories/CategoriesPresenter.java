@@ -24,7 +24,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class CategoriesPresenter implements CategoriesContract.Presenter,
         LoaderManager.LoaderCallbacks<Cursor>,
         LoadCallback<Category>,
-        CategoriesRepository.LoadDataCallback {
+        CategoriesRepository.LoadDataCallback,
+        CategoriesContract.Presenter.OpenAchievementCallback {
 
     private static final int CATEGORIES_LOADER_ID = 1;
 
@@ -33,9 +34,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
     private final LoaderManager mLoaderManager;
     private final CategoriesDataSource mCategoriesDataSource;
     private final CategoriesContract.View mCategoriesView;
-//    private boolean mFirstLoad;
 //    private Stack<Integer> mCategoriesNavigationState;
-//    private OpenAchievementCallback mOpenAchievementCallback;
 
     public CategoriesPresenter(
             @NonNull Context context,
@@ -62,8 +61,13 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
     }
 
     @Override
+    public void onOpen(Integer categoryId) {
+        // load new category
+    }
+
+    @Override
     public void start() {
-        loadCategories();
+        loadCategories(null);
     }
 
     @Override
@@ -75,15 +79,9 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
     }
 
     @Override
-    public void loadCategories(/*Integer parentId, boolean forceUpdate*/) {
-        // a network reload will be forced on first load.
-        //this.loadCategories(parentId, forceUpdate || this.mFirstLoad, true, this.getOpenAchievementCallback());
-
-        //this.mFirstLoad = false;
-
+    public void loadCategories(Integer parentId) {
         mCategoriesView.setLoadingIndicator(true);
-
-        mCategoriesDataSource.load(this);
+        mCategoriesDataSource.load(parentId, this);
     }
 
     //    /**
@@ -133,16 +131,15 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
 //        });
 //    }
 
-//    @Override
-//    public void openCategoryDetails(@NonNull Category requestedCategory, OpenAchievementCallback callback) {
-//        checkNotNull(requestedCategory, "requestedCategory cannot be null!");
-//        checkNotNull(callback, "callback cannot be null!");
-//
-////        this.loadCategories(requestedCategory.getId(), true, true, callback);
-//
-//        // saving first parent as -1 because stack cant handle nulls
-////        mCategoriesNavigationState.add(requestedCategory.getParent() == null || requestedCategory.getParent().getId() == null ? -1 : requestedCategory.getParent().getId());
-//    }
+    @Override
+    public void openCategory(@NonNull Category requestedCategory) {
+        checkNotNull(requestedCategory, "requestedCategory cannot be null!");
+
+        this.loadCategories(requestedCategory.getId());
+
+        // saving first parent as -1 because stack cant handle nulls
+//        mCategoriesNavigationState.add(requestedCategory.getParent() == null || requestedCategory.getParent().getId() == null ? -1 : requestedCategory.getParent().getId());
+    }
 
 //    @Override
 //    public OpenAchievementCallback getOpenAchievementCallback() {
@@ -209,10 +206,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
     @Override
     public void onDataLoaded(Cursor data) {
         mCategoriesView.setLoadingIndicator(false);
-        // Show the list of tasks
         mCategoriesView.showCategories(data);
-        // Set the filter label's text.
-//        showFilterLabel();
     }
 
     @Override

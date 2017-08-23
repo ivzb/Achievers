@@ -53,7 +53,6 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     public void onResume() {
         super.onResume();
         this.mPresenter.start();
-//        this.mPresenter.loadCategories(null, true);
     }
 
     @Override
@@ -94,7 +93,8 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
         switch (item.getItemId()) {
             case R.id.menu_refresh:
                 Integer parentId = mCategoriesViewModel.getParent() != null ? mCategoriesViewModel.getParent().getId() : null;
-                mPresenter.loadCategories(/*parentId, true*/);
+                // todo: refresh current categories, do not reset to null
+                mPresenter.loadCategories(null);
 //                Integer categoryId = mAchievementsViewModel.getCategory() != null ? mAchievementsViewModel.getCategory().getId() : null;
 //                mPresenter.loadAchievements(categoryId, true);
                 break;
@@ -128,13 +128,10 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
 
     @Override
     public void showCategories(Cursor cursor) {
-//        CategoriesAdapter adapter = new CategoriesAdapter(categories, mPresenter);
-//        mCategoriesViewModel.setCursor(cursor);
-
-
         mCategoriesViewModel.setCursor(cursor);
 
-        mCategoriesViewModel.setCategoriesListSize(CursorUtils.getSize(cursor));
+        int cursorSize = CursorUtils.getSize(cursor);
+        mCategoriesViewModel.setCategoriesListSize(cursorSize);
     }
 
     @Override

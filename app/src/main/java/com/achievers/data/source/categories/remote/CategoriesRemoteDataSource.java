@@ -41,13 +41,13 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
     }
 
     @Override
-    public void load(@NonNull final LoadCallback<Category> callback) {
+    public void load(final Integer parentId, @NonNull final LoadCallback<Category> callback) {
         this.apiService
-            .loadCategories()
+            .loadChildren(String.valueOf(parentId))
             .enqueue(new Callback<List<Category>>() {
                 @Override
                 public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
-                    processResponse(response, callback, GeneralErrorMessage);
+                    processResponse(response, callback);
                 }
 
                 @Override
@@ -67,7 +67,7 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
         call.enqueue(new Callback<Category>() {
             @Override
             public void onResponse(Call<Category> call, Response<Category> response) {
-                processResponse(response, callback, GeneralErrorMessage);
+                processResponse(response, callback);
             }
 
             @Override
@@ -84,13 +84,12 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
 
     private <T> void processResponse(
             final Response<T> response,
-            final BaseCallback<T> callback,
-            final String errorMessage) {
+            final BaseCallback<T> callback) {
 
         int statusCode = response.code();
 
         if (statusCode != 200) {
-            callback.onFailure(errorMessage);
+            callback.onFailure(GeneralErrorMessage);
             return;
         }
 

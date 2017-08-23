@@ -12,7 +12,7 @@ public interface CategoriesDataSource {
 
     void get(int id, @NonNull GetCallback<Category> callback);
 
-    void load(@NonNull LoadCallback<Category> callback);
+    void load(Integer parentId, @NonNull LoadCallback<Category> callback);
 
     void save(@NonNull List<Category> categories);
 }

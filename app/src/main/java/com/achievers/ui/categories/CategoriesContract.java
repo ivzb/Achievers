@@ -29,17 +29,17 @@ public class CategoriesContract {
 
     public interface Presenter {
 
-//        interface OpenAchievementCallback {
-//            void onOpen(Integer categoryId);
-//        }
+        interface OpenAchievementCallback {
+            void onOpen(Integer categoryId);
+        }
 
         void start();
 
         void result(int requestCode, int resultCode);
 
-        void loadCategories(/*Integer parentId, boolean forceUpdate*/);
+        void loadCategories(Integer parentId);
 
-//        void openCategoryDetails(@NonNull Category requestedCategory, OpenAchievementCallback callback);
+        void openCategory(@NonNull Category requestedCategory);
 
 //        OpenAchievementCallback getOpenAchievementCallback();
 
