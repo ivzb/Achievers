@@ -23,7 +23,6 @@ public class EvidenceRemoteDataSource implements EvidenceDataSource {
     private static EvidenceRemoteDataSource INSTANCE;
 
     private EvidenceAPI apiService;
-    private final int pageSize = RESTClient.getPageSize();
 
     public static EvidenceRemoteDataSource getInstance() {
         if (INSTANCE == null) INSTANCE = new EvidenceRemoteDataSource();

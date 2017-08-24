@@ -76,7 +76,7 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
                 if (showLoadingUI) mAchievementsView.setLoadingIndicator(false);
 
                 mPages.put(category.getId(), currentPage + 1); // current category page++
-                if (achievements.size() < RESTClient.getPageSize()) mNoMoreData.put(category.getId(), true); // no more data for this categoryId
+//                if (achievements.size() < RESTClient.getPageSize()) mNoMoreData.put(category.getId(), true); // no more data for this categoryId
 
                 mAchievementsView.showAchievements(category, achievements);
             }

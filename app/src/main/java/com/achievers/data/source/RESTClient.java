@@ -10,25 +10,13 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RESTClient {
+
     private static Retrofit RETROFIT;
     private final static String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
-    private final static int PAGE_SIZE = 21;
 
     public static Retrofit getClient() {
         if (RETROFIT == null) {
-            Gson gson = new GsonBuilder()
-                    .setDateFormat(DATE_FORMAT)
-                    .create();
-
-            OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                    .addNetworkInterceptor(new StethoInterceptor())
-                    .build();
-
-            RETROFIT = new Retrofit.Builder()
-                    .client(okHttpClient)
-                    .baseUrl(BuildConfig.BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .build();
+            initClient();
         }
 
         return RETROFIT;
@@ -38,10 +26,24 @@ public class RESTClient {
         RETROFIT = null;
     }
 
-    public static int getPageSize() {
-        return PAGE_SIZE;
+    private static void initClient() {
+        Gson gson = new GsonBuilder()
+                .setDateFormat(DATE_FORMAT)
+                .create();
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addNetworkInterceptor(new StethoInterceptor())
+                .build();
+
+        RETROFIT = new Retrofit.Builder()
+                .client(okHttpClient)
+                .baseUrl(BuildConfig.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
     }
 
     // Prevent direct instantiation.
-    private RESTClient() {}
+    private RESTClient() {
+
+    }
 }

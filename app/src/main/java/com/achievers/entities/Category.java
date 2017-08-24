@@ -18,14 +18,13 @@ import java.util.Date;
 // by the annotation processor. Parceler must be made aware of this class. Note that
 // the class is not available until the project has been compiled at least once.
 @Parcel(
-//        implementations = { CategoryRealmProxy.class },
-        value = Parcel.Serialization.BEAN,
-        analyze = { Category.class })
+    value = Parcel.Serialization.BEAN,
+    analyze = { Category.class })
 public class Category {
 
     @SerializedName("id")
     @NonNull
-    private Integer id;
+    private int id;
 
     @SerializedName("title")
     @NonNull
@@ -62,7 +61,7 @@ public class Category {
         this.parentId = parentId;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -120,7 +119,7 @@ public class Category {
 
         Category other = (Category) o;
 
-        return this.getId().equals(other.getId());
+        return this.getId() == other.getId() && this.getParentId() == other.getParentId();
     }
 
     @Override

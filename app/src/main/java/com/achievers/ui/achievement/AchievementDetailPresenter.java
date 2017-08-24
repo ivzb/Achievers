@@ -104,7 +104,7 @@ public class AchievementDetailPresenter implements AchievementDetailContract.Pre
 
 //                mAchievementDetailView.showEvidence(evidence);
                 mPages.put(achievementId, currentPage + 1); // current category page++
-                if (evidence.size() < RESTClient.getPageSize()) mNoMoreData.put(achievementId, true); // no more data for this categoryId
+//                if (evidence.size() < RESTClient.getPageSize()) mNoMoreData.put(achievementId, true); // no more data for this categoryId
 
                 mAchievementDetailView.showEvidence(evidence);
             }

@@ -23,7 +23,6 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
     private static AchievementsRemoteDataSource INSTANCE;
 
     private AchievementsAPI apiService;
-    private final int pageSize = RESTClient.getPageSize();
 
     public static AchievementsRemoteDataSource getInstance() {
         if (INSTANCE == null) INSTANCE = new AchievementsRemoteDataSource();
