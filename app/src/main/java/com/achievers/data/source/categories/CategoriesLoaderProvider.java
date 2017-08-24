@@ -19,10 +19,10 @@ public class CategoriesLoaderProvider {
         mContext = checkNotNull(context, "context cannot be null");
     }
 
-    public Loader<Cursor> createCategoriesLoader() {
+    public Loader<Cursor> createCategoriesLoader(String parentId) {
         return new CursorLoader(
                 mContext,
-                AchieversContract.Categories.buildCategoriesUri(),
+                AchieversContract.Categories.buildCategoriesByParentUri(parentId),
                 AchieversContract.Categories.COLUMNS,
                 null, null, null);
     }

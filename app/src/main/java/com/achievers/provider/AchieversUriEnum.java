@@ -14,7 +14,7 @@ package com.achievers.provider;
  */
 public enum AchieversUriEnum {
     CATEGORIES(100, "categories", AchieversContract.Categories.CONTENT_TYPE_ID, false, AchieversDatabase.Tables.CATEGORIES),
-    CATEGORIES_ID(102, "categories/*", AchieversContract.Categories.CONTENT_TYPE_ID, true, null),
+    CATEGORIES_BY_PARENT_ID(101, "categories/*", AchieversContract.Categories.CONTENT_TYPE_ID, true, null),
     ACHIEVEMENTS(200, "achievements", AchieversContract.Achievements.CONTENT_TYPE_ID, false, AchieversDatabase.Tables.ACHIEVEMENTS),
     ACHIEVEMENTS_ID(201, "achievements/*", AchieversContract.Achievements.CONTENT_TYPE_ID, false, null),
     EVIDENCE(300, "evidence", AchieversContract.Achievements.CONTENT_TYPE_ID, false, AchieversDatabase.Tables.EVIDENCE),

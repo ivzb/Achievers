@@ -113,12 +113,12 @@ public class AchieversContract {
         }
 
         /** Build a {@link Uri} that references a given tag. */
-        public static Uri buildCategoryUri(String categoryId) {
-            return CONTENT_URI.buildUpon().appendPath(categoryId).build();
+        public static Uri buildCategoriesByParentUri(String parentId) {
+            return CONTENT_URI.buildUpon().appendPath(parentId).build();
         }
 
         /** Read {@link #CATEGORY_ID} from {@link Categories} {@link Uri}. */
-        public static String getCategoryId(Uri uri) {
+        public static String getCategoryParentId(Uri uri) {
             return uri.getPathSegments().get(1);
         }
     }

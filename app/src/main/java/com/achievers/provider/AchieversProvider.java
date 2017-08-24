@@ -123,16 +123,13 @@ public class AchieversProvider extends ContentProvider {
 
         switch (matchingUriEnum) {
             case CATEGORIES: {
-                return Categories.buildCategoryUri(
-                        values.getAsString(Categories.CATEGORY_ID));
+                return Categories.buildCategoriesUri();
             }
             case ACHIEVEMENTS: {
-                return AchieversContract.Achievements.buildAchievementUri(
-                        values.getAsString(Achievements.ACHIEVEMENT_ID));
+                return AchieversContract.Achievements.buildAchievementsUri();
             }
             case EVIDENCE: {
-                return AchieversContract.Evidence.buildEvidenceUri(
-                        values.getAsString(AchieversContract.Evidence.EVIDENCE_ID));
+                return AchieversContract.Evidence.buildEvidenceUri();
             }
             default: {
                 throw new UnsupportedOperationException("Unknown insert uri: " + uri);
@@ -226,10 +223,10 @@ public class AchieversProvider extends ContentProvider {
             case ACHIEVEMENTS:
             case EVIDENCE:
                 return builder.table(matchingUriEnum.table);
-            case CATEGORIES_ID: {
-                final String categoryId = Categories.getCategoryId(uri);
+            case CATEGORIES_BY_PARENT_ID: {
+                final String categoryParentId = Categories.getCategoryParentId(uri);
                 return builder.table(Tables.CATEGORIES)
-                        .where(Categories.CATEGORY_ID + "=?", categoryId);
+                        .where(Categories.CATEGORY_PARENT_ID + "=?", categoryParentId);
             }
             case ACHIEVEMENTS_ID: {
                 final String achievementId = Achievements.getAchievementId(uri);
@@ -262,11 +259,11 @@ public class AchieversProvider extends ContentProvider {
             case CATEGORIES: {
                 return builder.table(Tables.CATEGORIES);
             }
-            case CATEGORIES_ID: {
-                final String categoryId = AchieversContract.Categories.getCategoryId(uri);
+            case CATEGORIES_BY_PARENT_ID: {
+                final String categoryParentId = AchieversContract.Categories.getCategoryParentId(uri);
 
                 return builder.table(Tables.CATEGORIES)
-                        .where(Categories.CATEGORY_ID + "=?", categoryId);
+                        .where(Categories.CATEGORY_PARENT_ID + "=?", categoryParentId);
             }
             case ACHIEVEMENTS: {
                 return builder.table(Tables.ACHIEVEMENTS);

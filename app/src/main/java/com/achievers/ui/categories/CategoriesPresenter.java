@@ -23,11 +23,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class CategoriesPresenter implements CategoriesContract.Presenter,
         LoaderManager.LoaderCallbacks<Cursor>,
-        LoadCallback<Category>,
         CategoriesRepository.LoadDataCallback,
         CategoriesContract.Presenter.OpenAchievementCallback {
 
     private static final int CATEGORIES_LOADER_ID = 1;
+    private static final String PARENT_ID_KEY = "parent_id";
 
     private final Context mContext;
     private final CategoriesLoaderProvider mLoaderProvider;
@@ -79,57 +79,31 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
     }
 
     @Override
-    public void loadCategories(Integer parentId) {
+    public void loadCategories(final Integer parentId) {
         mCategoriesView.setLoadingIndicator(true);
-        mCategoriesDataSource.load(parentId, this);
-    }
 
-    //    /**
-//     * @param forceUpdate   Pass in true to refresh the data in the {@link CategoriesDataSource}
-//     * @param showLoadingUI Pass in true to display a loading icon in the UI
-//     */
-//    private void loadCategories(
-//            final Integer parentCategoryId,
-//            boolean forceUpdate,
-//            final boolean showLoadingUI,
-//            final OpenAchievementCallback callback) {
-//
-//        if (showLoadingUI) mCategoriesView.setLoadingIndicator(true);
-//
-//        mCategoriesDataSource.loadCategories(new LoadCallback<Category>() {
-//            @Override
-//            public void onSuccess(List<Category> categories) {
-//                // TODO: Fix filtering
-////                List<Category> categoriesToShow = new ArrayList<>();
-////
-//                // filter the categories based on the requestType
-////                for (Category category: categories) {
-////                    switch (mCurrentFiltering) {
-////                        case ALL_CATEGORIES:
-////                            categories.add(category);
-////                            break;
-////                    }
-////                }
-//
-//                // The view may not be able to handle UI updates anymore
-//                if (!mCategoriesView.isActive()) return;
-//                if (showLoadingUI) mCategoriesView.setLoadingIndicator(false);
-//
-//                mCategoriesView.showCategories(categories);
-//            }
-//
-//            @Override
-//            public void onFailure(String message) {
-//                // The view may not be able to handle UI updates anymore
-//                if (!mCategoriesView.isActive()) return;
-//                mCategoriesView.showLoadingCategoriesError();
-//                if (showLoadingUI) mCategoriesView.setLoadingIndicator(false);
-//                if (mCategoriesNavigationState.size() > 0) mCategoriesNavigationState.pop();
-//
-//                // TODO: show error message
-//            }
-//        });
-//    }
+        mCategoriesDataSource.load(parentId, new LoadCallback<Category>() {
+            @Override
+            public void onSuccess(List<Category> data) {
+                Bundle args = new Bundle();
+                args.putString(PARENT_ID_KEY, String.valueOf(parentId));
+
+                // we don't care about the result since the CursorLoader will load the data for us
+                if (mLoaderManager.getLoader(CATEGORIES_LOADER_ID) == null) {
+                    mLoaderManager.initLoader(CATEGORIES_LOADER_ID, args, CategoriesPresenter.this);
+                    return;
+                }
+
+                mLoaderManager.restartLoader(CATEGORIES_LOADER_ID, args, CategoriesPresenter.this);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                mCategoriesView.setLoadingIndicator(false);
+                mCategoriesView.showLoadingCategoriesError(message);
+            }
+        });
+    }
 
     @Override
     public void openCategory(@NonNull Category requestedCategory) {
@@ -164,25 +138,9 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
 //    }
 
     @Override
-    public void onSuccess(List<Category> data) {
-        // we don't care about the result since the CursorLoader will load the data for us
-        if (mLoaderManager.getLoader(CATEGORIES_LOADER_ID) == null) {
-            mLoaderManager.initLoader(CATEGORIES_LOADER_ID, null, this);
-            return;
-        }
-
-        mLoaderManager.restartLoader(CATEGORIES_LOADER_ID, null, this);
-    }
-
-    @Override
-    public void onFailure(String message) {
-        mCategoriesView.setLoadingIndicator(false);
-        mCategoriesView.showLoadingCategoriesError(message);
-    }
-
-    @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return mLoaderProvider.createCategoriesLoader();
+        String parentId = args.getString(PARENT_ID_KEY, null);
+        return mLoaderProvider.createCategoriesLoader(parentId);
     }
 
     @Override

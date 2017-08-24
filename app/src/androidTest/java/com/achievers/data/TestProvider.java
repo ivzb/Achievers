@@ -142,6 +142,34 @@ public class TestProvider {
     }
 
     @Test
+    public void testCategoryParentQuery() {
+        String tableName = AchieversContract.Categories.TABLE_NAME;
+        ContentValues contentValues = TestUtilities.createTestCategoryContentValues(ID_TO_INSERT, true);
+
+        AchieversDatabase dbHelper = new AchieversDatabase(InstrumentationRegistry.getTargetContext());
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+
+        long rowId = database.insert(
+                tableName,
+                null,
+                contentValues);
+
+        String insertFailed = "Unable to insert into the database";
+        assertTrue(insertFailed, rowId != -1);
+
+        database.close();
+
+        Cursor cursor = mContext.getContentResolver().query(
+                AchieversContract.Categories.buildCategoriesByParentUri(String.valueOf(contentValues.get(AchieversContract.Categories.CATEGORY_ID))),
+                null, null, null, null);
+
+        /* This method will ensure that we  */
+        TestUtilities.validateThenCloseCursor("testBasicQuery",
+                cursor,
+                contentValues);
+    }
+
+    @Test
     public void testBulkInsertCategories() {
         ContentValues[] bulkInsertContentValues = createBulkInsertTestCategoryValues();
         Uri insertUri = AchieversContract.Categories.buildCategoriesUri();
