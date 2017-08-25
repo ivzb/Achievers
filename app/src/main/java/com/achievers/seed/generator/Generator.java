@@ -8,5 +8,5 @@ import java.util.Locale;
 public interface Generator<T> {
 
     T single();
-    List<T> multiple(int size);
+    List<T> multiple(int[] sizes);
 }

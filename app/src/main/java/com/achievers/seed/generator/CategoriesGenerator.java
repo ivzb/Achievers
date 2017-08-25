@@ -10,8 +10,9 @@ import io.bloco.faker.Faker;
 
 public class CategoriesGenerator implements Generator<Category> {
 
-    private static final int InitialId = 1;
-    private static final int ChildrenCount = 3;
+    private static final int InitialIndex = 0;
+    private static final int InitialId = 0;
+    private static final Integer RootParent = null;
     private static final String RandomImagePath = "https://unsplash.it/500/500/?random&a=%d";
 
     private final Faker mFaker;
@@ -22,27 +23,52 @@ public class CategoriesGenerator implements Generator<Category> {
 
     @Override
     public Category single() {
-        return generateCategory(InitialId, null);
+        return generateCategory(InitialId + 1, null);
     }
 
     @Override
-    public List<Category> multiple(int size) {
-        return generateCategories(size, InitialId, new ArrayList<Category>());
+    public List<Category> multiple(int[] sizes) {
+        return generate(
+                sizes,
+                0,
+                0,
+                RootParent,
+                new ArrayList<Category>());
     }
 
-    private List<Category> generateCategories(int size, int lastId, List<Category> generated) {
-        if (size == 0) return generated;
+    private List<Category> generate(
+            int[] sizes,
+            int row,
+            int col,
+            Integer parentId,
+            List<Category> generated) {
 
-        Category parent = generateCategory(lastId++, null);
+//        if (currentSize > 0) {
+//        for (int size = 0; size < sizes[index]; size++) {
+        int lastId = 0;
 
-        for (int i = 0; i < ChildrenCount; i++) {
-            Category child = generateCategory(lastId++, parent.getId());
-            generated.add(child);
+        if (generated.size() > 0) lastId = generated.get(generated.size() - 1).getId();
+        Category category = generateCategory(lastId + 1, parentId);
+        generated.add(category);
 
-            //for (int j = 0; j < 3; j++) GenerateCategory(child);
+//        if (sizes.length > row + 1) {
+//            generated.addAll(generate(sizes, row + 1, 0, category.getId(), generated));
+//        }
+
+        if (sizes[row] > col + 1) {
+            generated.addAll(generate(sizes, row, col + 1, parentId, generated));
         }
 
-        return generateCategories(--size, lastId, generated);
+//        if (sizes.length > row + 1) {
+//            List<Category> inner = generate(sizes, row + 1, 0, lastId, category.getId(), generated);
+//            generated.addAll(inner);
+//        }
+//        }
+
+//        }
+
+//        return generate(sizes, row, ++col, lastId, parentId, generated);
+        return generated;
     }
 
     private Category generateCategory(int id, Integer parentId) {

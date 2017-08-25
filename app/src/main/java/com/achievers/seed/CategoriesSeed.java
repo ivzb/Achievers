@@ -31,10 +31,10 @@ public class CategoriesSeed implements Seed<Category> {
 //                RandomImagePath,
 //                mFaker.number.between(0, 100));
 
-        if (shouldGenerate()) {
-            Generator<Category> generator = new CategoriesGenerator();
-            mEntities = generator.multiple(RootCategoriesCount);
-        }
+//        if (shouldGenerate()) {
+//            Generator<Category> generator = new CategoriesGenerator();
+//            mEntities = generator.multiple(RootCategoriesCount);
+//        }
 
         return mEntities;
     }

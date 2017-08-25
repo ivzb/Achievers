@@ -39,11 +39,9 @@ public class Category {
     private String imageUrl;
 
     @SerializedName("parent")
-    @NonNull
     private Category parent;
 
     @SerializedName("parentId")
-    @NonNull
     private Integer parentId;
 
     @SerializedName("createdOn")
@@ -51,6 +49,11 @@ public class Category {
     private Date createdOn;
 
     public Category() { }
+
+    public Category(int id, Integer parentId) {
+        this.id = id;
+        this.parentId = parentId;
+    }
 
     public Category(int id, String title, String description,
                     String imageUrl, Integer parentId) {
@@ -119,16 +122,20 @@ public class Category {
 
         Category other = (Category) o;
 
-        return this.getId() == other.getId() && this.getParentId() == other.getParentId();
+        if (id != other.id) return false;
+        return Objects.equal(parentId, other.parentId);
+
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, title, description);
+        int result = id;
+        result = 31 * result + parentId.hashCode();
+        return result;
     }
 
     @Override
     public String toString() {
-        return "Category #" + this.getId() + " with title: " + this.getTitle() + " and description: " + this.getDescription();
+        return "(id: " + this.getId() + ", parent_id: " + this.getParentId() + ")";
     }
 }
