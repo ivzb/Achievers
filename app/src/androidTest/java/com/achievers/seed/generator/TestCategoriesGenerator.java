@@ -45,53 +45,41 @@ public class TestCategoriesGenerator {
     }
 
     @Test
-    public void testMultipleParent1Child0() {
-        int[] sizes = new int[] { 1 };
-        testMultiple(sizes);
+    public void testMultipleInOneDimension() {
+        for (int i = 1; i < 10; i++) {
+            testMultiple(new int[]{ i });
+        }
     }
 
     @Test
-    public void testMultipleParent2Child0() {
-        int[] sizes = new int[] { 2 };
-        testMultiple(sizes);
+    public void testMultipleInOneDimensions() {
+        for (int i = 1; i < 10; i++) {
+            for (int j = 1; j < 10; j++) {
+                testMultiple(new int[]{ i, j });
+            }
+        }
     }
 
     @Test
-    public void testMultipleParent3Child0() {
-        int[] sizes = new int[] { 3 };
-        testMultiple(sizes);
+    public void testMultipleInThreeDimensions() {
+        for (int i = 1; i < 10; i++) {
+            for (int j = 1; j < 10; j++) {
+                for (int k = 1; k < 10; k++) {
+                    testMultiple(new int[]{ i, j, k });
+                }
+            }
+        }
     }
 
     @Test
-    public void testMultipleParent1Child1() {
-        int[] sizes = new int[] { 1, 1 };
-        testMultiple(sizes);
-    }
-
-    @Test
-    public void testMultipleParent1Child3() {
-        int[] sizes = new int[] { 1, 3 };
-        testMultiple(sizes);
-    }
-
-    @Test
-    public void testMultipleParent5Child5() {
-        int[] sizes = new int[] { 3, 5 };
-        testMultiple(sizes);
-    }
-
-    @Test
-    public void testMultipleParent2Child3Child4() {
-        int[] sizes = new int[] { 2, 3, 4 };
-
-        testMultiple(sizes);
-    }
-
-    @Test
-    public void testMultipleParent2Child3Child45() {
-        int[] sizes = new int[] { 2, 3, 4, 5 };
-
-        testMultiple(sizes);
+    public void testMultipleInFourDimensions() {
+        for (int i = 1; i < 10; i++) {
+            for (int j = 1; j < 10; j++) {
+                for (int k = 1; k < 10; k++) {
+                    testMultiple(new int[]{ i, j, k, 5 });
+                }
+            }
+        }
     }
 
     private List<Category> generateOneDimensions(int[] sizes) {
@@ -114,10 +102,9 @@ public class TestCategoriesGenerator {
         for (int i = 0; i < sizes[0]; i++) {
             Category root = new Category(++lastId, null);
             expected.add(root);
-            Integer parentId = root.getId();
 
             for (int j = 0; j < sizes[1]; j++) {
-                expected.add(new Category(++lastId, parentId));
+                expected.add(new Category(++lastId, root.getId()));
             }
         }
 
@@ -132,15 +119,13 @@ public class TestCategoriesGenerator {
         for (int i = 0; i < sizes[0]; i++) {
             Category root = new Category(++lastId, null);
             expected.add(root);
-            Integer parentId = root.getId();
 
             for (int j = 0; j < sizes[1]; j++) {
-                Category child = new Category(++lastId, parentId);
+                Category child = new Category(++lastId, root.getId());
                 expected.add(child);
-                Integer childParentId = child.getId();
 
                 for (int k = 0; k < sizes[2]; k++) {
-                    expected.add(new Category(++lastId, childParentId));
+                    expected.add(new Category(++lastId, child.getId()));
                 }
             }
         }
@@ -156,20 +141,17 @@ public class TestCategoriesGenerator {
         for (int i = 0; i < sizes[0]; i++) {
             Category root = new Category(++lastId, null);
             expected.add(root);
-            Integer parentId = root.getId();
 
             for (int j = 0; j < sizes[1]; j++) {
-                Category child = new Category(++lastId, parentId);
+                Category child = new Category(++lastId, root.getId());
                 expected.add(child);
-                Integer childParentId = child.getId();
 
                 for (int k = 0; k < sizes[2]; k++) {
-                    Category childChild = new Category(++lastId, childParentId);
+                    Category childChild = new Category(++lastId, child.getId());
                     expected.add(childChild);
-                    Integer childChildParentId = childChild.getId();
 
                     for (int l = 0; l < sizes[3]; l++) {
-                        expected.add(new Category(++lastId, childChildParentId));
+                        expected.add(new Category(++lastId, childChild.getId()));
                     }
                 }
             }
