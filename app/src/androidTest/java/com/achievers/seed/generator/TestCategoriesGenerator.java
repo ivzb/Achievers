@@ -47,167 +47,153 @@ public class TestCategoriesGenerator {
     @Test
     public void testMultipleParent1Child0() {
         int[] sizes = new int[] { 1 };
-        int lastId = 0;
-
-        List<Category> expected = new ArrayList<>();
-        Integer parentId = null;
-        expected.add(new Category(++lastId, parentId));
-
-        testMultiple(expected, sizes);
+        testMultiple(sizes);
     }
 
     @Test
     public void testMultipleParent2Child0() {
         int[] sizes = new int[] { 2 };
-        int lastId = 0;
-
-        List<Category> expected = new ArrayList<>();
-        Integer parentId = null;
-        expected.add(new Category(++lastId, parentId));
-        expected.add(new Category(++lastId, parentId));
-
-        testMultiple(expected, sizes);
+        testMultiple(sizes);
     }
 
     @Test
     public void testMultipleParent3Child0() {
         int[] sizes = new int[] { 3 };
-        int lastId = 0;
-
-        List<Category> expected = new ArrayList<>();
-        Integer parentId = null;
-        expected.add(new Category(++lastId, parentId));
-        expected.add(new Category(++lastId, parentId));
-        expected.add(new Category(++lastId, parentId));
-
-        testMultiple(expected, sizes);
+        testMultiple(sizes);
     }
 
     @Test
     public void testMultipleParent1Child1() {
         int[] sizes = new int[] { 1, 1 };
-        int lastId = 0;
-
-        List<Category> expected = new ArrayList<>();
-        Integer parentId = null;
-        expected.add(new Category(++lastId, parentId));
-
-        parentId = lastId;
-        expected.add(new Category(++lastId, parentId));
-
-        testMultiple(expected, sizes);
+        testMultiple(sizes);
     }
 
     @Test
     public void testMultipleParent1Child3() {
         int[] sizes = new int[] { 1, 3 };
-        int lastId = 0;
-
-        List<Category> expected = new ArrayList<>();
-        Integer parentId = null;
-        expected.add(new Category(++lastId, parentId));
-
-        parentId = lastId;
-        expected.add(new Category(++lastId, parentId));
-        expected.add(new Category(++lastId, parentId));
-        expected.add(new Category(++lastId, parentId));
-
-        testMultiple(expected, sizes);
+        testMultiple(sizes);
     }
 
     @Test
     public void testMultipleParent5Child5() {
         int[] sizes = new int[] { 3, 5 };
-        int lastId = 0;
-
-        List<Category> expected = new ArrayList<>();
-
-        Category root = new Category(++lastId, null);
-        expected.add(root);
-        Integer parentId = root.getId();
-
-        expected.add(new Category(++lastId, parentId));
-        expected.add(new Category(++lastId, parentId));
-        expected.add(new Category(++lastId, parentId));
-        expected.add(new Category(++lastId, parentId));
-        expected.add(new Category(++lastId, parentId));
-
-        root = new Category(++lastId, null);
-        expected.add(root);
-        parentId = root.getId();
-
-        expected.add(new Category(++lastId, parentId));
-        expected.add(new Category(++lastId, parentId));
-        expected.add(new Category(++lastId, parentId));
-        expected.add(new Category(++lastId, parentId));
-        expected.add(new Category(++lastId, parentId));
-
-        root = new Category(++lastId, null);
-        expected.add(root);
-        parentId = root.getId();
-
-        expected.add(new Category(++lastId, parentId));
-        expected.add(new Category(++lastId, parentId));
-        expected.add(new Category(++lastId, parentId));
-        expected.add(new Category(++lastId, parentId));
-        expected.add(new Category(++lastId, parentId));
-
-        testMultiple(expected, sizes);
+        testMultiple(sizes);
     }
 
     @Test
     public void testMultipleParent2Child3Child4() {
         int[] sizes = new int[] { 2, 3, 4 };
 
+        testMultiple(sizes);
+    }
+
+    @Test
+    public void testMultipleParent2Child3Child45() {
+        int[] sizes = new int[] { 2, 3, 4, 5 };
+
+        testMultiple(sizes);
+    }
+
+    private List<Category> generateOneDimensions(int[] sizes) {
         List<Category> expected = new ArrayList<>();
 
         int lastId = 0;
 
-        List<Category> c = add(sizes[0], null, lastId, new ArrayList<Category>());
-        lastId += c.size();
-        expected.addAll(c);
+        for (int i = 0; i < sizes[0]; i++) {
+            expected.add(new Category(++lastId, null));
+        }
 
-        for (int i = 0; i < c.size(); i++) {
-            Integer parentId = c.get(i).getId();
-            List<Category> d = add(sizes[1], parentId, lastId, new ArrayList<Category>());
-            lastId += d.size();
-            expected.addAll(d);
+        return expected;
+    }
 
-            for (int j = 0; j < d.size(); j++) {
-                Integer pId = d.get(j).getId();
-                List<Category> e = add(sizes[2], pId, lastId, new ArrayList<Category>());
-                lastId += e.size();
-                expected.addAll(e);
+    private List<Category> generateTwoDimensions(int[] sizes) {
+        List<Category> expected = new ArrayList<>();
+
+        int lastId = 0;
+
+        for (int i = 0; i < sizes[0]; i++) {
+            Category root = new Category(++lastId, null);
+            expected.add(root);
+            Integer parentId = root.getId();
+
+            for (int j = 0; j < sizes[1]; j++) {
+                expected.add(new Category(++lastId, parentId));
             }
         }
 
-        testMultiple(expected, sizes);
+        return expected;
     }
 
-    private List<Category> add(int n, Integer parentId, int lastId, List<Category> categories) {
-        if (n == 0) return categories;
+    private List<Category> generateThreeDimensions(int[] sizes) {
+        List<Category> expected = new ArrayList<>();
 
-        categories.add(new Category(++lastId, parentId));
+        int lastId = 0;
 
-        return add(--n, parentId, lastId, categories);
+        for (int i = 0; i < sizes[0]; i++) {
+            Category root = new Category(++lastId, null);
+            expected.add(root);
+            Integer parentId = root.getId();
+
+            for (int j = 0; j < sizes[1]; j++) {
+                Category child = new Category(++lastId, parentId);
+                expected.add(child);
+                Integer childParentId = child.getId();
+
+                for (int k = 0; k < sizes[2]; k++) {
+                    expected.add(new Category(++lastId, childParentId));
+                }
+            }
+        }
+
+        return expected;
     }
 
-    private void testMultiple(List<Category> expected, int[] sizes) {
-//        List<Category> expected = new ArrayList<>();
-//
-//        int lastId = 0;
-//        Integer parentId = null;
-//
-//        for (int size: sizes) {
-//            for (int i = 0; i < size; i++) {
-//                Category category = new Category(++lastId, parentId);
-//                expected.add(category);
-//
-//                if (i + 1 == size) {
-//                    parentId = category.getId();
-//                }
-//            }
-//        }
+    private List<Category> generateFourDimensions(int[] sizes) {
+        List<Category> expected = new ArrayList<>();
+
+        int lastId = 0;
+
+        for (int i = 0; i < sizes[0]; i++) {
+            Category root = new Category(++lastId, null);
+            expected.add(root);
+            Integer parentId = root.getId();
+
+            for (int j = 0; j < sizes[1]; j++) {
+                Category child = new Category(++lastId, parentId);
+                expected.add(child);
+                Integer childParentId = child.getId();
+
+                for (int k = 0; k < sizes[2]; k++) {
+                    Category childChild = new Category(++lastId, childParentId);
+                    expected.add(childChild);
+                    Integer childChildParentId = childChild.getId();
+
+                    for (int l = 0; l < sizes[3]; l++) {
+                        expected.add(new Category(++lastId, childChildParentId));
+                    }
+                }
+            }
+        }
+
+        return expected;
+    }
+
+    private void testMultiple(int[] sizes) {
+        List<Category> expected = null;
+
+        switch (sizes.length) {
+            case 1:
+                expected = generateOneDimensions(sizes);
+                break;
+            case 2:
+                expected = generateTwoDimensions(sizes);
+                break;
+            case 3:
+                expected = generateThreeDimensions(sizes);
+                break;
+            case 4:
+                expected = generateFourDimensions(sizes);
+        }
 
         List<Category> actual = mGenerator.multiple(sizes);
 
