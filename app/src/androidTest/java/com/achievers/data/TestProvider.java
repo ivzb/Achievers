@@ -12,6 +12,9 @@ import android.net.Uri;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.achievers.data.source.categories.CategoriesContentValues;
+import com.achievers.entities.Category;
+import com.achievers.generator.CategoriesGenerator;
 import com.achievers.provider.AchieversContract;
 import com.achievers.provider.AchieversDatabase;
 import com.achievers.provider.AchieversProvider;
@@ -144,7 +147,9 @@ public class TestProvider {
     @Test
     public void testCategoryParentQuery() {
         String tableName = AchieversContract.Categories.TABLE_NAME;
-        ContentValues contentValues = TestUtilities.createTestCategoryContentValues(ID_TO_INSERT, true);
+        CategoriesGenerator generator = new CategoriesGenerator();
+        Category category = generator.single(1, null);
+        ContentValues contentValues = CategoriesContentValues.from(category);
 
         AchieversDatabase dbHelper = new AchieversDatabase(InstrumentationRegistry.getTargetContext());
         SQLiteDatabase database = dbHelper.getWritableDatabase();
@@ -159,8 +164,11 @@ public class TestProvider {
 
         database.close();
 
+        String parentId = String.valueOf(category.getParentId());
+        Uri parentUri = AchieversContract.Categories.buildCategoriesByParentUri(parentId);
+
         Cursor cursor = mContext.getContentResolver().query(
-                AchieversContract.Categories.buildCategoriesByParentUri(String.valueOf(contentValues.get(AchieversContract.Categories.CATEGORY_ID))),
+                parentUri,
                 null, null, null, null);
 
         /* This method will ensure that we  */

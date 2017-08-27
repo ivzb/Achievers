@@ -12,7 +12,7 @@ import com.achievers.data.source.categories.CategoriesDataSource;
 import com.achievers.data.source.categories.CategoriesLoaderProvider;
 import com.achievers.data.source.categories.CategoriesRepository;
 import com.achievers.data.source.categories.local.CategoriesLocalDataSource;
-import com.achievers.data.source.categories.remote.CategoriesRemoteDataSource;
+import com.achievers.data.source.categories.remote.CategoriesMockDataSource;
 import com.achievers.ui.base.BaseActivity;
 import com.achievers.R;
 import com.achievers.util.ActivityUtils;
@@ -75,7 +75,7 @@ public class CategoriesActivity extends BaseActivity {
         CategoriesLoaderProvider loaderProvider = new CategoriesLoaderProvider(this);
 
         CategoriesDataSource repository = CategoriesRepository.getInstance(
-                CategoriesRemoteDataSource.getInstance(),
+                CategoriesMockDataSource.getInstance(),
                 CategoriesLocalDataSource.getInstance(getContentResolver()));
 
         mPresenter = new CategoriesPresenter(

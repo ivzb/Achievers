@@ -71,15 +71,27 @@ class TestUtilities {
             assertFalse(columnNotFoundError, index == -1);
 
             /* Test to see if the expected value equals the actual value (from the Cursor) */
-            String expectedValue = entry.getValue().toString();
+            Object expectedValue = entry.getValue();
             String actualValue = valueCursor.getString(index);
 
-            String valuesDontMatchError = "Actual value '" + actualValue
-                    + "' did not match the expected value '" + expectedValue + "'. "
-                    + error;
+            String errorFormat = "Actual value '%s' did not match the expected value '%s'. %s";
+
+            if (expectedValue == null) {
+                assertEquals(String.format(errorFormat, actualValue, "null", error),
+                        null,
+                        actualValue);
+
+                return;
+            }
+
+            String valuesDontMatchError = String.format(
+                    errorFormat,
+                    actualValue,
+                    expectedValue.toString(),
+                    error);
 
             assertEquals(valuesDontMatchError,
-                    expectedValue,
+                    expectedValue.toString(),
                     actualValue);
         }
     }

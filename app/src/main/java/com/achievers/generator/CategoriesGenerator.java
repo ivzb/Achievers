@@ -1,4 +1,4 @@
-package com.achievers.seed.generator;
+package com.achievers.generator;
 
 import com.achievers.entities.Category;
 
@@ -23,8 +23,8 @@ public class CategoriesGenerator implements Generator<Category> {
     }
 
     @Override
-    public Category single() {
-        return generateCategory(InitialId + 1, null);
+    public Category single(int id, Integer parentId) {
+        return generateCategory(id, parentId);
     }
 
     @Override

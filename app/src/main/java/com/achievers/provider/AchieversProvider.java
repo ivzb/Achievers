@@ -262,7 +262,14 @@ public class AchieversProvider extends ContentProvider {
             case CATEGORIES_BY_PARENT_ID: {
                 final String categoryParentId = AchieversContract.Categories.getCategoryParentId(uri);
 
-                return builder.table(Tables.CATEGORIES)
+                SelectionBuilder selectionBuilder = builder.table(Tables.CATEGORIES);
+
+                if (categoryParentId.equals("null")) {
+                    return selectionBuilder
+                            .where(Categories.CATEGORY_PARENT_ID + " IS NULL");
+                }
+
+                return selectionBuilder
                         .where(Categories.CATEGORY_PARENT_ID + "=?", categoryParentId);
             }
             case ACHIEVEMENTS: {

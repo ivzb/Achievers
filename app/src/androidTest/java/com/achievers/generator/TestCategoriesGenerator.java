@@ -1,4 +1,4 @@
-package com.achievers.seed.generator;
+package com.achievers.generator;
 
 import android.support.test.runner.AndroidJUnit4;
 
@@ -30,7 +30,7 @@ public class TestCategoriesGenerator {
     public void testGeneratingSingleCategoryWithCorrectCategory() {
         Category expectedCategory = new Category(InitialId, "title", "description", "http://image.com", null);
 
-        Category generatedCategory = mGenerator.single();
+        Category generatedCategory = mGenerator.single(1, null);
 
         assertEquals("The categories aren't equal but should be",
                 expectedCategory,
@@ -39,7 +39,7 @@ public class TestCategoriesGenerator {
 
     @Test
     public void testGeneratingSingleCategoryWithNull() {
-        Category generatedCategory = mGenerator.single();
+        Category generatedCategory = mGenerator.single(1, null);
 
         assertNotNull("The generated category shouldn't be null", generatedCategory);
     }
