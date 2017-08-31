@@ -13,18 +13,19 @@ import com.achievers.data.source.categories.CategoriesLoaderProvider;
 import com.achievers.data.source.categories.CategoriesRepository;
 import com.achievers.data.source.categories.local.CategoriesLocalDataSource;
 import com.achievers.data.source.categories.remote.CategoriesMockDataSource;
+import com.achievers.entities.Category;
 import com.achievers.ui.base.BaseActivity;
 import com.achievers.R;
 import com.achievers.util.ActivityUtils;
+
+import java.util.Stack;
 
 public class CategoriesActivity extends BaseActivity {
 
 //    private static final String CURRENT_CATEGORY_ID_KEY = "CURRENT_CATEGORY_ID_KEY";
 
     private DrawerLayout mDrawerLayout;
-
     private CategoriesPresenter mPresenter;
-    //private CategoriesMvpController categoriesMvpTabletController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,8 +118,7 @@ public class CategoriesActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        // todo
-//        if (this.categoriesMvpTabletController.navigateToPreviousCategory()) return;
+        if (this.mPresenter.navigateToPreviousCategory()) return;
 
         super.onBackPressed();
     }

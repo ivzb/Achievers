@@ -4,7 +4,7 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.0-beta2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -32,6 +32,7 @@ ext {
 
     // App dependencies
     supportLibraryVersion = '25.3.1'
+    constraintLayoutVersion = '1.0.2'
     guavaVersion = '18.0'
     junitVersion = '4.12'
     mockitoVersion = '1.10.19'
@@ -44,9 +45,9 @@ ext {
     // User defined dependencies
     gsonVersion = '2.7'
     retrofitVersion = '2.1.0'
-    stethoVersion = '1.4.2'
+    stethoVersion = '1.5.0'
     fakerVersion = '1.2.5'
     toroVersion = '2.2.0'
-    frescoVersion = '1.3.0'
+    frescoVersion = '1.4.0'
     parcelerVersion = '1.1.7'
 }

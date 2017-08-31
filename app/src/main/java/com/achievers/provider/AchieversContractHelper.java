@@ -14,7 +14,6 @@ public class AchieversContractHelper {
 
     private static final String QUERY_PARAMETER_CALLER_IS_SYNC_ADAPTER = "callerIsSyncAdapter";
 
-
     public static boolean isUriCalledFromSyncAdapter(Uri uri) {
         return uri.getBooleanQueryParameter(QUERY_PARAMETER_CALLER_IS_SYNC_ADAPTER, false);
     }

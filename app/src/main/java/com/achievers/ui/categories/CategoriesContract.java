@@ -43,6 +43,6 @@ public class CategoriesContract {
 
 //        OpenAchievementCallback getOpenAchievementCallback();
 
-//        boolean navigateToPreviousCategory();
+        boolean navigateToPreviousCategory();
     }
 }

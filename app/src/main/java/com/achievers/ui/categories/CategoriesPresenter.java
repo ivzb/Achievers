@@ -13,7 +13,9 @@ import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.entities.Category;
 import com.achievers.data.source.categories.CategoriesDataSource;
 
+import java.util.EmptyStackException;
 import java.util.List;
+import java.util.Stack;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -28,13 +30,14 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
 
     private static final int CATEGORIES_LOADER_ID = 1;
     private static final String PARENT_ID_KEY = "parent_id";
+    private static final int ROOT_CATEGORY_ID = -1; // it is -1 because stack can't handle nulls
 
     private final Context mContext;
     private final CategoriesLoaderProvider mLoaderProvider;
     private final LoaderManager mLoaderManager;
     private final CategoriesDataSource mCategoriesDataSource;
     private final CategoriesContract.View mCategoriesView;
-//    private Stack<Integer> mCategoriesNavigationState;
+    private Stack<Integer> mCategoriesNavigationState;
 
     public CategoriesPresenter(
             @NonNull Context context,
@@ -49,7 +52,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
         this.mCategoriesDataSource = checkNotNull(categoriesDataSource, "categoriesDataSource cannot be null");
         this.mCategoriesView = checkNotNull(categoriesView, "categoriesView cannot be null!");
 
-//        this.mCategoriesNavigationState = new Stack<>();
+        this.mCategoriesNavigationState = new Stack<>();
 //        this.mOpenAchievementCallback = new OpenAchievementCallback() {
 //            @Override
 //            public void onOpen(Integer categoryId) {
@@ -111,8 +114,9 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
 
         this.loadCategories(requestedCategory.getId());
 
-        // saving first parent as -1 because stack cant handle nulls
-//        mCategoriesNavigationState.add(requestedCategory.getParent() == null || requestedCategory.getParent().getId() == null ? -1 : requestedCategory.getParent().getId());
+        Integer parentId = requestedCategory.getParentId();
+        Integer navigationId = parentId != null ? parentId : ROOT_CATEGORY_ID;
+        mCategoriesNavigationState.add(navigationId);
     }
 
 //    @Override
@@ -120,22 +124,24 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
 //        return this.mOpenAchievementCallback;
 //    }
 //
-//    /**
-//     * Checks if there are any Categories in the stack which can be
-//     * navigated back and if there are any, pops last one, refreshes adapter and returns true.
-//     * Otherwise returns false.
-//     */
-//    @Override
-//    public boolean navigateToPreviousCategory() {
-//        try {
-//            Integer categoryId = this.mCategoriesNavigationState.pop();
-//            this.loadCategories(categoryId == -1 ? null : categoryId, true);
-//
-//            return true;
-//        } catch (EmptyStackException exc) { // stack is empty so there is no previous category
-//            return false;
-//        }
-//    }
+    /**
+     * Checks if there are any Categories in the stack which can be
+     * navigated back and if there are any, pops last one, refreshes adapter and returns true.
+     * Otherwise returns false.
+     */
+    @Override
+    public boolean navigateToPreviousCategory() {
+        try {
+            Integer categoryId = this.mCategoriesNavigationState.pop();
+            if (categoryId == ROOT_CATEGORY_ID) categoryId = null;
+
+            this.loadCategories(categoryId);
+
+            return true;
+        } catch (EmptyStackException exc) { // stack is empty so there is no previous category
+            return false;
+        }
+    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {

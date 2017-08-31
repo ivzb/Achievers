@@ -102,7 +102,7 @@ public class AchieversContract {
             int CATEGORY_TITLE = 1;
             int CATEGORY_DESCRIPTION = 2;
             int CATEGORY_IMAGE_URL = 3;
-            int CATEGORY_PARENT_ID = 3;
+            int CATEGORY_PARENT_ID = 4;
         }
 
         /**

@@ -18,6 +18,7 @@ public class CategoriesCursor {
         String description = cursor.getString(CATEGORY_DESCRIPTION);
         String imageUrl = cursor.getString(CATEGORY_IMAGE_URL);
         Integer parentId = cursor.getInt(CATEGORY_PARENT_ID);
+        if (parentId == 0) parentId = null;
 
         return new Category(id, title, description, imageUrl, parentId);
     }
