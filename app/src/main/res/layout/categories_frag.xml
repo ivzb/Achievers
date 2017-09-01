@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@{categories.noCategoriesLabel}"
-                    android:layout_marginBottom="@dimen/list_item_padding"/>
+                    android:layout_marginBottom="@dimen/spacing_medium"/>
             </LinearLayout>
         </RelativeLayout>
     </com.achievers.util.ScrollChildSwipeRefreshLayout>

@@ -1,18 +1,22 @@
 package com.achievers.ui.categories;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import com.achievers.data.source.categories.CategoriesDataSource;
 import com.achievers.data.source.categories.CategoriesLoaderProvider;
 import com.achievers.data.source.categories.CategoriesRepository;
 import com.achievers.data.source.categories.local.CategoriesLocalDataSource;
 import com.achievers.data.source.categories.remote.CategoriesMockDataSource;
+import com.achievers.databinding.CategoriesActBinding;
 import com.achievers.entities.Category;
 import com.achievers.ui.base.BaseActivity;
 import com.achievers.R;
@@ -32,6 +36,8 @@ public class CategoriesActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.categories_act);
 
+        CategoriesActBinding binding = DataBindingUtil.setContentView(this, R.layout.categories_act);
+
         // Set up the toolbar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -41,6 +47,11 @@ public class CategoriesActivity extends BaseActivity {
             ab.setHomeAsUpIndicator(R.drawable.ic_menu);
             ab.setDisplayHomeAsUpEnabled(true);
         }
+
+        String itemTitle = "Category title";
+        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitle(itemTitle);
+        collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
 
         // Set up the navigation drawer.
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
