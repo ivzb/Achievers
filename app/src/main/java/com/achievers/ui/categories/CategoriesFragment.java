@@ -37,11 +37,7 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
     private CategoriesViewModel mCategoriesViewModel;
 
     public CategoriesFragment() {
-        // Requires empty public constructor
-    }
 
-    public static CategoriesFragment newInstance() {
-        return new CategoriesFragment();
     }
 
     @Override

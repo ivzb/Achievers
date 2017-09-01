@@ -1,6 +1,7 @@
 package com.achievers.ui.categories;
 
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
@@ -37,6 +38,9 @@ public class CategoriesActivity extends BaseActivity {
         setContentView(R.layout.categories_act);
 
         CategoriesActBinding binding = DataBindingUtil.setContentView(this, R.layout.categories_act);
+
+        Uri uri = Uri.parse("http://www.webpage-maker.com/guide/images/200821911435669_2.jpg");
+        binding.sdvCategory.setImageURI(uri);
 
         // Set up the toolbar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -77,7 +81,7 @@ public class CategoriesActivity extends BaseActivity {
 
         if (categoriesFragment == null) {
             // Create the fragment
-            categoriesFragment = CategoriesFragment.newInstance();
+            categoriesFragment = new CategoriesFragment();
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(), categoriesFragment, fragmentId);
         }
@@ -91,7 +95,7 @@ public class CategoriesActivity extends BaseActivity {
                 CategoriesLocalDataSource.getInstance(getContentResolver()));
 
         mPresenter = new CategoriesPresenter(
-                this,
+//                this,
                 getSupportLoaderManager(),
                 loaderProvider,
                 repository,

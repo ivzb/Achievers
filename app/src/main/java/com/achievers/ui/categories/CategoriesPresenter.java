@@ -32,22 +32,22 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
     private static final String PARENT_ID_KEY = "parent_id";
     private static final int ROOT_CATEGORY_ID = -1; // it is -1 because stack can't handle nulls
 
-    private final Context mContext;
+//    private final Context mContext;
+private final LoaderManager mLoaderManager;
     private final CategoriesLoaderProvider mLoaderProvider;
-    private final LoaderManager mLoaderManager;
     private final CategoriesDataSource mCategoriesDataSource;
     private final CategoriesContract.View mCategoriesView;
     private Stack<Integer> mCategoriesNavigationState;
 
     public CategoriesPresenter(
-            @NonNull Context context,
+//            @NonNull Context context,
             @NonNull LoaderManager loaderManager,
             @NonNull CategoriesLoaderProvider loaderProvider,
             @NonNull CategoriesDataSource categoriesDataSource,
             @NonNull CategoriesContract.View categoriesView) {
 
-        this.mContext = context;
-        this.mLoaderManager = loaderManager;
+//        this.mContext = context;
+        this.mLoaderManager = checkNotNull(loaderManager, "loaderManager cannot be null!");
         this.mLoaderProvider = checkNotNull(loaderProvider, "loaderProvider cannot be null!");
         this.mCategoriesDataSource = checkNotNull(categoriesDataSource, "categoriesDataSource cannot be null");
         this.mCategoriesView = checkNotNull(categoriesView, "categoriesView cannot be null!");

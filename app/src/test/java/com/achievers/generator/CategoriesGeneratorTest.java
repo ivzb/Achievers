@@ -1,12 +1,9 @@
 package com.achievers.generator;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import com.achievers.entities.Category;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +11,7 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
-@RunWith(AndroidJUnit4.class)
-public class TestCategoriesGenerator {
+public class CategoriesGeneratorTest {
 
     private static final int InitialId = 1;
 

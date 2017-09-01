@@ -47,7 +47,7 @@ public class AdapterSetters {
     }
 
     // Fresco
-    @BindingAdapter("urll")
+    @BindingAdapter("tools:urll")
     public static void loadImagee(SimpleDraweeView view, String imageUrl) {
         if (imageUrl != null) {
             Uri uri = Uri.parse(imageUrl);
