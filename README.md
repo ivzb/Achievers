@@ -42,14 +42,13 @@ He might swipe left for dislike current **Evidence** or opposite - swipe right t
 4. Achievements structure
 5. Quests - essential part
 6. Groups - achieve something with friends/strangers
-7. Use TDD
-8. Privacy
+7. Privacy
    1. Public
    2. Protected
    3. Private
-9. Authentication
-10. Adapt to the new back-end API
-11. Improve architecture
+8. Authentication
+9. Adapt to the new back-end API
+10. Improve architecture
 
 # Dependencies
 1) GSON - A Java serialization/deserialization library to convert Java Objects into JSON and back. [GitHub](https://github.com/google/gson)
