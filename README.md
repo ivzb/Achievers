@@ -47,7 +47,6 @@ He might swipe left for dislike current **Evidence** or opposite - swipe right t
    2. Protected
    3. Private
 8. Authentication
-9. Adapt to the new back-end API
 
 # Dependencies
 1) GSON - A Java serialization/deserialization library to convert Java Objects into JSON and back. [GitHub](https://github.com/google/gson)
