@@ -26,7 +26,11 @@ User may choose between LinearLayout and CardView layouts.
 He might swipe left for dislike current **Evidence** or opposite - swipe right to like it. After every interaction, next **Evidence** which he hasn't reviewed yet is being loaded.
 
 ## Involvement
-
+1. Bronze
+2. Silver
+3. Gold
+4. Platinum
+5. Diamond
 
 # TODO
 1. ScrollChildSwipeRefreshLayout - show user friendly message when there is no data in inner RecyclerView
