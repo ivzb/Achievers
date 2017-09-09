@@ -11,7 +11,7 @@ The application is covering every aspect of lifestyle, including world explorati
 They come in several varieties:
 1. Single Action - require specific actions to unlock, such as getting a haircut or going to gym 5 days consequently.
 2. Progressive - involve a progress bar and require you to do something several times — such as give out 10 hugs. Once you complete an achievement to collect 10, you might next be asked to collect 25.
-4. Meta achievements - unlock when you complete other achievements
+3. Meta achievements - unlock when you complete other achievements
 
 **Achievements** are displayed when **Category** leaf has been reached, through search or in users profiles.
 
