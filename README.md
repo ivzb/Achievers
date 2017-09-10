@@ -62,5 +62,5 @@ He might swipe left for dislike current **Evidence** or opposite - swipe right t
 6) Toro - Video list auto playback made simple, specially built for RecyclerView. [GitHub](https://github.com/eneim/Toro)
 7) Fresco - Powerful system for displaying images. [GitHub](https://github.com/facebook/fresco)
 8) DialogPlus
-9) Parceler
+9) Parceler - a code generation library that generates the Android Parcelable boilerplate source code. [GitHub](https://github.com/johncarl81/parceler)
 10) Mockito
