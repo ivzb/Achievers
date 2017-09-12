@@ -7,6 +7,7 @@ import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.endpoints.CategoriesAPI;
 import com.achievers.data.source.categories.CategoriesDataSource;
+import com.achievers.data.source.categories.CategoriesRepository;
 import com.achievers.entities.Category;
 import com.achievers.data.source.RESTClient;
 
@@ -40,8 +41,26 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
                 .create(CategoriesAPI.class);
     }
 
+//    @Override
+//    public void load(final Integer parentId, @NonNull final LoadCallback<Category> callback) {
+//        this.apiService
+//            .loadChildren(String.valueOf(parentId))
+//            .enqueue(new Callback<List<Category>>() {
+//                @Override
+//                public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
+//                    processResponse(response, callback);
+//                }
+//
+//                @Override
+//                public void onFailure(Call<List<Category>> call, Throwable t) {
+//                    callback.onFailure("Server could not be reached. Please try again.");
+//                }
+//            });
+//    }
+
+
     @Override
-    public void load(final Integer parentId, @NonNull final LoadCallback<Category> callback) {
+    public void load(final Long parentId, @NonNull final LoadCallback<Category> callback) {
         this.apiService
             .loadChildren(String.valueOf(parentId))
             .enqueue(new Callback<List<Category>>() {

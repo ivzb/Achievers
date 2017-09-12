@@ -17,8 +17,8 @@ public class CategoriesMockDataSource implements CategoriesDataSource {
 
     private static CategoriesDataSource sINSTANCE;
 
-    private HashMap<Integer, Category> mEntitiesById;
-    private HashMap<Integer, LinkedList<Category>> mEntitiesByParentId;
+    private HashMap<Long, Category> mEntitiesById;
+    private HashMap<Long, LinkedList<Category>> mEntitiesByParentId;
 
     public static CategoriesDataSource getInstance() {
         if (sINSTANCE == null) sINSTANCE = new CategoriesMockDataSource();
@@ -38,7 +38,7 @@ public class CategoriesMockDataSource implements CategoriesDataSource {
         for (Category category: categories) {
             mEntitiesById.put(category.getId(), category);
 
-            Integer parentId = category.getParentId();
+            Long parentId = category.getParentId();
             if (!mEntitiesByParentId.containsKey(parentId)) {
                 mEntitiesByParentId.put(parentId, new LinkedList<Category>());
             }
@@ -54,7 +54,7 @@ public class CategoriesMockDataSource implements CategoriesDataSource {
     }
 
     @Override
-    public void load(Integer parentId, @NonNull LoadCallback<Category> callback) {
+    public void load(Long parentId, @NonNull LoadCallback<Category> callback) {
         List<Category> categories = mEntitiesByParentId.get(parentId);
         callback.onSuccess(categories);
     }

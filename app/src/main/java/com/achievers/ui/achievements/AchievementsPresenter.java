@@ -3,6 +3,7 @@ package com.achievers.ui.achievements;
 import android.support.annotation.NonNull;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
+import android.util.SparseLongArray;
 
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.entities.Achievement;
@@ -21,7 +22,7 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
     private final AchievementsContract.View mAchievementsView;
     private boolean mFirstLoad;
     private SparseBooleanArray mNoMoreData;
-    private SparseIntArray mPages;
+    private SparseLongArray mPages;
 
     public AchievementsPresenter(
             @NonNull AchievementsDataSource achievementsDataSource,
@@ -32,7 +33,7 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
         this.mAchievementsView.setPresenter(this);
         this.mFirstLoad = true;
         this.mNoMoreData = new SparseBooleanArray();
-        this.mPages = new SparseIntArray();
+        this.mPages = new SparseLongArray();
     }
 
 //    @Override
@@ -63,32 +64,33 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
     private void loadAchievements(final Category category, boolean forceUpdate, final boolean showLoadingUI) {
         if (category == null) return;
 
-        if (this.mNoMoreData.get(category.getId(), false)) return; // no more data for this categoryId
-        final int currentPage = this.mPages.get(category.getId(), 0);
-
-        if (showLoadingUI) mAchievementsView.setLoadingIndicator(true);
-
-        mAchievementsDataSource.loadAchievements(category.getId(), currentPage, new LoadCallback<Achievement>() {
-            @Override
-            public void onSuccess(final List<Achievement> achievements) {
-                // The view may not be able to handle UI updates anymore
-                if (!mAchievementsView.isActive()) return;
-                if (showLoadingUI) mAchievementsView.setLoadingIndicator(false);
-
-                mPages.put(category.getId(), currentPage + 1); // current category page++
-//                if (achievements.size() < RESTClient.getPageSize()) mNoMoreData.put(category.getId(), true); // no more data for this categoryId
-
-                mAchievementsView.showAchievements(category, achievements);
-            }
-
-            @Override
-            public void onFailure(String message) {
-                // The view may not be able to handle UI updates anymore
-                if (!mAchievementsView.isActive()) return;
-                mAchievementsView.showLoadingError();
-                if (showLoadingUI) mAchievementsView.setLoadingIndicator(false);
-            }
-        });
+        // todo
+//        if (this.mNoMoreData.get(category.getId(), false)) return; // no more data for this categoryId
+//        final long currentPage = this.mPages.get(category.getId(), 0);
+//
+//        if (showLoadingUI) mAchievementsView.setLoadingIndicator(true);
+//
+//        mAchievementsDataSource.loadAchievements(category.getId(), currentPage, new LoadCallback<Achievement>() {
+//            @Override
+//            public void onSuccess(final List<Achievement> achievements) {
+//                // The view may not be able to handle UI updates anymore
+//                if (!mAchievementsView.isActive()) return;
+//                if (showLoadingUI) mAchievementsView.setLoadingIndicator(false);
+//
+//                mPages.put(category.getId(), currentPage + 1); // current category page++
+////                if (achievements.size() < RESTClient.getPageSize()) mNoMoreData.put(category.getId(), true); // no more data for this categoryId
+//
+//                mAchievementsView.showAchievements(category, achievements);
+//            }
+//
+//            @Override
+//            public void onFailure(String message) {
+//                // The view may not be able to handle UI updates anymore
+//                if (!mAchievementsView.isActive()) return;
+//                mAchievementsView.showLoadingError();
+//                if (showLoadingUI) mAchievementsView.setLoadingIndicator(false);
+//            }
+//        });
     }
 
     @Override

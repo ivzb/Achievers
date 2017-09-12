@@ -14,7 +14,7 @@ public class CategoriesContract {
 
         void setLoadingIndicator(boolean active);
 
-        void showCategories(Cursor categories);
+        void showCategories(Cursor cursor);
 
         void showNoCategories();
 
@@ -37,7 +37,7 @@ public class CategoriesContract {
 
         void result(int requestCode, int resultCode);
 
-        void loadCategories(Integer parentId);
+        void loadCategories(Long parentId);
 
         void openCategory(@NonNull Category requestedCategory);
 

@@ -1,8 +1,17 @@
 package com.achievers.entities;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverter;
+import android.arch.persistence.room.TypeConverters;
+import android.content.ContentValues;
+import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.achievers.util.DateConverter;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gson.annotations.SerializedName;
@@ -20,43 +29,59 @@ import java.util.Date;
 @Parcel(
     value = Parcel.Serialization.BEAN,
     analyze = { Category.class })
+@Entity(tableName = Category.TABLE_NAME)
+@TypeConverters({DateConverter.class})
 public class Category {
 
+    public static final String TABLE_NAME = "categories";
+
+    public static final String COLUMN_ID = BaseColumns._ID;
+    public static final String COLUMN_TITLE = "title";
+    public static final String COLUMN_DESCRIPTION = "description";
+    public static final String COLUMN_IMAGE_URL = "image_url";
+    public static final String COLUMN_PARENT_ID = "parent_id";
+    public static final String COLUMN_CREATED_ON = "created_on";
+
     @SerializedName("id")
-    @NonNull
-    private int id;
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(index = true, name = COLUMN_ID)
+    private long id;
 
     @SerializedName("title")
-    @NonNull
+    @ColumnInfo(name = COLUMN_TITLE)
     private String title;
 
     @SerializedName("description")
-    @NonNull
+    @ColumnInfo(name = COLUMN_DESCRIPTION)
     private String description;
 
     @SerializedName("imageUrl")
-    @NonNull
+    @ColumnInfo(name = COLUMN_IMAGE_URL)
     private String imageUrl;
 
     @SerializedName("parent")
+    @Ignore
     private Category parent;
 
     @SerializedName("parentId")
-    private Integer parentId;
+    @ColumnInfo(name = COLUMN_PARENT_ID)
+    private Long parentId;
 
     @SerializedName("createdOn")
-    @Nullable
+    @ColumnInfo(name = COLUMN_CREATED_ON)
     private Date createdOn;
 
     public Category() { }
 
-    public Category(int id, Integer parentId) {
+    @Ignore
+    public Category(long id, Long parentId) {
         this.id = id;
         this.parentId = parentId;
     }
 
-    public Category(int id, String title, String description,
-                    String imageUrl, Integer parentId) {
+    @Ignore
+    public Category(long id, String title, String description,
+                    String imageUrl, Long parentId) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -64,51 +89,74 @@ public class Category {
         this.parentId = parentId;
     }
 
-    public int getId() {
+    public static Category fromContentValues(ContentValues values) {
+        final Category category = new Category();
+
+        if (values.containsKey(COLUMN_ID)) category.setId(values.getAsLong(COLUMN_ID));
+        if (values.containsKey(COLUMN_TITLE)) category.setTitle(values.getAsString(COLUMN_TITLE));
+        if (values.containsKey(COLUMN_DESCRIPTION)) category.setDescription(values.getAsString(COLUMN_DESCRIPTION));
+        if (values.containsKey(COLUMN_IMAGE_URL)) category.setImageUrl(values.getAsString(COLUMN_IMAGE_URL));
+        if (values.containsKey(COLUMN_PARENT_ID)) category.setParentId(values.getAsLong(COLUMN_PARENT_ID));
+        if (values.containsKey(COLUMN_CREATED_ON)) category.setCreatedOn(DateConverter.fromTimestamp(values.getAsLong(COLUMN_CREATED_ON)));
+
+        return category;
+    }
+
+    public long getId() {
         return id;
     }
 
-    @Nullable
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
     }
 
-    @Nullable
-    public String getTitleForList() {
-        if (!Strings.isNullOrEmpty(title)) {
-            return title;
-        } else {
-            return description;
-        }
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    @Nullable
     public String getDescription() {
         return description;
     }
 
-    @NonNull
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }
 
-    @Nullable
-    public Category getParent() {
-        return parent;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    @Nullable
-    public Integer getParentId() {
+//    public Category getParent() {
+//        return parent;
+//    }
+
+//    public void setParent(Category parent) {
+//        this.parent = parent;
+//    }
+
+    public Long getParentId() {
         return parentId;
     }
 
-    @Nullable
+    public void setParentId(Long parentId) {
+        if (parentId == 0) parentId = null;
+        this.parentId = parentId;
+    }
+
     public Date getCreatedOn() {
         return createdOn;
     }
 
-    public void setParent(Category parent) {
-        this.parent = parent;
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
     }
 
     public boolean isNew() {
@@ -124,13 +172,12 @@ public class Category {
 
         if (id != other.id) return false;
         return Objects.equal(parentId, other.parentId);
-
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + parentId.hashCode();
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (parentId != null ? parentId.hashCode() : 0);
         return result;
     }
 

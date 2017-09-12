@@ -24,31 +24,33 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * UI as required.
  */
 public class CategoriesPresenter implements CategoriesContract.Presenter,
-        LoaderManager.LoaderCallbacks<Cursor>,
-        CategoriesRepository.LoadDataCallback,
-        CategoriesContract.Presenter.OpenAchievementCallback {
+//        LoaderManager.LoaderCallbacks<Cursor>,
+        CategoriesRepository.LoadDataCallback
+//        CategoriesContract.Presenter.OpenAchievementCallback {
+{
 
-    private static final int CATEGORIES_LOADER_ID = 1;
+//    private static final int CATEGORIES_LOADER_ID = 1;
     private static final String PARENT_ID_KEY = "parent_id";
     private static final int ROOT_CATEGORY_ID = -1; // it is -1 because stack can't handle nulls
 
 //    private final Context mContext;
-private final LoaderManager mLoaderManager;
-    private final CategoriesLoaderProvider mLoaderProvider;
+//    private final LoaderManager mLoaderManager;
+//    private final CategoriesLoaderProvider mLoaderProvider;
+
     private final CategoriesDataSource mCategoriesDataSource;
     private final CategoriesContract.View mCategoriesView;
-    private Stack<Integer> mCategoriesNavigationState;
+    private Stack<Long> mCategoriesNavigationState;
 
     public CategoriesPresenter(
 //            @NonNull Context context,
-            @NonNull LoaderManager loaderManager,
-            @NonNull CategoriesLoaderProvider loaderProvider,
+//            @NonNull LoaderManager loaderManager,
+//            @NonNull CategoriesLoaderProvider loaderProvider,
             @NonNull CategoriesDataSource categoriesDataSource,
             @NonNull CategoriesContract.View categoriesView) {
 
 //        this.mContext = context;
-        this.mLoaderManager = checkNotNull(loaderManager, "loaderManager cannot be null!");
-        this.mLoaderProvider = checkNotNull(loaderProvider, "loaderProvider cannot be null!");
+//        this.mLoaderManager = checkNotNull(loaderManager, "loaderManager cannot be null!");
+//        this.mLoaderProvider = checkNotNull(loaderProvider, "loaderProvider cannot be null!");
         this.mCategoriesDataSource = checkNotNull(categoriesDataSource, "categoriesDataSource cannot be null");
         this.mCategoriesView = checkNotNull(categoriesView, "categoriesView cannot be null!");
 
@@ -63,10 +65,10 @@ private final LoaderManager mLoaderManager;
 //        };
     }
 
-    @Override
-    public void onOpen(Integer categoryId) {
-        // load new category
-    }
+//    @Override
+//    public void onOpen(Integer categoryId) {
+//        // load new category
+//    }
 
     @Override
     public void start() {
@@ -82,30 +84,33 @@ private final LoaderManager mLoaderManager;
     }
 
     @Override
-    public void loadCategories(final Integer parentId) {
+    public void loadCategories(final Long parentId) {
         mCategoriesView.setLoadingIndicator(true);
 
-        mCategoriesDataSource.load(parentId, new LoadCallback<Category>() {
-            @Override
-            public void onSuccess(List<Category> data) {
-                Bundle args = new Bundle();
-                args.putString(PARENT_ID_KEY, String.valueOf(parentId));
+        mCategoriesDataSource.load(parentId);
 
-                // we don't care about the result since the CursorLoader will load the data for us
-                if (mLoaderManager.getLoader(CATEGORIES_LOADER_ID) == null) {
-                    mLoaderManager.initLoader(CATEGORIES_LOADER_ID, args, CategoriesPresenter.this);
-                    return;
-                }
-
-                mLoaderManager.restartLoader(CATEGORIES_LOADER_ID, args, CategoriesPresenter.this);
-            }
-
-            @Override
-            public void onFailure(String message) {
-                mCategoriesView.setLoadingIndicator(false);
-                mCategoriesView.showLoadingCategoriesError(message);
-            }
-        });
+//        mCategoriesDataSource.load(parentId, new LoadCallback<Category>() {
+//            @Override
+//            public void onSuccess(List<Category> data) {
+//                // todo
+////                Bundle args = new Bundle();
+////                args.putString(PARENT_ID_KEY, String.valueOf(parentId));
+////
+////                // we don't care about the result since the CursorLoader will load the data for us
+////                if (mLoaderManager.getLoader(CATEGORIES_LOADER_ID) == null) {
+////                    mLoaderManager.initLoader(CATEGORIES_LOADER_ID, args, CategoriesPresenter.this);
+////                    return;
+////                }
+////
+////                mLoaderManager.restartLoader(CATEGORIES_LOADER_ID, args, CategoriesPresenter.this);
+//            }
+//
+//            @Override
+//            public void onFailure(String message) {
+//                mCategoriesView.setLoadingIndicator(false);
+//                mCategoriesView.showLoadingCategoriesError(message);
+//            }
+//        });
     }
 
     @Override
@@ -114,8 +119,8 @@ private final LoaderManager mLoaderManager;
 
         this.loadCategories(requestedCategory.getId());
 
-        Integer parentId = requestedCategory.getParentId();
-        Integer navigationId = parentId != null ? parentId : ROOT_CATEGORY_ID;
+        Long parentId = requestedCategory.getParentId();
+        Long navigationId = parentId != null ? parentId : ROOT_CATEGORY_ID;
         mCategoriesNavigationState.add(navigationId);
     }
 
@@ -132,7 +137,7 @@ private final LoaderManager mLoaderManager;
     @Override
     public boolean navigateToPreviousCategory() {
         try {
-            Integer categoryId = this.mCategoriesNavigationState.pop();
+            Long categoryId = this.mCategoriesNavigationState.pop();
             if (categoryId == ROOT_CATEGORY_ID) categoryId = null;
 
             this.loadCategories(categoryId);
@@ -143,29 +148,29 @@ private final LoaderManager mLoaderManager;
         }
     }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String parentId = args.getString(PARENT_ID_KEY, null);
-        return mLoaderProvider.createCategoriesLoader(parentId);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data != null) {
-            if (data.moveToLast()) {
-                onDataLoaded(data);
-            } else {
-                onDataEmpty();
-            }
-        } else {
-            onDataNotAvailable();
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        onDataReset();
-    }
+//    @Override
+//    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+//        String parentId = args.getString(PARENT_ID_KEY, null);
+//        return mLoaderProvider.createCategoriesLoader(parentId);
+//    }
+//
+//    @Override
+//    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+//        if (data != null) {
+//            if (data.moveToLast()) {
+//                onDataLoaded(data);
+//            } else {
+//                onDataEmpty();
+//            }
+//        } else {
+//            onDataNotAvailable();
+//        }
+//    }
+//
+//    @Override
+//    public void onLoaderReset(Loader<Cursor> loader) {
+//        onDataReset();
+//    }
 
     @Override
     public void onDataLoaded(Cursor data) {

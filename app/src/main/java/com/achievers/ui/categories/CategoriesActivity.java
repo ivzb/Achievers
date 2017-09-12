@@ -96,8 +96,8 @@ public class CategoriesActivity extends BaseActivity {
 
         mPresenter = new CategoriesPresenter(
 //                this,
-                getSupportLoaderManager(),
-                loaderProvider,
+//                getSupportLoaderManager(),
+//                loaderProvider,
                 repository,
                 categoriesFragment);
 

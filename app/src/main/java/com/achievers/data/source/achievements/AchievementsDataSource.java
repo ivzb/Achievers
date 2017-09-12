@@ -13,12 +13,12 @@ import com.achievers.entities.Achievement;
 public interface AchievementsDataSource {
 
     void getAchievement(
-            final int id,
+            final long id,
             @NonNull final GetCallback<Achievement> callback
     );
 
     void loadAchievements(
-            final int categoryId,
+            final long categoryId,
             final int page,
             @NonNull final LoadCallback<Achievement> callback
     );

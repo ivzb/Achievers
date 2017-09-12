@@ -7,7 +7,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
@@ -20,6 +23,7 @@ import android.view.ViewGroup;
 import com.achievers.R;
 import com.achievers.entities.Category;
 import com.achievers.databinding.CategoriesFragBinding;
+import com.achievers.provider.AppContentProvider;
 import com.achievers.util.CursorUtils;
 import com.achievers.util.ScrollChildSwipeRefreshLayout;
 
@@ -31,6 +35,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Display a screen with categories
  */
 public class CategoriesFragment extends Fragment implements CategoriesContract.View {
+
+    private static final int LOADER_CATEGORIES = 1;
 
     private CategoriesContract.Presenter mPresenter;
     private CategoriesFragBinding mViewDataBinding;
@@ -81,14 +87,52 @@ public class CategoriesFragment extends Fragment implements CategoriesContract.V
         // Set the scrolling view in the custom SwipeRefreshLayout.
         swipeRefreshLayout.setScrollUpChild(mViewDataBinding.rvCategories);
 
+        getActivity().getSupportLoaderManager().initLoader(LOADER_CATEGORIES, null, mLoaderCallbacks);
+
         return mViewDataBinding.getRoot();
     }
+
+    private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallbacks =
+            new LoaderManager.LoaderCallbacks<Cursor>() {
+
+                @Override
+                public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+                    switch (id) {
+                        case LOADER_CATEGORIES:
+                            return new CursorLoader(getActivity().getApplicationContext(),
+                                    AppContentProvider.URI_CATEGORY,
+                                    new String[]{Category.COLUMN_TITLE},
+                                    null, null, null);
+                        default:
+                            throw new IllegalArgumentException();
+                    }
+                }
+
+                @Override
+                public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+                    switch (loader.getId()) {
+                        case LOADER_CATEGORIES:
+                            mViewDataBinding.getCategories().setCursor(data);
+                            break;
+                    }
+                }
+
+                @Override
+                public void onLoaderReset(Loader<Cursor> loader) {
+                    switch (loader.getId()) {
+                        case LOADER_CATEGORIES:
+                            mViewDataBinding.getCategories().setCursor(null);
+                            break;
+                    }
+                }
+
+            };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_refresh:
-                Integer parentId = mCategoriesViewModel.getParent() != null ? mCategoriesViewModel.getParent().getId() : null;
+                Long parentId = mCategoriesViewModel.getParent() != null ? mCategoriesViewModel.getParent().getId() : null;
                 // todo: refresh current categories, do not reset to null
                 mPresenter.loadCategories(null);
 //                Integer categoryId = mAchievementsViewModel.getCategory() != null ? mAchievementsViewModel.getCategory().getId() : null;

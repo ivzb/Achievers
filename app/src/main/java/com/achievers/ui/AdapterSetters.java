@@ -46,15 +46,6 @@ public class AdapterSetters {
         }
     }
 
-    // Fresco
-    @BindingAdapter("tools:urll")
-    public static void loadImagee(SimpleDraweeView view, String imageUrl) {
-        if (imageUrl != null) {
-            Uri uri = Uri.parse(imageUrl);
-            view.setImageURI(uri);
-        }
-    }
-
     // Binding Drawable to ImageView
     @BindingAdapter("android:src")
     public static void setImageDrawable(ImageView view, Drawable drawable) {
@@ -65,7 +56,6 @@ public class AdapterSetters {
     public static void setImageResource(ImageView imageView, int resource){
         imageView.setImageResource(resource);
     }
-
 
 
     // CategoriesFragment

@@ -11,6 +11,8 @@ import com.achievers.BR;
 import com.achievers.R;
 import com.achievers.entities.Category;
 
+import java.util.List;
+
 /**
  * Exposes the data to be used in the {@link CategoriesContract.View}.
  * <p>
@@ -26,6 +28,7 @@ public class CategoriesViewModel extends BaseObservable {
     private final CategoriesContract.Presenter mPresenter;
     private CategoriesAdapter mAdapter;
     private Cursor mCursor;
+//    private List<Category> mData;
     private Category mParent;
 
     private Context mContext;

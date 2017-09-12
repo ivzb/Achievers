@@ -36,6 +36,10 @@ android {
         }
     }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
 //    // If you need to add more flavors, consider using flavor dimensions.
 //    productFlavors {
 //        mock {
@@ -80,6 +84,10 @@ dependencies {
     // tests
     testCompile 'junit:junit:4.12'
     testCompile "org.mockito:mockito-core:2.7.1"
+
+    // Room
+    compile "android.arch.persistence.room:runtime:1.0.0-alpha9"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha9"
 
     // Resolve conflicts between main and test APK:
     androidTestCompile "com.android.support:support-annotations:$rootProject.supportLibraryVersion"

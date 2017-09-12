@@ -12,11 +12,11 @@ public interface AchievementsAPI {
 
     @GET("Achievements/ByCategory/{id}")
     Call<List<Achievement>> loadByCategory(
-            @Path("id") int id
+            @Path("id") long id
     );
 
     @GET("Achievements/Details/{id}")
     Call<Achievement> getAchievement(
-            @Path("id") int id
+            @Path("id") long id
     );
 }

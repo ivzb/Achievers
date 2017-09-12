@@ -41,7 +41,7 @@ public class CategoriesLocalDataSource implements CategoriesDataSource {
     }
 
     @Override
-    public void load(Integer parentId, @NonNull LoadCallback<Category> callback) {
+    public void load(Long parentId, @NonNull LoadCallback<Category> callback) {
         // no-op since the data is loaded via Cursor Loader
     }
 

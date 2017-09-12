@@ -38,7 +38,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
 
     @Override
     public void loadAchievements(
-            final int categoryId,
+            final long categoryId,
             final int page,
             final @NonNull LoadCallback<Achievement> callback) {
 
@@ -66,7 +66,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
 
     @Override
     public void getAchievement(
-            final int id,
+            final long id,
             final @NonNull GetCallback<Achievement> callback) {
 
         final Call<Achievement> call = this.apiService.getAchievement(id);

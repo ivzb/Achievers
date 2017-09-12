@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface Generator<T> {
 
-    T single(int id, Integer parentId);
+    T single(long id, Long parentId);
     List<T> multiple(int[] sizes);
 }
