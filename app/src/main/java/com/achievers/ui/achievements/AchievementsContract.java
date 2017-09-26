@@ -18,17 +18,13 @@ public class AchievementsContract {
         void showAchievementDetailsUi(int categoryId);
 
         void showAddAchievementUi(int categoryId);
-
-        void showLoadingError();
-
-        boolean isActive();
     }
 
     public interface Presenter {
 
         void result(int requestCode, int resultCode);
 
-        void loadAchievements(Category category, boolean forceUpdate);
+        void loadAchievements(Category category);
 
         void openAchievementDetails(@NonNull Achievement requestedAchievement);
     }

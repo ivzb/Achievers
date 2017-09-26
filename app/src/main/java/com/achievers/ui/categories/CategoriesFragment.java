@@ -24,6 +24,7 @@ import com.achievers.R;
 import com.achievers.entities.Category;
 import com.achievers.databinding.CategoriesFragBinding;
 import com.achievers.provider.AppContentProvider;
+import com.achievers.ui.base.BaseFragment;
 import com.achievers.util.CursorUtils;
 import com.achievers.util.ScrollChildSwipeRefreshLayout;
 
@@ -34,7 +35,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Display a screen with categories
  */
-public class CategoriesFragment extends Fragment implements CategoriesContract.View {
+public class CategoriesFragment extends BaseFragment<CategoriesContract.Presenter> implements CategoriesContract.View {
 
     private static final int LOADER_CATEGORIES = 1;
 

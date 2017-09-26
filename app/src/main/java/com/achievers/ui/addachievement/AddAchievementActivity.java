@@ -17,6 +17,7 @@ import com.achievers.util.ActivityUtils;
 public class AddAchievementActivity extends BaseActivity {
 
     public static final String EXTRA_CATEGORY_ID = "CATEGORY_ID";
+    public static final int REQUEST_ADD_ACHIEVEMENT = 156;
 
     private AddAchievementContract.Presenter mAddAchievementPresenter;
 

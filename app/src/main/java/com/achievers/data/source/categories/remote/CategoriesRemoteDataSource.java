@@ -60,18 +60,18 @@ public class CategoriesRemoteDataSource implements CategoriesDataSource {
 
 
     @Override
-    public void load(final Long parentId, @NonNull final LoadCallback<Category> callback) {
+    public void load(final Long parentId) {
         this.apiService
             .loadChildren(String.valueOf(parentId))
             .enqueue(new Callback<List<Category>>() {
                 @Override
                 public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
-                    processResponse(response, callback);
+                    //processResponse(response, callback);
                 }
 
                 @Override
                 public void onFailure(Call<List<Category>> call, Throwable t) {
-                    callback.onFailure("Server could not be reached. Please try again.");
+                    //callback.onFailure("Server could not be reached. Please try again.");
                 }
             });
     }

@@ -34,6 +34,7 @@ import com.achievers.entities.Achievement;
 import com.achievers.entities.File;
 import com.achievers.entities.Involvement;
 import com.achievers.databinding.AddAchievementFragBinding;
+import com.achievers.ui.base.BaseFragment;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -47,7 +48,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class AddAchievementFragment extends Fragment implements AddAchievementContract.View {
+public class AddAchievementFragment extends BaseFragment<AddAchievementContract.Presenter> implements AddAchievementContract.View {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;

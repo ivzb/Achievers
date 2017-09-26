@@ -18,7 +18,7 @@ import com.achievers.util.ActivityUtils;
  */
 public class AchievementsActivity extends BaseActivity {
 
-    public static final String EXTRA_CATEGORY_ID = "CATEGORY_ID";
+//    public static final String EXTRA_CATEGORY_ID = "CATEGORY_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +26,7 @@ public class AchievementsActivity extends BaseActivity {
 
         setContentView(R.layout.achievements_act);
 
-        // Set up the toolbar.
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
 
@@ -36,14 +35,13 @@ public class AchievementsActivity extends BaseActivity {
             ab.setDisplayShowHomeEnabled(true);
         }
 
-        // Get the requested category id
-        int categoryId = getIntent().getIntExtra(EXTRA_CATEGORY_ID, 0);
+//        int categoryId = getIntent().getIntExtra(EXTRA_CATEGORY_ID, 0);
 
         AchievementsFragment fragment = (AchievementsFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
 
         if (fragment == null) {
-            fragment = AchievementsFragment.newInstance();
+            fragment = new AchievementsFragment();
 
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(),
@@ -60,22 +58,7 @@ public class AchievementsActivity extends BaseActivity {
         achievementsFragment.setPresenter(presenter);
         final AchievementsViewModel viewModel = new AchievementsViewModel(getApplicationContext());
 
-        CategoriesRemoteDataSource.getInstance()
-                .get(categoryId, new GetCallback<Category>() {
-            @Override
-            public void onSuccess(final Category category) {
-                viewModel.setCategory(category);
-                achievementsFragment.setViewModel(viewModel);
-
-                presenter.loadAchievements(category, true);
-            }
-
-            @Override
-            public void onFailure(String message) {
-                // todo: show error in category result?
-            }
-        });
-
+        achievementsFragment.setViewModel(viewModel);
     }
 
     @Override

@@ -1,40 +1,33 @@
 package com.achievers.ui.achievements;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.util.SparseBooleanArray;
-import android.util.SparseIntArray;
-import android.util.SparseLongArray;
 
-import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.entities.Achievement;
 import com.achievers.entities.Category;
-import com.achievers.data.source.RESTClient;
 import com.achievers.data.source.achievements.AchievementsDataSource;
-import com.achievers.data.source.categories.CategoriesDataSource;
-
-import java.util.List;
+import com.achievers.ui.addachievement.AddAchievementActivity;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class AchievementsPresenter implements AchievementsContract.Presenter {
 
-    private final AchievementsDataSource mAchievementsDataSource;
-    private final AchievementsContract.View mAchievementsView;
-    private boolean mFirstLoad;
+    private final AchievementsDataSource mDataSource;
+    private final AchievementsContract.View mView;
     private SparseBooleanArray mNoMoreData;
-    private SparseLongArray mPages;
 
-    public AchievementsPresenter(
+    AchievementsPresenter(
             @NonNull AchievementsDataSource achievementsDataSource,
             @NonNull AchievementsContract.View achievementsView) {
 
-        this.mAchievementsDataSource = checkNotNull(achievementsDataSource, "achievementsDataSource cannot be null");
-        this.mAchievementsView = checkNotNull(achievementsView, "achievementsView cannot be null");
-        this.mAchievementsView.setPresenter(this);
-        this.mFirstLoad = true;
+        this.mDataSource = checkNotNull(achievementsDataSource, "achievementsDataSource cannot be null");
+        this.mView = checkNotNull(achievementsView, "achievementsView cannot be null");
+        this.mView.setPresenter(this);
         this.mNoMoreData = new SparseBooleanArray();
-        this.mPages = new SparseLongArray();
     }
+
+    // getString(R.string.loading_achievements_error)
 
 //    @Override
 //    public void start() {
@@ -44,51 +37,40 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
 
     @Override
     public void result(int requestCode, int resultCode) {
-        // If a Achievement was successfully added, show snackbar
-//        if (AddEditAchievementActivity.REQUEST_ADD_ACHIEVEMENT == requestCode && Activity.RESULT_OK == resultCode) {
-//            mAchievementsView.showSuccessfullySavedMessage();
-//        }
+        if (AddAchievementActivity.REQUEST_ADD_ACHIEVEMENT == requestCode && Activity.RESULT_OK == resultCode) {
+            mView.showSuccessfulMessage("Your achievement will be uploaded shortly.");
+        }
     }
 
     @Override
-    public void loadAchievements(final Category category, boolean forceUpdate) {
-        // a network reload will be forced on first load.
-        this.loadAchievements(category, forceUpdate || this.mFirstLoad, true);
-        this.mFirstLoad = false;
-    }
-
-    /**
-     * @param forceUpdate   Pass in true to refresh the data in the {@link CategoriesDataSource}
-     * @param showLoadingUI Pass in true to display a loading icon in the UI
-     */
-    private void loadAchievements(final Category category, boolean forceUpdate, final boolean showLoadingUI) {
+    public void loadAchievements(final Category category) {
         if (category == null) return;
 
         // todo
 //        if (this.mNoMoreData.get(category.getId(), false)) return; // no more data for this categoryId
 //        final long currentPage = this.mPages.get(category.getId(), 0);
 //
-//        if (showLoadingUI) mAchievementsView.setLoadingIndicator(true);
+//        if (showLoadingUI) mView.setLoadingIndicator(true);
 //
-//        mAchievementsDataSource.loadAchievements(category.getId(), currentPage, new LoadCallback<Achievement>() {
+//        mDataSource.loadAchievements(category.getId(), currentPage, new LoadCallback<Achievement>() {
 //            @Override
 //            public void onSuccess(final List<Achievement> achievements) {
 //                // The view may not be able to handle UI updates anymore
-//                if (!mAchievementsView.isActive()) return;
-//                if (showLoadingUI) mAchievementsView.setLoadingIndicator(false);
+//                if (!mView.isActive()) return;
+//                if (showLoadingUI) mView.setLoadingIndicator(false);
 //
 //                mPages.put(category.getId(), currentPage + 1); // current category page++
 ////                if (achievements.size() < RESTClient.getPageSize()) mNoMoreData.put(category.getId(), true); // no more data for this categoryId
 //
-//                mAchievementsView.showAchievements(category, achievements);
+//                mView.showAchievements(category, achievements);
 //            }
 //
 //            @Override
 //            public void onFailure(String message) {
 //                // The view may not be able to handle UI updates anymore
-//                if (!mAchievementsView.isActive()) return;
-//                mAchievementsView.showLoadingError();
-//                if (showLoadingUI) mAchievementsView.setLoadingIndicator(false);
+//                if (!mView.isActive()) return;
+//                mView.showLoadingError();
+//                if (showLoadingUI) mView.setLoadingIndicator(false);
 //            }
 //        });
     }
@@ -96,6 +78,6 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
     @Override
     public void openAchievementDetails(@NonNull Achievement requestedAchievement) {
         checkNotNull(requestedAchievement, "requestedAchievement cannot be null!");
-        this.mAchievementsView.showAchievementDetailsUi(requestedAchievement.getId());
+        mView.showAchievementDetailsUi(requestedAchievement.getId());
     }
 }

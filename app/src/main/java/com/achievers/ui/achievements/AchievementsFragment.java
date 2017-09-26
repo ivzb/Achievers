@@ -2,11 +2,8 @@ package com.achievers.ui.achievements;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -19,39 +16,19 @@ import com.achievers.R;
 import com.achievers.entities.Achievement;
 import com.achievers.entities.Category;
 import com.achievers.databinding.AchievementsFragBinding;
+import com.achievers.ui.base.BaseFragment;
 import com.achievers.util.ScrollChildSwipeRefreshLayout;
 
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+public class AchievementsFragment extends BaseFragment<AchievementsContract.Presenter>
+        implements AchievementsContract.View, View.OnClickListener {
 
-public class AchievementsFragment extends Fragment implements AchievementsContract.View {
-
-    private AchievementsContract.Presenter mPresenter;
     private AchievementsFragBinding mViewDataBinding;
     private AchievementsViewModel mAchievementsViewModel;
 
     public AchievementsFragment() {
-        // Requires empty public constructor
-    }
 
-    public static AchievementsFragment newInstance() {
-        return new AchievementsFragment();
-    }
-
-    @Override
-    public void setPresenter(@NonNull AchievementsContract.Presenter presenter) {
-        this.mPresenter = checkNotNull(presenter);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        this.mPresenter.result(requestCode, resultCode);
     }
 
     @Nullable
@@ -60,56 +37,45 @@ public class AchievementsFragment extends Fragment implements AchievementsContra
         View view = inflater.inflate(R.layout.achievements_frag, container, false);
 
         this.mViewDataBinding = AchievementsFragBinding.bind(view);
-        this.mViewDataBinding.setViewModel(this.mAchievementsViewModel);
-        this.mViewDataBinding.setActionHandler(this.mPresenter);
+        this.mViewDataBinding.setViewModel(mAchievementsViewModel);
+        this.mViewDataBinding.setActionHandler(mPresenter);
 
         setHasOptionsMenu(true);
         setRetainInstance(true);
 
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_add_achievement);
+        FloatingActionButton fab = getActivity().findViewById(R.id.fab_add_achievement);
+        fab.setOnClickListener(this);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showAddAchievementUi(-1);
-            }
-        });
-
-        // Set up progress indicator
-        final ScrollChildSwipeRefreshLayout swipeRefreshLayout = mViewDataBinding.refreshLayout;
-        swipeRefreshLayout.setColorSchemeColors(
-                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
-                ContextCompat.getColor(getActivity(), R.color.colorAccent),
-                ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark)
-        );
-        // Set the scrolling view in the custom SwipeRefreshLayout.
-        swipeRefreshLayout.setScrollUpChild(mViewDataBinding.rvAchievements);
+        setUpLoadingIndicator();
 
         return mViewDataBinding.getRoot();
     }
 
-    public void setViewModel(AchievementsViewModel achievementsViewModel) {
-        this.mAchievementsViewModel = achievementsViewModel;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mPresenter.result(requestCode, resultCode);
     }
 
     @Override
     public void showAchievements(Category category, List<Achievement> achievements) {
-        if (this.mAchievementsViewModel.getCategory() != null &&
-                this.mAchievementsViewModel.getCategory().equals(category) &&
-                this.mAchievementsViewModel.getAdapter() != null &&
-                this.mAchievementsViewModel.getAdapter().getItemCount() > 0) { // endless scroll is loading more items
-            this.mAchievementsViewModel.getAdapter().addAchievements(achievements);
-        } else { // new category has been loaded
-            AchievementsAdapter adapter = new AchievementsAdapter(achievements, category, this.mPresenter);
-            this.mAchievementsViewModel.setAdapter(adapter);
-            this.mAchievementsViewModel.setCategory(category);
+        if (mAchievementsViewModel.getCategory() != null &&
+                mAchievementsViewModel.getCategory().equals(category) &&
+                mAchievementsViewModel.getAdapter() != null &&
+                mAchievementsViewModel.getAdapter().getItemCount() > 0) {
+
+            // endless scroll is loading more items
+            mAchievementsViewModel.getAdapter().addAchievements(achievements);
+            return;
         }
+
+        // new category has been loaded
+        AchievementsAdapter adapter = new AchievementsAdapter(achievements, category, mPresenter);
+        mAchievementsViewModel.setAdapter(adapter);
+        mAchievementsViewModel.setCategory(category);
     }
 
     @Override
     public void showAchievementDetailsUi(int achievementId) {
-        // in it's own Activity, since it makes more sense that way and it gives us the flexibility
-        // to show some Intent stubbing.
         Intent intent = new Intent(getContext(), AchievementDetailActivity.class);
         intent.putExtra(AchievementDetailActivity.EXTRA_ACHIEVEMENT_ID, achievementId);
         startActivity(intent);
@@ -124,11 +90,10 @@ public class AchievementsFragment extends Fragment implements AchievementsContra
 
     @Override
     public void setLoadingIndicator(final boolean active) {
-        if (getView() == null) return;
+        if (!isActive()) return;
 
-        final SwipeRefreshLayout srl = (SwipeRefreshLayout) getView().findViewById(R.id.refresh_layout);
+        final SwipeRefreshLayout srl = mViewDataBinding.refreshLayout;
 
-        // Make sure setRefreshing() is called after the layout is done with everything else.
         srl.post(new Runnable() {
             @Override
             public void run() {
@@ -138,20 +103,23 @@ public class AchievementsFragment extends Fragment implements AchievementsContra
     }
 
     @Override
-    public void showLoadingError() {
-        showMessage(getString(R.string.loading_achievements_error));
+    public void onClick(View view) {
+        showAddAchievementUi(-1);
     }
 
-
-    private void showMessage(String message) {
-        if (getView() == null) return;
-
-        Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
+    public void setViewModel(AchievementsViewModel achievementsViewModel) {
+        this.mAchievementsViewModel = achievementsViewModel;
     }
 
+    private void setUpLoadingIndicator() {
+        final ScrollChildSwipeRefreshLayout srl = mViewDataBinding.refreshLayout;
 
-    @Override
-    public boolean isActive() {
-        return isAdded();
+        srl.setColorSchemeColors(
+                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
+                ContextCompat.getColor(getActivity(), R.color.colorAccent),
+                ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark)
+        );
+
+        srl.setScrollUpChild(mViewDataBinding.rvAchievements);
     }
 }

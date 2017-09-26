@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.achievers.ui.achievement.Adapters.UploadEvidenceDialogSimpleAdapter;
+import com.achievers.ui.base.BaseFragment;
 import com.achievers.ui.evidence.EvidenceAdapter;
 import com.achievers.R;
 import com.achievers.entities.Achievement;
@@ -40,7 +41,7 @@ import java.util.List;
 /**
  * Main UI for the task detail screen.
  */
-public class AchievementDetailFragment extends Fragment implements AchievementDetailContract.View {
+public class AchievementDetailFragment extends BaseFragment<AchievementDetailContract.Presenter> implements AchievementDetailContract.View {
 
     public static final String ARGUMENT_ACHIEVEMENT_ID = "ACHIEVEMENT_ID";
 

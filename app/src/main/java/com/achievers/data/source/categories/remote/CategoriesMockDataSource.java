@@ -54,9 +54,9 @@ public class CategoriesMockDataSource implements CategoriesDataSource {
     }
 
     @Override
-    public void load(Long parentId, @NonNull LoadCallback<Category> callback) {
+    public void load(Long parentId) {
         List<Category> categories = mEntitiesByParentId.get(parentId);
-        callback.onSuccess(categories);
+        //callback.onSuccess(categories);
     }
 
     @Override
