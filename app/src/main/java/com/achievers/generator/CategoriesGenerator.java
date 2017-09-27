@@ -1,33 +1,32 @@
 package com.achievers.generator;
 
-import com.achievers.entities.Category;
+import com.achievers.data.entities.Category;
+import com.achievers.utils.GeneratorUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+import java.util.Random;
 
 import io.bloco.faker.Faker;
 
-public class CategoriesGenerator implements Generator<Category> {
+public class CategoriesGenerator {
 
     private static final int InitialRow = 0;
     private static final int InitialCol = 0;
-    private static final int InitialId = 0;
     private static final Long RootParent = null;
-    private static final String RandomImagePath = "https://unsplash.it/500/500/?random&a=%d";
 
     private final Faker mFaker;
+    private final Random mRandom;
 
     public CategoriesGenerator() {
         mFaker = new Faker();
+        mRandom = new Random();
     }
 
-    @Override
     public Category single(long id, Long parentId) {
         return generateCategory(id, parentId);
     }
 
-    @Override
     public List<Category> multiple(int[] sizes) {
         return generate(
                 sizes,
@@ -68,10 +67,7 @@ public class CategoriesGenerator implements Generator<Category> {
     private Category generateCategory(long id, Long parentId) {
         String title = mFaker.lorem.word();
         String description = mFaker.lorem.sentence(5);
-        String imageUrl =  String.format(
-                Locale.getDefault(),
-                RandomImagePath,
-                mFaker.number.between(0, 100));
+        String imageUrl = GeneratorUtils.getInstance().getImage();
 
         return new Category(id, title, description, imageUrl, parentId);
     }

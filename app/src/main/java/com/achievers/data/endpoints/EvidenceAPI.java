@@ -1,6 +1,6 @@
 package com.achievers.data.endpoints;
 
-import com.achievers.entities.Evidence;
+import com.achievers.data.entities.Evidence;
 
 import java.util.List;
 

@@ -12,9 +12,9 @@ import android.util.Log;
 import android.view.View;
 
 import com.achievers.R;
-import com.achievers.entities.Evidence;
+import com.achievers.data.entities.Evidence;
 import com.achievers.databinding.EvidenceItemVideoBinding;
-import com.achievers.util.FreskoCircleProgressBarDrawable;
+import com.achievers.utils.FreskoCircleProgressBarDrawable;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.exoplayer2.ParserException;

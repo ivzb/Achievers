@@ -17,7 +17,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
@@ -30,9 +29,9 @@ import com.achievers.ui.addachievement.Adapters.InvolvementRecyclerViewAdapter;
 import com.achievers.BuildConfig;
 import com.achievers.R;
 import com.achievers.data.callbacks.SaveCallback;
-import com.achievers.entities.Achievement;
-import com.achievers.entities.File;
-import com.achievers.entities.Involvement;
+import com.achievers.data.entities.Achievement;
+import com.achievers.data.entities.File;
+import com.achievers.data.entities.Involvement;
 import com.achievers.databinding.AddAchievementFragBinding;
 import com.achievers.ui.base.BaseFragment;
 
@@ -85,8 +84,7 @@ public class AddAchievementFragment extends BaseFragment<AddAchievementContract.
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        FloatingActionButton fab =
-                (FloatingActionButton) getActivity().findViewById(R.id.fab_add_achievement);
+        FloatingActionButton fab = getActivity().findViewById(R.id.fab_add_achievement);
         fab.setImageResource(R.drawable.ic_done);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,25 +93,25 @@ public class AddAchievementFragment extends BaseFragment<AddAchievementContract.
                 String description = mViewDataBinding.etDescription.getText().toString();
                 String imageUrl = "";
                 Integer categoryId = null;
-                String involvement = mViewModel.getInvolvementRecyclerViewAdapter().getSelectedInvolvement().toString();
+                Involvement involvement = mViewModel.getInvolvementRecyclerViewAdapter().getSelectedInvolvement();
 
-                Achievement achievement = new Achievement(title, description, imageUrl, categoryId, involvement);
+//                Achievement achievement = new Achievement(title, description, imageUrl, categoryId, involvement);
 
-                if (!mPresenter.validateAchievement(achievement)) {
-                    // TODO: compose proper message
-                    showInvalidAchievementMessage("Please fill required fields.");
-                    return;
-                }
-
-                // hide keyboard before finish so as not to break previous Activity layout
-                View view = getActivity().getCurrentFocus();
-
-                if (view != null) {
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
-
-                mPresenter.saveAchievement(achievement);
+//                if (!mPresenter.validateAchievement(achievement)) {
+//                    // TODO: compose proper message
+//                    showInvalidAchievementMessage("Please fill required fields.");
+//                    return;
+//                }
+//
+//                // hide keyboard before finish so as not to break previous Activity layout
+//                View view = getActivity().getCurrentFocus();
+//
+//                if (view != null) {
+//                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+//                }
+//
+//                mPresenter.saveAchievement(achievement);
             }
         });
     }

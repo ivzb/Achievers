@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.callbacks.SaveCallback;
-import com.achievers.entities.Achievement;
+import com.achievers.data.entities.Achievement;
 
 /**
  * Main entry point for accessing Categories data.
@@ -18,13 +18,13 @@ public interface AchievementsDataSource {
     );
 
     void loadAchievements(
-            final long categoryId,
+//            final long categoryId,
             final int page,
             @NonNull final LoadCallback<Achievement> callback
     );
 
     void saveAchievement(
             @NonNull final Achievement achievement,
-            @NonNull final SaveCallback<Void> callback
+            @NonNull final SaveCallback<Achievement> callback
     );
 }

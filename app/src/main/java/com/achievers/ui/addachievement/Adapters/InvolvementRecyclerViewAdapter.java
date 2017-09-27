@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.achievers.R;
-import com.achievers.entities.Involvement;
+import com.achievers.data.entities.Involvement;
 
 import java.util.List;
 

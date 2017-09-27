@@ -3,7 +3,7 @@ package com.achievers.ui.base;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 
-import com.achievers.util.KeyboardUtils;
+import com.achievers.utils.KeyboardUtils;
 
 public abstract class BaseFragment<T> extends Fragment implements BaseView<T> {
 

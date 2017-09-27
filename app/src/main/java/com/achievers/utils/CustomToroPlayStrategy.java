@@ -1,4 +1,4 @@
-package com.achievers.util;
+package com.achievers.utils;
 
 import android.support.annotation.Nullable;
 import android.view.ViewParent;

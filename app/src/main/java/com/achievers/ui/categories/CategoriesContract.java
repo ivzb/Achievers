@@ -4,9 +4,7 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.achievers.ui.base.BaseView;
-import com.achievers.entities.Category;
-
-import java.util.List;
+import com.achievers.data.entities.Category;
 
 public class CategoriesContract {
 

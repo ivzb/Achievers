@@ -4,9 +4,9 @@ import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.callbacks.SaveCallback;
-import com.achievers.entities.Achievement;
-import com.achievers.entities.File;
-import com.achievers.entities.Involvement;
+import com.achievers.data.entities.Achievement;
+import com.achievers.data.entities.File;
+import com.achievers.data.entities.Involvement;
 import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.files.FilesDataSource;
 

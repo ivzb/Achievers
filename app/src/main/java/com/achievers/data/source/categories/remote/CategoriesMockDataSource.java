@@ -3,11 +3,9 @@ package com.achievers.data.source.categories.remote;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.callbacks.GetCallback;
-import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.source.categories.CategoriesDataSource;
-import com.achievers.entities.Category;
+import com.achievers.data.entities.Category;
 import com.achievers.generator.CategoriesGenerator;
-import com.achievers.generator.Generator;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -32,7 +30,8 @@ public class CategoriesMockDataSource implements CategoriesDataSource {
         mEntitiesByParentId = new HashMap<>();
 
         int[] sizes = new int[] { 5, 3, 2 };
-        Generator<Category> generator = new CategoriesGenerator();
+        // todo: abstract it
+        CategoriesGenerator generator = new CategoriesGenerator();
         List<Category> categories = generator.multiple(sizes);
 
         for (Category category: categories) {

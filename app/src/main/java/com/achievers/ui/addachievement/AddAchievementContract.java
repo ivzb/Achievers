@@ -5,9 +5,9 @@ import android.graphics.Bitmap;
 import com.achievers.ui.base.BasePresenter;
 import com.achievers.ui.base.BaseView;
 import com.achievers.data.callbacks.SaveCallback;
-import com.achievers.entities.Achievement;
-import com.achievers.entities.File;
-import com.achievers.entities.Involvement;
+import com.achievers.data.entities.Achievement;
+import com.achievers.data.entities.File;
+import com.achievers.data.entities.Involvement;
 
 import java.util.List;
 

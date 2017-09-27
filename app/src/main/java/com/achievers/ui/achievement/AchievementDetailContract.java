@@ -2,8 +2,8 @@ package com.achievers.ui.achievement;
 
 import com.achievers.ui.base.BasePresenter;
 import com.achievers.ui.base.BaseView;
-import com.achievers.entities.Achievement;
-import com.achievers.entities.Evidence;
+import com.achievers.data.entities.Achievement;
+import com.achievers.data.entities.Evidence;
 
 import java.util.List;
 
@@ -31,6 +31,6 @@ public interface AchievementDetailContract {
 
         void getAchievement();
 
-        void loadEvidence(int achievementId, boolean forceUpdate);
+        void loadEvidence(long achievementId, boolean forceUpdate);
     }
 }

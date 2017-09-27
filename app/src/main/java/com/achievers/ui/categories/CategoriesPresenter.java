@@ -1,20 +1,13 @@
 package com.achievers.ui.categories;
 
-import android.content.Context;
 import android.database.Cursor;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 
-import com.achievers.data.source.categories.CategoriesLoaderProvider;
 import com.achievers.data.source.categories.CategoriesRepository;
-import com.achievers.data.callbacks.LoadCallback;
-import com.achievers.entities.Category;
+import com.achievers.data.entities.Category;
 import com.achievers.data.source.categories.CategoriesDataSource;
 
 import java.util.EmptyStackException;
-import java.util.List;
 import java.util.Stack;
 
 import static com.google.common.base.Preconditions.checkNotNull;

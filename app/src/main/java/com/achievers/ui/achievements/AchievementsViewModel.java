@@ -6,7 +6,7 @@ import android.databinding.Bindable;
 
 import com.achievers.BR;
 import com.achievers.ui.categories.CategoriesContract;
-import com.achievers.entities.Category;
+import com.achievers.data.entities.Category;
 
 /**
  * Exposes the data to be used in the {@link CategoriesContract.View}.

@@ -2,9 +2,10 @@ package com.achievers.ui.achievements;
 
 import android.support.annotation.NonNull;
 
+import com.achievers.ui.base.BasePresenter;
 import com.achievers.ui.base.BaseView;
-import com.achievers.entities.Achievement;
-import com.achievers.entities.Category;
+import com.achievers.data.entities.Achievement;
+import com.achievers.data.entities.Category;
 
 import java.util.List;
 
@@ -15,16 +16,16 @@ public class AchievementsContract {
 
         void showAchievements(Category category, List<Achievement> achievements);
 
-        void showAchievementDetailsUi(int categoryId);
+        void showAchievementDetailsUi(/*int categoryId*/);
 
         void showAddAchievementUi(int categoryId);
     }
 
-    public interface Presenter {
+    public interface Presenter extends BasePresenter {
 
         void result(int requestCode, int resultCode);
 
-        void loadAchievements(Category category);
+        void loadAchievements();
 
         void openAchievementDetails(@NonNull Achievement requestedAchievement);
     }

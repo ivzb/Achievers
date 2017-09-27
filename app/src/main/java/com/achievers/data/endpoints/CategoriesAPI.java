@@ -1,6 +1,6 @@
 package com.achievers.data.endpoints;
 
-import com.achievers.entities.Category;
+import com.achievers.data.entities.Category;
 
 import java.util.List;
 

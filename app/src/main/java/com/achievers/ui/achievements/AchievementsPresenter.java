@@ -4,8 +4,7 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.util.SparseBooleanArray;
 
-import com.achievers.entities.Achievement;
-import com.achievers.entities.Category;
+import com.achievers.data.entities.Achievement;
 import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.ui.addachievement.AddAchievementActivity;
 
@@ -29,11 +28,10 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
 
     // getString(R.string.loading_achievements_error)
 
-//    @Override
-//    public void start() {
-//        // TODO: pass categoryId instead of null
-//        loadAchievements(null, false);
-//    }
+    @Override
+    public void start() {
+        loadAchievements();
+    }
 
     @Override
     public void result(int requestCode, int resultCode) {
@@ -43,9 +41,7 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
     }
 
     @Override
-    public void loadAchievements(final Category category) {
-        if (category == null) return;
-
+    public void loadAchievements() {
         // todo
 //        if (this.mNoMoreData.get(category.getId(), false)) return; // no more data for this categoryId
 //        final long currentPage = this.mPages.get(category.getId(), 0);
@@ -78,6 +74,6 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
     @Override
     public void openAchievementDetails(@NonNull Achievement requestedAchievement) {
         checkNotNull(requestedAchievement, "requestedAchievement cannot be null!");
-        mView.showAchievementDetailsUi(requestedAchievement.getId());
+        mView.showAchievementDetailsUi(/*requestedAchievement.getId()*/);
     }
 }

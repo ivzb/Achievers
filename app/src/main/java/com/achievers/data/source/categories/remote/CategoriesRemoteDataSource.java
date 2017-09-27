@@ -4,11 +4,9 @@ import android.support.annotation.NonNull;
 
 import com.achievers.data.callbacks.BaseCallback;
 import com.achievers.data.callbacks.GetCallback;
-import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.endpoints.CategoriesAPI;
 import com.achievers.data.source.categories.CategoriesDataSource;
-import com.achievers.data.source.categories.CategoriesRepository;
-import com.achievers.entities.Category;
+import com.achievers.data.entities.Category;
 import com.achievers.data.source.RESTClient;
 
 import java.util.List;

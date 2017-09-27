@@ -9,9 +9,7 @@ import android.support.v4.content.res.ResourcesCompat;
 
 import com.achievers.BR;
 import com.achievers.R;
-import com.achievers.entities.Category;
-
-import java.util.List;
+import com.achievers.data.entities.Category;
 
 /**
  * Exposes the data to be used in the {@link CategoriesContract.View}.

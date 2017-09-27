@@ -20,7 +20,7 @@
  * -Changed package name
  */
 
-package com.achievers.util;
+package com.achievers.utils;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -33,8 +33,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.achievers.util.LogUtils.LOGV;
-import static com.achievers.util.LogUtils.makeLogTag;
+import static com.achievers.utils.LogUtils.LOGV;
+import static com.achievers.utils.LogUtils.makeLogTag;
 
 /**
  * Helper for building selection clauses for {@link SQLiteDatabase}. Each

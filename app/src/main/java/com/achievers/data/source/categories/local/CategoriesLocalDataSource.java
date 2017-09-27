@@ -6,10 +6,9 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.callbacks.GetCallback;
-import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.source.categories.CategoriesContentValues;
 import com.achievers.data.source.categories.CategoriesDataSource;
-import com.achievers.entities.Category;
+import com.achievers.data.entities.Category;
 import com.achievers.provider.AchieversContract;
 
 import java.util.List;

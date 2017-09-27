@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.ImageView;
 
 import com.achievers.data.source.categories.CategoriesDataSource;
 import com.achievers.data.source.categories.CategoriesLoaderProvider;
@@ -18,12 +17,9 @@ import com.achievers.data.source.categories.CategoriesRepository;
 import com.achievers.data.source.categories.local.CategoriesLocalDataSource;
 import com.achievers.data.source.categories.remote.CategoriesMockDataSource;
 import com.achievers.databinding.CategoriesActBinding;
-import com.achievers.entities.Category;
 import com.achievers.ui.base.BaseActivity;
 import com.achievers.R;
-import com.achievers.util.ActivityUtils;
-
-import java.util.Stack;
+import com.achievers.utils.ActivityUtils;
 
 public class CategoriesActivity extends BaseActivity {
 

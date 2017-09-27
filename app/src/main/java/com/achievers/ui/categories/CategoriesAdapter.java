@@ -2,19 +2,15 @@ package com.achievers.ui.categories;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.v4.widget.CursorAdapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.achievers.BR;
 import com.achievers.data.source.categories.CategoriesCursor;
-import com.achievers.entities.Category;
+import com.achievers.data.entities.Category;
 import com.achievers.databinding.CategoryItemBinding;
-import com.achievers.util.CursorUtils;
-
-import java.util.List;
+import com.achievers.utils.CursorUtils;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
 

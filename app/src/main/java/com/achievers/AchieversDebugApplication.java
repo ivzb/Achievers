@@ -1,6 +1,11 @@
 package com.achievers;
 
+import com.achievers.utils.GeneratorUtils;
 import com.facebook.stetho.Stetho;
+
+import java.util.Random;
+
+import io.bloco.faker.Faker;
 
 public class AchieversDebugApplication extends AchieversApplication {
 
@@ -14,5 +19,7 @@ public class AchieversDebugApplication extends AchieversApplication {
                 .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
                 .build()
         );
+
+        GeneratorUtils.initialize(new Random(), new Faker());
     }
 }

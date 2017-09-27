@@ -1,6 +1,6 @@
 package com.achievers.generator;
 
-import com.achievers.entities.Category;
+import com.achievers.data.entities.Category;
 
 import org.junit.Before;
 import org.junit.Test;

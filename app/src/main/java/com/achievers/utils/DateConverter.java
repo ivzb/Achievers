@@ -1,4 +1,4 @@
-package com.achievers.util;
+package com.achievers.utils;
 
 import android.arch.persistence.room.TypeConverter;
 

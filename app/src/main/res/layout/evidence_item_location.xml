@@ -2,11 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <import type="com.achievers.util.DateUtils" />
+        <import type="com.achievers.utils.DateUtils" />
 
         <variable
             name="evidence"
-            type="com.achievers.entities.Evidence" />
+            type="com.achievers.data.entities.Evidence" />
 
         <variable
             name="actionHandler"
@@ -37,7 +37,6 @@
                 android:layout_height="wrap_content"
                 android:textSize="40sp"
                 android:text="@{ `Location: ` + evidence.url }"/>
-
         </LinearLayout>
     </LinearLayout>
 </layout>

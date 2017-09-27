@@ -6,7 +6,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 import android.database.Cursor;
 
-import com.achievers.entities.Category;
+import com.achievers.data.entities.Category;
 
 @Dao
 public interface CategoryDao {

@@ -1,19 +1,15 @@
-package com.achievers.entities;
+package com.achievers.data.entities;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.TypeConverters;
 import android.content.ContentValues;
 import android.provider.BaseColumns;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import com.achievers.util.DateConverter;
+import com.achievers.utils.DateConverter;
 import com.google.common.base.Objects;
-import com.google.common.base.Strings;
 import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;

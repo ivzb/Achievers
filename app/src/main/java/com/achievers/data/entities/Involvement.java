@@ -1,4 +1,4 @@
-package com.achievers.entities;
+package com.achievers.data.entities;
 
 import com.achievers.R;
 
@@ -34,13 +34,5 @@ public enum Involvement {
         }
 
         return 0;
-    }
-
-    private static final List<Involvement> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
-    private static final int SIZE = VALUES.size();
-    private static final Random RANDOM = new Random();
-
-    public static Involvement getRandomInvolvement() {
-        return VALUES.get(RANDOM.nextInt(SIZE));
     }
 }

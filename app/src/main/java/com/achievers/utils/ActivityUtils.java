@@ -1,4 +1,4 @@
-package com.achievers.util;
+package com.achievers.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

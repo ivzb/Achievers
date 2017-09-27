@@ -7,11 +7,8 @@ import android.view.MenuItem;
 
 import com.achievers.ui.base.BaseActivity;
 import com.achievers.R;
-import com.achievers.data.callbacks.GetCallback;
-import com.achievers.entities.Category;
 import com.achievers.data.source.achievements.AchievementsRemoteDataSource;
-import com.achievers.data.source.categories.remote.CategoriesRemoteDataSource;
-import com.achievers.util.ActivityUtils;
+import com.achievers.utils.ActivityUtils;
 
 /**
  * Displays achievements list screen.

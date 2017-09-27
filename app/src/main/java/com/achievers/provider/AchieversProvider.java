@@ -17,14 +17,14 @@ import android.util.Log;
 import com.achievers.provider.AchieversContract.Achievements;
 import com.achievers.provider.AchieversContract.Categories;
 import com.achievers.provider.AchieversDatabase.Tables;
-import com.achievers.util.SelectionBuilder;
+import com.achievers.utils.SelectionBuilder;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static com.achievers.util.LogUtils.LOGV;
-import static com.achievers.util.LogUtils.makeLogTag;
+import static com.achievers.utils.LogUtils.LOGV;
+import static com.achievers.utils.LogUtils.makeLogTag;
 
 public class AchieversProvider extends ContentProvider {
 

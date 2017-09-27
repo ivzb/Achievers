@@ -11,7 +11,7 @@ import com.achievers.provider.AchieversContract.Categories;
 import com.achievers.provider.AchieversContract.CategoriesColumns;
 import com.achievers.provider.AchieversContract.EvidenceColumns;
 
-import static com.achievers.util.LogUtils.makeLogTag;
+import static com.achievers.utils.LogUtils.makeLogTag;
 
 /**
  * Helper for managing {@link SQLiteDatabase} that stores data for

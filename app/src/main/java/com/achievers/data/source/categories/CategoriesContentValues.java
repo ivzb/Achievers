@@ -2,7 +2,7 @@ package com.achievers.data.source.categories;
 
 import android.content.ContentValues;
 
-import com.achievers.entities.Category;
+import com.achievers.data.entities.Category;
 
 import java.util.List;
 

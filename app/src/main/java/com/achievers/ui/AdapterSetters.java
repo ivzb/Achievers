@@ -19,11 +19,11 @@ import com.achievers.ui.addachievement.Adapters.InvolvementRecyclerViewAdapter;
 import com.achievers.ui.categories.CategoriesAdapter;
 import com.achievers.ui.categories.CategoriesContract;
 import com.achievers.ui.evidence.EvidenceAdapter;
-import com.achievers.entities.Achievement;
-import com.achievers.entities.Category;
-import com.achievers.util.EndlessRecyclerViewScrollListener;
-import com.achievers.util.FreskoCircleProgressBarDrawable;
-import com.achievers.util.ScrollChildSwipeRefreshLayout;
+import com.achievers.data.entities.Achievement;
+import com.achievers.data.entities.Category;
+import com.achievers.utils.EndlessRecyclerViewScrollListener;
+import com.achievers.utils.FreskoCircleProgressBarDrawable;
+import com.achievers.utils.ScrollChildSwipeRefreshLayout;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -100,7 +100,7 @@ public class AdapterSetters {
                     // Triggered only when new data needs to be appended to the list
                     // Add whatever code is needed to append new items to the bottom of the list
                     Category category = adapter.getCategory();
-                    presenter.loadAchievements(category);
+                    presenter.loadAchievements(/*category*/);
                 }
             };
             // Adds the scroll listener to RecyclerView

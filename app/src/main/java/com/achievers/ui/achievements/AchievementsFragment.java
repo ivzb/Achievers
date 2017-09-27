@@ -13,11 +13,11 @@ import android.view.ViewGroup;
 import com.achievers.ui.achievement.AchievementDetailActivity;
 import com.achievers.ui.addachievement.AddAchievementActivity;
 import com.achievers.R;
-import com.achievers.entities.Achievement;
-import com.achievers.entities.Category;
+import com.achievers.data.entities.Achievement;
+import com.achievers.data.entities.Category;
 import com.achievers.databinding.AchievementsFragBinding;
 import com.achievers.ui.base.BaseFragment;
-import com.achievers.util.ScrollChildSwipeRefreshLayout;
+import com.achievers.utils.ScrollChildSwipeRefreshLayout;
 
 import java.util.List;
 
@@ -75,9 +75,9 @@ public class AchievementsFragment extends BaseFragment<AchievementsContract.Pres
     }
 
     @Override
-    public void showAchievementDetailsUi(int achievementId) {
+    public void showAchievementDetailsUi(/*int achievementId*/) {
         Intent intent = new Intent(getContext(), AchievementDetailActivity.class);
-        intent.putExtra(AchievementDetailActivity.EXTRA_ACHIEVEMENT_ID, achievementId);
+//        intent.putExtra(AchievementDetailActivity.EXTRA_ACHIEVEMENT_ID, achievementId);
         startActivity(intent);
     }
 

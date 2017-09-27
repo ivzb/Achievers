@@ -2,7 +2,7 @@ package com.achievers;
 
 import android.app.Application;
 
-import com.achievers.util.CustomToroPlayStrategy;
+import com.achievers.utils.CustomToroPlayStrategy;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
@@ -20,7 +20,7 @@ public class AchieversApplication extends Application {
         Toro.init(this);
         Toro.setStrategy(new CustomToroPlayStrategy());
 
-        Fresco.initialize(this);
+//        Fresco.initialize(this);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addNetworkInterceptor(new StethoInterceptor())

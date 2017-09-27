@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.provider.BaseColumns;
 
-import com.achievers.entities.Achievement;
 import com.achievers.utils.PollingCheck;
 
 import java.lang.reflect.Field;

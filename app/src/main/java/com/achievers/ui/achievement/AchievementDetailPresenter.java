@@ -6,9 +6,8 @@ import android.util.SparseIntArray;
 
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
-import com.achievers.entities.Achievement;
-import com.achievers.entities.Evidence;
-import com.achievers.data.source.RESTClient;
+import com.achievers.data.entities.Achievement;
+import com.achievers.data.entities.Evidence;
 import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.evidence.EvidenceDataSource;
 
@@ -79,9 +78,9 @@ public class AchievementDetailPresenter implements AchievementDetailContract.Pre
     }
 
     @Override
-    public void loadEvidence(int achievementId, boolean forceUpdate) {
+    public void loadEvidence(long achievementId, boolean forceUpdate) {
         // a network reload will be forced on first load.
-        this.loadEvidence(achievementId, forceUpdate || this.mFirstLoad, true);
+//        this.loadEvidence(achievementId, forceUpdate || this.mFirstLoad, true);
         this.mFirstLoad = false;
     }
 
@@ -89,33 +88,33 @@ public class AchievementDetailPresenter implements AchievementDetailContract.Pre
      * @param forceUpdate   Pass in true to refresh the data in the {@link EvidenceDataSource}
      * @param showLoadingUI Pass in true to display a loading icon in the UI
      */
-    private void loadEvidence(final int achievementId, boolean forceUpdate, final boolean showLoadingUI) {
-        if (this.mNoMoreData.get(achievementId, false)) return; // no more data for this categoryId
-        final int currentPage = this.mPages.get(achievementId, 0);
-
-        if (showLoadingUI) mAchievementDetailView.setLoadingIndicator(true);
-
-        this.mEvidenceDataSource.loadEvidence(achievementId, currentPage, new LoadCallback<Evidence>() {
-            @Override
-            public void onSuccess(final List<Evidence> evidence) {
-                // The view may not be able to handle UI updates anymore
-                if (!mAchievementDetailView.isActive()) return;
-                if (showLoadingUI) mAchievementDetailView.setLoadingIndicator(false);
-
+//    private void loadEvidence(final long achievementId, boolean forceUpdate, final boolean showLoadingUI) {
+//        if (this.mNoMoreData.get(achievementId, false)) return; // no more data for this categoryId
+//        final int currentPage = this.mPages.get(achievementId, 0);
+//
+//        if (showLoadingUI) mAchievementDetailView.setLoadingIndicator(true);
+//
+//        this.mEvidenceDataSource.loadEvidence(achievementId, currentPage, new LoadCallback<Evidence>() {
+//            @Override
+//            public void onSuccess(final List<Evidence> evidence) {
+//                // The view may not be able to handle UI updates anymore
+//                if (!mAchievementDetailView.isActive()) return;
+//                if (showLoadingUI) mAchievementDetailView.setLoadingIndicator(false);
+//
+////                mAchievementDetailView.showEvidence(evidence);
+//                mPages.put(achievementId, currentPage + 1); // current category page++
+////                if (evidence.size() < RESTClient.getPageSize()) mNoMoreData.put(achievementId, true); // no more data for this categoryId
+//
 //                mAchievementDetailView.showEvidence(evidence);
-                mPages.put(achievementId, currentPage + 1); // current category page++
-//                if (evidence.size() < RESTClient.getPageSize()) mNoMoreData.put(achievementId, true); // no more data for this categoryId
-
-                mAchievementDetailView.showEvidence(evidence);
-            }
-
-            @Override
-            public void onFailure(String message) {
-                // The view may not be able to handle UI updates anymore
-                if (!mAchievementDetailView.isActive()) return;
-                mAchievementDetailView.showLoadingEvidenceError();
-                mAchievementDetailView.setLoadingIndicator(false);
-            }
-        });
-    }
+//            }
+//
+//            @Override
+//            public void onFailure(String message) {
+//                // The view may not be able to handle UI updates anymore
+//                if (!mAchievementDetailView.isActive()) return;
+//                mAchievementDetailView.showLoadingEvidenceError();
+//                mAchievementDetailView.setLoadingIndicator(false);
+//            }
+//        });
+//    }
 }

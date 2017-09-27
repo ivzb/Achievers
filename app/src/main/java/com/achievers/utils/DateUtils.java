@@ -1,4 +1,4 @@
-package com.achievers.util;
+package com.achievers.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

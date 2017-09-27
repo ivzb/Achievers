@@ -2,7 +2,7 @@ package com.achievers.data.source.categories;
 
 import android.database.Cursor;
 
-import com.achievers.entities.Category;
+import com.achievers.data.entities.Category;
 
 import static com.achievers.provider.AchieversContract.Categories.INDEXES.CATEGORY_DESCRIPTION;
 import static com.achievers.provider.AchieversContract.Categories.INDEXES.CATEGORY_ID;

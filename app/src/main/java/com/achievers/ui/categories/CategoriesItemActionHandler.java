@@ -1,6 +1,6 @@
 package com.achievers.ui.categories;
 
-import com.achievers.entities.Category;
+import com.achievers.data.entities.Category;
 
 /**
  * Listens to user actions from the list item in ({@link CategoriesFragment}) and redirects them to the

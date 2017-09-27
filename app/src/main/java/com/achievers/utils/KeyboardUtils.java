@@ -1,4 +1,4 @@
-package com.achievers.util;
+package com.achievers.utils;
 
 import android.app.Activity;
 import android.content.Context;

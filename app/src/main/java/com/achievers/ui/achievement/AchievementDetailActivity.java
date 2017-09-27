@@ -9,7 +9,7 @@ import com.achievers.ui.base.BaseActivity;
 import com.achievers.R;
 import com.achievers.data.source.achievements.AchievementsRemoteDataSource;
 import com.achievers.data.source.evidence.EvidenceRemoteDataSource;
-import com.achievers.util.ActivityUtils;
+import com.achievers.utils.ActivityUtils;
 
 /**
  * Displays achievement details screen.
