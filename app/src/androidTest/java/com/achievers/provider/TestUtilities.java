@@ -1,4 +1,4 @@
-package com.achievers.data;
+package com.achievers.provider;
 
 import android.content.ContentValues;
 import android.database.ContentObserver;

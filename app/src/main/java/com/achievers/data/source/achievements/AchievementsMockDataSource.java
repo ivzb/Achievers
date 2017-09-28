@@ -7,19 +7,20 @@ import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.generator.AchievementsGenerator;
-import com.achievers.utils.GeneratorUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-// todo: test
+import static com.achievers.utils.Preconditions.checkNotNull;
+
 public class AchievementsMockDataSource implements AchievementsDataSource {
 
     private static AchievementsDataSource sINSTANCE;
     private static int sPageSize = 9;
     private static String sDoesNotExistFailMessage = "Achievement does not exist.";
     private static String sNoAchievementFailMessage = "No achievement to save.";
+    private static String sInvalidPageFailMessage = "Please provide non negative page.";
 
     private List<Achievement> mEntities;
     private HashMap<Long, Achievement> mEntitiesById;
@@ -40,6 +41,8 @@ public class AchievementsMockDataSource implements AchievementsDataSource {
 
     @Override
     public void getAchievement(long id, @NonNull GetCallback<Achievement> callback) {
+        checkNotNull(callback);
+
         if (!mEntitiesById.containsKey(id)) {
             callback.onFailure(sDoesNotExistFailMessage);
             return;
@@ -49,22 +52,35 @@ public class AchievementsMockDataSource implements AchievementsDataSource {
     }
 
     @Override
-    public void loadAchievements(int page, @NonNull LoadCallback<Achievement> callback) {
+    public void loadAchievements(
+            int page,
+            @NonNull LoadCallback<Achievement> callback) {
+        checkNotNull(callback);
+
+        if (page < 0) {
+            callback.onFailure(sInvalidPageFailMessage);
+            return;
+        }
+
         int start = page * sPageSize;
         int end = start + sPageSize;
-        load(start, end);
+        load(end);
 
         callback.onSuccess(mEntities.subList(start, end));
     }
 
     @Override
-    public void saveAchievement(@NonNull Achievement achievement, @NonNull SaveCallback<Achievement> callback) {
+    public void saveAchievement(
+            @NonNull Achievement achievement,
+            @NonNull SaveCallback<Achievement> callback) {
+        checkNotNull(callback);
+
         if (achievement == null) {
             callback.onFailure(sNoAchievementFailMessage);
             return;
         }
 
-        achievement.setId(mEntities.size());
+        achievement.setId(mEntities.size() + 1);
 
         mEntitiesById.put(achievement.getId(), achievement);
         mEntities.add(achievement);
@@ -72,9 +88,9 @@ public class AchievementsMockDataSource implements AchievementsDataSource {
         callback.onSuccess(achievement);
     }
 
-    private void load(int start, int end) {
+    private void load(int to) {
         long nextId = 1;
-        int size = end - mEntities.size();
+        int size = to - mEntities.size();
 
         if (mEntities.size() > 0) {
             Achievement last = mEntities.get(mEntities.size() - 1);

@@ -1,4 +1,4 @@
-package com.achievers.data;
+package com.achievers.provider;
 
 import android.content.ComponentName;
 import android.content.ContentResolver;
@@ -15,19 +15,13 @@ import android.support.test.runner.AndroidJUnit4;
 import com.achievers.data.source.categories.CategoriesContentValues;
 import com.achievers.data.entities.Category;
 import com.achievers.generator.CategoriesGenerator;
-import com.achievers.provider.AchieversContract;
-import com.achievers.provider.AchieversDatabase;
-import com.achievers.provider.AchieversProvider;
+
+import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static com.achievers.data.TestUtilities.BULK_INSERT_RECORDS_TO_INSERT;
-import static com.achievers.data.TestUtilities.ID_TO_INSERT;
-import static com.achievers.data.TestUtilities.createBulkInsertTestAchievementValues;
-import static com.achievers.data.TestUtilities.createBulkInsertTestCategoryValues;
-import static com.achievers.data.TestUtilities.createBulkInsertTestEvidenceValues;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
@@ -96,7 +90,7 @@ public class TestProvider {
     @Test
     public void testBasicCategoryQuery() {
         String tableName = AchieversContract.Categories.TABLE_NAME;
-        ContentValues contentValues = TestUtilities.createTestCategoryContentValues(ID_TO_INSERT, false);
+        ContentValues contentValues = TestUtilities.createTestCategoryContentValues(TestUtilities.ID_TO_INSERT, false);
         Uri contentUri = AchieversContract.Categories.buildCategoriesUri();
 
         testBasicQuery(contentValues, tableName, contentUri);
@@ -105,7 +99,7 @@ public class TestProvider {
     @Test
     public void testBasicAchievementsQuery() {
         String tableName = AchieversContract.Achievements.TABLE_NAME;
-        ContentValues contentValues = TestUtilities.createTestAchievementContentValues(ID_TO_INSERT);
+        ContentValues contentValues = TestUtilities.createTestAchievementContentValues(TestUtilities.ID_TO_INSERT);
         Uri contentUri = AchieversContract.Achievements.buildAchievementsUri();
 
         testBasicQuery(contentValues, tableName, contentUri);
@@ -114,7 +108,7 @@ public class TestProvider {
     @Test
     public void testBasicEvidenceQuery() {
         String tableName = AchieversContract.Evidence.TABLE_NAME;
-        ContentValues contentValues = TestUtilities.createTestEvidenceContentValues(ID_TO_INSERT);
+        ContentValues contentValues = TestUtilities.createTestEvidenceContentValues(TestUtilities.ID_TO_INSERT);
         Uri contentUri = AchieversContract.Evidence.buildEvidenceUri();
 
         testBasicQuery(contentValues, tableName, contentUri);
@@ -179,7 +173,7 @@ public class TestProvider {
 
     @Test
     public void testBulkInsertCategories() {
-        ContentValues[] bulkInsertContentValues = createBulkInsertTestCategoryValues();
+        ContentValues[] bulkInsertContentValues = TestUtilities.createBulkInsertTestCategoryValues();
         Uri insertUri = AchieversContract.Categories.buildCategoriesUri();
         String sortColumn = AchieversContract.Categories.CATEGORY_ID;
         testBulkInsert(bulkInsertContentValues, insertUri, sortColumn);
@@ -187,7 +181,7 @@ public class TestProvider {
 
     @Test
     public void testBulkInsertAchievements() {
-        ContentValues[] bulkInsertContentValues = createBulkInsertTestAchievementValues();
+        ContentValues[] bulkInsertContentValues = TestUtilities.createBulkInsertTestAchievementValues();
         Uri insertUri = AchieversContract.Achievements.buildAchievementsUri();
         String sortColumn = AchieversContract.Achievements.ACHIEVEMENT_ID;
         testBulkInsert(bulkInsertContentValues, insertUri, sortColumn);
@@ -195,7 +189,7 @@ public class TestProvider {
 
     @Test
     public void testBulkInsertEvidence() {
-        ContentValues[] bulkInsertContentValues = createBulkInsertTestEvidenceValues();
+        ContentValues[] bulkInsertContentValues = TestUtilities.createBulkInsertTestEvidenceValues();
         Uri insertUri = AchieversContract.Evidence.buildEvidenceUri();
         String sortColumn = AchieversContract.Evidence.EVIDENCE_ID;
         testBulkInsert(bulkInsertContentValues, insertUri, sortColumn);
@@ -220,19 +214,19 @@ public class TestProvider {
 
         String expectedAndActualInsertedRecordCountDoNotMatch =
                 "Number of expected records inserted does not match actual inserted record count";
-        assertEquals(expectedAndActualInsertedRecordCountDoNotMatch,
+        Assert.assertEquals(expectedAndActualInsertedRecordCountDoNotMatch,
                 insertCount,
-                BULK_INSERT_RECORDS_TO_INSERT);
+                TestUtilities.BULK_INSERT_RECORDS_TO_INSERT);
 
         Cursor cursor = mContext.getContentResolver().query(
                 insertUri,
                 null, null, null,
                 sortColumn + " ASC");
 
-        assertEquals(cursor.getCount(), BULK_INSERT_RECORDS_TO_INSERT);
+        Assert.assertEquals(cursor.getCount(), TestUtilities.BULK_INSERT_RECORDS_TO_INSERT);
 
         cursor.moveToFirst();
-        for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++, cursor.moveToNext()) {
+        for (int i = 0; i < TestUtilities.BULK_INSERT_RECORDS_TO_INSERT; i++, cursor.moveToNext()) {
             TestUtilities.validateCurrentRecord(
                     "testBulkInsert. Error validating entry " + i,
                     cursor,

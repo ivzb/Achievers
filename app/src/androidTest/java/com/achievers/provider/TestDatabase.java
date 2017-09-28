@@ -1,4 +1,4 @@
-package com.achievers.data;
+package com.achievers.provider;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,8 +9,6 @@ import android.provider.BaseColumns;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.achievers.provider.AchieversContract;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,13 +17,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
-
-import static com.achievers.data.TestUtilities.ID_TO_INSERT;
-import static com.achievers.data.TestUtilities.getConstantNameByStringValue;
-import static com.achievers.data.TestUtilities.getStaticIntegerField;
-import static com.achievers.data.TestUtilities.getStaticStringField;
-import static com.achievers.data.TestUtilities.readableClassNotFound;
-import static com.achievers.data.TestUtilities.readableNoSuchField;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -93,9 +84,9 @@ public class TestDatabase {
             TestUtilities.checkIfClassImplementsBaseColumns(achievementsClass);
             TestUtilities.checkIfClassImplementsBaseColumns(evidenceClass);
 
-            REFLECTED_CATEGORIES_TABLE_NAME = getStaticStringField(categoriesClass, tableNameVariableName);
-            REFLECTED_ACHIEVEMENTS_TABLE_NAME = getStaticStringField(achievementsClass, tableNameVariableName);
-            REFLECTED_EVIDENCE_TABLE_NAME = getStaticStringField(evidenceClass, tableNameVariableName);
+            REFLECTED_CATEGORIES_TABLE_NAME = TestUtilities.getStaticStringField(categoriesClass, tableNameVariableName);
+            REFLECTED_ACHIEVEMENTS_TABLE_NAME = TestUtilities.getStaticStringField(achievementsClass, tableNameVariableName);
+            REFLECTED_EVIDENCE_TABLE_NAME = TestUtilities.getStaticStringField(evidenceClass, tableNameVariableName);
 
             achieversDatabaseClass = Class.forName(providerPackageName + databaseName);
 
@@ -115,10 +106,10 @@ public class TestDatabase {
                         SQLiteOpenHelper.class.isAssignableFrom(achieversDatabaseSuperclass));
             }
 
-            REFLECTED_DATABASE_NAME = getStaticStringField(
+            REFLECTED_DATABASE_NAME = TestUtilities.getStaticStringField(
                     achieversDatabaseClass, databaseNameVariableName);
 
-            REFLECTED_DATABASE_VERSION = getStaticIntegerField(
+            REFLECTED_DATABASE_VERSION = TestUtilities.getStaticIntegerField(
                     achieversDatabaseClass, databaseVersionVariableName);
 
             Constructor achieversDatabaseCtor = achieversDatabaseClass.getConstructor(Context.class);
@@ -131,9 +122,9 @@ public class TestDatabase {
             database = (SQLiteDatabase) getWritableDatabase.invoke(dbHelper);
 
         } catch (ClassNotFoundException e) {
-            fail(readableClassNotFound(e));
+            fail(TestUtilities.readableClassNotFound(e));
         } catch (NoSuchFieldException e) {
-            fail(readableNoSuchField(e));
+            fail(TestUtilities.readableNoSuchField(e));
         } catch (IllegalAccessException | NoSuchMethodException | InstantiationException | InvocationTargetException e) {
             fail(e.getMessage());
         }
@@ -174,7 +165,7 @@ public class TestDatabase {
     @Test
     public void testInsertSingleRecordIntoCategoriesTable() {
         String tableName = REFLECTED_CATEGORIES_TABLE_NAME;
-        ContentValues contentValues = TestUtilities.createTestCategoryContentValues(ID_TO_INSERT, false);
+        ContentValues contentValues = TestUtilities.createTestCategoryContentValues(TestUtilities.ID_TO_INSERT, false);
 
         testInsertSingleRecordIntoTable(tableName, contentValues);
     }
@@ -182,7 +173,7 @@ public class TestDatabase {
     @Test
     public void testInsertSingleRecordIntoAchievementsTable() {
         String tableName = REFLECTED_ACHIEVEMENTS_TABLE_NAME;
-        ContentValues contentValues = TestUtilities.createTestAchievementContentValues(ID_TO_INSERT);
+        ContentValues contentValues = TestUtilities.createTestAchievementContentValues(TestUtilities.ID_TO_INSERT);
 
         testInsertSingleRecordIntoTable(tableName, contentValues);
     }
@@ -190,7 +181,7 @@ public class TestDatabase {
     @Test
     public void testInsertSingleRecordIntoEvidenceTable() {
         String tableName = REFLECTED_EVIDENCE_TABLE_NAME;
-        ContentValues contentValues = TestUtilities.createTestEvidenceContentValues(ID_TO_INSERT);
+        ContentValues contentValues = TestUtilities.createTestEvidenceContentValues(TestUtilities.ID_TO_INSERT);
 
         testInsertSingleRecordIntoTable(tableName, contentValues);
     }
@@ -275,7 +266,7 @@ public class TestDatabase {
 
         String tableName = REFLECTED_CATEGORIES_TABLE_NAME;
         String column = AchieversContract.Categories.CATEGORY_ID;
-        ContentValues contentValues = TestUtilities.createTestCategoryContentValues(ID_TO_INSERT, false);
+        ContentValues contentValues = TestUtilities.createTestCategoryContentValues(TestUtilities.ID_TO_INSERT, false);
 
         testIntegerAutoincrement(tableName, column, contentValues);
     }
@@ -286,7 +277,7 @@ public class TestDatabase {
 
         String tableName = REFLECTED_ACHIEVEMENTS_TABLE_NAME;
         String column = AchieversContract.Achievements.ACHIEVEMENT_ID;
-        ContentValues contentValues = TestUtilities.createTestAchievementContentValues(ID_TO_INSERT);
+        ContentValues contentValues = TestUtilities.createTestAchievementContentValues(TestUtilities.ID_TO_INSERT);
 
         testIntegerAutoincrement(tableName, column, contentValues);
     }
@@ -297,7 +288,7 @@ public class TestDatabase {
 
         String tableName = REFLECTED_EVIDENCE_TABLE_NAME;
         String column = AchieversContract.Evidence.EVIDENCE_ID;
-        ContentValues contentValues = TestUtilities.createTestEvidenceContentValues(ID_TO_INSERT);
+        ContentValues contentValues = TestUtilities.createTestEvidenceContentValues(TestUtilities.ID_TO_INSERT);
 
         testIntegerAutoincrement(tableName, column, contentValues);
     }
@@ -334,7 +325,7 @@ public class TestDatabase {
     public void testNullColumnConstraintsCategory() {
         String tableName = REFLECTED_CATEGORIES_TABLE_NAME;
 
-        ContentValues contentValues = TestUtilities.createTestCategoryContentValues(ID_TO_INSERT, false);
+        ContentValues contentValues = TestUtilities.createTestCategoryContentValues(TestUtilities.ID_TO_INSERT, false);
         Class contractClass = AchieversContract.Categories.class;
 
         testNullColumnConstraints(tableName, contentValues, contractClass);
@@ -344,7 +335,7 @@ public class TestDatabase {
     public void testNullColumnConstraintsAchievement() {
         String tableName = REFLECTED_ACHIEVEMENTS_TABLE_NAME;
 
-        ContentValues contentValues = TestUtilities.createTestAchievementContentValues(ID_TO_INSERT);
+        ContentValues contentValues = TestUtilities.createTestAchievementContentValues(TestUtilities.ID_TO_INSERT);
         Class contractClass = AchieversContract.Achievements.class;
 
         testNullColumnConstraints(tableName, contentValues, contractClass);
@@ -354,7 +345,7 @@ public class TestDatabase {
     public void testNullColumnConstraintsEvidence() {
         String tableName = REFLECTED_EVIDENCE_TABLE_NAME;
 
-        ContentValues contentValues = TestUtilities.createTestEvidenceContentValues(ID_TO_INSERT);
+        ContentValues contentValues = TestUtilities.createTestEvidenceContentValues(TestUtilities.ID_TO_INSERT);
         Class contractClass = AchieversContract.Evidence.class;
 
         testNullColumnConstraints(tableName, contentValues, contractClass);
@@ -381,7 +372,7 @@ public class TestDatabase {
                     null,
                     contentValues);
 
-            String variableName = getConstantNameByStringValue(
+            String variableName = TestUtilities.getConstantNameByStringValue(
                     contractClass,
                     columnName);
 
@@ -405,7 +396,7 @@ public class TestDatabase {
     @Test
     public void testDuplicateCategoryIdInsertBehaviorShouldReplace() {
         String tableName = REFLECTED_CATEGORIES_TABLE_NAME;
-        ContentValues contentValues = TestUtilities.createTestCategoryContentValues(ID_TO_INSERT, false);
+        ContentValues contentValues = TestUtilities.createTestCategoryContentValues(TestUtilities.ID_TO_INSERT, false);
         String columnId = AchieversContract.Categories.CATEGORY_ID;
 
         testDuplicateIdInsertBehaviorShouldReplace(tableName, contentValues, columnId);
@@ -414,7 +405,7 @@ public class TestDatabase {
     @Test
     public void testDuplicateAchievementIdInsertBehaviorShouldReplace() {
         String tableName = REFLECTED_ACHIEVEMENTS_TABLE_NAME;
-        ContentValues contentValues = TestUtilities.createTestAchievementContentValues(ID_TO_INSERT);
+        ContentValues contentValues = TestUtilities.createTestAchievementContentValues(TestUtilities.ID_TO_INSERT);
         String columnId = AchieversContract.Achievements.ACHIEVEMENT_ID;
 
         testDuplicateIdInsertBehaviorShouldReplace(tableName, contentValues, columnId);
@@ -423,7 +414,7 @@ public class TestDatabase {
     @Test
     public void testDuplicateEvidenceIdInsertBehaviorShouldReplace() {
         String tableName = REFLECTED_EVIDENCE_TABLE_NAME;
-        ContentValues contentValues = TestUtilities.createTestEvidenceContentValues(ID_TO_INSERT);
+        ContentValues contentValues = TestUtilities.createTestEvidenceContentValues(TestUtilities.ID_TO_INSERT);
         String columnId = AchieversContract.Evidence.EVIDENCE_ID;
 
         testDuplicateIdInsertBehaviorShouldReplace(tableName, contentValues, columnId);

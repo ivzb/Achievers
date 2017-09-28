@@ -95,7 +95,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
     @Override
     public void saveAchievement(
             @NonNull Achievement achievement,
-            @NonNull SaveCallback<Void> callback) {
+            @NonNull SaveCallback<Achievement> callback) {
 
         // todo
     }

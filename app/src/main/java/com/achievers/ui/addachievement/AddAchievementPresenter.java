@@ -48,9 +48,9 @@ public class AddAchievementPresenter implements AddAchievementContract.Presenter
 
     @Override
     public void saveAchievement(final Achievement achievement) {
-        this.mAchievementsRepository.saveAchievement(achievement, new SaveCallback<Void>() {
+        this.mAchievementsRepository.saveAchievement(achievement, new SaveCallback<Achievement>() {
             @Override
-            public void onSuccess(Void result) {
+            public void onSuccess(Achievement result) {
                 mAddAchievementView.finishActivity();
             }
 
