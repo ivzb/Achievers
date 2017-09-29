@@ -13,8 +13,8 @@ import android.widget.ImageView;
 
 import com.achievers.R;
 import com.achievers.ui.achievement.AchievementDetailContract;
-import com.achievers.ui.achievements.AchievementsAdapter;
-import com.achievers.ui.achievements.AchievementsContract;
+import com.achievers.ui.achievements.Adapter;
+import com.achievers.ui.achievements.Contracts;
 import com.achievers.ui.addachievement.Adapters.InvolvementRecyclerViewAdapter;
 import com.achievers.ui.categories.CategoriesAdapter;
 import com.achievers.ui.categories.CategoriesContract;
@@ -87,7 +87,7 @@ public class AdapterSetters {
      */
     // CategoriesFragment
     @BindingAdapter({ "adapter:onLoadMore", "adapter:rvAchievementsAdapter" })
-    public static void setRvAchievementsAdapter(RecyclerView view, final AchievementsContract.Presenter presenter, final AchievementsAdapter adapter) {
+    public static void setRvAchievementsAdapter(RecyclerView view, final Contracts.Presenter presenter, final Adapter adapter) {
         if (adapter != null) {
             view.setAdapter(adapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(adapter.getContext());

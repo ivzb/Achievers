@@ -15,7 +15,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TestCategoriesPresenter {
+public class CategoriesPresenterTest {
 
 //    @Mock
 //    private LoaderManager mLoaderManager;

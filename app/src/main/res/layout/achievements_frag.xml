@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="com.achievers.ui.achievements.AchievementsViewModel" />
+            type="com.achievers.ui.achievements.ViewModel" />
 
         <variable
             name="actionHandler"
-            type="com.achievers.ui.achievements.AchievementsContract.Presenter" />
+            type="com.achievers.ui.achievements.Contracts.Presenter" />
     </data>
 
     <com.achievers.utils.ScrollChildSwipeRefreshLayout

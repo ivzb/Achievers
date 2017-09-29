@@ -73,6 +73,7 @@ dependencies {
     compile "com.google.guava:guava:$rootProject.guavaVersion"
 
     compile "com.android.support.constraint:constraint-layout:$rootProject.constraintLayoutVersion"
+    compile "com.android.support.test.espresso:espresso-idling-resource:3.0.1"
 
     // tests
     androidTestCompile 'junit:junit:4.12'

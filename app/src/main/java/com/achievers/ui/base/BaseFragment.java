@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 
 import com.achievers.utils.KeyboardUtils;
 
-public abstract class BaseFragment<T> extends Fragment implements BaseView<T> {
+public abstract class BaseFragment<T extends BasePresenter> extends Fragment implements BaseView<T> {
 
     protected T mPresenter;
 

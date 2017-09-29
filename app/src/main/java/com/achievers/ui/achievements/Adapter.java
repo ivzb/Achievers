@@ -13,18 +13,18 @@ import com.achievers.databinding.AchievementItemBinding;
 import java.util.Collection;
 import java.util.List;
 
-public class AchievementsAdapter extends RecyclerView.Adapter<AchievementsAdapter.ViewHolder> {
+public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     private List<Achievement> mAchievements;
     private Category mCategory;
-    private AchievementsItemActionHandler mAchievementsItemActionHandler;
-    private AchievementsContract.Presenter mUserActionsListener;
+    private ItemActionHandler mAchievementsItemActionHandler;
+    private Contracts.Presenter mUserActionsListener;
     private Context mContext;
 
-    public AchievementsAdapter(List<Achievement> achievements, Category category, AchievementsContract.Presenter userActionsListener) {
+    public Adapter(List<Achievement> achievements, Category category, Contracts.Presenter userActionsListener) {
         this.mAchievements = achievements;
         this.mCategory = category;
-        this.mAchievementsItemActionHandler = new AchievementsItemActionHandler(userActionsListener);
+        this.mAchievementsItemActionHandler = new ItemActionHandler(userActionsListener);
         this.mUserActionsListener = userActionsListener;
     }
 
@@ -43,7 +43,7 @@ public class AchievementsAdapter extends RecyclerView.Adapter<AchievementsAdapte
     }
 
     @Override
-    public AchievementsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         this.mContext = parent.getContext();
 
         LayoutInflater layoutInflater = LayoutInflater.from(this.mContext);

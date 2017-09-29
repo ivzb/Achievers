@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.achievers.R;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.achievers.utils.Preconditions.checkNotNull;
 
 /**
  * This provides methods to help Activities load their UI.
@@ -20,10 +20,14 @@ public class ActivityUtils {
      * performed by the {@code fragmentManager}.
      *
      */
-    public static void addFragmentToActivity (@NonNull FragmentManager fragmentManager,
-                                              @NonNull Fragment fragment, int frameId) {
+    public static void addFragmentToActivity (
+            @NonNull FragmentManager fragmentManager,
+            @NonNull Fragment fragment,
+            int frameId) {
+
         checkNotNull(fragmentManager);
         checkNotNull(fragment);
+
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(frameId, fragment);
         transaction.commit();

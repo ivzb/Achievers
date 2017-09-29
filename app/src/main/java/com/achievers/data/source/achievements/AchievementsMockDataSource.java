@@ -7,6 +7,7 @@ import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.generator.AchievementsGenerator;
+import com.achievers.utils.SimpleIdlingResource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +27,8 @@ public class AchievementsMockDataSource implements AchievementsDataSource {
     private HashMap<Long, Achievement> mEntitiesById;
 
     private AchievementsGenerator mGenerator;
+
+    private SimpleIdlingResource mIdlingResource;
 
     public static AchievementsDataSource getInstance() {
         if (sINSTANCE == null) sINSTANCE = new AchievementsMockDataSource();
@@ -73,6 +76,7 @@ public class AchievementsMockDataSource implements AchievementsDataSource {
     public void saveAchievement(
             @NonNull Achievement achievement,
             @NonNull SaveCallback<Achievement> callback) {
+
         checkNotNull(callback);
 
         if (achievement == null) {

@@ -51,8 +51,8 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
 //        this.mOpenAchievementCallback = new OpenAchievementCallback() {
 //            @Override
 //            public void onOpen(Integer categoryId) {
-//                Intent intent = new Intent(mContext, AchievementsActivity.class);
-//                intent.putExtra(AchievementsActivity.EXTRA_CATEGORY_ID, categoryId);
+//                Intent intent = new Intent(mContext, Activity.class);
+//                intent.putExtra(Activity.EXTRA_CATEGORY_ID, categoryId);
 //                mContext.startActivity(intent);
 //            }
 //        };

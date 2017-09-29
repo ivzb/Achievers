@@ -1,7 +1,6 @@
 package com.achievers.data.source.achievements;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;

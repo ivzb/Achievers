@@ -3,6 +3,7 @@ package com.achievers.ui.categories;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
+import com.achievers.ui.base.BasePresenter;
 import com.achievers.ui.base.BaseView;
 import com.achievers.data.entities.Category;
 
@@ -25,7 +26,7 @@ public class CategoriesContract {
         boolean isActive();
     }
 
-    public interface Presenter {
+    public interface Presenter extends BasePresenter {
 
         interface OpenAchievementCallback {
             void onOpen(Integer categoryId);

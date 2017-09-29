@@ -1,6 +1,7 @@
 package com.achievers.data.source;
 
 import com.achievers.BuildConfig;
+import com.achievers.utils.SimpleIdlingResource;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,6 +14,10 @@ public class RESTClient {
 
     private static Retrofit RETROFIT;
     private final static String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
+
+    private RESTClient() {
+
+    }
 
     public static Retrofit getClient() {
         if (RETROFIT == null) {
@@ -40,10 +45,7 @@ public class RESTClient {
                 .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-    }
 
-    // Prevent direct instantiation.
-    private RESTClient() {
-
+        SimpleIdlingResource.createInstance(okHttpClient);
     }
 }

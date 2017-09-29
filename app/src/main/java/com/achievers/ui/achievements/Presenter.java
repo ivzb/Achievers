@@ -4,26 +4,28 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.util.SparseBooleanArray;
 
+import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.ui.addachievement.AddAchievementActivity;
 
+import java.util.List;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class AchievementsPresenter implements AchievementsContract.Presenter {
+public class Presenter implements Contracts.Presenter {
 
     private final AchievementsDataSource mDataSource;
-    private final AchievementsContract.View mView;
+    private final Contracts.View mView;
     private SparseBooleanArray mNoMoreData;
 
-    AchievementsPresenter(
-            @NonNull AchievementsDataSource achievementsDataSource,
-            @NonNull AchievementsContract.View achievementsView) {
+    Presenter(
+            @NonNull AchievementsDataSource dataSource,
+            @NonNull Contracts.View view) {
 
-        this.mDataSource = checkNotNull(achievementsDataSource, "achievementsDataSource cannot be null");
-        this.mView = checkNotNull(achievementsView, "achievementsView cannot be null");
-        this.mView.setPresenter(this);
-        this.mNoMoreData = new SparseBooleanArray();
+        mDataSource = checkNotNull(dataSource, "achievementsDataSource cannot be null");
+        mView = checkNotNull(view, "achievementsView cannot be null");
+        mNoMoreData = new SparseBooleanArray();
     }
 
     // getString(R.string.loading_achievements_error)
@@ -42,11 +44,31 @@ public class AchievementsPresenter implements AchievementsContract.Presenter {
 
     @Override
     public void loadAchievements() {
+        if (!mView.isActive()) return;
+
         // todo
 //        if (this.mNoMoreData.get(category.getId(), false)) return; // no more data for this categoryId
 //        final long currentPage = this.mPages.get(category.getId(), 0);
 //
-//        if (showLoadingUI) mView.setLoadingIndicator(true);
+        mView.setLoadingIndicator(true);
+
+        mDataSource.loadAchievements(0, new LoadCallback<Achievement>() {
+            @Override
+            public void onSuccess(List<Achievement> data) {
+                if (!mView.isActive()) return;
+
+                mView.setLoadingIndicator(false);
+                mView.showAchievements(data);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                if (!mView.isActive()) return;
+
+                mView.setLoadingIndicator(false);
+                mView.showErrorMessage(message);
+            }
+        });
 //
 //        mDataSource.loadAchievements(category.getId(), currentPage, new LoadCallback<Achievement>() {
 //            @Override

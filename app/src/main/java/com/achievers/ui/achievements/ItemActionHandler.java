@@ -7,11 +7,11 @@ import com.achievers.data.entities.Achievement;
  * Listens to user actions from the list item in ({@link CategoriesContract.View}) and redirects them to the
  * Fragment's actions listener.
  */
-public class AchievementsItemActionHandler {
+public class ItemActionHandler {
 
-    private AchievementsContract.Presenter mListener;
+    private Contracts.Presenter mListener;
 
-    public AchievementsItemActionHandler(AchievementsContract.Presenter listener) {
+    public ItemActionHandler(Contracts.Presenter listener) {
         this.mListener = listener;
     }
 

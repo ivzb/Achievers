@@ -21,13 +21,13 @@ import com.achievers.utils.ScrollChildSwipeRefreshLayout;
 
 import java.util.List;
 
-public class AchievementsFragment extends BaseFragment<AchievementsContract.Presenter>
-        implements AchievementsContract.View, View.OnClickListener {
+public class Fragment extends BaseFragment<Contracts.Presenter>
+        implements Contracts.View, View.OnClickListener {
 
     private AchievementsFragBinding mViewDataBinding;
-    private AchievementsViewModel mAchievementsViewModel;
+    private ViewModel mAchievementsViewModel;
 
-    public AchievementsFragment() {
+    public Fragment() {
 
     }
 
@@ -36,9 +36,9 @@ public class AchievementsFragment extends BaseFragment<AchievementsContract.Pres
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.achievements_frag, container, false);
 
-        this.mViewDataBinding = AchievementsFragBinding.bind(view);
-        this.mViewDataBinding.setViewModel(mAchievementsViewModel);
-        this.mViewDataBinding.setActionHandler(mPresenter);
+        mViewDataBinding = AchievementsFragBinding.bind(view);
+        mViewDataBinding.setViewModel(mAchievementsViewModel);
+        mViewDataBinding.setActionHandler(mPresenter);
 
         setHasOptionsMenu(true);
         setRetainInstance(true);
@@ -57,21 +57,23 @@ public class AchievementsFragment extends BaseFragment<AchievementsContract.Pres
     }
 
     @Override
-    public void showAchievements(Category category, List<Achievement> achievements) {
-        if (mAchievementsViewModel.getCategory() != null &&
-                mAchievementsViewModel.getCategory().equals(category) &&
-                mAchievementsViewModel.getAdapter() != null &&
-                mAchievementsViewModel.getAdapter().getItemCount() > 0) {
+    public void showAchievements(/*Category category, */List<Achievement> achievements) {
+//        if (mAchievementsViewModel.getCategory() != null &&
+//                mAchievementsViewModel.getCategory().equals(category) &&
+//                mAchievementsViewModel.getAdapter() != null &&
+//                mAchievementsViewModel.getAdapter().getItemCount() > 0) {
+//
+//            // endless scroll is loading more items
+//            mAchievementsViewModel.getAdapter().addAchievements(achievements);
+//            return;
+//        }
+//
+//        // new category has been loaded
+//        Adapter adapter = new Adapter(achievements, category, mPresenter);
+//        mAchievementsViewModel.setAdapter(adapter);
+//        mAchievementsViewModel.setCategory(category);
 
-            // endless scroll is loading more items
-            mAchievementsViewModel.getAdapter().addAchievements(achievements);
-            return;
-        }
-
-        // new category has been loaded
-        AchievementsAdapter adapter = new AchievementsAdapter(achievements, category, mPresenter);
-        mAchievementsViewModel.setAdapter(adapter);
-        mAchievementsViewModel.setCategory(category);
+        // todo: add data to adapter
     }
 
     @Override
@@ -107,7 +109,7 @@ public class AchievementsFragment extends BaseFragment<AchievementsContract.Pres
         showAddAchievementUi(-1);
     }
 
-    public void setViewModel(AchievementsViewModel achievementsViewModel) {
+    public void setViewModel(ViewModel achievementsViewModel) {
         this.mAchievementsViewModel = achievementsViewModel;
     }
 

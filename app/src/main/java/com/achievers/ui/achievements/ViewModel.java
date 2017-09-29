@@ -15,19 +15,19 @@ import com.achievers.data.entities.Category;
  * property changes. This is done by assigning a {@link Bindable} annotation to the property's
  * getter method.
  */
-public class AchievementsViewModel extends BaseObservable {
+public class ViewModel extends BaseObservable {
 
-    private AchievementsAdapter mAdapter;
+    private Adapter mAdapter;
     private Category mCategory;
 
     private Context mContext;
 
-    public AchievementsViewModel(Context context) {
+    public ViewModel(Context context) {
         this.mContext = context;
     }
 
     @Bindable
-    public AchievementsAdapter getAdapter() {
+    public Adapter getAdapter() {
         return this.mAdapter;
     }
 
@@ -37,7 +37,7 @@ public class AchievementsViewModel extends BaseObservable {
         return this.mCategory;
     }
 
-    public void setAdapter(AchievementsAdapter adapter) {
+    public void setAdapter(Adapter adapter) {
         this.mAdapter = adapter;
         notifyPropertyChanged(BR.adapter);
     }
