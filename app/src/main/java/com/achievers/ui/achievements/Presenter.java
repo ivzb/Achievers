@@ -2,7 +2,6 @@ package com.achievers.ui.achievements;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
-import android.util.SparseBooleanArray;
 
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
@@ -17,7 +16,6 @@ public class Presenter implements Contracts.Presenter {
 
     private final AchievementsDataSource mDataSource;
     private final Contracts.View mView;
-    private SparseBooleanArray mNoMoreData;
 
     Presenter(
             @NonNull AchievementsDataSource dataSource,
@@ -25,14 +23,12 @@ public class Presenter implements Contracts.Presenter {
 
         mDataSource = checkNotNull(dataSource, "achievementsDataSource cannot be null");
         mView = checkNotNull(view, "achievementsView cannot be null");
-        mNoMoreData = new SparseBooleanArray();
     }
-
-    // getString(R.string.loading_achievements_error)
 
     @Override
     public void start() {
-        loadAchievements();
+        int firstPage = 0;
+        loadAchievements(firstPage);
     }
 
     @Override
@@ -43,16 +39,12 @@ public class Presenter implements Contracts.Presenter {
     }
 
     @Override
-    public void loadAchievements() {
+    public void loadAchievements(final int page) {
         if (!mView.isActive()) return;
 
-        // todo
-//        if (this.mNoMoreData.get(category.getId(), false)) return; // no more data for this categoryId
-//        final long currentPage = this.mPages.get(category.getId(), 0);
-//
         mView.setLoadingIndicator(true);
 
-        mDataSource.loadAchievements(0, new LoadCallback<Achievement>() {
+        mDataSource.loadAchievements(page, new LoadCallback<Achievement>() {
             @Override
             public void onSuccess(List<Achievement> data) {
                 if (!mView.isActive()) return;
@@ -69,28 +61,6 @@ public class Presenter implements Contracts.Presenter {
                 mView.showErrorMessage(message);
             }
         });
-//
-//        mDataSource.loadAchievements(category.getId(), currentPage, new LoadCallback<Achievement>() {
-//            @Override
-//            public void onSuccess(final List<Achievement> achievements) {
-//                // The view may not be able to handle UI updates anymore
-//                if (!mView.isActive()) return;
-//                if (showLoadingUI) mView.setLoadingIndicator(false);
-//
-//                mPages.put(category.getId(), currentPage + 1); // current category page++
-////                if (achievements.size() < RESTClient.getPageSize()) mNoMoreData.put(category.getId(), true); // no more data for this categoryId
-//
-//                mView.showAchievements(category, achievements);
-//            }
-//
-//            @Override
-//            public void onFailure(String message) {
-//                // The view may not be able to handle UI updates anymore
-//                if (!mView.isActive()) return;
-//                mView.showLoadingError();
-//                if (showLoadingUI) mView.setLoadingIndicator(false);
-//            }
-//        });
     }
 
     @Override

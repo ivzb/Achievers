@@ -28,8 +28,6 @@ public class AchievementsMockDataSource implements AchievementsDataSource {
 
     private AchievementsGenerator mGenerator;
 
-    private SimpleIdlingResource mIdlingResource;
-
     public static AchievementsDataSource getInstance() {
         if (sINSTANCE == null) sINSTANCE = new AchievementsMockDataSource();
 

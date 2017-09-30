@@ -28,7 +28,7 @@ public class Contracts {
 
         void result(int requestCode, int resultCode);
 
-        void loadAchievements();
+        void loadAchievements(int page);
 
         void openAchievementDetails(@NonNull Achievement requestedAchievement);
     }
