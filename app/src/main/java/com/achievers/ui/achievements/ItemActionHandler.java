@@ -9,10 +9,10 @@ import com.achievers.ui.categories.CategoriesContract;
  */
 public class ItemActionHandler {
 
-    private Contracts.Presenter mListener;
+    private Contracts.Presenter mPresenter;
 
-    public ItemActionHandler(Contracts.Presenter listener) {
-        this.mListener = listener;
+    ItemActionHandler(Contracts.Presenter listener) {
+        mPresenter = listener;
     }
 
     /**

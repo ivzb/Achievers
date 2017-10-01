@@ -46,6 +46,17 @@ public class AdapterSetters {
         }
     }
 
+    @BindingAdapter({ "bind:url" })
+    public static void loadImage(SimpleDraweeView view, String imageUrl) {
+        if (imageUrl != null) {
+            Uri uri = Uri.parse(imageUrl);
+            view.setImageURI(uri);
+
+            GenericDraweeHierarchy hierarchy = view.getHierarchy();
+            hierarchy.setFadeDuration(250);
+        }
+    }
+
     // Binding Drawable to ImageView
     @BindingAdapter("android:src")
     public static void setImageDrawable(ImageView view, Drawable drawable) {
@@ -75,36 +86,6 @@ public class AdapterSetters {
         if (view.getAdapter() != null) {
             CategoriesAdapter adapter = (CategoriesAdapter) view.getAdapter();
             adapter.swapCursor(cursor);
-        }
-    }
-
-    /**
-     * Initializes RecyclerView adapter and loads automatically more items as
-     * the user scrolls through the items (aka infinite scroll)
-     * <p>
-     * Creates the {@code android:onLoadMore} for a {@link EndlessRecyclerViewScrollListener}
-     * that takes a {@link CategoriesContract.Presenter}.
-     */
-    // CategoriesFragment
-    @BindingAdapter({ "adapter:onLoadMore", "adapter:rvAchievementsAdapter" })
-    public static void setRvAchievementsAdapter(RecyclerView view, final Contracts.Presenter presenter, final Adapter adapter) {
-        if (adapter != null) {
-            view.setAdapter(adapter);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(adapter.getContext());
-            view.setLayoutManager(linearLayoutManager);
-
-            // Retain an instance so that you can call `resetState()` for fresh searches
-            EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-                @Override
-                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                    // Triggered only when new data needs to be appended to the list
-                    // Add whatever code is needed to append new items to the bottom of the list
-                    Category category = adapter.getCategory();
-                    presenter.loadAchievements(page/*category*/);
-                }
-            };
-            // Adds the scroll listener to RecyclerView
-            view.addOnScrollListener(scrollListener);
         }
     }
 

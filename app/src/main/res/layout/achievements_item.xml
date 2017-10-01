@@ -10,10 +10,6 @@
             type="com.achievers.data.entities.Achievement" />
 
         <variable
-            name="resources"
-            type="android.content.res.Resources" />
-
-        <variable
             name="actionHandler"
             type="com.achievers.ui.achievements.ItemActionHandler" />
     </data>
@@ -37,8 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
-                app:url="@{ achievement.imageUrl }"
-                app:resources="@{ resources }" />
+                app:url="@{ achievement.imageUrl }" />
         </LinearLayout>
 
         <LinearLayout

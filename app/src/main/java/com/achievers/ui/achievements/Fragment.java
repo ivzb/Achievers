@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import com.achievers.databinding.AchievementsFragBinding;
 import com.achievers.ui.achievement.AchievementDetailActivity;
 import com.achievers.ui.add_achievement.AddAchievementActivity;
 import com.achievers.ui.base.BaseFragment;
+import com.achievers.utils.EndlessRecyclerViewScrollListener;
 import com.achievers.utils.ScrollChildSwipeRefreshLayout;
 
 import java.util.List;
@@ -25,6 +28,7 @@ public class Fragment
         implements Contracts.View, View.OnClickListener {
 
     private AchievementsFragBinding mViewDataBinding;
+    private Contracts.Adapter mAdapter;
 
     public Fragment() {
 
@@ -37,7 +41,6 @@ public class Fragment
 
         mViewDataBinding = AchievementsFragBinding.bind(view);
         mViewDataBinding.setViewModel(mViewModel);
-        mViewDataBinding.setActionHandler(mPresenter);
 
         setHasOptionsMenu(true);
         setRetainInstance(true);
@@ -54,6 +57,8 @@ public class Fragment
     public void onResume() {
         super.onResume();
 
+        setUpRecycler();
+
         int initialPage = 0;
         mPresenter.loadAchievements(initialPage);
     }
@@ -64,23 +69,8 @@ public class Fragment
 //    }
 
     @Override
-    public void showAchievements(/*Category category, */List<Achievement> achievements) {
-//        if (mAchievementsViewModel.getCategory() != null &&
-//                mAchievementsViewModel.getCategory().equals(category) &&
-//                mAchievementsViewModel.getAdapter() != null &&
-//                mAchievementsViewModel.getAdapter().getItemCount() > 0) {
-//
-//            // endless scroll is loading more items
-//            mAchievementsViewModel.getAdapter().addAchievements(achievements);
-//            return;
-//        }
-//
-//        // new category has been loaded
-//        Adapter adapter = new Adapter(achievements, category, mPresenter);
-//        mAchievementsViewModel.setAdapter(adapter);
-//        mAchievementsViewModel.setCategory(category);
-
-        // todo: add data to adapter
+    public void showAchievements(List<Achievement> achievements) {
+        mAdapter.addAchievements(achievements);
     }
 
     @Override
@@ -126,5 +116,20 @@ public class Fragment
         );
 
         srl.setScrollUpChild(mViewDataBinding.rvAchievements);
+    }
+
+    private void setUpRecycler() {
+        mAdapter = new Adapter(mPresenter);
+        mViewDataBinding.rvAchievements.setAdapter((RecyclerView.Adapter) mAdapter);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        mViewDataBinding.rvAchievements.setLayoutManager(layoutManager);
+
+        mViewDataBinding.rvAchievements.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                mPresenter.loadAchievements(page);
+            }
+        });
     }
 }

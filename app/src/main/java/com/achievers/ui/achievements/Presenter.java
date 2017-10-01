@@ -1,10 +1,13 @@
 package com.achievers.ui.achievements;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.source.achievements.AchievementsDataSource;
+import com.achievers.utils.EndlessRecyclerViewScrollListener;
 
 import java.util.List;
 

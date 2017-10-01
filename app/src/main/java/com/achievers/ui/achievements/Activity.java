@@ -51,6 +51,6 @@ public class Activity extends BaseActivity {
 
         view.setPresenter(presenter);
         view.setViewModel(
-                new ViewModel(this));
+                new ViewModel());
     }
 }

@@ -1,10 +1,14 @@
 package com.achievers.ui.achievements;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Category;
 import com.achievers.ui.base.BasePresenter;
 import com.achievers.ui.base.BaseView;
 import com.achievers.ui.base.BaseViewModel;
+import com.achievers.utils.EndlessRecyclerViewScrollListener;
 
 import java.util.List;
 
@@ -32,10 +36,10 @@ public class Contracts {
 
     public interface ViewModel extends BaseViewModel {
 
-        Adapter getAdapter();
-        void setAdapter(Adapter adapter);
+    }
 
-        Category getCategory();
-        void setCategory(Category category);
+    public interface Adapter {
+
+        void addAchievements(List<Achievement> achievements);
     }
 }
