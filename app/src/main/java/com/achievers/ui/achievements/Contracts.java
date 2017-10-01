@@ -26,10 +26,10 @@ public class Contracts {
 
     public interface Presenter extends BasePresenter {
 
-        void result(int requestCode, int resultCode);
+//        void result(int requestCode, int resultCode);
 
         void loadAchievements(int page);
 
-        void openAchievementDetails(@NonNull Achievement requestedAchievement);
+//        void openAchievementDetails(@NonNull Achievement requestedAchievement);
     }
 }

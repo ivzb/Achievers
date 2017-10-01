@@ -25,18 +25,12 @@ public class Presenter implements Contracts.Presenter {
         mView = checkNotNull(view, "achievementsView cannot be null");
     }
 
-    @Override
-    public void start() {
-        int firstPage = 0;
-        loadAchievements(firstPage);
-    }
-
-    @Override
-    public void result(int requestCode, int resultCode) {
-        if (AddAchievementActivity.REQUEST_ADD_ACHIEVEMENT == requestCode && Activity.RESULT_OK == resultCode) {
-            mView.showSuccessfulMessage("Your achievement will be uploaded shortly.");
-        }
-    }
+//    @Override
+//    public void result(int requestCode, int resultCode) {
+//        if (AddAchievementActivity.REQUEST_ADD_ACHIEVEMENT == requestCode && Activity.RESULT_OK == resultCode) {
+//            mView.showSuccessfulMessage("Your achievement will be uploaded shortly.");
+//        }
+//    }
 
     @Override
     public void loadAchievements(final int page) {
@@ -63,9 +57,9 @@ public class Presenter implements Contracts.Presenter {
         });
     }
 
-    @Override
-    public void openAchievementDetails(@NonNull Achievement requestedAchievement) {
-        checkNotNull(requestedAchievement, "requestedAchievement cannot be null!");
-        mView.showAchievementDetailsUi(/*requestedAchievement.getId()*/);
-    }
+//    @Override
+//    public void openAchievementDetails(@NonNull Achievement requestedAchievement) {
+//        checkNotNull(requestedAchievement, "requestedAchievement cannot be null!");
+//        mView.showAchievementDetailsUi(/*requestedAchievement.getId()*/);
+//    }
 }

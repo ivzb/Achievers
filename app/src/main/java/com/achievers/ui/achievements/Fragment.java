@@ -52,9 +52,17 @@ public class Fragment extends BaseFragment<Contracts.Presenter>
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mPresenter.result(requestCode, resultCode);
+    public void onResume() {
+        super.onResume();
+
+        int initialPage = 0;
+        mPresenter.loadAchievements(initialPage);
     }
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        mPresenter.result(requestCode, resultCode);
+//    }
 
     @Override
     public void showAchievements(/*Category category, */List<Achievement> achievements) {

@@ -19,6 +19,6 @@ public class ItemActionHandler {
      * Called by the Data Binding library when the row is clicked.
      */
     public void achievementClicked(Achievement achievement) {
-        this.mListener.openAchievementDetails(achievement);
+//        this.mListener.openAchievementDetails(achievement);
     }
 }

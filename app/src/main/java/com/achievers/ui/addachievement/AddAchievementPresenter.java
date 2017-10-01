@@ -42,11 +42,6 @@ public class AddAchievementPresenter implements AddAchievementContract.Presenter
     }
 
     @Override
-    public void start() {
-        getInvolvements();
-    }
-
-    @Override
     public void saveAchievement(final Achievement achievement) {
         this.mAchievementsRepository.saveAchievement(achievement, new SaveCallback<Achievement>() {
             @Override

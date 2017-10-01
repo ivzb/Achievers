@@ -47,11 +47,6 @@ public class AchievementDetailPresenter implements AchievementDetailContract.Pre
     }
 
     @Override
-    public void start() {
-        getAchievement();
-    }
-
-    @Override
     public void getAchievement() {
         this.mAchievementsDataSource.getAchievement(this.mAchievementId, new GetCallback<Achievement>() {
             @Override

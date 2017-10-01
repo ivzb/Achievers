@@ -41,7 +41,10 @@ public class AchievementsMockDataSource implements AchievementsDataSource {
     }
 
     @Override
-    public void getAchievement(long id, @NonNull GetCallback<Achievement> callback) {
+    public void getAchievement(
+            long id,
+            @NonNull GetCallback<Achievement> callback) {
+
         checkNotNull(callback);
 
         if (!mEntitiesById.containsKey(id)) {
@@ -56,6 +59,7 @@ public class AchievementsMockDataSource implements AchievementsDataSource {
     public void loadAchievements(
             int page,
             @NonNull LoadCallback<Achievement> callback) {
+
         checkNotNull(callback);
 
         if (page < 0) {
@@ -91,19 +95,16 @@ public class AchievementsMockDataSource implements AchievementsDataSource {
     }
 
     private void load(int to) {
-        long nextId = 1;
+        long nextId = mEntities.size() + 1;
         int size = to - mEntities.size();
 
-        if (mEntities.size() > 0) {
-            Achievement last = mEntities.get(mEntities.size() - 1);
-            nextId = last.getId() + 1;
-        }
+        if (size > 0) {
+            List<Achievement> generated = mGenerator.multiple(nextId, size);
 
-        List<Achievement> generated = mGenerator.multiple(nextId, size);
-
-        for (Achievement achievement: generated) {
-            mEntitiesById.put(achievement.getId(), achievement);
-            mEntities.add(achievement);
+            for (Achievement achievement : generated) {
+                mEntitiesById.put(achievement.getId(), achievement);
+                mEntities.add(achievement);
+            }
         }
     }
 }

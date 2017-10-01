@@ -66,7 +66,8 @@ public class AchievementDetailFragment extends BaseFragment<AchievementDetailCon
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+
+        mPresenter.getAchievement();
     }
 
     @Nullable

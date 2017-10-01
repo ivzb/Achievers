@@ -72,7 +72,8 @@ public class AddAchievementFragment extends BaseFragment<AddAchievementContract.
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+
+        mPresenter.getInvolvements();
     }
 
     @Override

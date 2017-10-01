@@ -21,8 +21,8 @@ public class AchievementsGenerator {
         List<Achievement> achievements = new ArrayList<>(size);
 
         for (int i = 0; i < size; i++) {
-            Achievement achievement = single(id + i);
-            achievements.add(achievement);
+            Achievement newAchievement = single(id + i);
+            achievements.add(newAchievement);
         }
 
         return achievements;
