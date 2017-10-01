@@ -2,11 +2,6 @@ package com.achievers.data.entities;
 
 import com.achievers.R;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
 public enum Involvement {
     Bronze(1),
     Silver(2),

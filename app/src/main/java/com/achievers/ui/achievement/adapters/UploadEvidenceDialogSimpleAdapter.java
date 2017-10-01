@@ -1,4 +1,4 @@
-package com.achievers.ui.achievement.Adapters;
+package com.achievers.ui.achievement.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

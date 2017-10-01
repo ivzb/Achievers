@@ -3,8 +3,8 @@ package com.achievers.data.source.categories.remote;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.callbacks.GetCallback;
-import com.achievers.data.source.categories.CategoriesDataSource;
 import com.achievers.data.entities.Category;
+import com.achievers.data.source.categories.CategoriesDataSource;
 import com.achievers.generator.CategoriesGenerator;
 
 import java.util.HashMap;

@@ -3,9 +3,9 @@ package com.achievers.ui.categories;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
-import com.achievers.data.source.categories.CategoriesRepository;
 import com.achievers.data.entities.Category;
 import com.achievers.data.source.categories.CategoriesDataSource;
+import com.achievers.data.source.categories.CategoriesRepository;
 
 import java.util.EmptyStackException;
 import java.util.Stack;

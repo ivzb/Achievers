@@ -1,18 +1,18 @@
-package com.achievers.ui.achievement;
+package com.achievers.ui.add_achievement;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import com.achievers.BR;
 import com.achievers.data.entities.Achievement;
-import com.achievers.ui.evidence.EvidenceAdapter;
+import com.achievers.ui.add_achievement.Adapters.InvolvementRecyclerViewAdapter;
 
-public class AchievementDetailViewModel
+public class AddAchievementViewModel
         extends BaseObservable
-        implements AchievementDetailContract.ViewModel {
+        implements AddAchievementContract.ViewModel {
 
     private Achievement mAchievement;
-    private EvidenceAdapter mEvidenceAdapter;
+    private InvolvementRecyclerViewAdapter mInvolvementsAdapter;
 
     @Bindable
     @Override
@@ -28,13 +28,13 @@ public class AchievementDetailViewModel
 
     @Bindable
     @Override
-    public EvidenceAdapter getEvidenceAdapter() {
-        return this.mEvidenceAdapter;
+    public InvolvementRecyclerViewAdapter getInvolvementsAdapter() {
+        return mInvolvementsAdapter;
     }
 
     @Override
-    public void setEvidenceAdapter(EvidenceAdapter evidenceAdapter) {
-        this.mEvidenceAdapter = evidenceAdapter;
-        notifyPropertyChanged(BR.evidenceAdapter);
+    public void setInvolvementsAdapter(InvolvementRecyclerViewAdapter adapter) {
+        mInvolvementsAdapter = adapter;
+        this.notifyPropertyChanged(BR.involvementsAdapter);
     }
 }

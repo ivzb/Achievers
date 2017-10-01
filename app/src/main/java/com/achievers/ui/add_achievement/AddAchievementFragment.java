@@ -1,8 +1,7 @@
-package com.achievers.ui.addachievement;
+package com.achievers.ui.add_achievement;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -22,17 +21,15 @@ import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import com.achievers.ui.addachievement.Adapters.InvolvementRecyclerViewAdapter;
 import com.achievers.BuildConfig;
 import com.achievers.R;
 import com.achievers.data.callbacks.SaveCallback;
-import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.File;
 import com.achievers.data.entities.Involvement;
 import com.achievers.databinding.AddAchievementFragBinding;
+import com.achievers.ui.add_achievement.Adapters.InvolvementRecyclerViewAdapter;
 import com.achievers.ui.base.BaseFragment;
 
 import java.io.FileNotFoundException;
@@ -44,26 +41,18 @@ import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-/**
- * Main UI for the add task screen. Users can enter a task title and description.
- */
-public class AddAchievementFragment extends BaseFragment<AddAchievementContract.Presenter> implements AddAchievementContract.View {
+public class AddAchievementFragment
+        extends BaseFragment<AddAchievementContract.Presenter, AddAchievementContract.ViewModel>
+        implements AddAchievementContract.View {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
     private static final int REQUEST_PERMISSION = 3;
 
     private AddAchievementContract.Presenter mPresenter;
-
-    private String mImageFilePath;
-
     private AddAchievementFragBinding mViewDataBinding;
 
-    private AddAchievementViewModel mViewModel;
-
-    public static AddAchievementFragment newInstance() {
-        return new AddAchievementFragment();
-    }
+    private String mImageFilePath;
 
     public AddAchievementFragment() {
         // Required empty public constructor
@@ -72,7 +61,6 @@ public class AddAchievementFragment extends BaseFragment<AddAchievementContract.
     @Override
     public void onResume() {
         super.onResume();
-
         mPresenter.getInvolvements();
     }
 
@@ -94,7 +82,7 @@ public class AddAchievementFragment extends BaseFragment<AddAchievementContract.
                 String description = mViewDataBinding.etDescription.getText().toString();
                 String imageUrl = "";
                 Integer categoryId = null;
-                Involvement involvement = mViewModel.getInvolvementRecyclerViewAdapter().getSelectedInvolvement();
+                Involvement involvement = mViewModel.getInvolvementsAdapter().getSelectedInvolvement();
 
 //                Achievement achievement = new Achievement(title, description, imageUrl, categoryId, involvement);
 
@@ -208,18 +196,14 @@ public class AddAchievementFragment extends BaseFragment<AddAchievementContract.
 
     @Override
     public void showInvolvement(List<Involvement> involvement) {
-        InvolvementRecyclerViewAdapter involvementAdapter = new InvolvementRecyclerViewAdapter(this.getContext(), involvement);
-        this.mViewModel.setInvolvementRecyclerViewAdapter(involvementAdapter);
+        mViewModel.setInvolvementsAdapter(new InvolvementRecyclerViewAdapter(
+                getContext(),
+                involvement));
     }
 
     @Override
     public void showInvalidAchievementMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void setViewModel(AddAchievementViewModel viewModel) {
-        mViewModel = viewModel;
     }
 
     public View.OnClickListener takePictureListener = new View.OnClickListener() {

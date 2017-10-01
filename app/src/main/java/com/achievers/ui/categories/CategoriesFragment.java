@@ -31,21 +31,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Display a screen with categories
  */
-public class CategoriesFragment extends BaseFragment<CategoriesContract.Presenter> implements CategoriesContract.View {
+public class CategoriesFragment
+        extends BaseFragment<CategoriesContract.Presenter, CategoriesContract.ViewModel>
+        implements CategoriesContract.View {
 
     private static final int LOADER_CATEGORIES = 1;
 
-    private CategoriesContract.Presenter mPresenter;
     private CategoriesFragBinding mViewDataBinding;
-    private CategoriesViewModel mCategoriesViewModel;
 
     public CategoriesFragment() {
 
-    }
-
-    @Override
-    public void setPresenter(@NonNull CategoriesContract.Presenter presenter) {
-        this.mPresenter = checkNotNull(presenter);
     }
 
     @Override
@@ -65,11 +60,11 @@ public class CategoriesFragment extends BaseFragment<CategoriesContract.Presente
         View view = inflater.inflate(R.layout.categories_frag, container, false);
 
         mViewDataBinding = CategoriesFragBinding.bind(view);
-        mViewDataBinding.setCategories(this.mCategoriesViewModel);
-        mViewDataBinding.setActionHandler(this.mPresenter);
+        mViewDataBinding.setViewModel(mViewModel);
+        mViewDataBinding.setActionHandler(mPresenter);
 
         CategoriesAdapter adapter = new CategoriesAdapter(mPresenter);
-        mCategoriesViewModel.setAdapter(adapter);
+        mViewModel.setAdapter(adapter);
 
         setHasOptionsMenu(true);
         setRetainInstance(true);
@@ -109,7 +104,7 @@ public class CategoriesFragment extends BaseFragment<CategoriesContract.Presente
                 public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
                     switch (loader.getId()) {
                         case LOADER_CATEGORIES:
-                            mViewDataBinding.getCategories().setCursor(data);
+                            mViewModel.setCursor(data);
                             break;
                     }
                 }
@@ -118,7 +113,7 @@ public class CategoriesFragment extends BaseFragment<CategoriesContract.Presente
                 public void onLoaderReset(Loader<Cursor> loader) {
                     switch (loader.getId()) {
                         case LOADER_CATEGORIES:
-                            mViewDataBinding.getCategories().setCursor(null);
+                            mViewModel.setCursor(null);
                             break;
                     }
                 }
@@ -129,7 +124,7 @@ public class CategoriesFragment extends BaseFragment<CategoriesContract.Presente
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_refresh:
-                Long parentId = mCategoriesViewModel.getParent() != null ? mCategoriesViewModel.getParent().getId() : null;
+                Long parentId = mViewModel.getParent() != null ? mViewModel.getParent().getId() : null;
                 // todo: refresh current categories, do not reset to null
                 mPresenter.loadCategories(null);
 //                Integer categoryId = mAchievementsViewModel.getCategory() != null ? mAchievementsViewModel.getCategory().getId() : null;
@@ -142,10 +137,6 @@ public class CategoriesFragment extends BaseFragment<CategoriesContract.Presente
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.categories_fragment_menu, menu);
-    }
-
-    public void setViewModel(CategoriesViewModel categoriesViewModel) {
-        this.mCategoriesViewModel = categoriesViewModel;
     }
 
     @Override
@@ -165,21 +156,21 @@ public class CategoriesFragment extends BaseFragment<CategoriesContract.Presente
 
     @Override
     public void showCategories(Cursor cursor) {
-        mCategoriesViewModel.setCursor(cursor);
+        mViewModel.setCursor(cursor);
 
         int cursorSize = CursorUtils.getSize(cursor);
-        mCategoriesViewModel.setCategoriesListSize(cursorSize);
+        mViewModel.setCategoriesListSize(cursorSize);
     }
 
     @Override
     public void showNoCategories() {
-        mCategoriesViewModel.setCategoriesListSize(0);
-        mCategoriesViewModel.setLoading(false);
+        mViewModel.setCategoriesListSize(0);
+        mViewModel.setLoading(false);
     }
 
     @Override
     public void showParent(Category parent) {
-        mCategoriesViewModel.setParent(parent);
+        mViewModel.setParent(parent);
     }
 
     @Override

@@ -6,8 +6,8 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.support.annotation.VisibleForTesting;
 
-import com.achievers.data.source.categories.CategoryDao;
 import com.achievers.data.entities.Category;
+import com.achievers.data.source.categories.CategoryDao;
 
 @Database(entities = {Category.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {

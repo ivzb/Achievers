@@ -5,8 +5,8 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import com.achievers.BR;
-import com.achievers.ui.categories.CategoriesContract;
 import com.achievers.data.entities.Category;
+import com.achievers.ui.categories.CategoriesContract;
 
 /**
  * Exposes the data to be used in the {@link CategoriesContract.View}.
@@ -15,7 +15,7 @@ import com.achievers.data.entities.Category;
  * property changes. This is done by assigning a {@link Bindable} annotation to the property's
  * getter method.
  */
-public class ViewModel extends BaseObservable {
+public class ViewModel extends BaseObservable implements Contracts.ViewModel {
 
     private Adapter mAdapter;
     private Category mCategory;
@@ -27,21 +27,25 @@ public class ViewModel extends BaseObservable {
     }
 
     @Bindable
+    @Override
     public Adapter getAdapter() {
         return this.mAdapter;
     }
 
-    @Bindable
-    public Category getCategory()
-    {
-        return this.mCategory;
-    }
-
+    @Override
     public void setAdapter(Adapter adapter) {
         this.mAdapter = adapter;
         notifyPropertyChanged(BR.adapter);
     }
 
+    @Bindable
+    @Override
+    public Category getCategory()
+    {
+        return this.mCategory;
+    }
+
+    @Override
     public void setCategory(Category category) {
         this.mCategory = category;
         notifyPropertyChanged(BR.category);

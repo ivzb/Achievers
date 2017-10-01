@@ -10,22 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.achievers.ui.achievement.AchievementDetailActivity;
-import com.achievers.ui.addachievement.AddAchievementActivity;
 import com.achievers.R;
 import com.achievers.data.entities.Achievement;
-import com.achievers.data.entities.Category;
 import com.achievers.databinding.AchievementsFragBinding;
+import com.achievers.ui.achievement.AchievementDetailActivity;
+import com.achievers.ui.add_achievement.AddAchievementActivity;
 import com.achievers.ui.base.BaseFragment;
 import com.achievers.utils.ScrollChildSwipeRefreshLayout;
 
 import java.util.List;
 
-public class Fragment extends BaseFragment<Contracts.Presenter>
+public class Fragment
+        extends BaseFragment<Contracts.Presenter, Contracts.ViewModel>
         implements Contracts.View, View.OnClickListener {
 
     private AchievementsFragBinding mViewDataBinding;
-    private ViewModel mAchievementsViewModel;
 
     public Fragment() {
 
@@ -37,7 +36,7 @@ public class Fragment extends BaseFragment<Contracts.Presenter>
         View view = inflater.inflate(R.layout.achievements_frag, container, false);
 
         mViewDataBinding = AchievementsFragBinding.bind(view);
-        mViewDataBinding.setViewModel(mAchievementsViewModel);
+        mViewDataBinding.setViewModel(mViewModel);
         mViewDataBinding.setActionHandler(mPresenter);
 
         setHasOptionsMenu(true);
@@ -115,10 +114,6 @@ public class Fragment extends BaseFragment<Contracts.Presenter>
     @Override
     public void onClick(View view) {
         showAddAchievementUi(-1);
-    }
-
-    public void setViewModel(ViewModel achievementsViewModel) {
-        this.mAchievementsViewModel = achievementsViewModel;
     }
 
     private void setUpLoadingIndicator() {

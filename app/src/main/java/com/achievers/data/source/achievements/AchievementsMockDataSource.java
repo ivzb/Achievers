@@ -7,7 +7,6 @@ import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.generator.AchievementsGenerator;
-import com.achievers.utils.SimpleIdlingResource;
 
 import java.util.ArrayList;
 import java.util.HashMap;

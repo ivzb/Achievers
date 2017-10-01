@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.achievers.BR;
-import com.achievers.data.source.categories.CategoriesCursor;
 import com.achievers.data.entities.Category;
+import com.achievers.data.source.categories.CategoriesCursor;
 import com.achievers.databinding.CategoryItemBinding;
 import com.achievers.utils.CursorUtils;
 

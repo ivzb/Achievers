@@ -13,8 +13,8 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.achievers.data.source.categories.CategoryDao;
 import com.achievers.data.entities.Category;
+import com.achievers.data.source.categories.CategoryDao;
 
 import java.util.ArrayList;
 

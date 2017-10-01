@@ -16,7 +16,7 @@
 
         <variable
             name="viewModel"
-            type="com.achievers.ui.achievement.AchievementDetailViewModel" />
+            type="com.achievers.ui.achievement.AchievementDetailContract.ViewModel" />
     </data>
 
     <LinearLayout

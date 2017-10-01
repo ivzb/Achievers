@@ -6,7 +6,11 @@ import com.achievers.data.entities.Category;
 
 import java.util.List;
 
-import static com.achievers.provider.AchieversContract.CategoriesColumns.*;
+import static com.achievers.provider.AchieversContract.CategoriesColumns.CATEGORY_DESCRIPTION;
+import static com.achievers.provider.AchieversContract.CategoriesColumns.CATEGORY_ID;
+import static com.achievers.provider.AchieversContract.CategoriesColumns.CATEGORY_IMAGE_URL;
+import static com.achievers.provider.AchieversContract.CategoriesColumns.CATEGORY_PARENT_ID;
+import static com.achievers.provider.AchieversContract.CategoriesColumns.CATEGORY_TITLE;
 
 public class CategoriesContentValues {
 

@@ -9,8 +9,6 @@ import com.achievers.data.endpoints.AchievementsAPI;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.source.RESTClient;
 
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

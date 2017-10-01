@@ -7,8 +7,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="categories"
-            type="com.achievers.ui.categories.CategoriesViewModel" />
+            name="viewModel"
+            type="com.achievers.ui.categories.CategoriesContract.ViewModel" />
 
         <variable
             name="actionHandler"
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         adapter:onRefresh="@{ actionHandler }"
-        adapter:category="@{ categories.parent }">
+        adapter:category="@{ viewModel.parent }">
 
         <RelativeLayout
             android:id="@+id/categoriesContainer"
@@ -33,9 +33,9 @@
                 android:id="@+id/rvCategories"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="@{categories.notEmpty ? View.VISIBLE : View.GONE}"
-                app:categoriesAdapter="@{ categories.adapter }"
-                app:categoriesCursor="@{ categories.cursor }" />
+                android:visibility="@{ viewModel.notEmpty ? View.VISIBLE : View.GONE }"
+                app:categoriesAdapter="@{ viewModel.adapter }"
+                app:categoriesCursor="@{ viewModel.cursor }" />
 
             <LinearLayout
                 android:id="@+id/noCategories"
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:orientation="vertical"
-                android:visibility="@{categories.notEmpty ? View.GONE : View.VISIBLE}">
+                android:visibility="@{ viewModel.notEmpty ? View.GONE : View.VISIBLE }">
 
                 <ImageView
                     android:id="@+id/noCategoriesIcon"
@@ -51,14 +51,14 @@
                     android:layout_height="48dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/no_categories"
-                    android:src="@{categories.noCategoriesIconRes}" />
+                    android:src="@{ viewModel.noCategoriesIconRes }" />
 
                 <TextView
                     android:id="@+id/noCategoriesMain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@{categories.noCategoriesLabel}"
+                    android:text="@{ viewModel.noCategoriesLabel }"
                     android:layout_marginBottom="@dimen/spacing_medium"/>
             </LinearLayout>
         </RelativeLayout>

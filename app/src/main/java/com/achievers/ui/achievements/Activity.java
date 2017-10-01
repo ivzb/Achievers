@@ -4,14 +4,13 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
+import com.achievers.R;
+import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.achievements.AchievementsMockDataSource;
 import com.achievers.ui.base.BaseActivity;
-import com.achievers.R;
 import com.achievers.utils.ActivityUtils;
 
 public class Activity extends BaseActivity {
-
-//    public static final String EXTRA_CATEGORY_ID = "CATEGORY_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +26,6 @@ public class Activity extends BaseActivity {
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setDisplayShowHomeEnabled(true);
         }
-
-//        int categoryId = getIntent().getIntExtra(EXTRA_CATEGORY_ID, 0);
 
         Fragment fragment = (Fragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
@@ -46,8 +43,10 @@ public class Activity extends BaseActivity {
                 view,
                 R.id.contentFrame);
 
+        AchievementsDataSource dataSource = AchievementsMockDataSource.getInstance();
+
         Contracts.Presenter presenter = new Presenter(
-                AchievementsMockDataSource.getInstance(),
+                dataSource,
                 view);
 
         view.setPresenter(presenter);

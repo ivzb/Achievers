@@ -1,4 +1,4 @@
-package com.achievers.ui.addachievement.Adapters;
+package com.achievers.ui.add_achievement.Adapters;
 
 import android.content.Context;
 import android.content.res.Resources;

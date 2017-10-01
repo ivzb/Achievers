@@ -62,7 +62,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         viewHolder.getBinding().executePendingBindings();
     }
 
-    // Returns the total count of items in the list
     @Override
     public int getItemCount() {
         return this.mAchievements.size();
@@ -71,7 +70,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private AchievementItemBinding binding;
 
-        public ViewHolder(AchievementItemBinding binding) {
+        ViewHolder(AchievementItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

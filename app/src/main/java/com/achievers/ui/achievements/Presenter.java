@@ -1,12 +1,10 @@
 package com.achievers.ui.achievements;
 
-import android.app.Activity;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.source.achievements.AchievementsDataSource;
-import com.achievers.ui.addachievement.AddAchievementActivity;
 
 import java.util.List;
 

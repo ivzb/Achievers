@@ -1,9 +1,13 @@
 package com.achievers.ui.achievement;
 
-import com.achievers.ui.base.BasePresenter;
-import com.achievers.ui.base.BaseView;
+import android.databinding.Bindable;
+
+import com.achievers.BR;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
+import com.achievers.ui.base.BasePresenter;
+import com.achievers.ui.base.BaseView;
+import com.achievers.ui.evidence.EvidenceAdapter;
 
 import java.util.List;
 
@@ -12,7 +16,7 @@ import java.util.List;
  */
 public interface AchievementDetailContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View extends BaseView<Presenter, ViewModel> {
 
         void setLoadingIndicator(boolean active);
 
@@ -32,5 +36,14 @@ public interface AchievementDetailContract {
         void getAchievement();
 
         void loadEvidence(long achievementId, boolean forceUpdate);
+    }
+
+    interface ViewModel {
+
+        Achievement getAchievement();
+        void setAchievement(Achievement achievement);
+
+        EvidenceAdapter getEvidenceAdapter();
+        void setEvidenceAdapter(EvidenceAdapter evidenceAdapter);
     }
 }

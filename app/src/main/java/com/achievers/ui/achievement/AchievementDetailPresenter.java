@@ -5,13 +5,9 @@ import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
 
 import com.achievers.data.callbacks.GetCallback;
-import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
-import com.achievers.data.entities.Evidence;
 import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.evidence.EvidenceDataSource;
-
-import java.util.List;
 
 /**
  * Listens to user actions from the UI ({@link AchievementDetailFragment}), retrieves the data and updates

@@ -18,14 +18,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.achievers.ui.achievement.Adapters.UploadEvidenceDialogSimpleAdapter;
-import com.achievers.ui.base.BaseFragment;
-import com.achievers.ui.evidence.EvidenceAdapter;
 import com.achievers.R;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
 import com.achievers.data.entities.UploadEvidenceItem;
 import com.achievers.databinding.AchievementDetailFragBinding;
+import com.achievers.ui.achievement.adapters.UploadEvidenceDialogSimpleAdapter;
+import com.achievers.ui.base.BaseFragment;
+import com.achievers.ui.evidence.EvidenceAdapter;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.GridHolder;
 import com.orhanobut.dialogplus.Holder;
@@ -40,15 +40,15 @@ import java.util.List;
 /**
  * Main UI for the task detail screen.
  */
-public class AchievementDetailFragment extends BaseFragment<AchievementDetailContract.Presenter> implements AchievementDetailContract.View {
+public class AchievementDetailFragment
+        extends BaseFragment<AchievementDetailContract.Presenter, AchievementDetailContract.ViewModel>
+        implements AchievementDetailContract.View {
 
     public static final String ARGUMENT_ACHIEVEMENT_ID = "ACHIEVEMENT_ID";
 
     public static final int REQUEST_EDIT_ACHIEVEMENT = 1;
 
-    private AchievementDetailContract.Presenter mPresenter;
     private AchievementDetailFragBinding mViewDataBinding;
-    private AchievementDetailViewModel mViewModel;
 
     public static AchievementDetailFragment newInstance(int achievementId) {
         Bundle arguments = new Bundle();
@@ -56,11 +56,6 @@ public class AchievementDetailFragment extends BaseFragment<AchievementDetailCon
         AchievementDetailFragment fragment = new AchievementDetailFragment();
         fragment.setArguments(arguments);
         return fragment;
-    }
-
-    @Override
-    public void setPresenter(AchievementDetailContract.Presenter presenter) {
-        mPresenter = presenter;
     }
 
     @Override
@@ -75,10 +70,10 @@ public class AchievementDetailFragment extends BaseFragment<AchievementDetailCon
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.achievement_detail_frag, container, false);
 
-        this.mViewDataBinding = AchievementDetailFragBinding.bind(view);
-        this.mViewDataBinding.setActionHandler(this.mPresenter);
-        this.mViewDataBinding.setResources(this.getContext().getResources());
-        this.mViewDataBinding.setViewModel(this.mViewModel);
+        mViewDataBinding = AchievementDetailFragBinding.bind(view);
+        mViewDataBinding.setActionHandler(mPresenter);
+        mViewDataBinding.setResources(getContext().getResources());
+        mViewDataBinding.setViewModel(mViewModel);
 
         setHasOptionsMenu(true);
         setRetainInstance(true);
@@ -175,10 +170,6 @@ public class AchievementDetailFragment extends BaseFragment<AchievementDetailCon
 
                 break;
         }
-    }
-
-    public void setViewModel(AchievementDetailViewModel viewModel) {
-        this.mViewModel = viewModel;
     }
 
     @Override

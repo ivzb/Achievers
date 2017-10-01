@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.achievers.R;
 import com.achievers.data.source.categories.CategoriesDataSource;
 import com.achievers.data.source.categories.CategoriesLoaderProvider;
 import com.achievers.data.source.categories.CategoriesRepository;
@@ -18,7 +19,6 @@ import com.achievers.data.source.categories.local.CategoriesLocalDataSource;
 import com.achievers.data.source.categories.remote.CategoriesMockDataSource;
 import com.achievers.databinding.CategoriesActBinding;
 import com.achievers.ui.base.BaseActivity;
-import com.achievers.R;
 import com.achievers.utils.ActivityUtils;
 
 public class CategoriesActivity extends BaseActivity {
@@ -97,7 +97,7 @@ public class CategoriesActivity extends BaseActivity {
                 repository,
                 categoriesFragment);
 
-        CategoriesViewModel categoriesViewModel = new CategoriesViewModel(this, mPresenter);
+        CategoriesViewModel categoriesViewModel = new CategoriesViewModel(this);
         categoriesFragment.setViewModel(categoriesViewModel);
 
         // Create a CategoriesMvpController every time, even after rotation.

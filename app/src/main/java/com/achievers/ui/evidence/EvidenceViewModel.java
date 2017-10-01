@@ -4,9 +4,9 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
-import com.achievers.ui.achievement.AchievementDetailContract;
 import com.achievers.BR;
 import com.achievers.data.entities.Achievement;
+import com.achievers.ui.achievement.AchievementDetailContract;
 
 /**
  * Exposes the data to be used in the {@link AchievementDetailContract.View}.

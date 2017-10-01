@@ -5,13 +5,21 @@ import android.support.v4.app.Fragment;
 
 import com.achievers.utils.KeyboardUtils;
 
-public abstract class BaseFragment<T extends BasePresenter> extends Fragment implements BaseView<T> {
+public abstract class BaseFragment<P extends BasePresenter, VM>
+        extends Fragment
+        implements BaseView<P, VM> {
 
-    protected T mPresenter;
+    protected P mPresenter;
+    protected VM mViewModel;
 
     @Override
-    public void setPresenter(T presenter) {
+    public void setPresenter(P presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void setViewModel(VM viewModel) {
+        mViewModel = viewModel;
     }
 
     @Override

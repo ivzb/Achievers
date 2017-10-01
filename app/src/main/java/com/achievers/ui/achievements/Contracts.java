@@ -1,19 +1,16 @@
 package com.achievers.ui.achievements;
 
-import android.support.annotation.NonNull;
-
-import com.achievers.data.callbacks.GetCallback;
-import com.achievers.data.callbacks.LoadCallback;
-import com.achievers.data.callbacks.SaveCallback;
-import com.achievers.ui.base.BasePresenter;
-import com.achievers.ui.base.BaseView;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Category;
+import com.achievers.ui.base.BasePresenter;
+import com.achievers.ui.base.BaseView;
+import com.achievers.ui.base.BaseViewModel;
 
 import java.util.List;
 
 public class Contracts {
-    public interface View extends BaseView<Presenter> {
+
+    public interface View extends BaseView<Presenter, ViewModel> {
 
         void setLoadingIndicator(boolean active);
 
@@ -31,5 +28,14 @@ public class Contracts {
         void loadAchievements(int page);
 
 //        void openAchievementDetails(@NonNull Achievement requestedAchievement);
+    }
+
+    public interface ViewModel extends BaseViewModel {
+
+        Adapter getAdapter();
+        void setAdapter(Adapter adapter);
+
+        Category getCategory();
+        void setCategory(Category category);
     }
 }

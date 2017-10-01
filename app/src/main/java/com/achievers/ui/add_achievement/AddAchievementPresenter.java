@@ -1,4 +1,4 @@
-package com.achievers.ui.addachievement;
+package com.achievers.ui.add_achievement;
 
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;

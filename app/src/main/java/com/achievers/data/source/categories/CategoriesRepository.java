@@ -4,8 +4,8 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.callbacks.GetCallback;
-import com.achievers.data.source.BaseRepository;
 import com.achievers.data.entities.Category;
+import com.achievers.data.source.BaseRepository;
 
 import java.util.List;
 

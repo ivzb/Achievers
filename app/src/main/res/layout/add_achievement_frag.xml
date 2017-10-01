@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.achievers.ui.addachievement.AddAchievementViewModel" />
+            type="com.achievers.ui.add_achievement.AddAchievementContract.ViewModel" />
     </data>
 
     <ScrollView
@@ -44,7 +44,7 @@
                 android:id="@+id/rvInvolvement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:rvInvolvementAdapter="@{ viewModel.involvementRecyclerViewAdapter }" />
+                app:rvInvolvementAdapter="@{ viewModel.involvementsAdapter }" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

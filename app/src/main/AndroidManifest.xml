@@ -35,7 +35,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.achievement.AchievementDetailActivity" />
-        <activity android:name=".ui.addachievement.AddAchievementActivity" />
+        <activity android:name=".ui.add_achievement.AddAchievementActivity" />
 
         <provider
             android:name=".providers.GenericFileProvider"

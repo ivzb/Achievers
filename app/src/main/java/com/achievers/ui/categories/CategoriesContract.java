@@ -1,15 +1,16 @@
 package com.achievers.ui.categories;
 
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 
+import com.achievers.data.entities.Category;
 import com.achievers.ui.base.BasePresenter;
 import com.achievers.ui.base.BaseView;
-import com.achievers.data.entities.Category;
 
 public class CategoriesContract {
 
-    public interface View extends BaseView<Presenter> {
+    public interface View extends BaseView<Presenter, ViewModel> {
 
         void setLoadingIndicator(boolean active);
 
@@ -43,5 +44,29 @@ public class CategoriesContract {
 //        OpenAchievementCallback getOpenAchievementCallback();
 
         boolean navigateToPreviousCategory();
+    }
+
+    public interface ViewModel {
+
+        String getNoCategoriesLabel();
+
+        boolean isLoading();
+
+        void setLoading(boolean isLoading);
+
+        Drawable getNoCategoriesIconRes();
+
+        CategoriesAdapter getAdapter();
+        void setAdapter(CategoriesAdapter adapter);
+
+        Cursor getCursor();
+        void setCursor(Cursor cursor);
+
+        Category getParent();
+        void setParent(Category parent);
+
+        boolean isNotEmpty();
+
+        void setCategoriesListSize(int categoriesListSize);
     }
 }

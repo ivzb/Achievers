@@ -12,15 +12,15 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
 import com.achievers.R;
+import com.achievers.data.entities.Achievement;
+import com.achievers.data.entities.Category;
 import com.achievers.ui.achievement.AchievementDetailContract;
 import com.achievers.ui.achievements.Adapter;
 import com.achievers.ui.achievements.Contracts;
-import com.achievers.ui.addachievement.Adapters.InvolvementRecyclerViewAdapter;
+import com.achievers.ui.add_achievement.Adapters.InvolvementRecyclerViewAdapter;
 import com.achievers.ui.categories.CategoriesAdapter;
 import com.achievers.ui.categories.CategoriesContract;
 import com.achievers.ui.evidence.EvidenceAdapter;
-import com.achievers.data.entities.Achievement;
-import com.achievers.data.entities.Category;
 import com.achievers.utils.EndlessRecyclerViewScrollListener;
 import com.achievers.utils.FreskoCircleProgressBarDrawable;
 import com.achievers.utils.ScrollChildSwipeRefreshLayout;

@@ -1,14 +1,14 @@
 package com.achievers.ui.base;
 
-public interface BaseView<T> {
+public interface BaseView<P, VM> {
 
-    void setPresenter(T presenter);
+    void setPresenter(P presenter);
+    void setViewModel(VM viewModel);
 
-    boolean isActive();
+    void showSuccessfulMessage(String message);
+    void showErrorMessage(String message);
 
     void hideKeyboard();
 
-    void showSuccessfulMessage(String message);
-
-    void showErrorMessage(String message);
+    boolean isActive();
 }
