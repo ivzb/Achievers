@@ -1,4 +1,4 @@
-package com.achievers.ui.base;
+package com.achievers.ui.base.contracts;
 
 public interface BaseView<P, VM> {
 

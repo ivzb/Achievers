@@ -40,7 +40,7 @@ public class Fragment
         View view = inflater.inflate(R.layout.achievements_frag, container, false);
 
         mViewDataBinding = AchievementsFragBinding.bind(view);
-        mViewDataBinding.setViewModel(mViewModel);
+        mViewDataBinding.setViewModel((ViewModel) mViewModel);
 
         setHasOptionsMenu(true);
         setRetainInstance(true);

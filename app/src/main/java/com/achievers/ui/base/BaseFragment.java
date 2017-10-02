@@ -3,6 +3,8 @@ package com.achievers.ui.base;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 
+import com.achievers.ui.base.contracts.BasePresenter;
+import com.achievers.ui.base.contracts.BaseView;
 import com.achievers.utils.KeyboardUtils;
 
 public abstract class BaseFragment<P extends BasePresenter, VM>

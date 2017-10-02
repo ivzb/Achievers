@@ -1,12 +1,9 @@
 package com.achievers.ui.achievement;
 
-import android.databinding.Bindable;
-
-import com.achievers.BR;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
-import com.achievers.ui.base.BasePresenter;
-import com.achievers.ui.base.BaseView;
+import com.achievers.ui.base.contracts.BasePresenter;
+import com.achievers.ui.base.contracts.BaseView;
 import com.achievers.ui.evidence.EvidenceAdapter;
 
 import java.util.List;

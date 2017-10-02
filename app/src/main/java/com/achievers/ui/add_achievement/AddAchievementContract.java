@@ -7,8 +7,8 @@ import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.File;
 import com.achievers.data.entities.Involvement;
 import com.achievers.ui.add_achievement.Adapters.InvolvementRecyclerViewAdapter;
-import com.achievers.ui.base.BasePresenter;
-import com.achievers.ui.base.BaseView;
+import com.achievers.ui.base.contracts.BasePresenter;
+import com.achievers.ui.base.contracts.BaseView;
 
 import java.util.List;
 

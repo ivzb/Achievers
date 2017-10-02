@@ -5,8 +5,8 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.entities.Category;
-import com.achievers.ui.base.BasePresenter;
-import com.achievers.ui.base.BaseView;
+import com.achievers.ui.base.contracts.BasePresenter;
+import com.achievers.ui.base.contracts.BaseView;
 
 public class CategoriesContract {
 

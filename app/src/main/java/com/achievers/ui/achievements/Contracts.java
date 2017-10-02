@@ -1,14 +1,9 @@
 package com.achievers.ui.achievements;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-
 import com.achievers.data.entities.Achievement;
-import com.achievers.data.entities.Category;
-import com.achievers.ui.base.BasePresenter;
-import com.achievers.ui.base.BaseView;
-import com.achievers.ui.base.BaseViewModel;
-import com.achievers.utils.EndlessRecyclerViewScrollListener;
+import com.achievers.ui.base.contracts.BasePresenter;
+import com.achievers.ui.base.contracts.BaseView;
+import com.achievers.ui.base.contracts.BaseViewModel;
 
 import java.util.List;
 
