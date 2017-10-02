@@ -32,7 +32,7 @@ ext {
     buildToolsVersion = '26.0.1'
 
     // App dependencies
-    supportLibraryVersion = '26.0.1'
+    supportLibraryVersion = '26.1.0'
     constraintLayoutVersion = '1.0.2'
     guavaVersion = '18.0'
     junitVersion = '4.12'
@@ -49,6 +49,6 @@ ext {
     stethoVersion = '1.5.0'
     fakerVersion = '1.2.5'
     toroVersion = '2.2.0'
-    frescoVersion = '1.4.0'
+    frescoVersion = '1.5.0'
     parcelerVersion = '1.1.7'
 }
