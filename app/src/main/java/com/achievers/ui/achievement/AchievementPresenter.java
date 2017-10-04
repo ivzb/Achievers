@@ -8,15 +8,15 @@ import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.evidence.EvidenceDataSource;
+import com.achievers.ui._base.AbstractPresenter;
 
 /**
  * Listens to user actions from the UI ({@link AchievementFragment}), retrieves the data and updates
  * the UI as required.
  */
 public class AchievementPresenter
+        extends AbstractPresenter<AchievementContract.View>
         implements AchievementContract.Presenter {
-
-    private final AchievementContract.View mAchievementDetailView;
 
     private AchievementsDataSource mAchievementsDataSource;
     private EvidenceDataSource mEvidenceDataSource;
@@ -28,19 +28,18 @@ public class AchievementPresenter
 
     public AchievementPresenter(
             int achievementId,
+            @NonNull AchievementContract.View view,
            AchievementsDataSource achievementsDataSource,
-           EvidenceDataSource evidenceDataSource,
-           @NonNull AchievementContract.View view) {
+           EvidenceDataSource evidenceDataSource) {
 
-        this.mAchievementId = achievementId;
-        this.mAchievementsDataSource = achievementsDataSource;
-        this.mEvidenceDataSource = evidenceDataSource;
-        this.mAchievementDetailView = view;
+        mAchievementId = achievementId;
+        mView = view;
+        mAchievementsDataSource = achievementsDataSource;
+        mEvidenceDataSource = evidenceDataSource;
 
-        this.mAchievementDetailView.setPresenter(this);
-        this.mFirstLoad = true;
-        this.mNoMoreData = new SparseBooleanArray();
-        this.mPages = new SparseIntArray();
+        mFirstLoad = true;
+        mNoMoreData = new SparseBooleanArray();
+        mPages = new SparseIntArray();
     }
 
     @Override
@@ -54,22 +53,22 @@ public class AchievementPresenter
             @Override
             public void onSuccess(final Achievement achievement) {
                 // The view may not be able to handle UI updates anymore
-                if (!mAchievementDetailView.isActive()) return;
+                if (!mView.isActive()) return;
 
                 if (achievement != null) {
-                    mAchievementDetailView.showAchievement(achievement);
+                    mView.showAchievement(achievement);
                     loadEvidence(achievement.getId(), true);
                 } else {
-                    mAchievementDetailView.showLoadingAchievementError();
+                    mView.showLoadingAchievementError();
                 }
             }
 
             @Override
             public void onFailure(String message) {
                 // The view may not be able to handle UI updates anymore
-                if (!mAchievementDetailView.isActive()) return;
+                if (!mView.isActive()) return;
 
-                mAchievementDetailView.showLoadingAchievementError();
+                mView.showLoadingAchievementError();
             }
         });
     }

@@ -49,7 +49,6 @@ public class AddAchievementFragment
     private static final int REQUEST_IMAGE_PICK = 2;
     private static final int REQUEST_PERMISSION = 3;
 
-    private AddAchievementContract.Presenter mPresenter;
     private AddAchievementFragBinding mViewDataBinding;
 
     private String mImageFilePath;
@@ -62,11 +61,6 @@ public class AddAchievementFragment
     public void onResume() {
         super.onResume();
         mPresenter.getInvolvements();
-    }
-
-    @Override
-    public void setPresenter(@NonNull AddAchievementContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
     }
 
     @Override
@@ -189,7 +183,7 @@ public class AddAchievementFragment
     }
 
     @Override
-    public void finishActivity() {
+    public void finish() {
         getActivity().setResult(Activity.RESULT_OK);
         getActivity().finish();
     }
@@ -199,11 +193,6 @@ public class AddAchievementFragment
         mViewModel.setInvolvementsAdapter(new InvolvementRecyclerViewAdapter(
                 getContext(),
                 involvement));
-    }
-
-    @Override
-    public void showInvalidAchievementMessage(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     public View.OnClickListener takePictureListener = new View.OnClickListener() {
@@ -252,7 +241,7 @@ public class AddAchievementFragment
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         } catch (IOException e) {
-            showInvalidAchievementMessage("Could not take picture. Please try again.");
+            showErrorMessage("Could not take picture. Please try again.");
         }
     }
 

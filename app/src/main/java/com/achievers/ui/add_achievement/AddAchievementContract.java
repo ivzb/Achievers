@@ -1,6 +1,5 @@
 package com.achievers.ui.add_achievement;
 
-import android.databinding.Bindable;
 import android.graphics.Bitmap;
 
 import com.achievers.data.callbacks.SaveCallback;
@@ -20,11 +19,7 @@ public class AddAchievementContract {
 
         void showInvolvement(List<Involvement> involvement);
 
-        void showInvalidAchievementMessage(final String message);
-
-        void finishActivity();
-
-        boolean isActive();
+        void finish();
     }
 
     interface Presenter extends BasePresenter {

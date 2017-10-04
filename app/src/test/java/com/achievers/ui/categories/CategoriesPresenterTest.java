@@ -42,8 +42,8 @@ public class CategoriesPresenterTest {
         mPresenter = new CategoriesPresenter(
 //                mLoaderManager,
 //                mLoaderProvider,
-                mDataSource,
-                mView);
+                mView,
+                mDataSource);
     }
 
     @Test

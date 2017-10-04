@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.achievers.data.entities.Category;
 import com.achievers.data.source.categories.CategoriesDataSource;
 import com.achievers.data.source.categories.CategoriesRepository;
+import com.achievers.ui._base.AbstractPresenter;
 
 import java.util.EmptyStackException;
 import java.util.Stack;
@@ -16,7 +17,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Listens to user actions from the UI ({@link CategoriesFragment}), retrieves the data and updates the
  * UI as required.
  */
-public class CategoriesPresenter implements CategoriesContract.Presenter,
+public class CategoriesPresenter
+        extends AbstractPresenter<CategoriesContract.View>
+        implements CategoriesContract.Presenter,
 //        LoaderManager.LoaderCallbacks<Cursor>,
         CategoriesRepository.LoadDataCallback
 //        CategoriesContract.Presenter.OpenAchievementCallback {
@@ -31,23 +34,22 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
 //    private final CategoriesLoaderProvider mLoaderProvider;
 
     private final CategoriesDataSource mCategoriesDataSource;
-    private final CategoriesContract.View mCategoriesView;
     private Stack<Long> mCategoriesNavigationState;
 
     public CategoriesPresenter(
 //            @NonNull Context context,
 //            @NonNull LoaderManager loaderManager,
 //            @NonNull CategoriesLoaderProvider loaderProvider,
-            @NonNull CategoriesDataSource categoriesDataSource,
-            @NonNull CategoriesContract.View categoriesView) {
+            @NonNull CategoriesContract.View categoriesView,
+            @NonNull CategoriesDataSource categoriesDataSource) {
 
 //        this.mContext = context;
 //        this.mLoaderManager = checkNotNull(loaderManager, "loaderManager cannot be null!");
 //        this.mLoaderProvider = checkNotNull(loaderProvider, "loaderProvider cannot be null!");
-        this.mCategoriesDataSource = checkNotNull(categoriesDataSource, "categoriesDataSource cannot be null");
-        this.mCategoriesView = checkNotNull(categoriesView, "categoriesView cannot be null!");
+        mView = checkNotNull(categoriesView, "view cannot be null!");
+        mCategoriesDataSource = checkNotNull(categoriesDataSource, "categoriesDataSource cannot be null");
 
-        this.mCategoriesNavigationState = new Stack<>();
+        mCategoriesNavigationState = new Stack<>();
 //        this.mOpenAchievementCallback = new OpenAchievementCallback() {
 //            @Override
 //            public void onOpen(Integer categoryId) {
@@ -78,7 +80,7 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
 
     @Override
     public void loadCategories(final Long parentId) {
-        mCategoriesView.setLoadingIndicator(true);
+        mView.setLoadingIndicator(true);
 
         mCategoriesDataSource.load(parentId);
 
@@ -167,24 +169,24 @@ public class CategoriesPresenter implements CategoriesContract.Presenter,
 
     @Override
     public void onDataLoaded(Cursor data) {
-        mCategoriesView.setLoadingIndicator(false);
-        mCategoriesView.showCategories(data);
+        mView.setLoadingIndicator(false);
+        mView.showCategories(data);
     }
 
     @Override
     public void onDataEmpty() {
-        mCategoriesView.setLoadingIndicator(false);
-        mCategoriesView.showNoCategories();
+        mView.setLoadingIndicator(false);
+        mView.showNoCategories();
     }
 
     @Override
     public void onDataNotAvailable() {
-        mCategoriesView.setLoadingIndicator(false);
-        mCategoriesView.showLoadingCategoriesError(null);
+        mView.setLoadingIndicator(false);
+        mView.showLoadingCategoriesError(null);
     }
 
     @Override
     public void onDataReset() {
-        mCategoriesView.showCategories(null);
+        mView.showCategories(null);
     }
 }

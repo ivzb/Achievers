@@ -49,7 +49,7 @@ public class AchievementsPresenterTest {
         MockitoAnnotations.initMocks(this);
         GeneratorUtils.initialize(new Random(), new Faker());
 
-        mPresenter = new Presenter(mContext, mDataSource, mView);
+        mPresenter = new Presenter(mContext, mView, mDataSource);
     }
 
     @Test

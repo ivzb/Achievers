@@ -45,13 +45,7 @@ public class Activity extends AbstractActivity {
 
         AchievementsDataSource dataSource = AchievementsMockDataSource.getInstance();
 
-        Contracts.Presenter presenter = new Presenter(
-                this,
-                dataSource,
-                view);
-
-        view.setPresenter(presenter);
-        view.setViewModel(
-                new ViewModel());
+        view.setViewModel(new ViewModel());
+        view.setPresenter(new Presenter(this, view, dataSource));
     }
 }

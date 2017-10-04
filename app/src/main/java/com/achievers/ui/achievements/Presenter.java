@@ -9,6 +9,7 @@ import com.achievers.R;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.source.achievements.AchievementsDataSource;
+import com.achievers.ui._base.AbstractPresenter;
 import com.achievers.utils.EndlessRecyclerViewScrollListener;
 
 import java.util.List;
@@ -16,22 +17,19 @@ import java.util.List;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class Presenter
+        extends AbstractPresenter<Contracts.View>
         implements Contracts.Presenter {
 
-    private final Contracts.View mView;
-    private final Context mContext;
     private final AchievementsDataSource mDataSource;
-//    private final Contracts.View mView;
 
     Presenter(
             @NonNull Context context,
-            @NonNull AchievementsDataSource dataSource,
-            @NonNull Contracts.View view) {
+            @NonNull Contracts.View view,
+            @NonNull AchievementsDataSource dataSource) {
 
-        mView = view;
         mContext = checkNotNull(context, "context cannot be null");
+        mView = checkNotNull(view, "view cannot be null");
         mDataSource = checkNotNull(dataSource, "achievementsDataSource cannot be null");
-//        mView = checkNotNull(view, "achievementsView cannot be null");
     }
 
 //    @Override

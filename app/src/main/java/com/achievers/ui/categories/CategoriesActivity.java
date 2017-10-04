@@ -94,8 +94,8 @@ public class CategoriesActivity extends AbstractActivity {
 //                this,
 //                getSupportLoaderManager(),
 //                loaderProvider,
-                repository,
-                categoriesFragment);
+                categoriesFragment,
+                repository);
 
         CategoriesViewModel categoriesViewModel = new CategoriesViewModel(this);
         categoriesFragment.setViewModel(categoriesViewModel);

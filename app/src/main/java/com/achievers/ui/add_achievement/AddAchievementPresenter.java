@@ -9,16 +9,15 @@ import com.achievers.data.entities.File;
 import com.achievers.data.entities.Involvement;
 import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.files.FilesDataSource;
+import com.achievers.ui._base.AbstractPresenter;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 import java.util.List;
 
 public class AddAchievementPresenter
+        extends AbstractPresenter<AddAchievementContract.View>
         implements AddAchievementContract.Presenter {
-
-    @NonNull
-    private final AddAchievementContract.View mView;
 
     @NonNull
     private final AchievementsDataSource mAchievementsRepository;
@@ -26,18 +25,14 @@ public class AddAchievementPresenter
     @NonNull
     private final FilesDataSource mFilesRepository;
 
-//    @NonNull
-//    private final AddAchievementContract.View mAddAchievementView;
-
     public AddAchievementPresenter(
             @NonNull AddAchievementContract.View view,
             @NonNull AchievementsDataSource achievementsRepository,
             @NonNull FilesDataSource filesRepository) {
 
-//        this.mAddAchievementView = addAchievementView;
         mView = view;
-        this.mAchievementsRepository = achievementsRepository;
-        this.mFilesRepository = filesRepository;
+        mAchievementsRepository = achievementsRepository;
+        mFilesRepository = filesRepository;
     }
 
     @Override
@@ -50,12 +45,12 @@ public class AddAchievementPresenter
         this.mAchievementsRepository.saveAchievement(achievement, new SaveCallback<Achievement>() {
             @Override
             public void onSuccess(Achievement result) {
-                mView.finishActivity();
+                mView.finish();
             }
 
             @Override
             public void onFailure(String message) {
-                mView.showInvalidAchievementMessage(message);
+                mView.showErrorMessage(message);
             }
         });
     }

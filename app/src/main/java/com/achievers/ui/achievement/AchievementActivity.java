@@ -3,7 +3,6 @@ package com.achievers.ui.achievement;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 
 import com.achievers.R;
 import com.achievers.data.source.achievements.AchievementsRemoteDataSource;
@@ -11,9 +10,6 @@ import com.achievers.data.source.evidence.EvidenceRemoteDataSource;
 import com.achievers.ui._base.AbstractActivity;
 import com.achievers.utils.ActivityUtils;
 
-/**
- * Displays achievement details screen.
- */
 public class AchievementActivity extends AbstractActivity {
 
     public static final String EXTRA_ACHIEVEMENT_ID = "ACHIEVEMENT_ID";
@@ -25,7 +21,7 @@ public class AchievementActivity extends AbstractActivity {
         setContentView(R.layout.achievement_detail_act);
 
         // Set up the toolbar.
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
 
@@ -34,37 +30,26 @@ public class AchievementActivity extends AbstractActivity {
             ab.setDisplayShowHomeEnabled(true);
         }
 
-        // Get the requested achievement id
-        int achievementId = getIntent().getIntExtra(EXTRA_ACHIEVEMENT_ID, 0);
-
-        AchievementFragment fragment = (AchievementFragment) getSupportFragmentManager()
+        AchievementFragment view = (AchievementFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
 
-        if (fragment == null) {
-            fragment = AchievementFragment.newInstance(achievementId);
+        if (view == null) {
+            int achievementId = getIntent().getIntExtra(EXTRA_ACHIEVEMENT_ID, 0);
+            view = AchievementFragment.newInstance(achievementId);
 
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
-                    fragment, R.id.contentFrame);
-        }
+            AchievementPresenter presenter = new AchievementPresenter(
+                    achievementId,
+                    view,
+                    AchievementsRemoteDataSource.getInstance(),
+                    EvidenceRemoteDataSource.getInstance());
 
-        AchievementPresenter presenter = new AchievementPresenter(
-                achievementId,
-                AchievementsRemoteDataSource.getInstance(),
-                EvidenceRemoteDataSource.getInstance(),
-                fragment);
+            view.setViewModel(new AchievementViewModel());
+            view.setPresenter(presenter);
 
-        fragment.setViewModel(new AchievementViewModel());
-        fragment.setPresenter(presenter);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+            ActivityUtils.addFragmentToActivity(
+                getSupportFragmentManager(),
+                view,
+                R.id.contentFrame);
         }
     }
 }
