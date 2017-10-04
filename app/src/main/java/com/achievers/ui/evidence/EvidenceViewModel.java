@@ -6,10 +6,10 @@ import android.databinding.Bindable;
 
 import com.achievers.BR;
 import com.achievers.data.entities.Achievement;
-import com.achievers.ui.achievement.AchievementDetailContract;
+import com.achievers.ui.achievement.AchievementContract;
 
 /**
- * Exposes the data to be used in the {@link AchievementDetailContract.View}.
+ * Exposes the data to be used in the {@link AchievementContract.View}.
  * <p>
  * {@link BaseObservable} implements a listener registration mechanism which is notified when a
  * property changes. This is done by assigning a {@link Bindable} annotation to the property's

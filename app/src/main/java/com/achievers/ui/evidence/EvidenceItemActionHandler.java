@@ -1,17 +1,17 @@
 package com.achievers.ui.evidence;
 
 import com.achievers.data.entities.Evidence;
-import com.achievers.ui.achievement.AchievementDetailContract;
+import com.achievers.ui.achievement.AchievementContract;
 
 /**
- * Listens to user actions from the list item in ({@link AchievementDetailContract.View}) and redirects them to the
+ * Listens to user actions from the list item in ({@link AchievementContract.View}) and redirects them to the
  * Fragment's actions listener.
  */
 public class EvidenceItemActionHandler {
 
-    private AchievementDetailContract.Presenter mListener;
+    private AchievementContract.Presenter mListener;
 
-    public EvidenceItemActionHandler(AchievementDetailContract.Presenter listener) {
+    public EvidenceItemActionHandler(AchievementContract.Presenter listener) {
         this.mListener = listener;
     }
 

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.achievers.BR;
 import com.achievers.data.entities.Achievement;
-import com.achievers.databinding.AchievementsItemBinding;
+import com.achievers.databinding.AchievementsRecyclerItemBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +17,11 @@ public class Adapter
         implements Contracts.Adapter {
 
     private List<Achievement> mAchievements;
-    private ItemActionHandler mAchievementsItemActionHandler;
+    private ActionHandler mActionHandler;
 
-    public Adapter(Contracts.Presenter presenter) {
+    public Adapter(ActionHandler actionHandler) {
         mAchievements = new ArrayList<>();
-        mAchievementsItemActionHandler = new ItemActionHandler(presenter);
+        mActionHandler = actionHandler;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class Adapter
         Context context = parent.getContext();
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        AchievementsItemBinding binding = AchievementsItemBinding.inflate(layoutInflater, parent, false);
+        AchievementsRecyclerItemBinding binding = AchievementsRecyclerItemBinding.inflate(layoutInflater, parent, false);
 
         return new ViewHolder(binding);
     }
@@ -46,7 +46,7 @@ public class Adapter
         Achievement achievement = mAchievements.get(position);
 
         viewHolder.getBinding().setVariable(BR.achievement, achievement);
-        viewHolder.getBinding().setVariable(BR.actionHandler, mAchievementsItemActionHandler);
+        viewHolder.getBinding().setVariable(BR.actionHandler, mActionHandler);
         viewHolder.getBinding().executePendingBindings();
     }
 
@@ -55,15 +55,16 @@ public class Adapter
         return mAchievements.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private AchievementsItemBinding mBinding;
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        ViewHolder(AchievementsItemBinding binding) {
+        private AchievementsRecyclerItemBinding mBinding;
+
+        ViewHolder(AchievementsRecyclerItemBinding binding) {
             super(binding.getRoot());
             mBinding = binding;
         }
 
-        public AchievementsItemBinding getBinding() {
+        public AchievementsRecyclerItemBinding getBinding() {
             return mBinding;
         }
     }

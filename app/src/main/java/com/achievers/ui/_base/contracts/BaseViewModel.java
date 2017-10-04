@@ -1,4 +1,4 @@
-package com.achievers.ui.base.contracts;
+package com.achievers.ui._base.contracts;
 
 import android.databinding.Observable;
 

@@ -18,10 +18,10 @@ import com.achievers.data.source.categories.CategoriesRepository;
 import com.achievers.data.source.categories.local.CategoriesLocalDataSource;
 import com.achievers.data.source.categories.remote.CategoriesMockDataSource;
 import com.achievers.databinding.CategoriesActBinding;
-import com.achievers.ui.base.BaseActivity;
+import com.achievers.ui._base.AbstractActivity;
 import com.achievers.utils.ActivityUtils;
 
-public class CategoriesActivity extends BaseActivity {
+public class CategoriesActivity extends AbstractActivity {
 
 //    private static final String CURRENT_CATEGORY_ID_KEY = "CURRENT_CATEGORY_ID_KEY";
 

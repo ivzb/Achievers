@@ -24,7 +24,7 @@ import com.achievers.data.entities.Evidence;
 import com.achievers.data.entities.UploadEvidenceItem;
 import com.achievers.databinding.AchievementDetailFragBinding;
 import com.achievers.ui.achievement.adapters.UploadEvidenceDialogSimpleAdapter;
-import com.achievers.ui.base.BaseFragment;
+import com.achievers.ui._base.AbstractFragment;
 import com.achievers.ui.evidence.EvidenceAdapter;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.GridHolder;
@@ -40,9 +40,9 @@ import java.util.List;
 /**
  * Main UI for the task detail screen.
  */
-public class AchievementDetailFragment
-        extends BaseFragment<AchievementDetailContract.Presenter, AchievementDetailContract.ViewModel>
-        implements AchievementDetailContract.View {
+public class AchievementFragment
+        extends AbstractFragment<AchievementContract.Presenter, AchievementContract.ViewModel>
+        implements AchievementContract.View {
 
     public static final String ARGUMENT_ACHIEVEMENT_ID = "ACHIEVEMENT_ID";
 
@@ -50,10 +50,10 @@ public class AchievementDetailFragment
 
     private AchievementDetailFragBinding mViewDataBinding;
 
-    public static AchievementDetailFragment newInstance(int achievementId) {
+    public static AchievementFragment newInstance(int achievementId) {
         Bundle arguments = new Bundle();
         arguments.putInt(ARGUMENT_ACHIEVEMENT_ID, achievementId);
-        AchievementDetailFragment fragment = new AchievementDetailFragment();
+        AchievementFragment fragment = new AchievementFragment();
         fragment.setArguments(arguments);
         return fragment;
     }

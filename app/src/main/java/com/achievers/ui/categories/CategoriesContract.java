@@ -5,8 +5,9 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.entities.Category;
-import com.achievers.ui.base.contracts.BasePresenter;
-import com.achievers.ui.base.contracts.BaseView;
+import com.achievers.ui._base.contracts.BasePresenter;
+import com.achievers.ui._base.contracts.BaseView;
+import com.achievers.ui._base.contracts.BaseViewModel;
 
 public class CategoriesContract {
 
@@ -46,7 +47,7 @@ public class CategoriesContract {
         boolean navigateToPreviousCategory();
     }
 
-    public interface ViewModel {
+    public interface ViewModel extends BaseViewModel {
 
         String getNoCategoriesLabel();
 

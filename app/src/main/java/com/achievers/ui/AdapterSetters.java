@@ -14,14 +14,11 @@ import android.widget.ImageView;
 import com.achievers.R;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Category;
-import com.achievers.ui.achievement.AchievementDetailContract;
-import com.achievers.ui.achievements.Adapter;
-import com.achievers.ui.achievements.Contracts;
+import com.achievers.ui.achievement.AchievementContract;
 import com.achievers.ui.add_achievement.Adapters.InvolvementRecyclerViewAdapter;
 import com.achievers.ui.categories.CategoriesAdapter;
 import com.achievers.ui.categories.CategoriesContract;
 import com.achievers.ui.evidence.EvidenceAdapter;
-import com.achievers.utils.EndlessRecyclerViewScrollListener;
 import com.achievers.utils.FreskoCircleProgressBarDrawable;
 import com.achievers.utils.ScrollChildSwipeRefreshLayout;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
@@ -89,7 +86,7 @@ public class AdapterSetters {
         }
     }
 
-    // AchievementDetailFragment
+    // AchievementFragment
     @BindingAdapter("rvEvidenceAdapter")
     public static void setRvEvidenceAdapter(RecyclerView view, EvidenceAdapter adapter) {
         if (adapter != null) {
@@ -123,10 +120,10 @@ public class AdapterSetters {
      * Reloads the data when the pull-to-refresh is triggered.
      * <p>
      * Creates the {@code android:onRefresh} for a {@link SwipeRefreshLayout}
-     * that takes a {@link AchievementDetailContract.Presenter}.
+     * that takes a {@link AchievementContract.Presenter}.
      */
     @BindingAdapter({ "adapter:onRefresh", "adapter:achievement" })
-    public static void setSwipeRefreshLayoutOnEvidenceRefreshListener(ScrollChildSwipeRefreshLayout view, final AchievementDetailContract.Presenter presenter, final Achievement achievement) {
+    public static void setSwipeRefreshLayoutOnEvidenceRefreshListener(ScrollChildSwipeRefreshLayout view, final AchievementContract.Presenter presenter, final Achievement achievement) {
         view.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

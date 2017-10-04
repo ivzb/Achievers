@@ -7,10 +7,10 @@ import android.support.v7.widget.Toolbar;
 import com.achievers.R;
 import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.achievements.AchievementsMockDataSource;
-import com.achievers.ui.base.BaseActivity;
+import com.achievers.ui._base.AbstractActivity;
 import com.achievers.utils.ActivityUtils;
 
-public class Activity extends BaseActivity {
+public class Activity extends AbstractActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,7 @@ public class Activity extends BaseActivity {
         AchievementsDataSource dataSource = AchievementsMockDataSource.getInstance();
 
         Contracts.Presenter presenter = new Presenter(
+                this,
                 dataSource,
                 view);
 

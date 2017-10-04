@@ -8,13 +8,13 @@ import android.view.MenuItem;
 import com.achievers.R;
 import com.achievers.data.source.achievements.AchievementsRemoteDataSource;
 import com.achievers.data.source.evidence.EvidenceRemoteDataSource;
-import com.achievers.ui.base.BaseActivity;
+import com.achievers.ui._base.AbstractActivity;
 import com.achievers.utils.ActivityUtils;
 
 /**
  * Displays achievement details screen.
  */
-public class AchievementDetailActivity extends BaseActivity {
+public class AchievementActivity extends AbstractActivity {
 
     public static final String EXTRA_ACHIEVEMENT_ID = "ACHIEVEMENT_ID";
 
@@ -37,23 +37,23 @@ public class AchievementDetailActivity extends BaseActivity {
         // Get the requested achievement id
         int achievementId = getIntent().getIntExtra(EXTRA_ACHIEVEMENT_ID, 0);
 
-        AchievementDetailFragment fragment = (AchievementDetailFragment) getSupportFragmentManager()
+        AchievementFragment fragment = (AchievementFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
 
         if (fragment == null) {
-            fragment = AchievementDetailFragment.newInstance(achievementId);
+            fragment = AchievementFragment.newInstance(achievementId);
 
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
                     fragment, R.id.contentFrame);
         }
 
-        AchievementDetailPresenter presenter = new AchievementDetailPresenter(
+        AchievementPresenter presenter = new AchievementPresenter(
                 achievementId,
                 AchievementsRemoteDataSource.getInstance(),
                 EvidenceRemoteDataSource.getInstance(),
                 fragment);
 
-        fragment.setViewModel(new AchievementDetailViewModel());
+        fragment.setViewModel(new AchievementViewModel());
         fragment.setPresenter(presenter);
     }
 

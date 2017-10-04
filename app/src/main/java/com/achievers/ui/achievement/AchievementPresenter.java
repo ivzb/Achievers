@@ -10,12 +10,13 @@ import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.evidence.EvidenceDataSource;
 
 /**
- * Listens to user actions from the UI ({@link AchievementDetailFragment}), retrieves the data and updates
+ * Listens to user actions from the UI ({@link AchievementFragment}), retrieves the data and updates
  * the UI as required.
  */
-public class AchievementDetailPresenter implements AchievementDetailContract.Presenter {
+public class AchievementPresenter
+        implements AchievementContract.Presenter {
 
-    private final AchievementDetailContract.View mAchievementDetailView;
+    private final AchievementContract.View mAchievementDetailView;
 
     private AchievementsDataSource mAchievementsDataSource;
     private EvidenceDataSource mEvidenceDataSource;
@@ -25,11 +26,11 @@ public class AchievementDetailPresenter implements AchievementDetailContract.Pre
 
     private int mAchievementId;
 
-    public AchievementDetailPresenter(
+    public AchievementPresenter(
             int achievementId,
            AchievementsDataSource achievementsDataSource,
            EvidenceDataSource evidenceDataSource,
-           @NonNull AchievementDetailContract.View view) {
+           @NonNull AchievementContract.View view) {
 
         this.mAchievementId = achievementId;
         this.mAchievementsDataSource = achievementsDataSource;
@@ -40,6 +41,11 @@ public class AchievementDetailPresenter implements AchievementDetailContract.Pre
         this.mFirstLoad = true;
         this.mNoMoreData = new SparseBooleanArray();
         this.mPages = new SparseIntArray();
+    }
+
+    @Override
+    public void start() {
+
     }
 
     @Override

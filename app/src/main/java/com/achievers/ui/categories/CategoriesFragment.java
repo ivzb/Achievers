@@ -3,7 +3,6 @@ package com.achievers.ui.categories;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
@@ -22,7 +21,7 @@ import com.achievers.R;
 import com.achievers.data.entities.Category;
 import com.achievers.databinding.CategoriesFragBinding;
 import com.achievers.provider.AppContentProvider;
-import com.achievers.ui.base.BaseFragment;
+import com.achievers.ui._base.AbstractFragment;
 import com.achievers.utils.CursorUtils;
 import com.achievers.utils.ScrollChildSwipeRefreshLayout;
 
@@ -32,7 +31,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Display a screen with categories
  */
 public class CategoriesFragment
-        extends BaseFragment<CategoriesContract.Presenter, CategoriesContract.ViewModel>
+        extends AbstractFragment<CategoriesContract.Presenter, CategoriesContract.ViewModel>
         implements CategoriesContract.View {
 
     private static final int LOADER_CATEGORIES = 1;

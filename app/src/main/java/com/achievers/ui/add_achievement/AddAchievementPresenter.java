@@ -14,7 +14,11 @@ import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 import java.util.List;
 
-public class AddAchievementPresenter implements AddAchievementContract.Presenter {
+public class AddAchievementPresenter
+        implements AddAchievementContract.Presenter {
+
+    @NonNull
+    private final AddAchievementContract.View mView;
 
     @NonNull
     private final AchievementsDataSource mAchievementsRepository;
@@ -22,23 +26,23 @@ public class AddAchievementPresenter implements AddAchievementContract.Presenter
     @NonNull
     private final FilesDataSource mFilesRepository;
 
-    @NonNull
-    private final AddAchievementContract.View mAddAchievementView;
+//    @NonNull
+//    private final AddAchievementContract.View mAddAchievementView;
 
-    /**
-     * Creates a presenter for the add/edit view.
-     *
-     * @param achievementsRepository a repository of data for tasks
-     * @param addAchievementView the add view
-     */
     public AddAchievementPresenter(
+            @NonNull AddAchievementContract.View view,
             @NonNull AchievementsDataSource achievementsRepository,
-            @NonNull FilesDataSource filesRepository,
-            @NonNull AddAchievementContract.View addAchievementView) {
+            @NonNull FilesDataSource filesRepository) {
 
+//        this.mAddAchievementView = addAchievementView;
+        mView = view;
         this.mAchievementsRepository = achievementsRepository;
         this.mFilesRepository = filesRepository;
-        this.mAddAchievementView = addAchievementView;
+    }
+
+    @Override
+    public void start() {
+
     }
 
     @Override
@@ -46,12 +50,12 @@ public class AddAchievementPresenter implements AddAchievementContract.Presenter
         this.mAchievementsRepository.saveAchievement(achievement, new SaveCallback<Achievement>() {
             @Override
             public void onSuccess(Achievement result) {
-                mAddAchievementView.finishActivity();
+                mView.finishActivity();
             }
 
             @Override
             public void onFailure(String message) {
-                mAddAchievementView.showInvalidAchievementMessage(message);
+                mView.showInvalidAchievementMessage(message);
             }
         });
     }
@@ -66,7 +70,7 @@ public class AddAchievementPresenter implements AddAchievementContract.Presenter
     @Override
     public void getInvolvements() {
         List<Involvement> involvement = Arrays.asList(Involvement.values());
-        mAddAchievementView.showInvolvement(involvement);
+        mView.showInvolvement(involvement);
     }
 
     @Override

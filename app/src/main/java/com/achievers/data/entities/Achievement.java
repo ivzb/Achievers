@@ -5,21 +5,24 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 import java.util.Date;
 
+@Parcel(analyze = { Achievement.class })
 public class Achievement {
 
     @SerializedName("id")
-    private long id;
+    long id;
 
     @SerializedName("title")
-    private String title;
+    String title;
 
     @SerializedName("description")
-    private String description;
+    String description;
 
     @SerializedName("imageUrl")
-    private String imageUrl;
+    String imageUrl;
 
 //    @SerializedName("category")
 //    private Category category;
@@ -28,10 +31,10 @@ public class Achievement {
 //    private Integer categoryId;
 
     @SerializedName("involvement")
-    private Involvement involvement;
+    Involvement involvement;
 
     @SerializedName("createdOn")
-    private Date createdOn;
+    Date createdOn;
 
     public Achievement() { }
 

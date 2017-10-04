@@ -1,18 +1,25 @@
-package com.achievers.ui.base;
+package com.achievers.ui._base;
 
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 
-import com.achievers.ui.base.contracts.BasePresenter;
-import com.achievers.ui.base.contracts.BaseView;
+import com.achievers.ui._base.contracts.BasePresenter;
+import com.achievers.ui._base.contracts.BaseView;
+import com.achievers.ui._base.contracts.BaseViewModel;
 import com.achievers.utils.KeyboardUtils;
 
-public abstract class BaseFragment<P extends BasePresenter, VM>
+public abstract class AbstractFragment<P extends BasePresenter, VM extends BaseViewModel>
         extends Fragment
         implements BaseView<P, VM> {
 
     protected P mPresenter;
     protected VM mViewModel;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.start();
+    }
 
     @Override
     public void setPresenter(P presenter) {

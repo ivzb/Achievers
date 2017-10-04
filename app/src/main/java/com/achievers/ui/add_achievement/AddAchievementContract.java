@@ -1,14 +1,16 @@
 package com.achievers.ui.add_achievement;
 
+import android.databinding.Bindable;
 import android.graphics.Bitmap;
 
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.File;
 import com.achievers.data.entities.Involvement;
+import com.achievers.ui._base.contracts.BaseViewModel;
 import com.achievers.ui.add_achievement.Adapters.InvolvementRecyclerViewAdapter;
-import com.achievers.ui.base.contracts.BasePresenter;
-import com.achievers.ui.base.contracts.BaseView;
+import com.achievers.ui._base.contracts.BasePresenter;
+import com.achievers.ui._base.contracts.BaseView;
 
 import java.util.List;
 
@@ -36,7 +38,7 @@ public class AddAchievementContract {
         void uploadImage(Bitmap bitmap, SaveCallback<File> callback);
     }
 
-    public interface ViewModel {
+    public interface ViewModel extends BaseViewModel {
 
         Achievement getAchievement();
         void setAchievement(Achievement achievement);

@@ -1,5 +1,7 @@
 package com.achievers.ui.achievements;
 
+import android.content.Context;
+
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.source.achievements.AchievementsDataSource;
@@ -30,6 +32,7 @@ import static org.mockito.Mockito.when;
 
 public class AchievementsPresenterTest {
 
+    @Mock private Context mContext;
     @Mock private Contracts.View mView;
     @Mock private AchievementsDataSource mDataSource;
 
@@ -46,7 +49,7 @@ public class AchievementsPresenterTest {
         MockitoAnnotations.initMocks(this);
         GeneratorUtils.initialize(new Random(), new Faker());
 
-        mPresenter = new Presenter(mDataSource, mView);
+        mPresenter = new Presenter(mContext, mDataSource, mView);
     }
 
     @Test

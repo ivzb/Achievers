@@ -7,9 +7,9 @@ import com.achievers.BR;
 import com.achievers.data.entities.Achievement;
 import com.achievers.ui.evidence.EvidenceAdapter;
 
-public class AchievementDetailViewModel
+public class AchievementViewModel
         extends BaseObservable
-        implements AchievementDetailContract.ViewModel {
+        implements AchievementContract.ViewModel {
 
     private Achievement mAchievement;
     private EvidenceAdapter mEvidenceAdapter;

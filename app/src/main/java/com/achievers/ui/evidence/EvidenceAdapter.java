@@ -12,7 +12,7 @@ import com.achievers.databinding.EvidenceItemImageBinding;
 import com.achievers.databinding.EvidenceItemLocationBinding;
 import com.achievers.databinding.EvidenceItemVideoBinding;
 import com.achievers.databinding.EvidenceItemVoiceBinding;
-import com.achievers.ui.achievement.AchievementDetailContract;
+import com.achievers.ui.achievement.AchievementContract;
 
 import java.util.List;
 
@@ -23,10 +23,10 @@ public class EvidenceAdapter extends BaseAdapter<ToroAdapter.ViewHolder> {
 
     private List<Evidence> mEvidence;
     private EvidenceItemActionHandler mEvidenceItemActionHandler;
-    private AchievementDetailContract.Presenter mUserActionsListener;
+    private AchievementContract.Presenter mUserActionsListener;
     private Context mContext;
 
-    public EvidenceAdapter(List<Evidence> evidence, AchievementDetailContract.Presenter userActionsListener) {
+    public EvidenceAdapter(List<Evidence> evidence, AchievementContract.Presenter userActionsListener) {
         this.mEvidence = evidence;
         this.mEvidenceItemActionHandler = new EvidenceItemActionHandler(userActionsListener);
         this.mUserActionsListener = userActionsListener;

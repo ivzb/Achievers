@@ -15,20 +15,19 @@ import android.view.ViewGroup;
 import com.achievers.R;
 import com.achievers.data.entities.Achievement;
 import com.achievers.databinding.AchievementsFragBinding;
-import com.achievers.ui.achievement.AchievementDetailActivity;
+import com.achievers.ui.achievement.AchievementActivity;
 import com.achievers.ui.add_achievement.AddAchievementActivity;
-import com.achievers.ui.base.BaseFragment;
-import com.achievers.utils.EndlessRecyclerViewScrollListener;
-import com.achievers.utils.ScrollChildSwipeRefreshLayout;
+import com.achievers.ui._base.AbstractFragment;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
 public class Fragment
-        extends BaseFragment<Contracts.Presenter, Contracts.ViewModel>
-        implements Contracts.View, View.OnClickListener {
+        extends AbstractFragment<Contracts.Presenter, Contracts.ViewModel>
+        implements Contracts.View, View.OnClickListener, ActionHandler {
 
     private AchievementsFragBinding mViewDataBinding;
-    private Contracts.Adapter mAdapter;
 
     public Fragment() {
 
@@ -45,22 +44,12 @@ public class Fragment
         setHasOptionsMenu(true);
         setRetainInstance(true);
 
-        FloatingActionButton fab = getActivity().findViewById(R.id.fab_add_achievement);
+        FloatingActionButton fab = getActivity().findViewById(R.id.fabAddAchievement);
         fab.setOnClickListener(this);
 
         setUpLoadingIndicator();
 
         return mViewDataBinding.getRoot();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        setUpRecycler();
-
-        int initialPage = 0;
-        mPresenter.loadAchievements(initialPage);
     }
 
 //    @Override
@@ -70,20 +59,19 @@ public class Fragment
 
     @Override
     public void showAchievements(List<Achievement> achievements) {
-        mAdapter.addAchievements(achievements);
+        mViewModel.getAdapter().addAchievements(achievements);
     }
 
     @Override
-    public void showAchievementDetailsUi(/*int achievementId*/) {
-        Intent intent = new Intent(getContext(), AchievementDetailActivity.class);
-//        intent.putExtra(AchievementDetailActivity.EXTRA_ACHIEVEMENT_ID, achievementId);
+    public void openAchievementUi(Achievement achievement) {
+        Intent intent = new Intent(getContext(), AchievementActivity.class);
+        intent.putExtra(AchievementActivity.EXTRA_ACHIEVEMENT_ID, Parcels.wrap(achievement));
         startActivity(intent);
     }
 
     @Override
-    public void showAddAchievementUi(final int categoryId) {
+    public void openAddAchievementUi() {
         Intent intent = new Intent(getContext(), AddAchievementActivity.class);
-        intent.putExtra(AddAchievementActivity.EXTRA_CATEGORY_ID, categoryId);
         startActivity(intent);
     }
 
@@ -103,33 +91,38 @@ public class Fragment
 
     @Override
     public void onClick(View view) {
-        showAddAchievementUi(-1);
+        mPresenter.clickAddAchievement();
+    }
+
+    @Override
+    public void initRecycler(
+            Contracts.Adapter adapter,
+            LinearLayoutManager layoutManager,
+            RecyclerView.OnScrollListener scrollListener) {
+
+        mViewModel.setAdapter(adapter);
+
+        mViewDataBinding.rvAchievements.setAdapter((RecyclerView.Adapter) adapter);
+        mViewDataBinding.rvAchievements.setLayoutManager(layoutManager);
+        mViewDataBinding.rvAchievements.addOnScrollListener(scrollListener);
+    }
+
+    @Override
+    public void onAchievementClick(Achievement achievement) {
+        mPresenter.clickAchievement(achievement);
     }
 
     private void setUpLoadingIndicator() {
-        final ScrollChildSwipeRefreshLayout srl = mViewDataBinding.refreshLayout;
-
-        srl.setColorSchemeColors(
-                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
-                ContextCompat.getColor(getActivity(), R.color.colorAccent),
-                ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark)
+        mViewDataBinding.refreshLayout.setColorSchemeColors(
+            getColor(R.color.colorPrimary),
+            getColor(R.color.colorAccent),
+            getColor(R.color.colorPrimaryDark)
         );
 
-        srl.setScrollUpChild(mViewDataBinding.rvAchievements);
+        mViewDataBinding.refreshLayout.setScrollUpChild(mViewDataBinding.rvAchievements);
     }
 
-    private void setUpRecycler() {
-        mAdapter = new Adapter(mPresenter);
-        mViewDataBinding.rvAchievements.setAdapter((RecyclerView.Adapter) mAdapter);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        mViewDataBinding.rvAchievements.setLayoutManager(layoutManager);
-
-        mViewDataBinding.rvAchievements.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                mPresenter.loadAchievements(page);
-            }
-        });
+    private int getColor(int color) {
+        return ContextCompat.getColor(getActivity(), color);
     }
 }

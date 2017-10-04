@@ -13,13 +13,19 @@ public class AchieversDebugApplication extends AchieversApplication {
     public void onCreate() {
         super.onCreate();
 
-        Stetho.initialize(
-            Stetho.newInitializerBuilder(this)
-                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
-                .build()
-        );
+        if (!isUnitTesting()) {
+            Stetho.initialize(
+                    Stetho.newInitializerBuilder(this)
+                            .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                            .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                            .build()
+            );
+        }
 
         GeneratorUtils.initialize(new Random(), new Faker());
+    }
+
+    protected boolean isUnitTesting() {
+        return false;
     }
 }

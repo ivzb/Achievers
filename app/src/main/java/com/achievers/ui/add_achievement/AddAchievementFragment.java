@@ -30,7 +30,7 @@ import com.achievers.data.entities.File;
 import com.achievers.data.entities.Involvement;
 import com.achievers.databinding.AddAchievementFragBinding;
 import com.achievers.ui.add_achievement.Adapters.InvolvementRecyclerViewAdapter;
-import com.achievers.ui.base.BaseFragment;
+import com.achievers.ui._base.AbstractFragment;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -42,7 +42,7 @@ import java.util.List;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class AddAchievementFragment
-        extends BaseFragment<AddAchievementContract.Presenter, AddAchievementContract.ViewModel>
+        extends AbstractFragment<AddAchievementContract.Presenter, AddAchievementContract.ViewModel>
         implements AddAchievementContract.View {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -73,7 +73,7 @@ public class AddAchievementFragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        FloatingActionButton fab = getActivity().findViewById(R.id.fab_add_achievement);
+        FloatingActionButton fab = getActivity().findViewById(R.id.fabAddAchievement);
         fab.setImageResource(R.drawable.ic_done);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,9 +1,9 @@
-package com.achievers.ui.base;
+package com.achievers.ui._base;
 
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class AbstractActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
