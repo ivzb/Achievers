@@ -6,7 +6,6 @@ public interface BaseView<P extends BasePresenter, VM extends BaseViewModel, DB 
 
     void setPresenter(P presenter);
     void setViewModel(VM viewModel);
-    void setDataBinding(DB dataBinding);
 
     void showSuccessfulMessage(String message);
     void showErrorMessage(String message);

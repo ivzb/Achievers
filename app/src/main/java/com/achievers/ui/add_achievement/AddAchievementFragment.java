@@ -36,7 +36,7 @@ public class AddAchievementFragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.achievements_frag, container, false);
+        View view = inflater.inflate(R.layout.add_achievement_frag, container, false);
 
         mDataBinding = AddAchievementFragBinding.bind(view);
         mDataBinding.setViewModel(mViewModel);

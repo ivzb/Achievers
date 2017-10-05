@@ -43,6 +43,19 @@ public class Achievement {
     }
 
     public Achievement(
+            long id,
+            @NonNull String title,
+            @NonNull String description,
+            @NonNull String imageUrl,
+            @NonNull Involvement involvement,
+            @NonNull Date createdOn) {
+
+        this(title, description, imageUrl, involvement, createdOn);
+
+        this.id = id;
+    }
+
+    public Achievement(
             @NonNull String title,
             @NonNull String description,
             @NonNull String imageUrl,

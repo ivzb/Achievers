@@ -48,11 +48,6 @@ public abstract class AbstractFragment<P extends BasePresenter, VM extends BaseV
     }
 
     @Override
-    public void setDataBinding(DB dataBinding) {
-        mDataBinding = dataBinding;
-    }
-
-    @Override
     public boolean isActive() {
         return isAdded();
     }
