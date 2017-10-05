@@ -59,7 +59,7 @@ public class SimpleIdlingResource implements IdlingResource {
 
     @Override
     public void registerIdleTransitionCallback(ResourceCallback callback) {
-        this.mCallback = callback;
+        mCallback = callback;
     }
 
     private AtomicBoolean mIsIdleNow = new AtomicBoolean(true);

@@ -26,7 +26,7 @@
                  <!--<category android:name="android.intent.category.LAUNCHER" />-->
              <!--</intent-filter>-->
         <!--</activity>-->
-        <activity android:name=".ui.achievements.Activity"
+        <activity android:name=".ui.achievements.AchievementsActivity"
             android:theme="@style/AppTheme.OverlapSystemBar">
 
             <intent-filter>

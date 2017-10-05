@@ -1,9 +1,5 @@
 package com.achievers.ui.achievements;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-
 import com.achievers.data.entities.Achievement;
 import com.achievers.ui._base.contracts.BasePresenter;
 import com.achievers.ui._base.contracts.BaseView;
@@ -11,18 +7,13 @@ import com.achievers.ui._base.contracts.BaseViewModel;
 
 import java.util.List;
 
-public class Contracts {
+public class AchievementsContracts {
 
-    public interface View extends BaseView<Presenter, ViewModel>, ActionHandler {
-
-        void initRecycler(
-                Contracts.Adapter adapter,
-                LinearLayoutManager layoutManager,
-                RecyclerView.OnScrollListener scrollListener);
+    public interface View extends BaseView<Presenter, ViewModel>, AchievementsActionHandler {
 
         void setLoadingIndicator(boolean active);
 
-        void showAchievements(/*Category category, */List<Achievement> achievements);
+        void showAchievements(List<Achievement> achievements);
 
         void openAchievementUi(Achievement achievement);
         void openAddAchievementUi();
@@ -34,15 +25,14 @@ public class Contracts {
 
         void loadAchievements(int page);
 
-        void clickAchievement(@NonNull Achievement achievement);
-
+        void clickAchievement(Achievement achievement);
         void clickAddAchievement();
     }
 
     public interface ViewModel extends BaseViewModel {
 
-        Contracts.Adapter getAdapter();
-        void setAdapter(Contracts.Adapter adapter);
+        AchievementsContracts.Adapter getAdapter();
+        void setAdapter(AchievementsContracts.Adapter adapter);
     }
 
     public interface Adapter {

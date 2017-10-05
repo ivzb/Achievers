@@ -25,11 +25,11 @@ import static org.junit.Assert.*;
 @Config(sdk = Build.VERSION_CODES.LOLLIPOP, constants = BuildConfig.class, application = AchieversDebugTestApplication.class)
 public class AchievementsActivityTest {
 
-    private Activity mActivity;
+    private AchievementsActivity mActivity;
 
     @Before
     public void setUp() throws Exception {
-        mActivity = Robolectric.setupActivity(Activity.class);
+        mActivity = Robolectric.setupActivity(AchievementsActivity.class);
     }
 
     @Test

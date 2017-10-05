@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.achievers.ui.achievements.ViewModel" />
+            type="com.achievers.ui.achievements.AchievementsViewModel" />
     </data>
 
     <com.achievers.utils.ScrollChildSwipeRefreshLayout

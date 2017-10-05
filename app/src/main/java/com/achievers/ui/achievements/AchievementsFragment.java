@@ -1,5 +1,6 @@
 package com.achievers.ui.achievements;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,18 +19,19 @@ import com.achievers.databinding.AchievementsFragBinding;
 import com.achievers.ui.achievement.AchievementActivity;
 import com.achievers.ui.add_achievement.AddAchievementActivity;
 import com.achievers.ui._base.AbstractFragment;
+import com.achievers.utils.EndlessRecyclerViewScrollListener;
 
 import org.parceler.Parcels;
 
 import java.util.List;
 
-public class Fragment
-        extends AbstractFragment<Contracts.Presenter, Contracts.ViewModel>
-        implements Contracts.View, View.OnClickListener, ActionHandler {
+public class AchievementsFragment
+        extends AbstractFragment<AchievementsContracts.Presenter, AchievementsContracts.ViewModel>
+        implements AchievementsContracts.View, View.OnClickListener, AchievementsActionHandler {
 
     private AchievementsFragBinding mViewDataBinding;
 
-    public Fragment() {
+    public AchievementsFragment() {
 
     }
 
@@ -39,15 +41,14 @@ public class Fragment
         View view = inflater.inflate(R.layout.achievements_frag, container, false);
 
         mViewDataBinding = AchievementsFragBinding.bind(view);
-        mViewDataBinding.setViewModel((ViewModel) mViewModel);
+        mViewDataBinding.setViewModel((AchievementsViewModel) mViewModel);
 
         setHasOptionsMenu(true);
         setRetainInstance(true);
 
-        FloatingActionButton fab = getActivity().findViewById(R.id.fabAddAchievement);
-        fab.setOnClickListener(this);
-
+        setUpAchievementsRecycler(getContext());
         setUpLoadingIndicator();
+        setUpFab();
 
         return mViewDataBinding.getRoot();
     }
@@ -95,21 +96,24 @@ public class Fragment
     }
 
     @Override
-    public void initRecycler(
-            Contracts.Adapter adapter,
-            LinearLayoutManager layoutManager,
-            RecyclerView.OnScrollListener scrollListener) {
+    public void onAchievementClick(Achievement achievement) {
+        mPresenter.clickAchievement(achievement);
+    }
+
+    private void setUpAchievementsRecycler(Context context) {
+        AchievementsContracts.Adapter adapter = new AchievementsAdapter(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
 
         mViewModel.setAdapter(adapter);
 
         mViewDataBinding.rvAchievements.setAdapter((RecyclerView.Adapter) adapter);
         mViewDataBinding.rvAchievements.setLayoutManager(layoutManager);
-        mViewDataBinding.rvAchievements.addOnScrollListener(scrollListener);
-    }
-
-    @Override
-    public void onAchievementClick(Achievement achievement) {
-        mPresenter.clickAchievement(achievement);
+        mViewDataBinding.rvAchievements.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                mPresenter.loadAchievements(page);
+            }
+        });
     }
 
     private void setUpLoadingIndicator() {
@@ -120,6 +124,11 @@ public class Fragment
         );
 
         mViewDataBinding.refreshLayout.setScrollUpChild(mViewDataBinding.rvAchievements);
+    }
+
+    private void setUpFab() {
+        FloatingActionButton fab = getActivity().findViewById(R.id.fabAddAchievement);
+        fab.setOnClickListener(this);
     }
 
     private int getColor(int color) {

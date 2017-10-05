@@ -12,14 +12,14 @@ import com.achievers.databinding.AchievementsRecyclerItemBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Adapter
-        extends RecyclerView.Adapter<Adapter.ViewHolder>
-        implements Contracts.Adapter {
+public class AchievementsAdapter
+        extends RecyclerView.Adapter<AchievementsAdapter.ViewHolder>
+        implements AchievementsContracts.Adapter {
 
     private List<Achievement> mAchievements;
-    private ActionHandler mActionHandler;
+    private AchievementsActionHandler mActionHandler;
 
-    public Adapter(ActionHandler actionHandler) {
+    public AchievementsAdapter(AchievementsActionHandler actionHandler) {
         mAchievements = new ArrayList<>();
         mActionHandler = actionHandler;
     }
@@ -32,7 +32,7 @@ public class Adapter
     }
 
     @Override
-    public Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AchievementsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);

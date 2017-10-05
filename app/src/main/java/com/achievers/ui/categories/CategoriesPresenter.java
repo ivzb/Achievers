@@ -22,7 +22,7 @@ public class CategoriesPresenter
         implements CategoriesContract.Presenter,
 //        LoaderManager.LoaderCallbacks<Cursor>,
         CategoriesRepository.LoadDataCallback
-//        CategoriesContract.Presenter.OpenAchievementCallback {
+//        CategoriesContract.AchievementsPresenter.OpenAchievementCallback {
 {
 
 //    private static final int CATEGORIES_LOADER_ID = 1;
@@ -53,8 +53,8 @@ public class CategoriesPresenter
 //        this.mOpenAchievementCallback = new OpenAchievementCallback() {
 //            @Override
 //            public void onOpen(Integer categoryId) {
-//                Intent intent = new Intent(mContext, Activity.class);
-//                intent.putExtra(Activity.EXTRA_CATEGORY_ID, categoryId);
+//                Intent intent = new Intent(mContext, AchievementsActivity.class);
+//                intent.putExtra(AchievementsActivity.EXTRA_CATEGORY_ID, categoryId);
 //                mContext.startActivity(intent);
 //            }
 //        };
@@ -73,7 +73,7 @@ public class CategoriesPresenter
     @Override
     public void result(int requestCode, int resultCode) {
         // If a Category was successfully added, show snackbar
-//        if (AddEditCategoryActivity.REQUEST_ADD_CATEGORY == requestCode && Activity.RESULT_OK == resultCode) {
+//        if (AddEditCategoryActivity.REQUEST_ADD_CATEGORY == requestCode && AchievementsActivity.RESULT_OK == resultCode) {
 //            mCategoriesView.showSuccessfullySavedMessage();
 //        }
     }

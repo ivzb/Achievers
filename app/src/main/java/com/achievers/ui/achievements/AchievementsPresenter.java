@@ -2,29 +2,25 @@ package com.achievers.ui.achievements;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
-import com.achievers.R;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.ui._base.AbstractPresenter;
-import com.achievers.utils.EndlessRecyclerViewScrollListener;
 
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class Presenter
-        extends AbstractPresenter<Contracts.View>
-        implements Contracts.Presenter {
+public class AchievementsPresenter
+        extends AbstractPresenter<AchievementsContracts.View>
+        implements AchievementsContracts.Presenter {
 
     private final AchievementsDataSource mDataSource;
 
-    Presenter(
+    AchievementsPresenter(
             @NonNull Context context,
-            @NonNull Contracts.View view,
+            @NonNull AchievementsContracts.View view,
             @NonNull AchievementsDataSource dataSource) {
 
         mContext = checkNotNull(context, "context cannot be null");
@@ -34,15 +30,13 @@ public class Presenter
 
 //    @Override
 //    public void result(int requestCode, int resultCode) {
-//        if (AddAchievementActivity.REQUEST_ADD_ACHIEVEMENT == requestCode && Activity.RESULT_OK == resultCode) {
+//        if (AddAchievementActivity.REQUEST_ADD_ACHIEVEMENT == requestCode && AchievementsActivity.RESULT_OK == resultCode) {
 //            mView.showSuccessfulMessage("Your achievement will be uploaded shortly.");
 //        }
 //    }
 
     @Override
     public void start() {
-        initRecycler();
-
         int initialPage = 0;
         loadAchievements(initialPage);
     }
@@ -77,7 +71,7 @@ public class Presenter
         if (!mView.isActive()) return;
 
         if (null == achievement) {
-            mView.showErrorMessage(mContext.getString(R.string.missing_achievement));
+            mView.showErrorMessage("Missing achievement");
             return;
         }
 
@@ -89,21 +83,5 @@ public class Presenter
         if (!mView.isActive()) return;
 
         mView.openAddAchievementUi();
-    }
-
-    private void initRecycler() {
-        if (!mView.isActive()) return;
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
-
-        mView.initRecycler(
-                new Adapter(mView),
-                layoutManager,
-                new EndlessRecyclerViewScrollListener(layoutManager) {
-                    @Override
-                    public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                        loadAchievements(page);
-                    }
-                });
     }
 }

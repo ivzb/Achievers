@@ -10,7 +10,7 @@ import com.achievers.data.source.achievements.AchievementsMockDataSource;
 import com.achievers.ui._base.AbstractActivity;
 import com.achievers.utils.ActivityUtils;
 
-public class Activity extends AbstractActivity {
+public class AchievementsActivity extends AbstractActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,7 @@ public class Activity extends AbstractActivity {
             ab.setDisplayShowHomeEnabled(true);
         }
 
-        Fragment fragment = (Fragment) getSupportFragmentManager()
+        AchievementsFragment fragment = (AchievementsFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
 
         if (fragment == null) {
@@ -36,7 +36,7 @@ public class Activity extends AbstractActivity {
     }
 
     private void initFragment() {
-        Fragment view = new Fragment();
+        AchievementsFragment view = new AchievementsFragment();
 
         ActivityUtils.addFragmentToActivity(
                 getSupportFragmentManager(),
@@ -45,7 +45,7 @@ public class Activity extends AbstractActivity {
 
         AchievementsDataSource dataSource = AchievementsMockDataSource.getInstance();
 
-        view.setViewModel(new ViewModel());
-        view.setPresenter(new Presenter(this, view, dataSource));
+        view.setViewModel(new AchievementsViewModel());
+        view.setPresenter(new AchievementsPresenter(this, view, dataSource));
     }
 }

@@ -5,7 +5,7 @@ import com.achievers.ui.achievement.AchievementContract;
 
 /**
  * Listens to user actions from the list item in ({@link AchievementContract.View}) and redirects them to the
- * Fragment's actions listener.
+ * AchievementsFragment's actions listener.
  */
 public class EvidenceItemActionHandler {
 

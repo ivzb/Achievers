@@ -33,12 +33,12 @@ import static org.mockito.Mockito.when;
 public class AchievementsPresenterTest {
 
     @Mock private Context mContext;
-    @Mock private Contracts.View mView;
+    @Mock private AchievementsContracts.View mView;
     @Mock private AchievementsDataSource mDataSource;
 
     @Captor private ArgumentCaptor<List<Achievement>> mActualLoadCaptor;
 
-    private Contracts.Presenter mPresenter;
+    private AchievementsContracts.Presenter mPresenter;
 
     private List<Achievement> mExpectedLoad;
 
@@ -49,7 +49,22 @@ public class AchievementsPresenterTest {
         MockitoAnnotations.initMocks(this);
         GeneratorUtils.initialize(new Random(), new Faker());
 
-        mPresenter = new Presenter(mContext, mView, mDataSource);
+        mPresenter = new AchievementsPresenter(mContext, mView, mDataSource);
+    }
+
+    @Test
+    public void start_shouldInternallyCallLoadAchievements() {
+        int page = 0;
+
+        arrangeLoad(
+                true,
+                true,
+                true,
+                page);
+
+        mPresenter.start();
+
+        assertSuccessfulLoad();
     }
 
     @Test
@@ -143,6 +158,75 @@ public class AchievementsPresenterTest {
         verifyNoMoreInteractions(mView);
     }
 
+    @Test
+    public void clickAchievement_shouldOpenAchievementUi() {
+        // arrange
+        when(mView.isActive()).thenReturn(true);
+        Achievement achievement = new Achievement();
+
+        // act
+        mPresenter.clickAchievement(achievement);
+
+        // assert
+        verify(mView).isActive();
+        verify(mView).openAchievementUi(achievement);
+        verifyNoMoreInteractions(mView);
+    }
+
+    @Test
+    public void clickAchievement_withoutAchievement_shouldShowErrorMessage() {
+        // arrange
+        when(mView.isActive()).thenReturn(true);
+
+        // act
+        mPresenter.clickAchievement(null);
+
+        // assert
+        verify(mView).isActive();
+        verify(mView).showErrorMessage(any(String.class));
+        verifyNoMoreInteractions(mView);
+    }
+
+    @Test
+    public void clickAchievement_inactiveView_shouldReturn() {
+        // arrange
+        when(mView.isActive()).thenReturn(false);
+
+        // act
+        mPresenter.clickAchievement(null);
+
+        // assert
+        verify(mView).isActive();
+        verifyNoMoreInteractions(mView);
+    }
+
+    @Test
+    public void clickAddAchievement_shouldOpenAddAchievementUi() {
+        // arrange
+        when(mView.isActive()).thenReturn(true);
+
+        // act
+        mPresenter.clickAddAchievement();
+
+        // assert
+        verify(mView).isActive();
+        verify(mView).openAddAchievementUi();
+        verifyNoMoreInteractions(mView);
+    }
+
+    @Test
+    public void clickAddAchievement_inactiveView_shouldReturn() {
+        // arrange
+        when(mView.isActive()).thenReturn(false);
+
+        // act
+        mPresenter.clickAddAchievement();
+
+        // assert
+        verify(mView).isActive();
+        verifyNoMoreInteractions(mView);
+    }
+
     private void arrangeLoad(
             final Boolean isSuccessful,
             final Boolean initiallyInactiveView,
@@ -191,7 +275,7 @@ public class AchievementsPresenterTest {
 
     private void assertFailureLoad() {
         verify(mView).setLoadingIndicator(true);
-        verify(mView).showErrorMessage(sLoadFailure);
+        verify(mView).showErrorMessage(any(String.class));
         verify(mView).setLoadingIndicator(false);
         verify(mView, times(2)).isActive();
         verifyNoMoreInteractions(mView);

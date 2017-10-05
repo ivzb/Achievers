@@ -86,7 +86,7 @@ public class AddAchievementFragment
 //                    return;
 //                }
 //
-//                // hide keyboard before finish so as not to break previous Activity layout
+//                // hide keyboard before finish so as not to break previous AchievementsActivity layout
 //                View view = getActivity().getCurrentFocus();
 //
 //                if (view != null) {
@@ -114,7 +114,7 @@ public class AddAchievementFragment
         mViewDataBinding.btnChoosePicture.setOnClickListener(this.choosePictureListener);
 
         setHasOptionsMenu(true);
-        // Fragment is retained simply to persist the edits after rotation.
+        // AchievementsFragment is retained simply to persist the edits after rotation.
         setRetainInstance(true);
 
         return mViewDataBinding.getRoot();
