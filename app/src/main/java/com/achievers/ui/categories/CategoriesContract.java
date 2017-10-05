@@ -1,6 +1,7 @@
 package com.achievers.ui.categories;
 
 import android.database.Cursor;
+import android.databinding.ViewDataBinding;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 
@@ -11,7 +12,8 @@ import com.achievers.ui._base.contracts.BaseViewModel;
 
 public class CategoriesContract {
 
-    public interface View extends BaseView<Presenter, ViewModel> {
+    public interface View<DB extends ViewDataBinding>
+            extends BaseView<Presenter, ViewModel, DB> {
 
         void setLoadingIndicator(boolean active);
 

@@ -14,14 +14,14 @@ import com.achievers.data.entities.Involvement;
 
 import java.util.List;
 
-public class InvolvementRecyclerViewAdapter extends RecyclerView.Adapter<InvolvementRecyclerViewAdapter.ViewHolder> {
+public class InvolvementAdapter extends RecyclerView.Adapter<InvolvementAdapter.ViewHolder> {
 
     private List<Involvement> mInvolvement;
     private Context mContext;
     private Involvement mSelectedInvolvement;
     private TextView mSelectedInvolvementTextView;
 
-    public InvolvementRecyclerViewAdapter(Context context, List<Involvement> involvement) {
+    public InvolvementAdapter(Context context, List<Involvement> involvement) {
         mInvolvement = involvement;
         mContext = context;
     }
@@ -31,7 +31,7 @@ public class InvolvementRecyclerViewAdapter extends RecyclerView.Adapter<Involve
     }
 
     @Override
-    public InvolvementRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public InvolvementAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -41,7 +41,7 @@ public class InvolvementRecyclerViewAdapter extends RecyclerView.Adapter<Involve
     }
 
     @Override
-    public void onBindViewHolder(InvolvementRecyclerViewAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(InvolvementAdapter.ViewHolder viewHolder, int position) {
         Involvement involvement = this.mInvolvement.get(position);
         viewHolder.tvInvolvement.setText(involvement.toString());
     }

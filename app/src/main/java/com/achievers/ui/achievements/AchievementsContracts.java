@@ -1,5 +1,7 @@
 package com.achievers.ui.achievements;
 
+import android.databinding.ViewDataBinding;
+
 import com.achievers.data.entities.Achievement;
 import com.achievers.ui._base.contracts.BasePresenter;
 import com.achievers.ui._base.contracts.BaseView;
@@ -9,7 +11,8 @@ import java.util.List;
 
 public class AchievementsContracts {
 
-    public interface View extends BaseView<Presenter, ViewModel>, AchievementsActionHandler {
+    public interface View<DB extends ViewDataBinding>
+            extends BaseView<Presenter, ViewModel, DB>, AchievementsActionHandler {
 
         void setLoadingIndicator(boolean active);
 
@@ -21,7 +24,7 @@ public class AchievementsContracts {
 
     public interface Presenter extends BasePresenter {
 
-//        void result(int requestCode, int resultCode);
+//        void resultPermission(int requestCode, int resultCode);
 
         void loadAchievements(int page);
 

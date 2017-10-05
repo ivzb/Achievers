@@ -29,7 +29,7 @@ public class AchievementsPresenter
     }
 
 //    @Override
-//    public void result(int requestCode, int resultCode) {
+//    public void resultPermission(int requestCode, int resultCode) {
 //        if (AddAchievementActivity.REQUEST_ADD_ACHIEVEMENT == requestCode && AchievementsActivity.RESULT_OK == resultCode) {
 //            mView.showSuccessfulMessage("Your achievement will be uploaded shortly.");
 //        }

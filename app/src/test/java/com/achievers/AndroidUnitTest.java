@@ -1,9 +1,9 @@
 package com.achievers;
 
-import org.junit.Test;
-
 import android.app.Activity;
 import android.app.Application;
+
+import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;

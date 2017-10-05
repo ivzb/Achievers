@@ -16,9 +16,9 @@ import android.view.ViewGroup;
 import com.achievers.R;
 import com.achievers.data.entities.Achievement;
 import com.achievers.databinding.AchievementsFragBinding;
+import com.achievers.ui._base.AbstractFragment;
 import com.achievers.ui.achievement.AchievementActivity;
 import com.achievers.ui.add_achievement.AddAchievementActivity;
-import com.achievers.ui._base.AbstractFragment;
 import com.achievers.utils.EndlessRecyclerViewScrollListener;
 
 import org.parceler.Parcels;
@@ -26,10 +26,8 @@ import org.parceler.Parcels;
 import java.util.List;
 
 public class AchievementsFragment
-        extends AbstractFragment<AchievementsContracts.Presenter, AchievementsContracts.ViewModel>
-        implements AchievementsContracts.View, View.OnClickListener, AchievementsActionHandler {
-
-    private AchievementsFragBinding mViewDataBinding;
+        extends AbstractFragment<AchievementsContracts.Presenter, AchievementsContracts.ViewModel, AchievementsFragBinding>
+        implements AchievementsContracts.View<AchievementsFragBinding>, View.OnClickListener, AchievementsActionHandler {
 
     public AchievementsFragment() {
 
@@ -40,22 +38,20 @@ public class AchievementsFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.achievements_frag, container, false);
 
-        mViewDataBinding = AchievementsFragBinding.bind(view);
-        mViewDataBinding.setViewModel((AchievementsViewModel) mViewModel);
+        mDataBinding = AchievementsFragBinding.bind(view);
 
-        setHasOptionsMenu(true);
-        setRetainInstance(true);
+        mDataBinding.setViewModel((AchievementsViewModel) mViewModel);
 
         setUpAchievementsRecycler(getContext());
         setUpLoadingIndicator();
         setUpFab();
 
-        return mViewDataBinding.getRoot();
+        return mDataBinding.getRoot();
     }
 
 //    @Override
 //    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        mPresenter.result(requestCode, resultCode);
+//        mPresenter.resultPermission(requestCode, resultCode);
 //    }
 
     @Override
@@ -73,14 +69,14 @@ public class AchievementsFragment
     @Override
     public void openAddAchievementUi() {
         Intent intent = new Intent(getContext(), AddAchievementActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, AddAchievementActivity.REQUEST_ADD_ACHIEVEMENT);
     }
 
     @Override
     public void setLoadingIndicator(final boolean active) {
         if (!isActive()) return;
 
-        final SwipeRefreshLayout srl = mViewDataBinding.refreshLayout;
+        final SwipeRefreshLayout srl = mDataBinding.refreshLayout;
 
         srl.post(new Runnable() {
             @Override
@@ -106,9 +102,9 @@ public class AchievementsFragment
 
         mViewModel.setAdapter(adapter);
 
-        mViewDataBinding.rvAchievements.setAdapter((RecyclerView.Adapter) adapter);
-        mViewDataBinding.rvAchievements.setLayoutManager(layoutManager);
-        mViewDataBinding.rvAchievements.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
+        mDataBinding.rvAchievements.setAdapter((RecyclerView.Adapter) adapter);
+        mDataBinding.rvAchievements.setLayoutManager(layoutManager);
+        mDataBinding.rvAchievements.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 mPresenter.loadAchievements(page);
@@ -117,13 +113,13 @@ public class AchievementsFragment
     }
 
     private void setUpLoadingIndicator() {
-        mViewDataBinding.refreshLayout.setColorSchemeColors(
+        mDataBinding.refreshLayout.setColorSchemeColors(
             getColor(R.color.colorPrimary),
             getColor(R.color.colorAccent),
             getColor(R.color.colorPrimaryDark)
         );
 
-        mViewDataBinding.refreshLayout.setScrollUpChild(mViewDataBinding.rvAchievements);
+        mDataBinding.refreshLayout.setScrollUpChild(mDataBinding.rvAchievements);
     }
 
     private void setUpFab() {

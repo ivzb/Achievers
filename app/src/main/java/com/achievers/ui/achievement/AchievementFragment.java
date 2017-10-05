@@ -22,9 +22,9 @@ import com.achievers.R;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
 import com.achievers.data.entities.UploadEvidenceItem;
-import com.achievers.databinding.AchievementDetailFragBinding;
-import com.achievers.ui.achievement.adapters.UploadEvidenceDialogSimpleAdapter;
+import com.achievers.databinding.AchievementFragBinding;
 import com.achievers.ui._base.AbstractFragment;
+import com.achievers.ui.achievement.adapters.UploadEvidenceDialogSimpleAdapter;
 import com.achievers.ui.evidence.EvidenceAdapter;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.GridHolder;
@@ -41,14 +41,12 @@ import java.util.List;
  * Main UI for the task detail screen.
  */
 public class AchievementFragment
-        extends AbstractFragment<AchievementContract.Presenter, AchievementContract.ViewModel>
-        implements AchievementContract.View {
+        extends AbstractFragment<AchievementContract.Presenter, AchievementContract.ViewModel, AchievementFragBinding>
+        implements AchievementContract.View<AchievementFragBinding> {
 
     public static final String ARGUMENT_ACHIEVEMENT_ID = "ACHIEVEMENT_ID";
 
     public static final int REQUEST_EDIT_ACHIEVEMENT = 1;
-
-    private AchievementDetailFragBinding mViewDataBinding;
 
     public static AchievementFragment newInstance(int achievementId) {
         Bundle arguments = new Bundle();
@@ -68,12 +66,12 @@ public class AchievementFragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.achievement_detail_frag, container, false);
+        View view = inflater.inflate(R.layout.achievement_frag, container, false);
 
-        mViewDataBinding = AchievementDetailFragBinding.bind(view);
-        mViewDataBinding.setActionHandler(mPresenter);
-        mViewDataBinding.setResources(getContext().getResources());
-        mViewDataBinding.setViewModel(mViewModel);
+        mDataBinding = AchievementFragBinding.bind(view);
+        mDataBinding.setActionHandler(mPresenter);
+        mDataBinding.setResources(getContext().getResources());
+        mDataBinding.setViewModel(mViewModel);
 
         setHasOptionsMenu(true);
         setRetainInstance(true);

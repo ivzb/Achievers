@@ -18,7 +18,7 @@ public class AchievementActivity extends AbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.achievement_detail_act);
+        setContentView(R.layout.achievement_act);
 
         // Set up the toolbar.
         Toolbar toolbar = findViewById(R.id.toolbar);

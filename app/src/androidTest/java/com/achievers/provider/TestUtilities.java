@@ -8,6 +8,9 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.provider.BaseColumns;
 
+import com.achievers.provider.AchieversContract.Achievements;
+import com.achievers.provider.AchieversContract.Categories;
+import com.achievers.provider.AchieversContract.Evidence;
 import com.achievers.utils.PollingCheck;
 
 import java.lang.reflect.Field;
@@ -16,10 +19,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.achievers.provider.AchieversContract.Categories;
-import com.achievers.provider.AchieversContract.Achievements;
-import com.achievers.provider.AchieversContract.Evidence;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;

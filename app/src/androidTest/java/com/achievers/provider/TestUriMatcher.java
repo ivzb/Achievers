@@ -2,9 +2,6 @@ package com.achievers.provider;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.achievers.provider.AchieversProviderUriMatcher;
-import com.achievers.provider.AchieversUriEnum;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

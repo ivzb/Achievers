@@ -12,7 +12,6 @@ import com.achievers.utils.ActivityUtils;
 
 public class AddAchievementActivity extends AbstractActivity {
 
-    public static final String EXTRA_CATEGORY_ID = "CATEGORY_ID";
     public static final int REQUEST_ADD_ACHIEVEMENT = 156;
 
     @Override
@@ -39,6 +38,7 @@ public class AddAchievementActivity extends AbstractActivity {
 
             view.setViewModel(new AddAchievementViewModel());
             view.setPresenter(new AddAchievementPresenter(
+                    this,
                     view,
                     AchievementsRemoteDataSource.getInstance(),
                     FilesRemoteDataSource.getInstance()));

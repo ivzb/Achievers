@@ -25,27 +25,14 @@ import com.achievers.ui._base.AbstractFragment;
 import com.achievers.utils.CursorUtils;
 import com.achievers.utils.ScrollChildSwipeRefreshLayout;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-/**
- * Display a screen with categories
- */
 public class CategoriesFragment
-        extends AbstractFragment<CategoriesContract.Presenter, CategoriesContract.ViewModel>
-        implements CategoriesContract.View {
+        extends AbstractFragment<CategoriesContract.Presenter, CategoriesContract.ViewModel, CategoriesFragBinding>
+        implements CategoriesContract.View<CategoriesFragBinding> {
 
     private static final int LOADER_CATEGORIES = 1;
 
-    private CategoriesFragBinding mViewDataBinding;
-
     public CategoriesFragment() {
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        this.mPresenter.start();
     }
 
     @Override
@@ -58,29 +45,26 @@ public class CategoriesFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.categories_frag, container, false);
 
-        mViewDataBinding = CategoriesFragBinding.bind(view);
-        mViewDataBinding.setViewModel(mViewModel);
-        mViewDataBinding.setActionHandler(mPresenter);
+        mDataBinding = CategoriesFragBinding.bind(view);
+        mDataBinding.setViewModel(mViewModel);
+        mDataBinding.setActionHandler(mPresenter);
 
         CategoriesAdapter adapter = new CategoriesAdapter(mPresenter);
         mViewModel.setAdapter(adapter);
 
-        setHasOptionsMenu(true);
-        setRetainInstance(true);
-
         // Set up progress indicator
-        final ScrollChildSwipeRefreshLayout swipeRefreshLayout = mViewDataBinding.refreshLayout;
+        final ScrollChildSwipeRefreshLayout swipeRefreshLayout = mDataBinding.refreshLayout;
         swipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(getActivity(), R.color.colorPrimary),
                 ContextCompat.getColor(getActivity(), R.color.colorAccent),
                 ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark)
         );
         // Set the scrolling view in the custom SwipeRefreshLayout.
-        swipeRefreshLayout.setScrollUpChild(mViewDataBinding.rvCategories);
+        swipeRefreshLayout.setScrollUpChild(mDataBinding.rvCategories);
 
         getActivity().getSupportLoaderManager().initLoader(LOADER_CATEGORIES, null, mLoaderCallbacks);
 
-        return mViewDataBinding.getRoot();
+        return mDataBinding.getRoot();
     }
 
     private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallbacks =

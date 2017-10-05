@@ -12,8 +12,8 @@ import android.net.Uri;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.achievers.data.source.categories.CategoriesContentValues;
 import com.achievers.data.entities.Category;
+import com.achievers.data.source.categories.CategoriesContentValues;
 import com.achievers.generator.CategoriesGenerator;
 
 import junit.framework.Assert;

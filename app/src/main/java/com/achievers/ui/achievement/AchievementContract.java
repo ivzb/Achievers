@@ -1,5 +1,7 @@
 package com.achievers.ui.achievement;
 
+import android.databinding.ViewDataBinding;
+
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
 import com.achievers.ui._base.contracts.BasePresenter;
@@ -9,12 +11,9 @@ import com.achievers.ui.evidence.EvidenceAdapter;
 
 import java.util.List;
 
-/**
- * This specifies the contract between the view and the presenter.
- */
 public interface AchievementContract {
 
-    interface View extends BaseView<Presenter, ViewModel> {
+    interface View<DB extends ViewDataBinding> extends BaseView<Presenter, ViewModel, DB> {
 
         void setLoadingIndicator(boolean active);
 

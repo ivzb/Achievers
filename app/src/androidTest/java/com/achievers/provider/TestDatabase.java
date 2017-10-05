@@ -207,7 +207,7 @@ public class TestDatabase {
                 cursor.moveToFirst());
 
         String expectedResultDidntMatchActual =
-                "Expected result values didn't match actual values.";
+                "Expected resultPermission values didn't match actual values.";
         TestUtilities.validateCurrentRecord(expectedResultDidntMatchActual,
                 cursor,
                 contentValues);

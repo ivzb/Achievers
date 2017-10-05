@@ -91,7 +91,7 @@ public class CategoriesPresenter
 ////                Bundle args = new Bundle();
 ////                args.putString(PARENT_ID_KEY, String.valueOf(parentId));
 ////
-////                // we don't care about the result since the CursorLoader will load the data for us
+////                // we don't care about the resultPermission since the CursorLoader will load the data for us
 ////                if (mLoaderManager.getLoader(CATEGORIES_LOADER_ID) == null) {
 ////                    mLoaderManager.initLoader(CATEGORIES_LOADER_ID, args, CategoriesPresenter.this);
 ////                    return;

@@ -5,14 +5,14 @@ import android.databinding.Bindable;
 
 import com.achievers.BR;
 import com.achievers.data.entities.Achievement;
-import com.achievers.ui.add_achievement.Adapters.InvolvementRecyclerViewAdapter;
+import com.achievers.ui.add_achievement.Adapters.InvolvementAdapter;
 
 public class AddAchievementViewModel
         extends BaseObservable
         implements AddAchievementContract.ViewModel {
 
     private Achievement mAchievement;
-    private InvolvementRecyclerViewAdapter mInvolvementsAdapter;
+    private InvolvementAdapter mInvolvementsAdapter;
 
     @Bindable
     @Override
@@ -28,12 +28,12 @@ public class AddAchievementViewModel
 
     @Bindable
     @Override
-    public InvolvementRecyclerViewAdapter getInvolvementsAdapter() {
+    public InvolvementAdapter getInvolvementsAdapter() {
         return mInvolvementsAdapter;
     }
 
     @Override
-    public void setInvolvementsAdapter(InvolvementRecyclerViewAdapter adapter) {
+    public void setInvolvementsAdapter(InvolvementAdapter adapter) {
         mInvolvementsAdapter = adapter;
         this.notifyPropertyChanged(BR.involvementsAdapter);
     }
