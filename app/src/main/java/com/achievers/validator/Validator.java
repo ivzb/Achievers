@@ -1,5 +1,6 @@
 package com.achievers.validator;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.achievers.validator.contracts.BaseProperty;
@@ -13,15 +14,33 @@ import java.util.Locale;
 
 import static com.achievers.utils.Preconditions.checkNotNull;
 
-class Validator {
+public class Validator {
 
     private final LinkedList<BaseProperty> mProperties;
+    private final Context mContext;
 
-    Validator() {
-        mProperties = new LinkedList<>();
+    public Validator() {
+        this(null);
     }
 
-    Validator addProperty(
+    public Validator(Context context) {
+        mProperties = new LinkedList<>();
+        mContext = context;
+    }
+
+    public Validator addProperty(
+            int resId,
+            Object value,
+            @NonNull final BaseRule rule) {
+
+        checkNotNull(mContext);
+        checkNotNull(rule);
+
+        String name = mContext.getString(resId);
+        return addProperty(name, value, rule);
+    }
+
+    public Validator addProperty(
             @NonNull String name,
             Object value,
             @NonNull final BaseRule rule) {
@@ -31,7 +50,19 @@ class Validator {
         return addProperty(name, value, Arrays.asList(rule));
     }
 
-    Validator addProperty(
+    public Validator addProperty(
+            int resId,
+            Object value,
+            @NonNull List<BaseRule> rules) {
+
+        checkNotNull(mContext);
+        checkNotNull(rules);
+
+        String name = mContext.getString(resId);
+        return addProperty(name, value, rules);
+    }
+
+    public Validator addProperty(
             @NonNull String name,
             Object value,
             @NonNull List<BaseRule> rules) {
@@ -45,7 +76,7 @@ class Validator {
         return this;
     }
 
-    BaseValidation validate() {
+    public BaseValidation validate() {
         if (mProperties.isEmpty()) {
             throw new IllegalArgumentException("No properties for validation");
         }

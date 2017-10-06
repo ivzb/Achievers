@@ -16,6 +16,8 @@ import static junit.framework.Assert.assertTrue;
 
 public class ValidatorTest {
 
+    // todo: test with context
+
     @Test(expected = IllegalArgumentException.class)
     public void testBuilder_missingProperty() {
         new Validator().validate();

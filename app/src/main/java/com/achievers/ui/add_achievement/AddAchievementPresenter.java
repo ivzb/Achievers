@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 
 import com.achievers.BuildConfig;
+import com.achievers.R;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.File;
@@ -21,6 +22,10 @@ import com.achievers.data.entities.Involvement;
 import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.files.FilesDataSource;
 import com.achievers.ui._base.AbstractPresenter;
+import com.achievers.validator.Validator;
+import com.achievers.validator.contracts.BaseValidation;
+import com.achievers.validator.rules.NotNullRule;
+import com.achievers.validator.rules.StringLengthRule;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -150,9 +155,31 @@ public class AddAchievementPresenter
 
     @Override
     public void saveAchievement(String title, String description, String imageUrl, Involvement involvement) {
-        Achievement achievement = new Achievement(title, description, imageUrl, involvement, new Date());
+        BaseValidation validation = new Validator(mContext)
+                .addProperty(
+                        R.string.title,
+                        title,
+                        new StringLengthRule(5, 100))
+                .addProperty(
+                        R.string.description,
+                        description,
+                        new StringLengthRule(3, 255))
+                .addProperty(
+                        R.string.image,
+                        imageUrl,
+                        new NotNullRule())
+                .addProperty(
+                        R.string.involvement,
+                        involvement,
+                        new NotNullRule())
+                .validate();
 
-        // TODO: validate achievement
+        if (!validation.isValid()) {
+            mView.showErrorMessage(validation.getFirstError());
+            return;
+        }
+
+        Achievement achievement = new Achievement(title, description, imageUrl, involvement, new Date());
 
         mView.hideKeyboard();
 
