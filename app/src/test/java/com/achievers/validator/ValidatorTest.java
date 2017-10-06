@@ -3,11 +3,14 @@ package com.achievers.validator;
 import com.achievers.validator.contracts.BaseRule;
 import com.achievers.validator.contracts.BaseValidation;
 import com.achievers.validator.rules.NotNullRule;
+import com.achievers.validator.rules.StringLengthRule;
+import com.achievers.validator.rules.TruthRule;
 
 import org.junit.Test;
 
 import java.util.List;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
@@ -76,6 +79,107 @@ public class ValidatorTest {
         assertFalse("validator expected to return false", validation.isValid());
     }
 
-    // todo: valid/invalid multiple rules
-    // todo: different combinations
+    @Test
+    public void testBuilder_valid_twoRule() {
+        BaseValidation validation = new Validator()
+                .addProperty(
+                        "test",
+                        "value",
+                        new StringLengthRule(3, 5))
+                .addProperty(
+                        "another test",
+                        true,
+                        new TruthRule())
+                .validate();
+
+        assertTrue("validator expected to return true", validation.isValid());
+    }
+
+    @Test
+    public void testBuilder_twoRules_firstInvalid() {
+        String propertyName = "test";
+        BaseRule<String> rule = new StringLengthRule(3, 4);
+
+        BaseValidation validation = new Validator()
+                .addProperty(
+                        propertyName,
+                        "value",
+                        rule)
+                .addProperty(
+                        "another test",
+                        true,
+                        new TruthRule())
+                .validate();
+
+        assertFalse("validator expected to return false", validation.isValid());
+
+        String expected = rule.getError(propertyName);
+        String actual = validation.getFirstError();
+        assertEquals("StringLengthRule error expected", expected, actual);
+
+        boolean hasOnlyOneError = validation.getErrors().size() == 1;
+        assertTrue("only one error expected", hasOnlyOneError);
+    }
+
+    @Test
+    public void testBuilder_twoRules_secondInvalid() {
+        String propertyName = "another test";
+        BaseRule<Boolean> rule = new TruthRule();
+
+        BaseValidation validation = new Validator()
+                .addProperty(
+                        "test",
+                        "value",
+                        new StringLengthRule(3, 5))
+                .addProperty(
+                        propertyName,
+                        false,
+                        rule)
+                .validate();
+
+        assertFalse("validator expected to return false", validation.isValid());
+
+        String expected = rule.getError(propertyName);
+        String actual = validation.getFirstError();
+        assertEquals("TruthRule error expected", expected, actual);
+
+        boolean hasOnlyOneError = validation.getErrors().size() == 1;
+        assertTrue("only one error expected", hasOnlyOneError);
+    }
+
+    @Test
+    public void testBuilder_twoRules_bothInvalid() {
+        String firstPropertyName = "test";
+        BaseRule<String> firstRule = new StringLengthRule(3, 4);
+
+        String secondPropertyName = "another test";
+        BaseRule<Boolean> secondRule = new TruthRule();
+
+        BaseValidation validation = new Validator()
+                .addProperty(
+                        firstPropertyName,
+                        "value",
+                        firstRule)
+                .addProperty(
+                        secondPropertyName,
+                        false,
+                        secondRule)
+                .validate();
+
+        assertFalse("validator expected to return false", validation.isValid());
+
+        boolean hasTwoErrors = validation.getErrors().size() == 2;
+        assertTrue("two errors expected", hasTwoErrors);
+
+        String firstExpected = firstRule.getError(firstPropertyName);
+        String firstActual = validation.getFirstError();
+        assertEquals("StringLengthRule error expected", firstExpected, firstActual);
+
+        firstActual = validation.getErrors().get(0);
+        assertEquals("StringLengthRule error expected", firstExpected, firstActual);
+
+        String secondExpected = secondRule.getError(secondPropertyName);
+        String secondActual = validation.getErrors().get(1);
+        assertEquals("TruthRule error expected", secondExpected, secondActual);
+    }
 }
