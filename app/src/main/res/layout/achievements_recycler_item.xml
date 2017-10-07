@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -8,68 +9,47 @@
             type="com.achievers.data.entities.Achievement" />
 
         <variable
+            name="resources"
+            type="android.content.res.Resources" />
+
+        <variable
             name="actionHandler"
             type="com.achievers.ui.achievements.AchievementsActionHandler" />
     </data>
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#ccc"
-        android:padding="5dp"
-        android:layout_margin="5dp"
-        android:baselineAligned="false"
         android:onClick="@{ () -> actionHandler.onAchievementClick(achievement) }">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.3">
-
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                app:url="@{ achievement.imageUrl }" />
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:text="@{ achievement.title }"
+            tools:text="@string/achievement_title"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textAlignment="center"
-                android:textSize="28sp"
-                android:layout_marginBottom="10dp"
-                android:text="@{ achievement.title }" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:text="@{ achievement.description }" />
-        </LinearLayout>
-
-        <LinearLayout
+        <com.facebook.drawee.view.SimpleDraweeView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.3">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@string/involvement"
-                    android:src="@{ achievement.involvement.drawable }" />
-            </LinearLayout>
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            app:url="@{ achievement.imageUrl }"
+            app:resources="@{ resources }"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            android:layout_marginLeft="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginRight="0dp"
+            app:layout_constraintRight_toRightOf="parent" />
+    </android.support.constraint.ConstraintLayout>
 </layout>

@@ -1,26 +1,43 @@
 package com.achievers.validator;
 
+import android.content.Context;
+
+import com.achievers.R;
 import com.achievers.validator.contracts.BaseRule;
 import com.achievers.validator.contracts.BaseValidation;
 import com.achievers.validator.rules.NotNullRule;
 import com.achievers.validator.rules.StringLengthRule;
 import com.achievers.validator.rules.TruthRule;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ValidatorTest {
 
-    // todo: test with context
+    @Rule
+    public MockitoRule mMockitoRule = MockitoJUnit.rule();
+
 
     @Test(expected = IllegalArgumentException.class)
     public void testBuilder_missingProperty() {
         new Validator().validate();
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testBuilder_nullContext() {
+        new Validator(null);
     }
 
     @Test(expected = NullPointerException.class)
@@ -55,6 +72,33 @@ public class ValidatorTest {
                         5,
                         rules)
                 .validate();
+    }
+
+    @Test
+    public void testBuilder_contextName() {
+        Context context = mock(Context.class);
+
+        String mockedMessage = "mocked string";
+
+        when(context.getString(any(int.class))).thenReturn(mockedMessage);
+
+        BaseRule<Integer> rule = new NotNullRule<>();
+
+        BaseValidation validation = new Validator(context)
+                .addProperty(
+                        R.string.title,
+                        null,
+                        rule)
+                .validate();
+
+        assertFalse("validator expected to return false", validation.isValid());
+
+        boolean hasOnlyOneError = validation.getErrors().size() == 1;
+        assertTrue("only one error expected", hasOnlyOneError);
+
+        String expected = rule.getError(mockedMessage);
+        String actual = validation.getFirstError();
+        assertEquals("mocked message mismatch", expected, actual);
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.achievers.ui.achievements;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import com.achievers.BR;
 import com.achievers.data.entities.Achievement;
 import com.achievers.databinding.AchievementsRecyclerItemBinding;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,19 +19,32 @@ public class AchievementsAdapter
         extends RecyclerView.Adapter<AchievementsAdapter.ViewHolder>
         implements AchievementsContracts.Adapter {
 
+    private Context mContext;
     private List<Achievement> mAchievements;
     private AchievementsActionHandler mActionHandler;
 
-    public AchievementsAdapter(AchievementsActionHandler actionHandler) {
+    AchievementsAdapter(Context context, AchievementsActionHandler actionHandler) {
+        mContext = context;
         mAchievements = new ArrayList<>();
         mActionHandler = actionHandler;
     }
 
     @Override
-    public void addAchievements(List<Achievement> achievements) {
+    public void add(List<Achievement> achievements) {
         int start = getItemCount();
         mAchievements.addAll(achievements);
         notifyItemRangeInserted(start, achievements.size());
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        return Parcels.wrap(mAchievements);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable parcelable) {
+        List<Achievement> achievements = Parcels.unwrap(parcelable);
+        add(achievements);
     }
 
     @Override
@@ -46,6 +62,7 @@ public class AchievementsAdapter
         Achievement achievement = mAchievements.get(position);
 
         viewHolder.getBinding().setVariable(BR.achievement, achievement);
+        viewHolder.getBinding().setVariable(BR.resources, mContext.getResources());
         viewHolder.getBinding().setVariable(BR.actionHandler, mActionHandler);
         viewHolder.getBinding().executePendingBindings();
     }

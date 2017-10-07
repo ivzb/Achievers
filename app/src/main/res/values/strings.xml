@@ -37,4 +37,5 @@
     <string name="uploaded_image_preview">Uploaded image preview</string>
     <string name="take_picture">Take Picture</string>
     <string name="choose_existing">Choose Existing</string>
+    <string name="achievement_title">Achievement title</string>
 </resources>

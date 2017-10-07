@@ -6,7 +6,18 @@ public class AchievementsViewModel
         extends BaseObservable
         implements AchievementsContracts.ViewModel {
 
+    private int mPage;
     private AchievementsContracts.Adapter mAdapter;
+
+    @Override
+    public int getPage() {
+        return mPage;
+    }
+
+    @Override
+    public void setPage(int page) {
+        mPage = page;
+    }
 
     @Override
     public AchievementsContracts.Adapter getAdapter() {

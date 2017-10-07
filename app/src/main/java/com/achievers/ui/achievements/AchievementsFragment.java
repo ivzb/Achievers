@@ -3,6 +3,7 @@ package com.achievers.ui.achievements;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.achievers.Config;
 import com.achievers.R;
 import com.achievers.data.entities.Achievement;
 import com.achievers.databinding.AchievementsFragBinding;
@@ -27,7 +29,12 @@ import java.util.List;
 
 public class AchievementsFragment
         extends AbstractFragment<AchievementsContracts.Presenter, AchievementsContracts.ViewModel, AchievementsFragBinding>
-        implements AchievementsContracts.View<AchievementsFragBinding>, View.OnClickListener, AchievementsActionHandler {
+        implements AchievementsContracts.View<AchievementsFragBinding>, View.OnClickListener,
+            AchievementsActionHandler, SwipeRefreshLayout.OnRefreshListener {
+
+    private static final String ACHIEVEMENTS_STATE = "achievements_state";
+    private static final String LAYOUT_MANAGER_STATE = "layout_manager_state";
+    private static final String PAGE_STATE = "page_state";
 
     public AchievementsFragment() {
 
@@ -39,25 +46,63 @@ public class AchievementsFragment
         View view = inflater.inflate(R.layout.achievements_frag, container, false);
 
         mDataBinding = AchievementsFragBinding.bind(view);
+        mDataBinding.setViewModel(mViewModel);
 
-        mDataBinding.setViewModel((AchievementsViewModel) mViewModel);
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(PAGE_STATE)) {
+                int page = savedInstanceState.getInt(PAGE_STATE);
+                setPage(page);
+            }
+        }
 
         setUpAchievementsRecycler(getContext());
         setUpLoadingIndicator();
         setUpFab();
 
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(ACHIEVEMENTS_STATE)) {
+                Parcelable achievementsState = savedInstanceState.getParcelable(ACHIEVEMENTS_STATE);
+                mViewModel.getAdapter().onRestoreInstanceState(achievementsState);
+            }
+
+//            if (savedInstanceState.containsKey(LAYOUT_MANAGER_STATE)) {
+//                Parcelable layoutManagerState = savedInstanceState.getParcelable(LAYOUT_MANAGER_STATE);
+//                mDataBinding.rvAchievements.getLayoutManager().onRestoreInstanceState(layoutManagerState);
+//            }
+        } else {
+            mPresenter.loadAchievements(Config.sRecyclerInitialPage);
+        }
+
         return mDataBinding.getRoot();
     }
 
-//    @Override
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        Parcelable achievementsState = mViewModel.getAdapter().onSaveInstanceState();
+        outState.putParcelable(ACHIEVEMENTS_STATE, achievementsState);
+
+        Parcelable layoutManagerState = mDataBinding.rvAchievements.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable(LAYOUT_MANAGER_STATE, achievementsState);
+
+        outState.putInt(PAGE_STATE, mViewModel.getPage());
+    }
+
+    //    @Override
 //    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        mPresenter.resultPermission(requestCode, resultCode);
 //    }
 
     @Override
     public void showAchievements(List<Achievement> achievements) {
-        mViewModel.getAdapter().addAchievements(achievements);
+        mViewModel.getAdapter().add(achievements);
     }
+
+//    @Override
+//    public void clearAchievements() {
+//        mViewModel.getAdapter().clear();
+//    }
 
     @Override
     public void openAchievementUi(Achievement achievement) {
@@ -70,6 +115,16 @@ public class AchievementsFragment
     public void openAddAchievementUi() {
         Intent intent = new Intent(getContext(), AddAchievementActivity.class);
         startActivityForResult(intent, AddAchievementActivity.REQUEST_ADD_ACHIEVEMENT);
+    }
+
+    @Override
+    public int getPage() {
+        return mViewModel.getPage();
+    }
+
+    @Override
+    public void setPage(int page) {
+        mViewModel.setPage(page);
     }
 
     @Override
@@ -96,15 +151,20 @@ public class AchievementsFragment
         mPresenter.clickAchievement(achievement);
     }
 
+    @Override
+    public void onRefresh() {
+        mPresenter.refresh();
+    }
+
     private void setUpAchievementsRecycler(Context context) {
-        AchievementsContracts.Adapter adapter = new AchievementsAdapter(this);
+        AchievementsContracts.Adapter adapter = new AchievementsAdapter(getContext(), this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
 
         mViewModel.setAdapter(adapter);
 
         mDataBinding.rvAchievements.setAdapter((RecyclerView.Adapter) adapter);
         mDataBinding.rvAchievements.setLayoutManager(layoutManager);
-        mDataBinding.rvAchievements.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
+        mDataBinding.rvAchievements.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager, mViewModel.getPage()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 mPresenter.loadAchievements(page);
@@ -120,6 +180,7 @@ public class AchievementsFragment
         );
 
         mDataBinding.refreshLayout.setScrollUpChild(mDataBinding.rvAchievements);
+        mDataBinding.refreshLayout.setOnRefreshListener(this);
     }
 
     private void setUpFab() {

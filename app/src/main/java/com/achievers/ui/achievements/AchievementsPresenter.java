@@ -3,6 +3,7 @@ package com.achievers.ui.achievements;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.achievers.Config;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.source.achievements.AchievementsDataSource;
@@ -10,6 +11,7 @@ import com.achievers.ui._base.AbstractPresenter;
 
 import java.util.List;
 
+import static com.achievers.Config.sRecyclerInitialPage;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class AchievementsPresenter
@@ -37,8 +39,12 @@ public class AchievementsPresenter
 
     @Override
     public void start() {
-        int initialPage = 0;
-        loadAchievements(initialPage);
+
+    }
+
+    @Override
+    public void refresh() {
+        loadAchievements(sRecyclerInitialPage);
     }
 
     @Override
@@ -52,6 +58,7 @@ public class AchievementsPresenter
             public void onSuccess(List<Achievement> data) {
                 if (!mView.isActive()) return;
 
+                mView.setPage(page);
                 mView.setLoadingIndicator(false);
                 mView.showAchievements(data);
             }

@@ -27,21 +27,17 @@ public class AchievementsActivity extends AbstractActivity {
             ab.setDisplayShowHomeEnabled(true);
         }
 
-        AchievementsFragment fragment = (AchievementsFragment) getSupportFragmentManager()
+        AchievementsFragment view = (AchievementsFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
 
-        if (fragment == null) {
-            initFragment();
+        if (view == null) {
+            view = new AchievementsFragment();
+
+            ActivityUtils.addFragmentToActivity(
+                    getSupportFragmentManager(),
+                    view,
+                    R.id.contentFrame);
         }
-    }
-
-    private void initFragment() {
-        AchievementsFragment view = new AchievementsFragment();
-
-        ActivityUtils.addFragmentToActivity(
-                getSupportFragmentManager(),
-                view,
-                R.id.contentFrame);
 
         AchievementsDataSource dataSource = AchievementsMockDataSource.getInstance();
 

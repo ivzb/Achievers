@@ -10,7 +10,6 @@ import com.achievers.validator.contracts.BaseValidation;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 import static com.achievers.utils.Preconditions.checkNotNull;
 
@@ -24,6 +23,8 @@ public class Validator {
     }
 
     public Validator(Context context) {
+        checkNotNull(context);
+
         mProperties = new LinkedList<>();
         mContext = context;
     }
