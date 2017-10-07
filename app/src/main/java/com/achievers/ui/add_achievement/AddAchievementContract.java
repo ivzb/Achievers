@@ -9,10 +9,11 @@ import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.File;
 import com.achievers.data.entities.Involvement;
+import com.achievers.ui._base.adapters.SelectableAdapter;
 import com.achievers.ui._base.contracts.BasePresenter;
+import com.achievers.ui._base.contracts.BaseSelectableAdapter;
 import com.achievers.ui._base.contracts.BaseView;
 import com.achievers.ui._base.contracts.BaseViewModel;
-import com.achievers.ui.add_achievement.Adapters.InvolvementAdapter;
 
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class AddAchievementContract {
         Achievement getAchievement();
         void setAchievement(Achievement achievement);
 
-        InvolvementAdapter getInvolvementsAdapter();
-        void setInvolvementsAdapter(InvolvementAdapter adapter);
+        BaseSelectableAdapter<Involvement> getInvolvementsAdapter();
+        void setInvolvementsAdapter(BaseSelectableAdapter<Involvement> adapter);
     }
 }

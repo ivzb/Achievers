@@ -7,7 +7,7 @@
     android:background="?android:attr/selectableItemBackground">
 
     <TextView
-        android:id="@+id/tvInvolvement"
+        android:id="@+id/tvValue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"

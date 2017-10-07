@@ -15,7 +15,6 @@ import com.achievers.R;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Category;
 import com.achievers.ui.achievement.AchievementContract;
-import com.achievers.ui.add_achievement.Adapters.InvolvementAdapter;
 import com.achievers.ui.categories.CategoriesAdapter;
 import com.achievers.ui.categories.CategoriesContract;
 import com.achievers.ui.evidence.EvidenceAdapter;
@@ -130,15 +129,5 @@ public class AdapterSetters {
                 presenter.loadEvidence(achievement.getId(), true);
             }
         });
-    }
-
-    // AddAchievementFragment
-    @BindingAdapter("rvInvolvementAdapter")
-    public static void setRvInvolvementAdapter(RecyclerView recyclerView, InvolvementAdapter adapter) {
-        if (adapter != null) {
-            LinearLayoutManager layoutManager = new LinearLayoutManager(adapter.getContext());
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(layoutManager);
-        }
     }
 }

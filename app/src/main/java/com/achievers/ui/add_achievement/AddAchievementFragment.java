@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import com.achievers.R;
 import com.achievers.data.entities.Involvement;
 import com.achievers.databinding.AddAchievementFragBinding;
 import com.achievers.ui._base.AbstractFragment;
-import com.achievers.ui.add_achievement.Adapters.InvolvementAdapter;
+import com.achievers.ui._base.adapters.SelectableAdapter;
 
 import java.util.List;
 
@@ -69,7 +70,7 @@ public class AddAchievementFragment
         String title = mDataBinding.etTitle.getText().toString();
         String description = mDataBinding.etDescription.getText().toString();
         String imageUrl = "";
-        Involvement involvement = mViewModel.getInvolvementsAdapter().getSelectedInvolvement();
+        Involvement involvement = mViewModel.getInvolvementsAdapter().getSelectedValue();
 
         mPresenter.saveAchievement(title, description, imageUrl, involvement);
     }
@@ -95,9 +96,11 @@ public class AddAchievementFragment
 
     @Override
     public void showInvolvement(List<Involvement> involvement) {
-        mViewModel.setInvolvementsAdapter(new InvolvementAdapter(
-                getContext(),
-                involvement));
+        SelectableAdapter<Involvement> adapter = new SelectableAdapter<>(getContext(), involvement);
+        mViewModel.setInvolvementsAdapter(adapter);
+
+        mDataBinding.rvInvolvement.setAdapter(adapter);
+        mDataBinding.rvInvolvement.setLayoutManager(new LinearLayoutManager(adapter.getContext()));
     }
 
     @Override

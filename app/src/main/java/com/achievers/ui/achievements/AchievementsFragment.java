@@ -65,10 +65,10 @@ public class AchievementsFragment
                 mViewModel.getAdapter().onRestoreInstanceState(achievementsState);
             }
 
-//            if (savedInstanceState.containsKey(LAYOUT_MANAGER_STATE)) {
-//                Parcelable layoutManagerState = savedInstanceState.getParcelable(LAYOUT_MANAGER_STATE);
-//                mDataBinding.rvAchievements.getLayoutManager().onRestoreInstanceState(layoutManagerState);
-//            }
+            if (savedInstanceState.containsKey(LAYOUT_MANAGER_STATE)) {
+                Parcelable layoutManagerState = savedInstanceState.getParcelable(LAYOUT_MANAGER_STATE);
+                mDataBinding.rvAchievements.getLayoutManager().onRestoreInstanceState(layoutManagerState);
+            }
         } else {
             mPresenter.loadAchievements(Config.sRecyclerInitialPage);
         }
@@ -84,7 +84,7 @@ public class AchievementsFragment
         outState.putParcelable(ACHIEVEMENTS_STATE, achievementsState);
 
         Parcelable layoutManagerState = mDataBinding.rvAchievements.getLayoutManager().onSaveInstanceState();
-        outState.putParcelable(LAYOUT_MANAGER_STATE, achievementsState);
+        outState.putParcelable(LAYOUT_MANAGER_STATE, layoutManagerState);
 
         outState.putInt(PAGE_STATE, mViewModel.getPage());
     }
@@ -98,11 +98,6 @@ public class AchievementsFragment
     public void showAchievements(List<Achievement> achievements) {
         mViewModel.getAdapter().add(achievements);
     }
-
-//    @Override
-//    public void clearAchievements() {
-//        mViewModel.getAdapter().clear();
-//    }
 
     @Override
     public void openAchievementUi(Achievement achievement) {

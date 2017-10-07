@@ -5,14 +5,15 @@ import android.databinding.Bindable;
 
 import com.achievers.BR;
 import com.achievers.data.entities.Achievement;
-import com.achievers.ui.add_achievement.Adapters.InvolvementAdapter;
+import com.achievers.data.entities.Involvement;
+import com.achievers.ui._base.contracts.BaseSelectableAdapter;
 
 public class AddAchievementViewModel
         extends BaseObservable
         implements AddAchievementContract.ViewModel {
 
     private Achievement mAchievement;
-    private InvolvementAdapter mInvolvementsAdapter;
+    private BaseSelectableAdapter<Involvement> mInvolvementsAdapter;
 
     @Bindable
     @Override
@@ -26,15 +27,13 @@ public class AddAchievementViewModel
         this.notifyPropertyChanged(BR.achievement);
     }
 
-    @Bindable
     @Override
-    public InvolvementAdapter getInvolvementsAdapter() {
+    public BaseSelectableAdapter<Involvement> getInvolvementsAdapter() {
         return mInvolvementsAdapter;
     }
 
     @Override
-    public void setInvolvementsAdapter(InvolvementAdapter adapter) {
+    public void setInvolvementsAdapter(BaseSelectableAdapter<Involvement> adapter) {
         mInvolvementsAdapter = adapter;
-        this.notifyPropertyChanged(BR.involvementsAdapter);
     }
 }
