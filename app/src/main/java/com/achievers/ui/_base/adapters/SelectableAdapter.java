@@ -2,6 +2,7 @@ package com.achievers.ui._base.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Parcelable;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 
 import com.achievers.R;
 import com.achievers.ui._base.contracts.BaseSelectableAdapter;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -54,6 +57,16 @@ public class SelectableAdapter<T>
     }
 
     @Override
+    public Parcelable onSaveInstanceState() {
+        return Parcels.wrap(mPreviousPosition);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        mPreviousPosition = Parcels.unwrap(state);
+    }
+
+    @Override
     public SelectableAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -69,6 +82,10 @@ public class SelectableAdapter<T>
         viewHolder.mTvValue.setText(value.toString());
 
         mViewHolders.put(position, viewHolder);
+
+        if (mPreviousPosition != NO_POSITION && mPreviousPosition == position) {
+            select(position);
+        }
     }
 
     private void select(int position) {

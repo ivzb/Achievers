@@ -1,17 +1,17 @@
 package com.achievers.ui.add_achievement;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +22,19 @@ import com.achievers.databinding.AddAchievementFragBinding;
 import com.achievers.ui._base.AbstractFragment;
 import com.achievers.ui._base.adapters.SelectableAdapter;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 public class AddAchievementFragment
         extends AbstractFragment<AddAchievementContract.Presenter, AddAchievementContract.ViewModel, AddAchievementFragBinding>
         implements AddAchievementContract.View<AddAchievementFragBinding>, View.OnClickListener {
 
+    private static final String TITLE_KEY = "title";
+    private static final String DESCRIPTION_KEY = "description";
+    private static final String INVOLVEMENTS_KEY = "involvements";
+    private static final String INVOLVEMENTS_LAYOUT_MANAGER_KEY = "involvements_layout_manager";
+    private static final String PICTURE_KEY = "picture";
 
     public AddAchievementFragment() {
 
@@ -46,7 +53,51 @@ public class AddAchievementFragment
 
         setupFab();
 
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(TITLE_KEY)) {
+                String title = savedInstanceState.getString(TITLE_KEY);
+                mViewModel.setTitle(title);
+            }
+
+            if (savedInstanceState.containsKey(DESCRIPTION_KEY)) {
+                String description = savedInstanceState.getString(DESCRIPTION_KEY);
+                mViewModel.setDescription(description);
+            }
+
+            if (savedInstanceState.containsKey(INVOLVEMENTS_LAYOUT_MANAGER_KEY)) {
+                Parcelable state = savedInstanceState.getParcelable(INVOLVEMENTS_LAYOUT_MANAGER_KEY);
+                mViewModel.setInvolvementsLayoutManagerState(state);
+            }
+
+            if (savedInstanceState.containsKey(INVOLVEMENTS_KEY)) {
+                Parcelable state = savedInstanceState.getParcelable(INVOLVEMENTS_KEY);
+                mViewModel.setInvolvementsState(state);
+            }
+
+            if (savedInstanceState.containsKey(PICTURE_KEY)) {
+                Bitmap picture = Parcels.unwrap(savedInstanceState.getParcelable(PICTURE_KEY));
+                showImage(picture);
+            }
+        }
+
         return mDataBinding.getRoot();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(TITLE_KEY, mDataBinding.etTitle.getText().toString());
+        outState.putString(DESCRIPTION_KEY, mDataBinding.etDescription.getText().toString());
+
+        Parcelable involvementsLayoutManagerState = mDataBinding.rvInvolvement.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable(INVOLVEMENTS_LAYOUT_MANAGER_KEY, involvementsLayoutManagerState);
+
+        Parcelable involvementsState = mViewModel.getInvolvementsAdapter().onSaveInstanceState();
+        outState.putParcelable(INVOLVEMENTS_KEY, involvementsState);
+
+        Parcelable pictureState = Parcels.wrap(mViewModel.getPicture());
+        outState.putParcelable(PICTURE_KEY, pictureState);
     }
 
     @Override
@@ -86,14 +137,29 @@ public class AddAchievementFragment
     @Override
     public void showInvolvement(List<Involvement> involvement) {
         SelectableAdapter<Involvement> adapter = new SelectableAdapter<>(getContext(), involvement);
-        mViewModel.setInvolvementsAdapter(adapter);
 
+        Parcelable adapterState = mViewModel.getInvolvementsState();
+
+        if (adapterState != null) {
+            adapter.onRestoreInstanceState(adapterState);
+        }
+
+        mViewModel.setInvolvementsAdapter(adapter);
         mDataBinding.rvInvolvement.setAdapter(adapter);
-        mDataBinding.rvInvolvement.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        mDataBinding.rvInvolvement.setLayoutManager(layoutManager);
+
+        Parcelable layoutManagerState = mViewModel.getInvolvementsLayoutManagerState();
+
+        if (layoutManagerState != null) {
+            layoutManager.onRestoreInstanceState(layoutManagerState);
+        }
     }
 
     @Override
     public void showImage(Bitmap bitmap) {
+        mViewModel.setPicture(bitmap);
         mDataBinding.ivPicture.setImageBitmap(bitmap);
     }
 
@@ -106,14 +172,8 @@ public class AddAchievementFragment
     private View.OnClickListener mTakePictureListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            int permission = ContextCompat.checkSelfPermission(
-                    getContext(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE);
-
-            mPresenter.clickTakePicture(
-                    permission,
-                    mDataBinding.ivPicture.getWidth(),
-                    mDataBinding.ivPicture.getHeight());
+            int targetWidth = mDataBinding.ivPicture.getWidth();
+            mPresenter.clickTakePicture(targetWidth);
         }
     };
 

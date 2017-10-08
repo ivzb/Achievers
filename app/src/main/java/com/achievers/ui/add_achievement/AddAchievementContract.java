@@ -1,9 +1,11 @@
 package com.achievers.ui.add_achievement;
 
 import android.content.Intent;
+import android.databinding.Bindable;
 import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Parcelable;
 
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities.Achievement;
@@ -32,12 +34,12 @@ public class AddAchievementContract {
 
     interface Presenter extends BasePresenter {
 
-        void clickTakePicture(int permission, int targetWidth, int targetHeight);
+        void clickTakePicture(int targetWidth);
         void clickChoosePicture();
 
         void resultForPicture(int requestCode, int resultCode, Intent data);
 
-        void getInvolvements();
+        void loadInvolvements();
 
         void uploadImage(Bitmap bitmap, SaveCallback<File> callback);
 
@@ -50,10 +52,24 @@ public class AddAchievementContract {
 
     public interface ViewModel extends BaseViewModel {
 
-        Achievement getAchievement();
-        void setAchievement(Achievement achievement);
+        @Bindable
+        String getTitle();
+        void setTitle(String title);
+
+        @Bindable
+        String getDescription();
+        void setDescription(String description);
 
         BaseSelectableAdapter<Involvement> getInvolvementsAdapter();
         void setInvolvementsAdapter(BaseSelectableAdapter<Involvement> adapter);
+
+        Parcelable getInvolvementsLayoutManagerState();
+        void setInvolvementsLayoutManagerState(Parcelable state);
+
+        Parcelable getInvolvementsState();
+        void setInvolvementsState(Parcelable state);
+
+        Bitmap getPicture();
+        void setPicture(Bitmap picture);
     }
 }

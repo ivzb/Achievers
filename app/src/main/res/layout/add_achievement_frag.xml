@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -11,64 +12,97 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/llAddAchievement"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/spacing_large"
-            android:paddingLeft="@dimen/spacing_large"
-            android:paddingRight="@dimen/spacing_large"
-            android:paddingTop="@dimen/spacing_large">
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/etTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/title"
-                android:text="@{ viewModel.achievement.title }"
                 android:maxLines="1"
+                android:text="@{ viewModel.title }"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textColor="@color/colorPrimary"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/etDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_medium"
                 android:hint="@string/description"
-                android:text="@{ viewModel.achievement.description }"
                 android:minLines="4"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                android:text="@{ viewModel.description }"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                app:layout_constraintEnd_toEndOf="@+id/etTitle"
+                app:layout_constraintStart_toStartOf="@+id/etTitle"
+                app:layout_constraintTop_toBottomOf="@+id/etTitle" />
+
+            <TextView
+                android:id="@+id/tvSelectInvolvement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/select_involvement"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                app:layout_constraintEnd_toEndOf="@+id/etDescription"
+                app:layout_constraintStart_toStartOf="@+id/etDescription"
+                app:layout_constraintTop_toBottomOf="@+id/etDescription" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvInvolvement"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/tvSelectInvolvement"
+                app:layout_constraintStart_toStartOf="@+id/tvSelectInvolvement"
+                app:layout_constraintTop_toBottomOf="@+id/tvSelectInvolvement" />
 
-            <LinearLayout
+            <Button
+                android:id="@+id/btnTakePicture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:text="@string/take_picture"
+                app:layout_constraintEnd_toStartOf="@+id/glVertical"
+                app:layout_constraintStart_toStartOf="@+id/rvInvolvement"
+                app:layout_constraintTop_toBottomOf="@+id/rvInvolvement" />
 
-                <Button
-                    android:id="@+id/btnTakePicture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/take_picture" />
-
-                <Button
-                    android:id="@+id/btnChoosePicture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/choose_existing" />
-            </LinearLayout>
+            <Button
+                android:id="@+id/btnChoosePicture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:text="@string/choose_existing"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/glVertical"
+                app:layout_constraintTop_toBottomOf="@+id/rvInvolvement" />
 
             <ImageView
                 android:id="@+id/ivPicture"
-                android:src="@drawable/bunny"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/uploaded_image_preview"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnTakePicture" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/glVertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/uploaded_image_preview" />
-        </LinearLayout>
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+        </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </layout>

@@ -44,7 +44,6 @@ public class AddAchievementPresenter
 
     private String mImageFilePath;
     private int mTargetWidth;
-    private int mTargetHeight;
 
     AddAchievementPresenter(
             @NonNull Context context,
@@ -61,13 +60,12 @@ public class AddAchievementPresenter
 
     @Override
     public void start() {
-        getInvolvements();
+        loadInvolvements();
     }
 
     @Override
-    public void clickTakePicture(int permission, int targetWidth, int targetHeight) {
+    public void clickTakePicture(int targetWidth) {
         mTargetWidth = targetWidth;
-        mTargetHeight = targetHeight;
 
         java.io.File photoFile = null;
 
@@ -196,7 +194,7 @@ public class AddAchievementPresenter
     }
 
     @Override
-    public void getInvolvements() {
+    public void loadInvolvements() {
         List<Involvement> involvement = Arrays.asList(Involvement.values());
         mView.showInvolvement(involvement);
     }

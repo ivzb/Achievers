@@ -3,6 +3,7 @@ package com.achievers.ui;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.databinding.BindingAdapter;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v4.content.res.ResourcesCompat;
