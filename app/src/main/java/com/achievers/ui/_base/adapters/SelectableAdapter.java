@@ -50,7 +50,7 @@ public class SelectableAdapter<T>
     }
 
     @Override
-    public T getSelectedValue() {
+    public T getSelected() {
         if (mPreviousPosition == NO_POSITION) return null;
 
         return mValues.get(mPreviousPosition);

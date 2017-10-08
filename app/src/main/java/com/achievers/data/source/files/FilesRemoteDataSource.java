@@ -7,8 +7,6 @@ import com.achievers.data.endpoints.FilesAPI;
 import com.achievers.data.entities.File;
 import com.achievers.data.source.RESTClient;
 
-import java.io.IOException;
-
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -38,37 +36,32 @@ public class FilesRemoteDataSource implements FilesDataSource {
     }
 
     @Override
-    public void storeFile(@NonNull File file, final @NonNull SaveCallback<File> callback) {
+    public void storeFile(@NonNull File file, final @NonNull SaveCallback<String> callback) {
         RequestBody requestBody = RequestBody.create(MediaType.parse(file.getContentType()), file.getContent());
         MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getContentType(), requestBody);
 
-        final Call<File> call = apiService.storeFile(part);
+        final Call<String> call = apiService.storeFile(part);
 
-        call.enqueue(new Callback<File>() {
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<File> call, Response<File> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 int statusCode = response.code();
 
                 if (statusCode != 201) {
                     String message = "Could not store File. Please try again.";
 
-                    try {
-                        // todo: use web service error
-                        message = response.errorBody().string().replaceAll("\"", "");
-                    } catch (IOException e) {
-                    } finally {
-                        callback.onFailure(message);
-                    }
+                    // todo: use web service error
+                    callback.onFailure(message);
 
                     return;
                 }
 
-                File savedFile = response.body();
-                callback.onSuccess(savedFile);
+                String imageUrl = response.body();
+                callback.onSuccess(imageUrl);
             }
 
             @Override
-            public void onFailure(Call<File> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 String message = "Could not store file. Please try again.";
                 callback.onFailure(message);
             }

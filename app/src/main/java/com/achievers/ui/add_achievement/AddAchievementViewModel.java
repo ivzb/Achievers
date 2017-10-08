@@ -5,8 +5,6 @@ import android.databinding.Bindable;
 import android.graphics.Bitmap;
 import android.os.Parcelable;
 
-import com.achievers.BR;
-import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Involvement;
 import com.achievers.ui._base.contracts.BaseSelectableAdapter;
 
@@ -19,7 +17,8 @@ public class AddAchievementViewModel
     private BaseSelectableAdapter<Involvement> mInvolvementsAdapter;
     private Parcelable mInvolvementsLayoutManagerState;
     private Parcelable mInvolvementsState;
-    private Bitmap mPicture;
+    private Bitmap mImage;
+    private String mImageUrl;
 
     @Bindable
     @Override
@@ -74,12 +73,22 @@ public class AddAchievementViewModel
     }
 
     @Override
-    public Bitmap getPicture() {
-        return mPicture;
+    public Bitmap getImage() {
+        return mImage;
     }
 
     @Override
-    public void setPicture(Bitmap picture) {
-        mPicture = picture;
+    public void setImage(Bitmap picture) {
+        mImage = picture;
+    }
+
+    @Override
+    public String getImageUrl() {
+        return mImageUrl;
+    }
+
+    @Override
+    public void setImageUrl(String imageUrl) {
+        mImageUrl = imageUrl;
     }
 }

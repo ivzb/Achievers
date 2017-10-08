@@ -4,7 +4,7 @@ import android.os.Parcelable;
 
 public interface BaseSelectableAdapter<T> {
 
-    T getSelectedValue();
+    T getSelected();
 
     Parcelable onSaveInstanceState();
     void onRestoreInstanceState(Parcelable state);

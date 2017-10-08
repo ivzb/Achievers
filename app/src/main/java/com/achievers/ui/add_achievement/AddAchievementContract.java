@@ -8,10 +8,8 @@ import android.net.Uri;
 import android.os.Parcelable;
 
 import com.achievers.data.callbacks.SaveCallback;
-import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.File;
 import com.achievers.data.entities.Involvement;
-import com.achievers.ui._base.adapters.SelectableAdapter;
 import com.achievers.ui._base.contracts.BasePresenter;
 import com.achievers.ui._base.contracts.BaseSelectableAdapter;
 import com.achievers.ui._base.contracts.BaseView;
@@ -23,25 +21,25 @@ public class AddAchievementContract {
 
     interface View<DB extends ViewDataBinding> extends BaseView<Presenter, ViewModel, DB> {
 
+        void showInvolvement(List<Involvement> involvement);
+
         void takePicture(Uri uri, int requestCode);
         void choosePicture(String type, int requestCode);
 
-        void showInvolvement(List<Involvement> involvement);
         void showImage(Bitmap bitmap);
+        void setImageUrl(String imageUrl);
 
         void finish();
     }
 
     interface Presenter extends BasePresenter {
 
+        void loadInvolvements();
+
         void clickTakePicture(int targetWidth);
         void clickChoosePicture();
 
         void resultForPicture(int requestCode, int resultCode, Intent data);
-
-        void loadInvolvements();
-
-        void uploadImage(Bitmap bitmap, SaveCallback<File> callback);
 
         void saveAchievement(
                 String title,
@@ -69,7 +67,10 @@ public class AddAchievementContract {
         Parcelable getInvolvementsState();
         void setInvolvementsState(Parcelable state);
 
-        Bitmap getPicture();
-        void setPicture(Bitmap picture);
+        Bitmap getImage();
+        void setImage(Bitmap picture);
+
+        String getImageUrl();
+        void setImageUrl(String imageUrl);
     }
 }

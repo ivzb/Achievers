@@ -7,5 +7,5 @@ import com.achievers.data.entities.File;
 
 public interface FilesDataSource {
 
-    void storeFile(@NonNull File file, @NonNull SaveCallback<File> callback);
+    void storeFile(@NonNull File file, @NonNull SaveCallback<String> callback);
 }

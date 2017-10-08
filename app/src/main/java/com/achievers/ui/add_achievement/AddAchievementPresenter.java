@@ -135,15 +135,23 @@ public class AddAchievementPresenter
 
                 // todo: show uploading indicator
 
-                uploadImage(bitmap, new SaveCallback<File>() {
+                uploadImage(bitmap, new SaveCallback<String>() {
                     @Override
-                    public void onSuccess(File data) {
+                    public void onSuccess(String imageUrl) {
+                        if (!mView.isActive()) return;
+
                         // todo: hide uploading indicator
+
+                        mView.setImageUrl(imageUrl);
                     }
 
                     @Override
                     public void onFailure(String message) {
-                        // todo: retry button
+                        if (!mView.isActive()) return;
+
+                        // todo: hide uploading indicator
+
+                        mView.showErrorMessage("Could not upload image");
                     }
                 });
             }
@@ -151,7 +159,16 @@ public class AddAchievementPresenter
     }
 
     @Override
-    public void saveAchievement(String title, String description, String imageUrl, Involvement involvement) {
+    public void saveAchievement(
+            String title,
+            String description,
+            String imageUrl,
+            Involvement involvement) {
+
+        if (!mView.isActive()) return;
+
+        mView.hideKeyboard();
+
         BaseValidation validation = new Validator(mContext)
                 .addProperty(
                         R.string.title,
@@ -162,12 +179,12 @@ public class AddAchievementPresenter
                         description,
                         new StringLengthRule(3, 255))
                 .addProperty(
-                        R.string.image,
-                        imageUrl,
-                        new NotNullRule())
-                .addProperty(
                         R.string.involvement,
                         involvement,
+                        new NotNullRule())
+                .addProperty(
+                        R.string.image,
+                        imageUrl,
                         new NotNullRule())
                 .validate();
 
@@ -178,16 +195,23 @@ public class AddAchievementPresenter
 
         Achievement achievement = new Achievement(title, description, imageUrl, involvement, new Date());
 
-        mView.hideKeyboard();
-
-        mAchievementsDataSource.saveAchievement(achievement, new SaveCallback<Achievement>() {
+        mAchievementsDataSource.saveAchievement(achievement, new SaveCallback<Long>() {
             @Override
-            public void onSuccess(Achievement result) {
+            public void onSuccess(Long id) {
+                if (!mView.isActive()) return;
+
+                if (id == null) {
+                    mView.showErrorMessage("Error occurred while saving achievement.");
+                    return;
+                }
+
                 mView.finish();
             }
 
             @Override
             public void onFailure(String message) {
+                if (!mView.isActive()) return;
+
                 mView.showErrorMessage(message);
             }
         });
@@ -199,8 +223,7 @@ public class AddAchievementPresenter
         mView.showInvolvement(involvement);
     }
 
-    @Override
-    public void uploadImage(Bitmap bitmap, SaveCallback<File> callback) {
+    private void uploadImage(Bitmap bitmap, SaveCallback<String> callback) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] byteArray = stream.toByteArray();

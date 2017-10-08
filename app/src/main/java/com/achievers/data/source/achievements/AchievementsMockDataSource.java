@@ -76,7 +76,7 @@ public class AchievementsMockDataSource implements AchievementsDataSource {
     @Override
     public void saveAchievement(
             @NonNull Achievement achievement,
-            @NonNull SaveCallback<Achievement> callback) {
+            @NonNull SaveCallback<Long> callback) {
 
         checkNotNull(callback);
 
@@ -90,7 +90,7 @@ public class AchievementsMockDataSource implements AchievementsDataSource {
         mEntitiesById.put(achievement.getId(), achievement);
         mEntities.add(achievement);
 
-        callback.onSuccess(achievement);
+        callback.onSuccess(achievement.getId());
     }
 
     private void load(int to) {

@@ -22,6 +22,6 @@ public interface AchievementsDataSource {
 
     void saveAchievement(
             @NonNull final Achievement achievement,
-            @NonNull final SaveCallback<Achievement> callback
+            @NonNull final SaveCallback<Long> callback
     );
 }

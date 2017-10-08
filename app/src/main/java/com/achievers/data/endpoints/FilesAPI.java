@@ -1,7 +1,5 @@
 package com.achievers.data.endpoints;
 
-import com.achievers.data.entities.File;
-
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Multipart;
@@ -12,5 +10,5 @@ public interface FilesAPI {
 
     @Multipart
     @POST("File")
-    Call<File> storeFile(@Part MultipartBody.Part image);
+    Call<String> storeFile(@Part MultipartBody.Part image);
 }

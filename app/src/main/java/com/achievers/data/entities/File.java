@@ -8,7 +8,7 @@ public class File {
 
     @SerializedName("Id")
     @NonNull
-    String id;
+    long id;
 
     @SerializedName("Name")
     @NonNull
@@ -27,8 +27,12 @@ public class File {
         this.contentType = contentType;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public byte[] getContent() {

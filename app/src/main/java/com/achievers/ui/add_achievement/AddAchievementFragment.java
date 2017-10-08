@@ -96,7 +96,7 @@ public class AddAchievementFragment
         Parcelable involvementsState = mViewModel.getInvolvementsAdapter().onSaveInstanceState();
         outState.putParcelable(INVOLVEMENTS_KEY, involvementsState);
 
-        Parcelable pictureState = Parcels.wrap(mViewModel.getPicture());
+        Parcelable pictureState = Parcels.wrap(mViewModel.getImage());
         outState.putParcelable(PICTURE_KEY, pictureState);
     }
 
@@ -106,32 +106,13 @@ public class AddAchievementFragment
     }
 
     @Override
-    public void onClick(View v) {
-        String title = mDataBinding.etTitle.getText().toString();
-        String description = mDataBinding.etDescription.getText().toString();
-        String imageUrl = "";
-        Involvement involvement = mViewModel.getInvolvementsAdapter().getSelectedValue();
+    public void onClick(View view) {
+        String title = mViewModel.getTitle();
+        String description = mViewModel.getDescription();
+        String imageUrl = mViewModel.getImageUrl();
+        Involvement involvement = mViewModel.getInvolvementsAdapter().getSelected();
 
         mPresenter.saveAchievement(title, description, imageUrl, involvement);
-    }
-
-    @Override
-    public void takePicture(Uri uri, int requestCode) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-
-        PackageManager packageManager = getActivity().getPackageManager();
-
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivityForResult(intent, requestCode);
-        }
-    }
-
-    @Override
-    public void choosePicture(String type, int requestCode) {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(type);
-        startActivityForResult(intent, requestCode);
     }
 
     @Override
@@ -158,9 +139,33 @@ public class AddAchievementFragment
     }
 
     @Override
+    public void takePicture(Uri uri, int requestCode) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+
+        PackageManager packageManager = getActivity().getPackageManager();
+
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivityForResult(intent, requestCode);
+        }
+    }
+
+    @Override
+    public void choosePicture(String type, int requestCode) {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(type);
+        startActivityForResult(intent, requestCode);
+    }
+
+    @Override
     public void showImage(Bitmap bitmap) {
-        mViewModel.setPicture(bitmap);
+        mViewModel.setImage(bitmap);
         mDataBinding.ivPicture.setImageBitmap(bitmap);
+    }
+
+    @Override
+    public void setImageUrl(String imageUrl) {
+        mViewModel.setImageUrl(imageUrl);
     }
 
     @Override
