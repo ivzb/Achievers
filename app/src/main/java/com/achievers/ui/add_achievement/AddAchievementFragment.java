@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -51,18 +50,8 @@ public class AddAchievementFragment
     }
 
     @Override
-    public void onRequestPermissionsResult(
-            final int requestCode,
-            @NonNull final String[] permissions,
-            @NonNull final int[] grantResults) {
-
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        mPresenter.requestPermission(requestCode, grantResults);
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mPresenter.resultPermission(requestCode, resultCode, data);
+        mPresenter.resultForPicture(requestCode, resultCode, data);
     }
 
     @Override
@@ -100,7 +89,7 @@ public class AddAchievementFragment
         mViewModel.setInvolvementsAdapter(adapter);
 
         mDataBinding.rvInvolvement.setAdapter(adapter);
-        mDataBinding.rvInvolvement.setLayoutManager(new LinearLayoutManager(adapter.getContext()));
+        mDataBinding.rvInvolvement.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
@@ -121,7 +110,10 @@ public class AddAchievementFragment
                     getContext(),
                     Manifest.permission.READ_EXTERNAL_STORAGE);
 
-            mPresenter.clickTakePicture(permission);
+            mPresenter.clickTakePicture(
+                    permission,
+                    mDataBinding.ivPicture.getWidth(),
+                    mDataBinding.ivPicture.getHeight());
         }
     };
 

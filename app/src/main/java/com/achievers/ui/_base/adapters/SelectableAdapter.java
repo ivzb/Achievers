@@ -21,7 +21,6 @@ public class SelectableAdapter<T>
 
     private static final int NO_POSITION = -1;
 
-    private final Context mContext;
     private final List<T> mValues;
     private final SparseArray<SelectableAdapter.ViewHolder> mViewHolders;
     private int mPreviousPosition;
@@ -33,7 +32,6 @@ public class SelectableAdapter<T>
     private final int mSelectedTextColor;
 
     public SelectableAdapter(Context context, List<T> values) {
-        mContext = context;
         mValues = values;
 
         mViewHolders = new SparseArray<>(values.size());
@@ -46,11 +44,6 @@ public class SelectableAdapter<T>
 
         mSelectedBackgroundColor = ResourcesCompat.getColor(resources, R.color.colorAccent, null);
         mSelectedTextColor = ResourcesCompat.getColor(resources, R.color.colorLight, null);
-    }
-
-    @Override
-    public Context getContext() {
-        return mContext;
     }
 
     @Override

@@ -32,11 +32,10 @@ public class AddAchievementContract {
 
     interface Presenter extends BasePresenter {
 
-        void requestPermission(int requestCode, int[] grantResults);
-        void resultPermission(int requestCode, int resultCode, Intent data);
-
-        void clickTakePicture(int permission);
+        void clickTakePicture(int permission, int targetWidth, int targetHeight);
         void clickChoosePicture();
+
+        void resultForPicture(int requestCode, int resultCode, Intent data);
 
         void getInvolvements();
 

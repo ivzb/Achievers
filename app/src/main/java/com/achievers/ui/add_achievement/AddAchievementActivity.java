@@ -36,17 +36,17 @@ public class AddAchievementActivity extends AbstractActivity {
         if (view == null) {
             view = new AddAchievementFragment();
 
-            view.setViewModel(new AddAchievementViewModel());
-            view.setPresenter(new AddAchievementPresenter(
-                    this,
-                    view,
-                    AchievementsRemoteDataSource.getInstance(),
-                    FilesRemoteDataSource.getInstance()));
-
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(),
                     view,
                     R.id.contentFrame);
         }
+
+        view.setViewModel(new AddAchievementViewModel());
+        view.setPresenter(new AddAchievementPresenter(
+                this,
+                view,
+                AchievementsRemoteDataSource.getInstance(),
+                FilesRemoteDataSource.getInstance()));
     }
 }
