@@ -28,7 +28,7 @@ public class AchievementsScreenTest extends AbstractScreenTest<AchievementsActiv
     @Test
     public void clickAddAchievementButton_opensAddAchievementUi() {
         onView(withId(R.id.fabAddAchievement)).perform(click());
-        onView(withId(R.id.llAddAchievement)).check(matches(isDisplayed()));
+        onView(withId(R.id.scAddAchievement)).check(matches(isDisplayed()));
     }
 
     @Test

@@ -1,10 +1,13 @@
 package com.achievers.utils;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +35,27 @@ public class PictureUtils {
                 storageDirectory
         );
     }
+
+//    public static int getOrientation(Context context, Uri photoUri) {
+//        Cursor cursor = context.getContentResolver().query(
+//                photoUri,
+//                new String[] { MediaStore.Images.ImageColumns.ORIENTATION },
+//                null,
+//                null,
+//                null);
+//
+//        int result = -1;
+//
+//        if (null != cursor) {
+//            if (cursor.moveToFirst()) {
+//                result = cursor.getInt(0);
+//            }
+//
+//            cursor.close();
+//        }
+//
+//        return result;
+//    }
 
     public static Bitmap rotate(Bitmap bitmap, int orientation) throws OutOfMemoryError {
         Matrix matrix = new Matrix();

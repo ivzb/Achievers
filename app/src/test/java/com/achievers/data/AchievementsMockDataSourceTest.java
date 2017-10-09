@@ -32,9 +32,10 @@ public class AchievementsMockDataSourceTest {
 
     @Mock private GetCallback<Achievement> mGetCallback;
     @Mock private LoadCallback<Achievement> mLoadCallback;
-    @Mock private SaveCallback<Achievement> mSaveCallback;
+    @Mock private SaveCallback<Long> mSaveCallback;
 
     @Captor private ArgumentCaptor<Achievement> mSuccessCaptor;
+    @Captor private ArgumentCaptor<Long> mSuccessSaveCaptor;
     @Captor private ArgumentCaptor<List<Achievement>> mSuccessListCaptor;
     @Captor private ArgumentCaptor<String> mFailureCaptor;
 
@@ -115,12 +116,12 @@ public class AchievementsMockDataSourceTest {
         Achievement expected = new Achievement();
 
         mDataSource.saveAchievement(expected, mSaveCallback);
-        verify(mSaveCallback).onSuccess(mSuccessCaptor.capture());
+        verify(mSaveCallback).onSuccess(mSuccessSaveCaptor.capture());
 
-        final Achievement actual = mSuccessCaptor.getValue();
+        final Long actual = mSuccessSaveCaptor.getValue();
         assertNotNull(actual);
 
-        assertAchievementExists(actual.getId());
+        assertAchievementExists(actual);
     }
 
     @Test

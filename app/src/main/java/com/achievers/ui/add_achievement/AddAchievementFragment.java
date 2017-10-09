@@ -21,9 +21,11 @@ import com.achievers.data.entities.Involvement;
 import com.achievers.databinding.AddAchievementFragBinding;
 import com.achievers.ui._base.AbstractFragment;
 import com.achievers.ui._base.adapters.SelectableAdapter;
+import com.bumptech.glide.Glide;
 
 import org.parceler.Parcels;
 
+import java.io.File;
 import java.util.List;
 
 public class AddAchievementFragment
@@ -75,8 +77,8 @@ public class AddAchievementFragment
             }
 
             if (savedInstanceState.containsKey(PICTURE_KEY)) {
-                Bitmap picture = Parcels.unwrap(savedInstanceState.getParcelable(PICTURE_KEY));
-                showImage(picture);
+                Uri imageUri = Parcels.unwrap(savedInstanceState.getParcelable(PICTURE_KEY));
+                showPicture(imageUri);
             }
         }
 
@@ -96,23 +98,23 @@ public class AddAchievementFragment
         Parcelable involvementsState = mViewModel.getInvolvementsAdapter().onSaveInstanceState();
         outState.putParcelable(INVOLVEMENTS_KEY, involvementsState);
 
-        Parcelable pictureState = Parcels.wrap(mViewModel.getImage());
+        Parcelable pictureState = Parcels.wrap(mViewModel.getImageUri());
         outState.putParcelable(PICTURE_KEY, pictureState);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mPresenter.resultForPicture(requestCode, resultCode, data);
+        mPresenter.deliverPicture(requestCode, resultCode, data);
     }
 
     @Override
     public void onClick(View view) {
         String title = mViewModel.getTitle();
         String description = mViewModel.getDescription();
-        String imageUrl = mViewModel.getImageUrl();
+        Uri imageUri = mViewModel.getImageUri();
         Involvement involvement = mViewModel.getInvolvementsAdapter().getSelected();
 
-        mPresenter.saveAchievement(title, description, imageUrl, involvement);
+        mPresenter.saveAchievement(title, description, imageUri, involvement);
     }
 
     @Override
@@ -158,14 +160,14 @@ public class AddAchievementFragment
     }
 
     @Override
-    public void showImage(Bitmap bitmap) {
-        mViewModel.setImage(bitmap);
-        mDataBinding.ivPicture.setImageBitmap(bitmap);
-    }
+    public void showPicture(Uri uri) {
+        mViewModel.setImageUri(uri);
 
-    @Override
-    public void setImageUrl(String imageUrl) {
-        mViewModel.setImageUrl(imageUrl);
+        Glide.with(getContext())
+                .load(uri)
+                .into(mDataBinding.ivPicture);
+
+        // todo: show progress while loading picture
     }
 
     @Override
@@ -177,8 +179,7 @@ public class AddAchievementFragment
     private View.OnClickListener mTakePictureListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            int targetWidth = mDataBinding.ivPicture.getWidth();
-            mPresenter.clickTakePicture(targetWidth);
+            mPresenter.clickTakePicture();
         }
     };
 

@@ -98,6 +98,10 @@ dependencies {
     testCompile "org.robolectric:robolectric:3.4.2"
 //    testCompile "org.robolectric:shadows-support-v4:3.3.2"
 
+    // Glide
+    compile 'com.github.bumptech.glide:glide:4.2.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.2.0'
+
     // Room
     compile "android.arch.persistence.room:runtime:1.0.0-alpha9-1"
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha9-1"
