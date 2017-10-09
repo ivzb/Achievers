@@ -68,7 +68,7 @@ public class AddAchievementPresenter
 
     @Override
     public void start() {
-        loadInvolvements();
+
     }
 
     @Override
@@ -99,6 +99,13 @@ public class AddAchievementPresenter
     @Override
     public void clickChoosePicture() {
         mView.choosePicture("image/*", REQUEST_IMAGE_PICK);
+    }
+
+    @Override
+    public void clickDiscardPicture() {
+        if (!mView.isActive()) return;
+
+        mView.showPicture(null);
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.achievers.ui.add_achievement;
 import android.content.Intent;
 import android.databinding.Bindable;
 import android.databinding.ViewDataBinding;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Parcelable;
 
@@ -35,6 +34,7 @@ public class AddAchievementContract {
 
         void clickTakePicture();
         void clickChoosePicture();
+        void clickDiscardPicture();
 
         void deliverPicture(int requestCode, int resultCode, Intent data);
 
@@ -64,6 +64,7 @@ public class AddAchievementContract {
         Parcelable getInvolvementsState();
         void setInvolvementsState(Parcelable state);
 
+        @Bindable
         Uri getImageUri();
         void setImageUri(Uri imageUri);
     }

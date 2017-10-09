@@ -1,18 +1,21 @@
 package com.achievers.ui.add_achievement;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -25,12 +28,11 @@ import com.bumptech.glide.Glide;
 
 import org.parceler.Parcels;
 
-import java.io.File;
 import java.util.List;
 
 public class AddAchievementFragment
         extends AbstractFragment<AddAchievementContract.Presenter, AddAchievementContract.ViewModel, AddAchievementFragBinding>
-        implements AddAchievementContract.View<AddAchievementFragBinding>, View.OnClickListener {
+        implements AddAchievementContract.View<AddAchievementFragBinding> {
 
     private static final String TITLE_KEY = "title";
     private static final String DESCRIPTION_KEY = "description";
@@ -45,6 +47,7 @@ public class AddAchievementFragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.add_achievement_frag, container, false);
 
         mDataBinding = AddAchievementFragBinding.bind(view);
@@ -52,8 +55,7 @@ public class AddAchievementFragment
 
         mDataBinding.btnTakePicture.setOnClickListener(mTakePictureListener);
         mDataBinding.btnChoosePicture.setOnClickListener(mChoosePictureListener);
-
-        setupFab();
+        mDataBinding.ivPicture.setOnClickListener(mDeletePictureListener);
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(TITLE_KEY)) {
@@ -82,7 +84,30 @@ public class AddAchievementFragment
             }
         }
 
+        mPresenter.loadInvolvements();
+
         return mDataBinding.getRoot();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.add_achievement_fragment_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_save:
+                String title = mViewModel.getTitle();
+                String description = mViewModel.getDescription();
+                Uri imageUri = mViewModel.getImageUri();
+                Involvement involvement = mViewModel.getInvolvementsAdapter().getSelected();
+
+                mPresenter.saveAchievement(title, description, imageUri, involvement);
+                break;
+        }
+
+        return true;
     }
 
     @Override
@@ -105,16 +130,6 @@ public class AddAchievementFragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         mPresenter.deliverPicture(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onClick(View view) {
-        String title = mViewModel.getTitle();
-        String description = mViewModel.getDescription();
-        Uri imageUri = mViewModel.getImageUri();
-        Involvement involvement = mViewModel.getInvolvementsAdapter().getSelected();
-
-        mPresenter.saveAchievement(title, description, imageUri, involvement);
     }
 
     @Override
@@ -190,9 +205,25 @@ public class AddAchievementFragment
         }
     };
 
-    private void setupFab() {
-        FloatingActionButton fab = getActivity().findViewById(R.id.fabAddAchievement);
-        fab.setImageResource(R.drawable.ic_done);
-        fab.setOnClickListener(this);
-    }
+    private View.OnClickListener mDeletePictureListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+            builder.setMessage(R.string.dialog_discard_picture)
+                    .setPositiveButton(R.string.discard, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            mPresenter.clickDiscardPicture();
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+    };
 }

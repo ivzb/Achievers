@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.achievers.ui.add_achievement.AddAchievementContract.ViewModel" />
@@ -72,8 +74,11 @@
                 android:id="@+id/btnTakePicture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:text="@string/take_picture"
+                android:visibility="@{ viewModel.imageUri == null ? View.VISIBLE : View.GONE }"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/glVertical"
                 app:layout_constraintStart_toStartOf="@+id/rvInvolvement"
                 app:layout_constraintTop_toBottomOf="@+id/rvInvolvement" />
@@ -82,8 +87,11 @@
                 android:id="@+id/btnChoosePicture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="@{ viewModel.imageUri == null ? View.VISIBLE : View.GONE }"
                 android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_medium"
                 android:text="@string/choose_existing"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/glVertical"
                 app:layout_constraintTop_toBottomOf="@+id/rvInvolvement" />
@@ -92,11 +100,13 @@
                 android:id="@+id/ivPicture"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="@{ viewModel.imageUri == null ? View.GONE : View.VISIBLE }"
                 android:contentDescription="@string/uploaded_image_preview"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="@dimen/spacing_medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnTakePicture" />
+                app:layout_constraintTop_toBottomOf="@+id/rvInvolvement" />
 
             <android.support.constraint.Guideline
                 android:id="@+id/glVertical"

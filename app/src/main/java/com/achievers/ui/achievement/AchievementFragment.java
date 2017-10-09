@@ -66,15 +66,13 @@ public class AchievementFragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.achievement_frag, container, false);
 
         mDataBinding = AchievementFragBinding.bind(view);
         mDataBinding.setActionHandler(mPresenter);
         mDataBinding.setResources(getContext().getResources());
         mDataBinding.setViewModel(mViewModel);
-
-        setHasOptionsMenu(true);
-        setRetainInstance(true);
 
         // Set up floating action button
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_edit_achievement);
@@ -154,7 +152,7 @@ public class AchievementFragment
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.achievement_detail_fragment_menu, menu);
+        inflater.inflate(R.menu.achievement_fragment_menu, menu);
     }
 
     @Override

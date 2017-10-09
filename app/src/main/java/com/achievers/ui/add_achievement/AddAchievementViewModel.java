@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Parcelable;
 
+import com.achievers.BR;
 import com.achievers.data.entities.Involvement;
 import com.achievers.ui._base.contracts.BaseSelectableAdapter;
 
@@ -18,8 +19,6 @@ public class AddAchievementViewModel
     private BaseSelectableAdapter<Involvement> mInvolvementsAdapter;
     private Parcelable mInvolvementsLayoutManagerState;
     private Parcelable mInvolvementsState;
-//    private Bitmap mImage;
-//    private String mImageUrl;
     private Uri mImageUri;
 
     @Bindable
@@ -74,6 +73,7 @@ public class AddAchievementViewModel
         mInvolvementsState = state;
     }
 
+    @Bindable
     @Override
     public Uri getImageUri() {
         return mImageUri;
@@ -82,25 +82,7 @@ public class AddAchievementViewModel
     @Override
     public void setImageUri(Uri imageUri) {
         mImageUri = imageUri;
-    }
 
-//    @Override
-//    public Bitmap getImage() {
-//        return mImage;
-//    }
-//
-//    @Override
-//    public void setImage(Bitmap picture) {
-//        mImage = picture;
-//    }
-//
-//    @Override
-//    public String getImageUrl() {
-//        return mImageUrl;
-//    }
-//
-//    @Override
-//    public void setImageUrl(String imageUrl) {
-//        mImageUrl = imageUrl;
-//    }
+        notifyPropertyChanged(BR.imageUri);
+    }
 }
