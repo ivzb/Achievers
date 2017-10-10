@@ -8,6 +8,7 @@ import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.ui._base.AbstractPresenter;
+import com.achievers.ui.add_achievement.AddAchievementActivity;
 
 import java.util.List;
 
@@ -29,13 +30,6 @@ public class AchievementsPresenter
         mView = checkNotNull(view, "view cannot be null");
         mDataSource = checkNotNull(dataSource, "achievementsDataSource cannot be null");
     }
-
-//    @Override
-//    public void resultPermission(int requestCode, int resultCode) {
-//        if (AddAchievementActivity.REQUEST_ADD_ACHIEVEMENT == requestCode && AchievementsActivity.RESULT_OK == resultCode) {
-//            mView.showSuccessfulMessage("Your achievement will be uploaded shortly.");
-//        }
-//    }
 
     @Override
     public void start() {
@@ -90,5 +84,12 @@ public class AchievementsPresenter
         if (!mView.isActive()) return;
 
         mView.openAddAchievementUi();
+    }
+
+    @Override
+    public void result(int requestCode, int resultCode) {
+        if (AddAchievementActivity.REQUEST_ADD_ACHIEVEMENT == requestCode && AchievementsActivity.RESULT_OK == resultCode) {
+            mView.showSuccessfulMessage("Your achievement will be uploaded shortly.");
+        }
     }
 }

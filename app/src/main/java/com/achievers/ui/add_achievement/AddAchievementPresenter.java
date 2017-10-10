@@ -1,28 +1,18 @@
 package com.achievers.ui.add_achievement;
 
 import android.app.Activity;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Build;
-import android.os.Environment;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
-import android.support.media.ExifInterface;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 
 import com.achievers.R;
-import com.achievers.data.callbacks.SaveCallback;
-import com.achievers.data.entities.Achievement;
-import com.achievers.data.entities.File;
+import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Involvement;
 import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.files.FilesDataSource;
+import com.achievers.data.source.involvements.InvolvementsDataSource;
 import com.achievers.ui._base.AbstractPresenter;
 import com.achievers.ui.add_achievement.AddAchievementContract.Presenter;
 import com.achievers.utils.PictureUtils;
@@ -31,15 +21,12 @@ import com.achievers.validator.contracts.BaseValidation;
 import com.achievers.validator.rules.NotNullRule;
 import com.achievers.validator.rules.StringLengthRule;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import static com.achievers.utils.Preconditions.checkNotNull;
 
 public class AddAchievementPresenter
         extends AbstractPresenter<AddAchievementContract.View>
@@ -50,20 +37,27 @@ public class AddAchievementPresenter
 
     @NonNull private final AchievementsDataSource mAchievementsDataSource;
     @NonNull private final FilesDataSource mFilesDataSource;
+    @NonNull private final InvolvementsDataSource mInvolvementsDataSource;
 
-    private Uri mCapturedImageUri;
+//    private Uri mCapturedImageUri;
 
     AddAchievementPresenter(
             @NonNull Context context,
             @NonNull AddAchievementContract.View view,
+
             @NonNull AchievementsDataSource achievementsDataSource,
-            @NonNull FilesDataSource filesDataSource) {
+            @NonNull FilesDataSource filesDataSource,
+            @NonNull InvolvementsDataSource involvementsDataSource) {
+
+        checkNotNull(context);
+        checkNotNull(view);
 
         mContext = context;
         mView = view;
 
         mAchievementsDataSource = achievementsDataSource;
         mFilesDataSource = filesDataSource;
+        mInvolvementsDataSource = involvementsDataSource;
     }
 
     @Override
@@ -73,31 +67,48 @@ public class AddAchievementPresenter
 
     @Override
     public void loadInvolvements() {
-        List<Involvement> involvement = Arrays.asList(Involvement.values());
-        mView.showInvolvement(involvement);
+        if (!mView.isActive()) return;
+
+        mInvolvementsDataSource.loadInvolvements(new LoadCallback<Involvement>() {
+            @Override
+            public void onSuccess(List<Involvement> data) {
+                if (!mView.isActive()) return;
+                mView.showInvolvements(data);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                if (!mView.isActive()) return;
+                mView.showErrorMessage("Could not load involvements");
+            }
+        });
     }
 
     @Override
     public void clickTakePicture() {
+        if (!mView.isActive()) return;
+
         java.io.File photoFile = null;
 
         try {
-            photoFile = PictureUtils.createFile(mContext);
+            photoFile = PictureUtils.createFile(mContext, new Date());
         } catch (IOException ex) {
             mView.showErrorMessage("Could not take picture. Please try again.");
         }
 
         if (photoFile != null) {
-            mCapturedImageUri = FileProvider.getUriForFile(mContext,
+            Uri capturedImageUri = FileProvider.getUriForFile(mContext,
                     "com.achievers.fileprovider",
                     photoFile);
 
-            mView.takePicture(mCapturedImageUri, REQUEST_IMAGE_CAPTURE);
+            mView.takePicture(capturedImageUri, REQUEST_IMAGE_CAPTURE);
         }
     }
 
     @Override
     public void clickChoosePicture() {
+        if (!mView.isActive()) return;
+
         mView.choosePicture("image/*", REQUEST_IMAGE_PICK);
     }
 
@@ -112,24 +123,22 @@ public class AddAchievementPresenter
     public void deliverPicture(int requestCode, int resultCode, Intent data) {
         if (!mView.isActive()) return;
 
-        if (resultCode == Activity.RESULT_OK) {
-            try {
-                Uri imageUri = null;
+        try {
+            if (resultCode != Activity.RESULT_OK) throw new IllegalArgumentException();
 
-                if (requestCode == REQUEST_IMAGE_CAPTURE) {
-                    imageUri = mCapturedImageUri;
-                } else if (requestCode == REQUEST_IMAGE_PICK) {
-                    imageUri = data.getData();
-                }
+            Uri imageUri = null;
 
-                if (imageUri == null) {
-                    throw new FileNotFoundException();
-                }
-
-                mView.showPicture(imageUri);
-            } catch (FileNotFoundException e) {
-                mView.showErrorMessage("Error occurred. Please try again.");
+            if (requestCode == REQUEST_IMAGE_CAPTURE || requestCode == REQUEST_IMAGE_PICK) {
+                imageUri = data.getData();
             }
+
+            if (imageUri == null) {
+                throw new FileNotFoundException();
+            }
+
+            mView.showPicture(imageUri);
+        } catch (NullPointerException | IllegalArgumentException | FileNotFoundException e) {
+            mView.showErrorMessage("Error occurred. Please try again.");
         }
     }
 
@@ -221,32 +230,32 @@ public class AddAchievementPresenter
 //        });
     }
 
-    private void uploadImage(Uri imageUri, SaveCallback<String> callback) {
-
-        Bitmap bitmap;
-
-        try {
-            InputStream imageStream = mContext
-                    .getContentResolver()
-                    .openInputStream(imageUri);
-
-            bitmap = BitmapFactory.decodeStream(imageStream);
-        } catch (FileNotFoundException e) {
-            callback.onFailure("Could not load image.");
-            return;
-        }
-
-        if (bitmap == null) {
-            callback.onFailure("Image not found.");
-            return;
-        }
-
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
-
-        File uploadFile = new File(byteArray, "image/jpeg");
-
-        mFilesDataSource.storeFile(uploadFile, callback);
-    }
+//    private void uploadImage(Uri imageUri, SaveCallback<String> callback) {
+//
+//        Bitmap bitmap;
+//
+//        try {
+//            InputStream imageStream = mContext
+//                    .getContentResolver()
+//                    .openInputStream(imageUri);
+//
+//            bitmap = BitmapFactory.decodeStream(imageStream);
+//        } catch (FileNotFoundException e) {
+//            callback.onFailure("Could not load image.");
+//            return;
+//        }
+//
+//        if (bitmap == null) {
+//            callback.onFailure("Image not found.");
+//            return;
+//        }
+//
+//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+//        byte[] byteArray = stream.toByteArray();
+//
+//        File uploadFile = new File(byteArray, "image/jpeg");
+//
+//        mFilesDataSource.storeFile(uploadFile, callback);
+//    }
 }

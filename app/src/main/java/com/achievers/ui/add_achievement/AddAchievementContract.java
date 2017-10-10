@@ -18,7 +18,7 @@ public class AddAchievementContract {
 
     interface View<DB extends ViewDataBinding> extends BaseView<Presenter, ViewModel, DB> {
 
-        void showInvolvement(List<Involvement> involvement);
+        void showInvolvements(List<Involvement> involvement);
 
         void takePicture(Uri uri, int requestCode);
         void choosePicture(String type, int requestCode);
@@ -65,7 +65,15 @@ public class AddAchievementContract {
         void setInvolvementsState(Parcelable state);
 
         @Bindable
+        Uri getCapturedImageUri();
+        void setCapturedImageUri(Uri imageUri);
+
+        @Bindable
         Uri getImageUri();
         void setImageUri(Uri imageUri);
+
+        @Bindable
+        boolean isImageLoading();
+        void setImageLoading(boolean loaded);
     }
 }

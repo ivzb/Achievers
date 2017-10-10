@@ -89,10 +89,10 @@ public class AchievementsFragment
         outState.putInt(PAGE_STATE, mViewModel.getPage());
     }
 
-    //    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        mPresenter.resultPermission(requestCode, resultCode);
-//    }
+        @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mPresenter.result(requestCode, resultCode);
+    }
 
     @Override
     public void showAchievements(List<Achievement> achievements) {

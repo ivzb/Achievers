@@ -1,5 +1,6 @@
 package com.achievers.ui;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.databinding.BindingAdapter;
@@ -21,6 +22,7 @@ import com.achievers.ui.categories.CategoriesContract;
 import com.achievers.ui.evidence.EvidenceAdapter;
 import com.achievers.utils.FreskoCircleProgressBarDrawable;
 import com.achievers.utils.ScrollChildSwipeRefreshLayout;
+import com.bumptech.glide.Glide;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -64,7 +66,6 @@ public class AdapterSetters {
     public static void setImageResource(ImageView imageView, int resource){
         imageView.setImageResource(resource);
     }
-
 
     // CategoriesFragment
     @BindingAdapter("categoriesAdapter")

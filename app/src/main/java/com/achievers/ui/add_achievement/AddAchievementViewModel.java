@@ -16,10 +16,14 @@ public class AddAchievementViewModel
 
     private String mTitle;
     private String mDescription;
+
     private BaseSelectableAdapter<Involvement> mInvolvementsAdapter;
     private Parcelable mInvolvementsLayoutManagerState;
     private Parcelable mInvolvementsState;
+
     private Uri mImageUri;
+    private Uri mCapturedImageUri;
+    private boolean mIsImageLoading;
 
     @Bindable
     @Override
@@ -75,6 +79,17 @@ public class AddAchievementViewModel
 
     @Bindable
     @Override
+    public Uri getCapturedImageUri() {
+        return mCapturedImageUri;
+    }
+
+    @Override
+    public void setCapturedImageUri(Uri imageUri) {
+        mCapturedImageUri = imageUri;
+    }
+
+    @Bindable
+    @Override
     public Uri getImageUri() {
         return mImageUri;
     }
@@ -84,5 +99,17 @@ public class AddAchievementViewModel
         mImageUri = imageUri;
 
         notifyPropertyChanged(BR.imageUri);
+    }
+
+    @Bindable
+    @Override
+    public boolean isImageLoading() {
+        return mIsImageLoading;
+    }
+
+    @Override
+    public void setImageLoading(boolean loaded) {
+        mIsImageLoading = loaded;
+        notifyPropertyChanged(BR.imageLoading);
     }
 }

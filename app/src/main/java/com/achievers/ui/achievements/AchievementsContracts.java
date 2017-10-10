@@ -28,14 +28,14 @@ public class AchievementsContracts {
 
     public interface Presenter extends BasePresenter {
 
-//        void resultPermission(int requestCode, int resultCode);
-
         void refresh();
 
         void loadAchievements(int page);
 
         void clickAchievement(Achievement achievement);
         void clickAddAchievement();
+
+        void result(int requestCode, int resultCode);
     }
 
     public interface ViewModel extends BaseViewModel {

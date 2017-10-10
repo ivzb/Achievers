@@ -74,7 +74,7 @@
                 android:id="@+id/btnTakePicture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/spacing_medium"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:text="@string/take_picture"
                 android:visibility="@{ viewModel.imageUri == null ? View.VISIBLE : View.GONE }"
@@ -102,8 +102,22 @@
                 android:layout_height="wrap_content"
                 android:visibility="@{ viewModel.imageUri == null ? View.GONE : View.VISIBLE }"
                 android:contentDescription="@string/uploaded_image_preview"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginBottom="@dimen/spacing_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvInvolvement" />
+
+            <ProgressBar
+                android:id="@+id/pbPicture"
+                android:layout_width="@dimen/progress_bar"
+                android:layout_height="@dimen/progress_bar"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:visibility="@{ viewModel.imageLoading ? View.VISIBLE : View.GONE }"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rvInvolvement" />

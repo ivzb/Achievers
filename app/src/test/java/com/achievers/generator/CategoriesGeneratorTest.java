@@ -1,12 +1,16 @@
 package com.achievers.generator;
 
 import com.achievers.data.entities.Category;
+import com.achievers.utils.GeneratorUtils;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import io.bloco.faker.Faker;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -19,6 +23,7 @@ public class CategoriesGeneratorTest {
 
     @Before
     public void before() {
+        GeneratorUtils.initialize(new Random(), new Faker());
         mGenerator = new CategoriesGenerator();
     }
 

@@ -36,11 +36,6 @@ public class ValidatorTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void testBuilder_nullContext() {
-        new Validator(null);
-    }
-
-    @Test(expected = NullPointerException.class)
     public void testBuilder_nullName() {
         new Validator()
                 .addProperty(

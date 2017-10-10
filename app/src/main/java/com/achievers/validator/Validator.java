@@ -23,8 +23,6 @@ public class Validator {
     }
 
     public Validator(Context context) {
-        checkNotNull(context);
-
         mProperties = new LinkedList<>();
         mContext = context;
     }

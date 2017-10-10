@@ -54,17 +54,8 @@ public class AchievementsPresenterTest {
 
     @Test
     public void start_shouldInternallyCallLoadAchievements() {
-        int page = 0;
-
-        arrangeLoad(
-                true,
-                true,
-                true,
-                page);
-
         mPresenter.start();
-
-        assertSuccessfulLoad();
+        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -266,6 +257,7 @@ public class AchievementsPresenterTest {
         verify(mView).setLoadingIndicator(true);
         verify(mView).showAchievements(mActualLoadCaptor.capture());
         verify(mView).setLoadingIndicator(false);
+        verify(mView).setPage(any(int.class));
         verify(mView, times(2)).isActive();
         verifyNoMoreInteractions(mView);
 

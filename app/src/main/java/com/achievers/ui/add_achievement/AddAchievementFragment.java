@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -25,6 +26,10 @@ import com.achievers.databinding.AddAchievementFragBinding;
 import com.achievers.ui._base.AbstractFragment;
 import com.achievers.ui._base.adapters.SelectableAdapter;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import org.parceler.Parcels;
 
@@ -32,7 +37,7 @@ import java.util.List;
 
 public class AddAchievementFragment
         extends AbstractFragment<AddAchievementContract.Presenter, AddAchievementContract.ViewModel, AddAchievementFragBinding>
-        implements AddAchievementContract.View<AddAchievementFragBinding> {
+        implements AddAchievementContract.View<AddAchievementFragBinding>, RequestListener<Drawable> {
 
     private static final String TITLE_KEY = "title";
     private static final String DESCRIPTION_KEY = "description";
@@ -129,11 +134,16 @@ public class AddAchievementFragment
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (mViewModel.getCapturedImageUri() != null) {
+            data = new Intent();
+            data.setData(mViewModel.getCapturedImageUri());
+        }
+
         mPresenter.deliverPicture(requestCode, resultCode, data);
     }
 
     @Override
-    public void showInvolvement(List<Involvement> involvement) {
+    public void showInvolvements(List<Involvement> involvement) {
         SelectableAdapter<Involvement> adapter = new SelectableAdapter<>(getContext(), involvement);
 
         Parcelable adapterState = mViewModel.getInvolvementsState();
@@ -157,6 +167,8 @@ public class AddAchievementFragment
 
     @Override
     public void takePicture(Uri uri, int requestCode) {
+        mViewModel.setCapturedImageUri(uri);
+
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 
@@ -169,6 +181,8 @@ public class AddAchievementFragment
 
     @Override
     public void choosePicture(String type, int requestCode) {
+        mViewModel.setCapturedImageUri(null);
+
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(type);
         startActivityForResult(intent, requestCode);
@@ -176,19 +190,40 @@ public class AddAchievementFragment
 
     @Override
     public void showPicture(Uri uri) {
+        if (uri == null) {
+            mViewModel.setImageLoading(false);
+            mViewModel.setImageUri(null);
+            return;
+        }
+
+        mViewModel.setImageLoading(true);
         mViewModel.setImageUri(uri);
 
         Glide.with(getContext())
                 .load(uri)
+                .listener(this)
                 .into(mDataBinding.ivPicture);
-
-        // todo: show progress while loading picture
     }
 
     @Override
     public void finish() {
         getActivity().setResult(Activity.RESULT_OK);
         getActivity().finish();
+    }
+
+    @Override
+    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+        showPicture(null);
+        showErrorMessage("Could not load image.");
+
+        return false;
+    }
+
+    @Override
+    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+        mViewModel.setImageLoading(false);
+
+        return false;
     }
 
     private View.OnClickListener mTakePictureListener = new View.OnClickListener() {
