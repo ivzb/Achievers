@@ -2,7 +2,6 @@ package com.achievers.ui.add_achievement;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Parcelable;
 

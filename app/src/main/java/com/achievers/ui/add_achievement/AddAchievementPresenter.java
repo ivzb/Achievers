@@ -39,8 +39,6 @@ public class AddAchievementPresenter
     @NonNull private final FilesDataSource mFilesDataSource;
     @NonNull private final InvolvementsDataSource mInvolvementsDataSource;
 
-//    private Uri mCapturedImageUri;
-
     AddAchievementPresenter(
             @NonNull Context context,
             @NonNull AddAchievementContract.View view,
@@ -166,10 +164,10 @@ public class AddAchievementPresenter
                         R.string.involvement,
                         involvement,
                         new NotNullRule())
-                .addProperty(
-                        R.string.image,
-                        imageUri,
-                        new NotNullRule())
+//                .addProperty(
+//                        R.string.image,
+//                        imageUri,
+//                        new NotNullRule())
                 .validate();
 
         if (!validation.isValid()) {

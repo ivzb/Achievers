@@ -44,6 +44,7 @@ public class AddAchievementFragment
     private static final String INVOLVEMENTS_KEY = "involvements";
     private static final String INVOLVEMENTS_LAYOUT_MANAGER_KEY = "involvements_layout_manager";
     private static final String PICTURE_KEY = "picture";
+    private static final String CAPTURE_PICTURE_KEY = "capture_picture";
 
     public AddAchievementFragment() {
 
@@ -87,6 +88,11 @@ public class AddAchievementFragment
                 Uri imageUri = Parcels.unwrap(savedInstanceState.getParcelable(PICTURE_KEY));
                 showPicture(imageUri);
             }
+
+            if (savedInstanceState.containsKey(CAPTURE_PICTURE_KEY)) {
+                Uri capturedPictureUri = Parcels.unwrap(savedInstanceState.getParcelable(CAPTURE_PICTURE_KEY));
+                mViewModel.setCapturedImageUri(capturedPictureUri);
+            }
         }
 
         mPresenter.loadInvolvements();
@@ -122,7 +128,7 @@ public class AddAchievementFragment
         outState.putString(TITLE_KEY, mDataBinding.etTitle.getText().toString());
         outState.putString(DESCRIPTION_KEY, mDataBinding.etDescription.getText().toString());
 
-        Parcelable involvementsLayoutManagerState = mDataBinding.rvInvolvement.getLayoutManager().onSaveInstanceState();
+        Parcelable involvementsLayoutManagerState = mDataBinding.rvInvolvements.getLayoutManager().onSaveInstanceState();
         outState.putParcelable(INVOLVEMENTS_LAYOUT_MANAGER_KEY, involvementsLayoutManagerState);
 
         Parcelable involvementsState = mViewModel.getInvolvementsAdapter().onSaveInstanceState();
@@ -130,6 +136,9 @@ public class AddAchievementFragment
 
         Parcelable pictureState = Parcels.wrap(mViewModel.getImageUri());
         outState.putParcelable(PICTURE_KEY, pictureState);
+
+        Parcelable capturedPictureState = Parcels.wrap(mViewModel.getCapturedImageUri());
+        outState.putParcelable(CAPTURE_PICTURE_KEY, capturedPictureState);
     }
 
     @Override
@@ -153,10 +162,10 @@ public class AddAchievementFragment
         }
 
         mViewModel.setInvolvementsAdapter(adapter);
-        mDataBinding.rvInvolvement.setAdapter(adapter);
+        mDataBinding.rvInvolvements.setAdapter(adapter);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        mDataBinding.rvInvolvement.setLayoutManager(layoutManager);
+        mDataBinding.rvInvolvements.setLayoutManager(layoutManager);
 
         Parcelable layoutManagerState = mViewModel.getInvolvementsLayoutManagerState();
 
@@ -172,11 +181,12 @@ public class AddAchievementFragment
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 
-        PackageManager packageManager = getActivity().getPackageManager();
+//        PackageManager packageManager = getActivity().getPackageManager();
 
-        if (intent.resolveActivity(packageManager) != null) {
+//        if (intent.resolveActivity(packageManager) != null) {
+        // todo: try to shadow intent.resolveActivity
             startActivityForResult(intent, requestCode);
-        }
+//        }
     }
 
     @Override

@@ -61,8 +61,6 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-
-
         <provider
             android:name=".provider.AchieversProvider"
             android:authorities="com.achievers"

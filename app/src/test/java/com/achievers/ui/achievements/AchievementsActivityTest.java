@@ -1,50 +1,23 @@
 package com.achievers.ui.achievements;
 
 import android.content.Intent;
-import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 
-import com.achievers.AchieversDebugTestApplication;
-import com.achievers.BuildConfig;
 import com.achievers.R;
+import com.achievers.ui.BaseActivityTest;
 import com.achievers.ui.achievement.AchievementActivity;
 import com.achievers.ui.add_achievement.AddAchievementActivity;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowApplication;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(sdk = Build.VERSION_CODES.LOLLIPOP, constants = BuildConfig.class, application = AchieversDebugTestApplication.class)
-public class AchievementsActivityTest {
+public class AchievementsActivityTest extends BaseActivityTest<AchievementsActivity> {
 
-    private AchievementsActivity mActivity;
-
-    @Before
-    public void setUp() throws Exception {
-        mActivity = Robolectric.setupActivity(AchievementsActivity.class);
-    }
-
-    @Test
-    public void shouldNotBeNull() throws Exception {
-        assertNotNull(mActivity);
-    }
-
-    @Test
-    public void shouldHaveFragment() throws Exception {
-        android.support.v4.app.Fragment fragment = mActivity
-                .getSupportFragmentManager()
-                .findFragmentById(R.id.contentFrame);
-
-        assertNotNull(fragment);
+    public AchievementsActivityTest() {
+        super(AchievementsActivity.class);
     }
 
     @Test

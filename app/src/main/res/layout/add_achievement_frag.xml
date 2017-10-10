@@ -63,7 +63,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/etDescription" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvInvolvement"
+                android:id="@+id/rvInvolvements"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="@+id/tvSelectInvolvement"
@@ -80,8 +80,8 @@
                 android:visibility="@{ viewModel.imageUri == null ? View.VISIBLE : View.GONE }"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/glVertical"
-                app:layout_constraintStart_toStartOf="@+id/rvInvolvement"
-                app:layout_constraintTop_toBottomOf="@+id/rvInvolvement" />
+                app:layout_constraintStart_toStartOf="@+id/rvInvolvements"
+                app:layout_constraintTop_toBottomOf="@+id/rvInvolvements" />
 
             <Button
                 android:id="@+id/btnChoosePicture"
@@ -94,7 +94,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/glVertical"
-                app:layout_constraintTop_toBottomOf="@+id/rvInvolvement" />
+                app:layout_constraintTop_toBottomOf="@+id/rvInvolvements" />
 
             <ImageView
                 android:id="@+id/ivPicture"
@@ -106,7 +106,7 @@
                 android:layout_marginBottom="@dimen/spacing_medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rvInvolvement" />
+                app:layout_constraintTop_toBottomOf="@+id/rvInvolvements" />
 
             <ProgressBar
                 android:id="@+id/pbPicture"
@@ -120,7 +120,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rvInvolvement" />
+                app:layout_constraintTop_toBottomOf="@+id/rvInvolvements" />
 
             <android.support.constraint.Guideline
                 android:id="@+id/glVertical"
