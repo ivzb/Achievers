@@ -41,10 +41,15 @@ public class AddAchievementFragment
 
     private static final String TITLE_KEY = "title";
     private static final String DESCRIPTION_KEY = "description";
-    private static final String INVOLVEMENTS_KEY = "involvements";
+    private static final String INVOLVEMENTS_ADAPTER_KEY = "involvements_adapter";
     private static final String INVOLVEMENTS_LAYOUT_MANAGER_KEY = "involvements_layout_manager";
     private static final String PICTURE_KEY = "picture";
     private static final String CAPTURE_PICTURE_KEY = "capture_picture";
+
+    private Parcelable mLayoutManagerState;
+    private Parcelable mAdapterState;
+
+    private Uri mCapturedPictureUri;
 
     public AddAchievementFragment() {
 
@@ -65,23 +70,19 @@ public class AddAchievementFragment
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(TITLE_KEY)) {
-                String title = savedInstanceState.getString(TITLE_KEY);
-                mViewModel.setTitle(title);
+                mViewModel.setTitle(savedInstanceState.getString(TITLE_KEY));
             }
 
             if (savedInstanceState.containsKey(DESCRIPTION_KEY)) {
-                String description = savedInstanceState.getString(DESCRIPTION_KEY);
-                mViewModel.setDescription(description);
+                mViewModel.setDescription(savedInstanceState.getString(DESCRIPTION_KEY));
             }
 
             if (savedInstanceState.containsKey(INVOLVEMENTS_LAYOUT_MANAGER_KEY)) {
-                Parcelable state = savedInstanceState.getParcelable(INVOLVEMENTS_LAYOUT_MANAGER_KEY);
-                mViewModel.setInvolvementsLayoutManagerState(state);
+                mLayoutManagerState = savedInstanceState.getParcelable(INVOLVEMENTS_LAYOUT_MANAGER_KEY);
             }
 
-            if (savedInstanceState.containsKey(INVOLVEMENTS_KEY)) {
-                Parcelable state = savedInstanceState.getParcelable(INVOLVEMENTS_KEY);
-                mViewModel.setInvolvementsState(state);
+            if (savedInstanceState.containsKey(INVOLVEMENTS_ADAPTER_KEY)) {
+                mAdapterState = savedInstanceState.getParcelable(INVOLVEMENTS_ADAPTER_KEY);
             }
 
             if (savedInstanceState.containsKey(PICTURE_KEY)) {
@@ -90,8 +91,7 @@ public class AddAchievementFragment
             }
 
             if (savedInstanceState.containsKey(CAPTURE_PICTURE_KEY)) {
-                Uri capturedPictureUri = Parcels.unwrap(savedInstanceState.getParcelable(CAPTURE_PICTURE_KEY));
-                mViewModel.setCapturedImageUri(capturedPictureUri);
+                mCapturedPictureUri = Parcels.unwrap(savedInstanceState.getParcelable(CAPTURE_PICTURE_KEY));
             }
         }
 
@@ -128,70 +128,57 @@ public class AddAchievementFragment
         outState.putString(TITLE_KEY, mDataBinding.etTitle.getText().toString());
         outState.putString(DESCRIPTION_KEY, mDataBinding.etDescription.getText().toString());
 
-        Parcelable involvementsLayoutManagerState = mDataBinding.rvInvolvements.getLayoutManager().onSaveInstanceState();
-        outState.putParcelable(INVOLVEMENTS_LAYOUT_MANAGER_KEY, involvementsLayoutManagerState);
+        Parcelable layoutManagerState = mDataBinding.rvInvolvements.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable(INVOLVEMENTS_LAYOUT_MANAGER_KEY, layoutManagerState);
 
-        Parcelable involvementsState = mViewModel.getInvolvementsAdapter().onSaveInstanceState();
-        outState.putParcelable(INVOLVEMENTS_KEY, involvementsState);
+        Parcelable adapterState = mViewModel.getInvolvementsAdapter().onSaveInstanceState();
+        outState.putParcelable(INVOLVEMENTS_ADAPTER_KEY, adapterState);
 
         Parcelable pictureState = Parcels.wrap(mViewModel.getImageUri());
         outState.putParcelable(PICTURE_KEY, pictureState);
 
-        Parcelable capturedPictureState = Parcels.wrap(mViewModel.getCapturedImageUri());
-        outState.putParcelable(CAPTURE_PICTURE_KEY, capturedPictureState);
+        Parcelable capturedPicture = Parcels.wrap(mCapturedPictureUri);
+        outState.putParcelable(CAPTURE_PICTURE_KEY, capturedPicture);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (mViewModel.getCapturedImageUri() != null) {
+        if (mCapturedPictureUri != null) {
             data = new Intent();
-            data.setData(mViewModel.getCapturedImageUri());
+            data.setData(mCapturedPictureUri);
         }
 
         mPresenter.deliverPicture(requestCode, resultCode, data);
     }
 
     @Override
-    public void showInvolvements(List<Involvement> involvement) {
-        SelectableAdapter<Involvement> adapter = new SelectableAdapter<>(getContext(), involvement);
-
-        Parcelable adapterState = mViewModel.getInvolvementsState();
-
-        if (adapterState != null) {
-            adapter.onRestoreInstanceState(adapterState);
-        }
-
-        mViewModel.setInvolvementsAdapter(adapter);
-        mDataBinding.rvInvolvements.setAdapter(adapter);
+    public void showInvolvements(List<Involvement> involvements) {
+        SelectableAdapter<Involvement> adapter = new SelectableAdapter<>(getContext(), involvements);
+        adapter.onRestoreInstanceState(mAdapterState);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        mDataBinding.rvInvolvements.setLayoutManager(layoutManager);
+        layoutManager.onRestoreInstanceState(mLayoutManagerState);
 
-        Parcelable layoutManagerState = mViewModel.getInvolvementsLayoutManagerState();
-
-        if (layoutManagerState != null) {
-            layoutManager.onRestoreInstanceState(layoutManagerState);
-        }
+        mViewModel.setInvolvements(adapter, layoutManager);
     }
 
     @Override
     public void takePicture(Uri uri, int requestCode) {
-        mViewModel.setCapturedImageUri(uri);
+        mCapturedPictureUri = uri;
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 
-//        PackageManager packageManager = getActivity().getPackageManager();
+        PackageManager packageManager = getActivity().getPackageManager();
 
-//        if (intent.resolveActivity(packageManager) != null) {
-        // todo: try to shadow intent.resolveActivity
+        if (intent.resolveActivity(packageManager) != null) {
             startActivityForResult(intent, requestCode);
-//        }
+        }
     }
 
     @Override
     public void choosePicture(String type, int requestCode) {
-        mViewModel.setCapturedImageUri(null);
+        mCapturedPictureUri = null;
 
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(type);
@@ -209,6 +196,8 @@ public class AddAchievementFragment
         mViewModel.setImageLoading(true);
         mViewModel.setImageUri(uri);
 
+        // todo: extract this in AdapterSetters, passing ActionHandler
+        // which triggers .imageLoading() from presenter
         Glide.with(getContext())
                 .load(uri)
                 .listener(this)
@@ -222,7 +211,11 @@ public class AddAchievementFragment
     }
 
     @Override
-    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+    public boolean onLoadFailed(
+            @Nullable GlideException e,
+            Object model, Target<Drawable> target,
+            boolean isFirstResource) {
+
         showPicture(null);
         showErrorMessage("Could not load image.");
 
@@ -230,7 +223,13 @@ public class AddAchievementFragment
     }
 
     @Override
-    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+    public boolean onResourceReady(
+            Drawable resource,
+            Object model,
+            Target<Drawable> target,
+            DataSource dataSource,
+            boolean isFirstResource) {
+
         mViewModel.setImageLoading(false);
 
         return false;

@@ -164,10 +164,10 @@ public class AddAchievementPresenter
                         R.string.involvement,
                         involvement,
                         new NotNullRule())
-//                .addProperty(
-//                        R.string.image,
-//                        imageUri,
-//                        new NotNullRule())
+                .addProperty(
+                        R.string.image,
+                        imageUri,
+                        new NotNullRule())
                 .validate();
 
         if (!validation.isValid()) {
@@ -178,7 +178,6 @@ public class AddAchievementPresenter
         mView.finish();
 
         // todo: save image in background and after that save achievement
-
 
 //        if (bitmap != null) {
 //            // todo: show uploading indicator

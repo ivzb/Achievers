@@ -5,6 +5,7 @@ import android.databinding.Bindable;
 import android.databinding.ViewDataBinding;
 import android.net.Uri;
 import android.os.Parcelable;
+import android.support.v7.widget.RecyclerView;
 
 import com.achievers.data.entities.Involvement;
 import com.achievers.ui._base.contracts.BasePresenter;
@@ -47,33 +48,22 @@ public class AddAchievementContract {
 
     public interface ViewModel extends BaseViewModel {
 
-        @Bindable
-        String getTitle();
+        @Bindable String getTitle();
         void setTitle(String title);
 
-        @Bindable
-        String getDescription();
+        @Bindable String getDescription();
         void setDescription(String description);
 
-        BaseSelectableAdapter<Involvement> getInvolvementsAdapter();
-        void setInvolvementsAdapter(BaseSelectableAdapter<Involvement> adapter);
+        @Bindable BaseSelectableAdapter<Involvement> getInvolvementsAdapter();
+        @Bindable RecyclerView.LayoutManager getInvolvementsLayoutManager();
+        void setInvolvements(
+                BaseSelectableAdapter<Involvement> adapter,
+                RecyclerView.LayoutManager layoutManager);
 
-        Parcelable getInvolvementsLayoutManagerState();
-        void setInvolvementsLayoutManagerState(Parcelable state);
-
-        Parcelable getInvolvementsState();
-        void setInvolvementsState(Parcelable state);
-
-        @Bindable
-        Uri getCapturedImageUri();
-        void setCapturedImageUri(Uri imageUri);
-
-        @Bindable
-        Uri getImageUri();
+        @Bindable Uri getImageUri();
         void setImageUri(Uri imageUri);
 
-        @Bindable
-        boolean isImageLoading();
+        @Bindable boolean isImageLoading();
         void setImageLoading(boolean loaded);
     }
 }

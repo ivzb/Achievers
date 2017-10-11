@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import com.achievers.R;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Category;
+import com.achievers.data.entities.Involvement;
+import com.achievers.ui._base.contracts.BaseSelectableAdapter;
 import com.achievers.ui.achievement.AchievementContract;
 import com.achievers.ui.categories.CategoriesAdapter;
 import com.achievers.ui.categories.CategoriesContract;
@@ -65,6 +67,18 @@ public class AdapterSetters {
     @BindingAdapter("android:src")
     public static void setImageResource(ImageView imageView, int resource){
         imageView.setImageResource(resource);
+    }
+
+    @BindingAdapter({ "bind:adapter", "bind:layoutManager" })
+    public static void setInvolvements(
+            RecyclerView view,
+            final BaseSelectableAdapter<Involvement> adapter,
+            final RecyclerView.LayoutManager layoutManager) {
+
+        if (adapter == null || layoutManager == null) return;
+
+        view.setAdapter((RecyclerView.Adapter) adapter);
+        view.setLayoutManager(layoutManager);
     }
 
     // CategoriesFragment

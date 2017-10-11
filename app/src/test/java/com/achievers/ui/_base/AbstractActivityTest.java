@@ -1,4 +1,4 @@
-package com.achievers.ui;
+package com.achievers.ui._base;
 
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -16,15 +16,14 @@ import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertNotNull;
 
-@RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.LOLLIPOP, constants = BuildConfig.class, application = AchieversDebugTestApplication.class)
-public class BaseActivityTest<A extends AppCompatActivity> {
+public abstract class AbstractActivityTest<A extends AppCompatActivity> {
 
     protected A mActivity;
 
     private final Class<A> mActivityClass;
 
-    public BaseActivityTest(Class<A> activityClass) {
+    public AbstractActivityTest(Class<A> activityClass) {
         mActivityClass = activityClass;
     }
 

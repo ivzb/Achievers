@@ -18,6 +18,8 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+import static com.achievers.utils.Preconditions.checkNotNull;
+
 public class SelectableAdapter<T>
         extends RecyclerView.Adapter<SelectableAdapter.ViewHolder>
         implements BaseSelectableAdapter<T> {
@@ -35,6 +37,8 @@ public class SelectableAdapter<T>
     private final int mSelectedTextColor;
 
     public SelectableAdapter(Context context, List<T> values) {
+        checkNotNull(context);
+
         mValues = values;
 
         mViewHolders = new SparseArray<>(values.size());
@@ -63,6 +67,8 @@ public class SelectableAdapter<T>
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
+        if (state == null) return;
+
         mPreviousPosition = Parcels.unwrap(state);
     }
 

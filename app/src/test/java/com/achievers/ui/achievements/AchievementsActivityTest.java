@@ -5,16 +5,19 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 
 import com.achievers.R;
-import com.achievers.ui.BaseActivityTest;
+import com.achievers.ui._base.AbstractActivityTest;
 import com.achievers.ui.achievement.AchievementActivity;
 import com.achievers.ui.add_achievement.AddAchievementActivity;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowApplication;
 
 import static org.junit.Assert.assertEquals;
 
-public class AchievementsActivityTest extends BaseActivityTest<AchievementsActivity> {
+@RunWith(RobolectricTestRunner.class)
+public class AchievementsActivityTest extends AbstractActivityTest<AchievementsActivity> {
 
     public AchievementsActivityTest() {
         super(AchievementsActivity.class);

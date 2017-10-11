@@ -3,7 +3,7 @@ package com.achievers.ui.add_achievement;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.net.Uri;
-import android.os.Parcelable;
+import android.support.v7.widget.RecyclerView;
 
 import com.achievers.BR;
 import com.achievers.data.entities.Involvement;
@@ -17,11 +17,9 @@ public class AddAchievementViewModel
     private String mDescription;
 
     private BaseSelectableAdapter<Involvement> mInvolvementsAdapter;
-    private Parcelable mInvolvementsLayoutManagerState;
-    private Parcelable mInvolvementsState;
+    private RecyclerView.LayoutManager mInvolvementsLayoutManager;
 
     private Uri mImageUri;
-    private Uri mCapturedImageUri;
     private boolean mIsImageLoading;
 
     @Bindable
@@ -46,45 +44,28 @@ public class AddAchievementViewModel
         mDescription = description;
     }
 
+    @Bindable
     @Override
     public BaseSelectableAdapter<Involvement> getInvolvementsAdapter() {
         return mInvolvementsAdapter;
     }
 
-    @Override
-    public void setInvolvementsAdapter(BaseSelectableAdapter<Involvement> adapter) {
-        mInvolvementsAdapter = adapter;
-    }
-
-    @Override
-    public Parcelable getInvolvementsLayoutManagerState() {
-        return mInvolvementsLayoutManagerState;
-    }
-
-    @Override
-    public void setInvolvementsLayoutManagerState(Parcelable state) {
-        mInvolvementsLayoutManagerState = state;
-    }
-
-    @Override
-    public Parcelable getInvolvementsState() {
-        return mInvolvementsState;
-    }
-
-    @Override
-    public void setInvolvementsState(Parcelable state) {
-        mInvolvementsState = state;
-    }
-
     @Bindable
     @Override
-    public Uri getCapturedImageUri() {
-        return mCapturedImageUri;
+    public RecyclerView.LayoutManager getInvolvementsLayoutManager() {
+        return mInvolvementsLayoutManager;
     }
 
     @Override
-    public void setCapturedImageUri(Uri imageUri) {
-        mCapturedImageUri = imageUri;
+    public void setInvolvements(
+            BaseSelectableAdapter<Involvement> adapter,
+            RecyclerView.LayoutManager layoutManager) {
+
+        mInvolvementsAdapter = adapter;
+        mInvolvementsLayoutManager = layoutManager;
+
+        notifyPropertyChanged(BR.involvementsAdapter);
+        notifyPropertyChanged(BR.involvementsLayoutManager);
     }
 
     @Bindable
