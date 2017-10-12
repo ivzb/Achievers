@@ -1,5 +1,6 @@
 package com.achievers.data.entities;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -21,8 +22,8 @@ public class Achievement {
     @SerializedName("description")
     String description;
 
-    @SerializedName("imageUrl")
-    String imageUrl;
+    @SerializedName("pictureUrl")
+    String pictureUrl;
 
 //    @SerializedName("category")
 //    private Category category;
@@ -36,6 +37,9 @@ public class Achievement {
     @SerializedName("createdOn")
     Date createdOn;
 
+    private Uri mPictureUri;
+    private int mInvolvementPosition;
+
     public Achievement() { }
 
     public Achievement(long id) {
@@ -46,11 +50,21 @@ public class Achievement {
             long id,
             @NonNull String title,
             @NonNull String description,
-            @NonNull String imageUrl,
             @NonNull Involvement involvement,
-            @NonNull Date createdOn) {
+            @NonNull Uri pictureUri) {
 
-        this(title, description, imageUrl, involvement, createdOn);
+        this(title, description, involvement, pictureUri);
+
+        this.id = id;
+    }
+    public Achievement(
+            long id,
+            @NonNull String title,
+            @NonNull String description,
+            @NonNull Involvement involvement,
+            @NonNull String pictureUrl) {
+
+        this(title, description, involvement, pictureUrl);
 
         this.id = id;
     }
@@ -58,15 +72,25 @@ public class Achievement {
     public Achievement(
             @NonNull String title,
             @NonNull String description,
-            @NonNull String imageUrl,
             @NonNull Involvement involvement,
-            @NonNull Date createdOn) {
+            @NonNull Uri pictureUri) {
 
         this.title = title;
         this.description = description;
-        this.imageUrl = imageUrl;
         this.involvement = involvement;
-        this.createdOn = createdOn;
+        this.mPictureUri = pictureUri;
+    }
+
+    public Achievement(
+            @NonNull String title,
+            @NonNull String description,
+            @NonNull Involvement involvement,
+            @NonNull String pictureUrl) {
+
+        this.title = title;
+        this.description = description;
+        this.involvement = involvement;
+        this.pictureUrl = pictureUrl;
     }
 
     public long getId() {
@@ -88,8 +112,12 @@ public class Achievement {
     }
 
     @NonNull
-    public String getImageUrl() {
-        return imageUrl;
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
     }
 
 //    @NonNull
@@ -107,6 +135,26 @@ public class Achievement {
         return createdOn;
     }
 
+    public Uri getPictureUri() {
+        return mPictureUri;
+    }
+
+    public void setPictureUri(Uri pictureUri) {
+        this.mPictureUri = pictureUri;
+    }
+
+    public int getInvolvementPosition() {
+        return this.mInvolvementPosition;
+    }
+
+    public void setInvolvementPosition(int position) {
+        this.mInvolvementPosition = position;
+    }
+
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -117,9 +165,9 @@ public class Achievement {
         if (id != that.id) return false;
         if (!title.equals(that.title)) return false;
         if (!description.equals(that.description)) return false;
-        if (!imageUrl.equals(that.imageUrl)) return false;
+        if (!pictureUrl.equals(that.pictureUrl)) return false;
         if (involvement != that.involvement) return false;
-        return createdOn.equals(that.createdOn);
+        return true;//createdOn.equals(that.createdOn);
     }
 
     @Override
@@ -127,7 +175,7 @@ public class Achievement {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + title.hashCode();
         result = 31 * result + description.hashCode();
-        result = 31 * result + imageUrl.hashCode();
+        result = 31 * result + pictureUrl.hashCode();
         result = 31 * result + involvement.hashCode();
         result = 31 * result + createdOn.hashCode();
         return result;

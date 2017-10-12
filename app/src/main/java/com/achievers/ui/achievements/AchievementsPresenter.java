@@ -3,7 +3,6 @@ package com.achievers.ui.achievements;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.achievers.Config;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.source.achievements.AchievementsDataSource;

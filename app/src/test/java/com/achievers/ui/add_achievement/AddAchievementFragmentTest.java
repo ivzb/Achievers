@@ -10,8 +10,9 @@ import android.support.v7.widget.RecyclerView;
 
 import com.achievers.AchieversDebugTestApplication;
 import com.achievers.BuildConfig;
+import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Involvement;
-import com.achievers.ui._base._shadows.FileProviderShadow;
+import com.achievers.sync.UploadAchievementIntentService;
 import com.achievers.ui._base._shadows.IntentShadow;
 import com.achievers.ui._base.contracts.BaseSelectableAdapter;
 
@@ -29,6 +30,8 @@ import org.robolectric.shadows.ShadowApplication;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.achievers.sync.UploadAchievementIntentService.ACHIEVEMENT_EXTRA;
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.isA;
@@ -120,27 +123,62 @@ public class AddAchievementFragmentTest {
 
     @Test
     public void showPicture_nullUri() {
-        // arrange
-        Uri uri = null;
-
-        // act
-        mFragment.showPicture(uri);
-
-        // assert
-        verify(mViewModel).setImageLoading(false);
-        verify(mViewModel).setImageUri(null);
+        showPicture(null);
     }
 
     @Test
     public void showPicture_validUri() {
-        // arrange
-        Uri uri = Uri.parse("fake-uri");
+        showPicture(Uri.parse("fake-uri"));
+    }
 
+    @Test
+    public void showPictureLoading_false() {
+        showPictureLoading(false);
+    }
+
+    @Test
+    public void showPictureLoading_true() {
+        showPictureLoading(true);
+    }
+
+    @Test
+    public void uploadAchievement() {
+        // arrange
+        Achievement expected = new Achievement();
+
+        // act
+        mFragment.upload(expected);
+
+        // assert
+        Intent intent = ShadowApplication.getInstance().getNextStartedService();
+
+        Parcelable parc = intent.getParcelableExtra(ACHIEVEMENT_EXTRA);
+        Achievement actual = Parcels.unwrap(parc);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void finish() {
+        // act
+        mFragment.finish();
+
+        // assert
+        assertTrue(shadowOf(mFragment.getActivity()).isFinishing());
+    }
+
+    private void showPicture(Uri uri) {
         // act
         mFragment.showPicture(uri);
 
         // assert
-        verify(mViewModel).setImageLoading(true);
-        verify(mViewModel).setImageUri(uri);
+        verify(mViewModel).setPictureUri(uri);
+    }
+
+    private void showPictureLoading(boolean isLoading) {
+        // act
+        mFragment.showPictureLoading(isLoading);
+
+        // assert
+        verify(mViewModel).setPictureLoading(isLoading);
     }
 }

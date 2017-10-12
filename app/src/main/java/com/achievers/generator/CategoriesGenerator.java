@@ -67,7 +67,7 @@ public class CategoriesGenerator {
     private Category generateCategory(long id, Long parentId) {
         String title = mFaker.lorem.word();
         String description = mFaker.lorem.sentence(5);
-        String imageUrl = GeneratorUtils.getInstance().getImage();
+        String imageUrl = GeneratorUtils.getInstance().getImageUrl();
 
         return new Category(id, title, description, imageUrl, parentId);
     }

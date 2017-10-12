@@ -46,7 +46,7 @@ public class FilesMockDataSource implements FilesDataSource {
         mEntitiesById.put(file.getId(), file);
         mEntities.add(file);
 
-        String imageUrl = GeneratorUtils.getInstance().getImage();
+        String imageUrl = GeneratorUtils.getInstance().getImageUrl();
 
         callback.onSuccess(imageUrl);
     }

@@ -32,7 +32,7 @@
     <string name="add_achievement">New Achievement</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
-    <string name="image">Image</string>
+    <string name="picture">Picture</string>
     <string name="involvement">Involvement</string>
     <string name="uploaded_image_preview">Uploaded image preview</string>
     <string name="take_picture">Take Picture</string>

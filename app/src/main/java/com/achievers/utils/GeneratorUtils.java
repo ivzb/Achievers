@@ -35,7 +35,7 @@ public class GeneratorUtils {
         return sInstance;
     }
 
-    public String getImage() {
+    public String getImageUrl() {
         checkNotNull(mRandom);
 
         return String.format(
@@ -58,9 +58,9 @@ public class GeneratorUtils {
 
         String title = mFaker.lorem.word();
         String description = mFaker.lorem.sentence(5);
-        String imageUrl = getImage();
         Involvement involvement = getInvolvement();
+        String imageUrl = getImageUrl();
 
-        return new Achievement(id, title, description, imageUrl, involvement, createdOn);
+        return new Achievement(id, title, description, involvement, imageUrl);
     }
 }

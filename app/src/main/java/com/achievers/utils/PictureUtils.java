@@ -1,16 +1,17 @@
 package com.achievers.utils;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
 
-import java.io.File;
+import com.achievers.data.entities.File;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -23,7 +24,7 @@ public class PictureUtils {
 
     }
 
-    public static File createFile(Context context, Date date) throws IOException {
+    public static java.io.File createFile(Context context, Date date) throws IOException {
         checkNotNull(context);
         checkNotNull(date);
 
@@ -32,12 +33,37 @@ public class PictureUtils {
 
         String prefix = "JPEG_" + timeStamp + "_";
         String suffix = ".jpg";
-        File storageDirectory = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        java.io.File storageDirectory = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
-        return File.createTempFile(
+        return java.io.File.createTempFile(
                 prefix,
                 suffix,
                 storageDirectory
         );
+    }
+
+    public static File toFile(Context context, Uri imageUri)
+            throws FileNotFoundException, NullPointerException {
+
+        checkNotNull(context);
+        checkNotNull(imageUri);
+
+        Bitmap bitmap;
+
+        InputStream imageStream = context
+                .getContentResolver()
+                .openInputStream(imageUri);
+
+        bitmap = BitmapFactory.decodeStream(imageStream);
+
+        if (bitmap == null) {
+            throw new FileNotFoundException();
+        }
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+
+        return new File(byteArray, "image/jpeg");
     }
 }

@@ -47,7 +47,7 @@ public class GeneratorUtilsTest {
     @Test(expected = NullPointerException.class)
     public void getImage_withNullRandom_shouldThrowNullPointer() {
         GeneratorUtils.initialize(null, mFaker);
-        GeneratorUtils.getInstance().getImage();
+        GeneratorUtils.getInstance().getImageUrl();
     }
 
     @Test(expected = NullPointerException.class)
@@ -64,7 +64,7 @@ public class GeneratorUtilsTest {
         Mockito.when(mRandom.nextInt(isA(int.class))).thenReturn(randomIndex);
 
         String expected = String.format(sImagePathFormat, randomIndex);
-        String actual = GeneratorUtils.getInstance().getImage();
+        String actual = GeneratorUtils.getInstance().getImageUrl();
 
         assertEquals(sFailImage, expected, actual);
     }
@@ -105,7 +105,7 @@ public class GeneratorUtilsTest {
         f.setAccessible(true);
         f.set(mFaker, mLorem);
 
-        Achievement expected = new Achievement(5, title, description, imageUrl, involvement, createdOn);
+        Achievement expected = new Achievement(5, title, description, involvement, imageUrl);
         Achievement actual = GeneratorUtils.getInstance().getAchievement(id, createdOn);
 
         assertEquals(sFailAchievement, expected, actual);

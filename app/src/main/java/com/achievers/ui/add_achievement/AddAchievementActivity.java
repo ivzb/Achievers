@@ -5,8 +5,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
 import com.achievers.R;
-import com.achievers.data.source.achievements.AchievementsMockDataSource;
-import com.achievers.data.source.files.FilesMockDataSource;
 import com.achievers.data.source.involvements.InvolvementsLocalDataSource;
 import com.achievers.ui._base.AbstractActivity;
 import com.achievers.utils.ActivityUtils;
@@ -43,13 +41,16 @@ public class AddAchievementActivity extends AbstractActivity {
                     R.id.contentFrame);
         }
 
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null) {
+            view.setArguments(extras);
+        }
+
         view.setViewModel(new AddAchievementViewModel());
         view.setPresenter(new AddAchievementPresenter(
                 this,
                 view,
-
-                AchievementsMockDataSource.getInstance(),
-                FilesMockDataSource.getInstance(),
                 InvolvementsLocalDataSource.getInstance()));
     }
 }

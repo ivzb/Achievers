@@ -1,12 +1,13 @@
 package com.achievers.ui.add_achievement;
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.Bindable;
 import android.databinding.ViewDataBinding;
 import android.net.Uri;
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 
+import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Involvement;
 import com.achievers.ui._base.contracts.BasePresenter;
 import com.achievers.ui._base.contracts.BaseSelectableAdapter;
@@ -24,8 +25,10 @@ public class AddAchievementContract {
         void takePicture(Uri uri, int requestCode);
         void choosePicture(String type, int requestCode);
 
-        void showPicture(Uri imageUri);
+        void showPicture(Uri pictureUri);
+        void showPictureLoading(boolean loading);
 
+        void upload(Achievement achievement);
         void finish();
     }
 
@@ -39,11 +42,14 @@ public class AddAchievementContract {
 
         void deliverPicture(int requestCode, int resultCode, Intent data);
 
+        void pictureLoaded(boolean isSuccessful);
+
         void saveAchievement(
                 String title,
                 String description,
-                Uri imageUri,
-                Involvement involvement);
+                Uri pictureUri,
+                Involvement involvement,
+                int involvementSelectedPosition);
     }
 
     public interface ViewModel extends BaseViewModel {
@@ -60,10 +66,17 @@ public class AddAchievementContract {
                 BaseSelectableAdapter<Involvement> adapter,
                 RecyclerView.LayoutManager layoutManager);
 
-        @Bindable Uri getImageUri();
-        void setImageUri(Uri imageUri);
+        @Bindable Uri getPictureUri();
+        void setPictureUri(Uri pictureUri);
 
-        @Bindable boolean isImageLoading();
-        void setImageLoading(boolean loaded);
+        @Bindable boolean isPictureLoading();
+        void setPictureLoading(boolean loaded);
+    }
+
+    public interface ActionHandler {
+
+        Context getContext();
+
+        void pictureLoaded(boolean successful);
     }
 }

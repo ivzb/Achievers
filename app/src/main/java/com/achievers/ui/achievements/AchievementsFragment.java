@@ -23,8 +23,6 @@ import com.achievers.ui.achievement.AchievementActivity;
 import com.achievers.ui.add_achievement.AddAchievementActivity;
 import com.achievers.utils.EndlessRecyclerViewScrollListener;
 
-import org.parceler.Parcels;
-
 import java.util.List;
 
 public class AchievementsFragment
@@ -102,7 +100,7 @@ public class AchievementsFragment
     @Override
     public void openAchievementUi(Achievement achievement) {
         Intent intent = new Intent(getContext(), AchievementActivity.class);
-        intent.putExtra(AchievementActivity.EXTRA_ACHIEVEMENT_ID, Parcels.wrap(achievement));
+        intent.putExtra(AchievementActivity.EXTRA_ACHIEVEMENT_ID, achievement.getId());
         startActivity(intent);
     }
 

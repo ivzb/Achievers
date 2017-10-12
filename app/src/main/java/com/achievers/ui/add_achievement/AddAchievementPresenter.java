@@ -9,9 +9,8 @@ import android.support.v4.content.FileProvider;
 
 import com.achievers.R;
 import com.achievers.data.callbacks.LoadCallback;
+import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Involvement;
-import com.achievers.data.source.achievements.AchievementsDataSource;
-import com.achievers.data.source.files.FilesDataSource;
 import com.achievers.data.source.involvements.InvolvementsDataSource;
 import com.achievers.ui._base.AbstractPresenter;
 import com.achievers.ui.add_achievement.AddAchievementContract.Presenter;
@@ -35,26 +34,19 @@ public class AddAchievementPresenter
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
 
-    @NonNull private final AchievementsDataSource mAchievementsDataSource;
-    @NonNull private final FilesDataSource mFilesDataSource;
     @NonNull private final InvolvementsDataSource mInvolvementsDataSource;
 
     AddAchievementPresenter(
             @NonNull Context context,
             @NonNull AddAchievementContract.View view,
-
-            @NonNull AchievementsDataSource achievementsDataSource,
-            @NonNull FilesDataSource filesDataSource,
             @NonNull InvolvementsDataSource involvementsDataSource) {
 
         checkNotNull(context);
         checkNotNull(view);
+        checkNotNull(involvementsDataSource);
 
         mContext = context;
         mView = view;
-
-        mAchievementsDataSource = achievementsDataSource;
-        mFilesDataSource = filesDataSource;
         mInvolvementsDataSource = involvementsDataSource;
     }
 
@@ -134,6 +126,7 @@ public class AddAchievementPresenter
                 throw new FileNotFoundException();
             }
 
+            mView.showPictureLoading(true);
             mView.showPicture(imageUri);
         } catch (NullPointerException | IllegalArgumentException | FileNotFoundException e) {
             mView.showErrorMessage("Error occurred. Please try again.");
@@ -141,11 +134,24 @@ public class AddAchievementPresenter
     }
 
     @Override
+    public void pictureLoaded(boolean isSuccessful) {
+        if (!mView.isActive()) return;
+
+        mView.showPictureLoading(false);
+
+        if (!isSuccessful) {
+            mView.showPicture(null);
+            mView.showErrorMessage("Could not load image.");
+        }
+    }
+
+    @Override
     public void saveAchievement(
             String title,
             String description,
-            Uri imageUri,
-            Involvement involvement) {
+            Uri pictureUri,
+            Involvement involvement,
+            int involvementSelectedPosition) {
 
         if (!mView.isActive()) return;
 
@@ -165,8 +171,8 @@ public class AddAchievementPresenter
                         involvement,
                         new NotNullRule())
                 .addProperty(
-                        R.string.image,
-                        imageUri,
+                        R.string.picture,
+                        pictureUri,
                         new NotNullRule())
                 .validate();
 
@@ -175,84 +181,15 @@ public class AddAchievementPresenter
             return;
         }
 
+        Achievement achievement = new Achievement(
+                title,
+                description,
+                involvement,
+                pictureUri);
+
+        achievement.setInvolvementPosition(involvementSelectedPosition);
+
+        mView.upload(achievement);
         mView.finish();
-
-        // todo: save image in background and after that save achievement
-
-//        if (bitmap != null) {
-//            // todo: show uploading indicator
-//
-//            uploadImage(bitmap, new SaveCallback<String>() {
-//                @Override
-//                public void onSuccess(String imageUrl) {
-//                    if (!mView.isActive()) return;
-//
-//                    // todo: hide uploading indicator
-//
-////                        mView.setImageUrl(imageUrl);
-//                }
-//
-//                @Override
-//                public void onFailure(String message) {
-//                    if (!mView.isActive()) return;
-//
-//                    // todo: hide uploading indicator
-//
-//                    mView.showErrorMessage("Could not upload image");
-//                }
-//            });
-//        }
-
-//        Achievement achievement = new Achievement(title, description, imageUrl, involvement, new Date());
-
-//        mAchievementsDataSource.saveAchievement(achievement, new SaveCallback<Long>() {
-//            @Override
-//            public void onSuccess(Long id) {
-//                if (!mView.isActive()) return;
-//
-//                if (id == null) {
-//                    mView.showErrorMessage("Error occurred while saving achievement.");
-//                    return;
-//                }
-//
-//                mView.finish();
-//            }
-//
-//            @Override
-//            public void onFailure(String message) {
-//                if (!mView.isActive()) return;
-//
-//                mView.showErrorMessage(message);
-//            }
-//        });
     }
-
-//    private void uploadImage(Uri imageUri, SaveCallback<String> callback) {
-//
-//        Bitmap bitmap;
-//
-//        try {
-//            InputStream imageStream = mContext
-//                    .getContentResolver()
-//                    .openInputStream(imageUri);
-//
-//            bitmap = BitmapFactory.decodeStream(imageStream);
-//        } catch (FileNotFoundException e) {
-//            callback.onFailure("Could not load image.");
-//            return;
-//        }
-//
-//        if (bitmap == null) {
-//            callback.onFailure("Image not found.");
-//            return;
-//        }
-//
-//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-//        byte[] byteArray = stream.toByteArray();
-//
-//        File uploadFile = new File(byteArray, "image/jpeg");
-//
-//        mFilesDataSource.storeFile(uploadFile, callback);
-//    }
 }

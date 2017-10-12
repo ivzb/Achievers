@@ -70,26 +70,26 @@ public class AddAchievementViewModel
 
     @Bindable
     @Override
-    public Uri getImageUri() {
+    public Uri getPictureUri() {
         return mImageUri;
     }
 
     @Override
-    public void setImageUri(Uri imageUri) {
-        mImageUri = imageUri;
+    public void setPictureUri(Uri pictureUri) {
+        mImageUri = pictureUri;
 
-        notifyPropertyChanged(BR.imageUri);
+        notifyPropertyChanged(BR.pictureUri);
     }
 
     @Bindable
     @Override
-    public boolean isImageLoading() {
+    public boolean isPictureLoading() {
         return mIsImageLoading;
     }
 
     @Override
-    public void setImageLoading(boolean loaded) {
+    public void setPictureLoading(boolean loaded) {
         mIsImageLoading = loaded;
-        notifyPropertyChanged(BR.imageLoading);
+        notifyPropertyChanged(BR.pictureLoading);
     }
 }

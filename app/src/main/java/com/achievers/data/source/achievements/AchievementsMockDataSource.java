@@ -9,6 +9,7 @@ import com.achievers.data.entities.Achievement;
 import com.achievers.generator.AchievementsGenerator;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -86,6 +87,7 @@ public class AchievementsMockDataSource implements AchievementsDataSource {
         }
 
         achievement.setId(mEntities.size() + 1);
+        achievement.setCreatedOn(new Date());
 
         mEntitiesById.put(achievement.getId(), achievement);
         mEntities.add(achievement);

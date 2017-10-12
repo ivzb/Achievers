@@ -38,18 +38,6 @@
         <activity android:name=".ui.achievement.AchievementActivity" />
         <activity android:name=".ui.add_achievement.AddAchievementActivity" />
 
-        <!--<provider-->
-            <!--android:name=".providers.GenericFileProvider"-->
-            <!--android:authorities="${applicationId}.provider"-->
-            <!--android:exported="false"-->
-            <!--android:grantUriPermissions="true">-->
-
-            <!--<meta-data-->
-                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
-                <!--android:resource="@xml/provider_paths"/>-->
-        <!--</provider>-->
-
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.achievers.fileprovider"
@@ -67,5 +55,9 @@
             android:exported="false"
             android:label="@string/app_name"
             android:syncable="true" />
+
+        <service
+            android:name=".sync.UploadAchievementIntentService"
+            android:exported="false"/>
     </application>
 </manifest>

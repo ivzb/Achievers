@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.achievers.data.callbacks.LoadCallback;
+import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Involvement;
 import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.files.FilesDataSource;
 import com.achievers.data.source.involvements.InvolvementsDataSource;
 import com.achievers.utils.GeneratorUtils;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -28,6 +30,7 @@ import java.util.Random;
 import io.bloco.faker.Faker;
 
 import static junit.framework.Assert.assertEquals;
+import static org.hamcrest.core.Is.isA;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
@@ -58,21 +61,28 @@ public class AddAchievementPresenterTest {
     private static final String sValidDescription = "description";
     private static final Uri sValidUri = mock(Uri.class);
     private static final Involvement sValidInvolvement = Involvement.Gold;
+    private static final int sValidInvolvementPosition = 1;
 
     private AddAchievementContract.Presenter mPresenter;
 
     @Before
-    public void setupPresenter() {
+    public void before() {
         MockitoAnnotations.initMocks(this);
         GeneratorUtils.initialize(new Random(), new Faker());
 
         mPresenter = new AddAchievementPresenter(
                 mContext,
                 mView,
-
-                mAchievementsDataSource,
-                mFilesDataSource,
                 mInvolvementsDataSource);
+    }
+
+    @After
+    public void after() {
+        verifyNoMoreInteractions(mView);
+
+        verifyNoMoreInteractions(mAchievementsDataSource);
+        verifyNoMoreInteractions(mFilesDataSource);
+        verifyNoMoreInteractions(mInvolvementsDataSource);
     }
 
     @Test
@@ -85,7 +95,6 @@ public class AddAchievementPresenterTest {
 
         // assert
         verify(mView).isActive();
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -97,8 +106,9 @@ public class AddAchievementPresenterTest {
         mPresenter.loadInvolvements();
 
         // assert
+        verify(mInvolvementsDataSource).loadInvolvements(any(LoadCallback.class));
+
         verify(mView, times(2)).isActive();
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -110,9 +120,10 @@ public class AddAchievementPresenterTest {
         mPresenter.loadInvolvements();
 
         // assert
+        verify(mInvolvementsDataSource).loadInvolvements(any(LoadCallback.class));
+
         verify(mView).showInvolvements(mActualLoadCaptor.capture());
         verify(mView, times(2)).isActive();
-        verifyNoMoreInteractions(mView);
 
         List<Involvement> expected = Arrays.asList(Involvement.values());
         List<Involvement> actual = mActualLoadCaptor.getValue();
@@ -128,9 +139,10 @@ public class AddAchievementPresenterTest {
         mPresenter.loadInvolvements();
 
         // assert
+        verify(mInvolvementsDataSource).loadInvolvements(any(LoadCallback.class));
+
         verify(mView).showErrorMessage(any(String.class));
         verify(mView, times(2)).isActive();
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -142,7 +154,6 @@ public class AddAchievementPresenterTest {
 
         // assert
         verify(mView).isActive();
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -154,7 +165,6 @@ public class AddAchievementPresenterTest {
 
         // assert
         verify(mView).isActive();
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -167,7 +177,6 @@ public class AddAchievementPresenterTest {
         // assert
         verify(mView).isActive();
         verify(mView).choosePicture(any(String.class), any(int.class));
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -179,7 +188,6 @@ public class AddAchievementPresenterTest {
 
         // assert
         verify(mView).isActive();
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -192,7 +200,6 @@ public class AddAchievementPresenterTest {
         // assert
         verify(mView).isActive();
         verify(mView).showPicture(null);
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -204,7 +211,6 @@ public class AddAchievementPresenterTest {
 
         // assert
         verify(mView).isActive();
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -217,7 +223,6 @@ public class AddAchievementPresenterTest {
         // assert
         verify(mView).isActive();
         verify(mView).showErrorMessage(any(String.class));
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -230,7 +235,6 @@ public class AddAchievementPresenterTest {
         // assert
         verify(mView).isActive();
         verify(mView).showErrorMessage(any(String.class));
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -243,7 +247,6 @@ public class AddAchievementPresenterTest {
         // assert
         verify(mView).isActive();
         verify(mView).showErrorMessage(any(String.class));
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -258,8 +261,8 @@ public class AddAchievementPresenterTest {
 
         // assert
         verify(mView).isActive();
+        verify(mView).showPictureLoading(true);
         verify(mView).showPicture(uri);
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -272,7 +275,6 @@ public class AddAchievementPresenterTest {
         // assert
         verify(mView).isActive();
         verify(mView).showErrorMessage(any(String.class));
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -287,8 +289,8 @@ public class AddAchievementPresenterTest {
 
         // assert
         verify(mView).isActive();
+        verify(mView).showPictureLoading(true);
         verify(mView).showPicture(uri);
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -296,11 +298,10 @@ public class AddAchievementPresenterTest {
         when(mView.isActive()).thenReturn(false);
 
         // act
-        mPresenter.saveAchievement(null, null, null, null);
+        mPresenter.saveAchievement(null, null, null, null, -1);
 
         // assert
         verify(mView).isActive();
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -309,13 +310,12 @@ public class AddAchievementPresenterTest {
         when(mContext.getString(any(int.class))).thenReturn("value");
 
         // act
-        mPresenter.saveAchievement("", sValidDescription, sValidUri, sValidInvolvement);
+        mPresenter.saveAchievement("", sValidDescription, sValidUri, sValidInvolvement, sValidInvolvementPosition);
 
         // assert
         verify(mView).isActive();
         verify(mView).hideKeyboard();
         verify(mView).showErrorMessage(any(String.class));
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -324,13 +324,12 @@ public class AddAchievementPresenterTest {
         when(mContext.getString(any(int.class))).thenReturn("value");
 
         // act
-        mPresenter.saveAchievement(sValidTitle, "", sValidUri, sValidInvolvement);
+        mPresenter.saveAchievement(sValidTitle, "", sValidUri, sValidInvolvement, sValidInvolvementPosition);
 
         // assert
         verify(mView).isActive();
         verify(mView).hideKeyboard();
         verify(mView).showErrorMessage(any(String.class));
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -339,13 +338,12 @@ public class AddAchievementPresenterTest {
         when(mContext.getString(any(int.class))).thenReturn("value");
 
         // act
-        mPresenter.saveAchievement(sValidTitle, sValidDescription, null, sValidInvolvement);
+        mPresenter.saveAchievement(sValidTitle, sValidDescription, null, sValidInvolvement, sValidInvolvementPosition);
 
         // assert
         verify(mView).isActive();
         verify(mView).hideKeyboard();
         verify(mView).showErrorMessage(any(String.class));
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -354,13 +352,12 @@ public class AddAchievementPresenterTest {
         when(mContext.getString(any(int.class))).thenReturn("value");
 
         // act
-        mPresenter.saveAchievement(sValidTitle, sValidDescription, sValidUri, null);
+        mPresenter.saveAchievement(sValidTitle, sValidDescription, sValidUri, null, sValidInvolvementPosition);
 
         // assert
         verify(mView).isActive();
         verify(mView).hideKeyboard();
         verify(mView).showErrorMessage(any(String.class));
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -369,13 +366,13 @@ public class AddAchievementPresenterTest {
         when(mContext.getString(any(int.class))).thenReturn("value");
 
         // act
-        mPresenter.saveAchievement(sValidTitle, sValidDescription, sValidUri, sValidInvolvement);
+        mPresenter.saveAchievement(sValidTitle, sValidDescription, sValidUri, sValidInvolvement, sValidInvolvementPosition);
 
         // assert
         verify(mView).isActive();
         verify(mView).hideKeyboard();
+        verify(mView).upload(any(Achievement.class));
         verify(mView).finish();
-        verifyNoMoreInteractions(mView);
     }
 
     private void arrangeInvolvements(
