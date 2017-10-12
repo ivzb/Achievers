@@ -36,7 +36,7 @@ public class StringLengthRule extends NotNullRule<String> {
     @Override
     public String getError(String name) {
         return String.format(Locale.getDefault(),
-                "%s should be in range [%d - %d].",
+                "%s should be between %d and %d characters long.",
                 name,
                 mMinLength,
                 mMaxLength);

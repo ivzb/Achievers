@@ -12,7 +12,6 @@ import com.achievers.AchieversDebugTestApplication;
 import com.achievers.BuildConfig;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Involvement;
-import com.achievers.sync.UploadAchievementIntentService;
 import com.achievers.ui._base._shadows.IntentShadow;
 import com.achievers.ui._base.contracts.BaseSelectableAdapter;
 

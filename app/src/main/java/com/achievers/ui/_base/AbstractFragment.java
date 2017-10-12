@@ -70,6 +70,6 @@ public abstract class AbstractFragment<P extends BasePresenter, VM extends BaseV
     private void showMessage(String message) {
         if (getView() == null || !isActive()) return;
 
-        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
     }
 }

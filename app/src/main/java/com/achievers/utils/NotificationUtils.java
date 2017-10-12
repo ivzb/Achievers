@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 
@@ -15,7 +16,8 @@ import com.achievers.R;
 
 public class NotificationUtils {
 
-    private static final int ACHIEVEMENT_UPLOAD_NOTIFICATION_ID = 1138;
+    @VisibleForTesting
+    public static final int ACHIEVEMENT_UPLOAD_NOTIFICATION_ID = 1138;
 
     public static void notify(Context context, String title, String text, PendingIntent pendingIntent) {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)

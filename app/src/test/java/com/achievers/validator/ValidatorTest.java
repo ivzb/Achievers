@@ -11,7 +11,6 @@ import com.achievers.validator.rules.TruthRule;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 

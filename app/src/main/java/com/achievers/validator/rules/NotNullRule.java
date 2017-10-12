@@ -14,6 +14,6 @@ public class NotNullRule<T> implements BaseRule<T> {
 
     @Override
     public String getError(String name) {
-        return String.format(Locale.getDefault(), "Please enter %s.", name);
+        return String.format(Locale.getDefault(), "Please select %s.", name);
     }
 }

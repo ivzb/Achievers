@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 
 import com.achievers.R;
 import com.achievers.data.callbacks.SaveCallback;
@@ -38,7 +39,8 @@ public class UploadAchievementIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(final Intent intent) {
-        Achievement achievement = Parcels.unwrap(intent.getParcelableExtra(ACHIEVEMENT_EXTRA));
+        Parcelable parcelable = intent.getParcelableExtra(ACHIEVEMENT_EXTRA);
+        Achievement achievement = Parcels.unwrap(parcelable);
 
         if (achievement == null) {
             showFailure(null);
@@ -49,7 +51,7 @@ public class UploadAchievementIntentService extends IntentService {
 
         try {
             picture = PictureUtils.toFile(this, achievement.getPictureUri());
-        } catch (FileNotFoundException e) {
+        } catch (NullPointerException | FileNotFoundException e) {
             showFailure(achievement);
             return;
         }
@@ -113,8 +115,11 @@ public class UploadAchievementIntentService extends IntentService {
 
     private PendingIntent getFailureIntent(Context context, Achievement achievement) {
         Intent startActivityIntent = new Intent(context, AddAchievementActivity.class);
-        Bundle achievementExtras = createAchievementBundle(achievement);
-        startActivityIntent.putExtras(achievementExtras);
+
+        if (achievement != null) {
+            Bundle achievementExtras = createAchievementBundle(achievement);
+            startActivityIntent.putExtras(achievementExtras);
+        }
 
         return PendingIntent.getActivity(
                 context,
@@ -126,12 +131,10 @@ public class UploadAchievementIntentService extends IntentService {
     private Bundle createAchievementBundle(Achievement achievement) {
         Bundle bundle = new Bundle();
 
-        if (achievement != null) {
-            bundle.putString(TITLE_KEY, achievement.getTitle());
-            bundle.putString(DESCRIPTION_KEY, achievement.getDescription());
-            bundle.putInt(INVOLVEMENTS_ADAPTER_SELECTED_POSITION_KEY, achievement.getInvolvementPosition());
-            bundle.putParcelable(PICTURE_KEY, Parcels.wrap(achievement.getPictureUri()));
-        }
+        bundle.putString(TITLE_KEY, achievement.getTitle());
+        bundle.putString(DESCRIPTION_KEY, achievement.getDescription());
+        bundle.putInt(INVOLVEMENTS_ADAPTER_SELECTED_POSITION_KEY, achievement.getInvolvementPosition());
+        bundle.putParcelable(PICTURE_KEY, Parcels.wrap(achievement.getPictureUri()));
 
         return bundle;
     }

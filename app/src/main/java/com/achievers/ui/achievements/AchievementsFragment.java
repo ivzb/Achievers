@@ -98,9 +98,9 @@ public class AchievementsFragment
     }
 
     @Override
-    public void openAchievementUi(Achievement achievement) {
+    public void openAchievementUi(long id) {
         Intent intent = new Intent(getContext(), AchievementActivity.class);
-        intent.putExtra(AchievementActivity.EXTRA_ACHIEVEMENT_ID, achievement.getId());
+        intent.putExtra(AchievementActivity.EXTRA_ACHIEVEMENT_ID, id);
         startActivity(intent);
     }
 

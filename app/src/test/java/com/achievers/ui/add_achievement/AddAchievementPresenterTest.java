@@ -30,7 +30,6 @@ import java.util.Random;
 import io.bloco.faker.Faker;
 
 import static junit.framework.Assert.assertEquals;
-import static org.hamcrest.core.Is.isA;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;

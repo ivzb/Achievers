@@ -129,7 +129,7 @@ public class AddAchievementPresenter
             mView.showPictureLoading(true);
             mView.showPicture(imageUri);
         } catch (NullPointerException | IllegalArgumentException | FileNotFoundException e) {
-            mView.showErrorMessage("Error occurred. Please try again.");
+            mView.showErrorMessage("Did not select picture. Try again?");
         }
     }
 

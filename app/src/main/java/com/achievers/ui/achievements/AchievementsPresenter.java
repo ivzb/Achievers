@@ -70,12 +70,12 @@ public class AchievementsPresenter
     public void clickAchievement(Achievement achievement) {
         if (!mView.isActive()) return;
 
-        if (null == achievement) {
+        if (achievement == null) {
             mView.showErrorMessage("Missing achievement");
             return;
         }
 
-        mView.openAchievementUi(achievement);
+        mView.openAchievementUi(achievement.getId());
     }
 
     @Override

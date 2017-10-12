@@ -160,7 +160,7 @@ public class AchievementsPresenterTest {
 
         // assert
         verify(mView).isActive();
-        verify(mView).openAchievementUi(achievement);
+        verify(mView).openAchievementUi(achievement.getId());
         verifyNoMoreInteractions(mView);
     }
 

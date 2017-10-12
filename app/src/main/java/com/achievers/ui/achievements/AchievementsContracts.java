@@ -19,7 +19,7 @@ public class AchievementsContracts {
 
         void showAchievements(List<Achievement> achievements);
 
-        void openAchievementUi(Achievement achievement);
+        void openAchievementUi(long id);
         void openAddAchievementUi();
 
         int getPage();
