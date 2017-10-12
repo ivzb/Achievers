@@ -1,5 +1,6 @@
 package com.achievers.ui.achievements;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
@@ -87,7 +88,7 @@ public class AchievementsPresenter
 
     @Override
     public void result(int requestCode, int resultCode) {
-        if (AddAchievementActivity.REQUEST_ADD_ACHIEVEMENT == requestCode && AchievementsActivity.RESULT_OK == resultCode) {
+        if (AddAchievementActivity.REQUEST_ADD_ACHIEVEMENT == requestCode && Activity.RESULT_OK == resultCode) {
             mView.showSuccessfulMessage("Your achievement will be uploaded shortly.");
         }
     }

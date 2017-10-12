@@ -1,12 +1,15 @@
 package com.achievers.ui.achievements;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.source.achievements.AchievementsDataSource;
+import com.achievers.ui.add_achievement.AddAchievementActivity;
 import com.achievers.utils.GeneratorUtils;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -24,6 +27,7 @@ import io.bloco.faker.Faker;
 
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -44,12 +48,25 @@ public class AchievementsPresenterTest {
 
     private static final String sLoadFailure = "Could not load achievements";
 
+    private static final int sValidRequestCode = AddAchievementActivity.REQUEST_ADD_ACHIEVEMENT;
+    private static final int sValidResultCode = Activity.RESULT_OK;
+
+
     @Before
-    public void setupPresenter() {
+    public void before() {
         MockitoAnnotations.initMocks(this);
         GeneratorUtils.initialize(new Random(), new Faker());
 
         mPresenter = new AchievementsPresenter(mContext, mView, mDataSource);
+    }
+
+    @After
+    public void after() {
+        verifyNoMoreInteractions(mView);
+
+        verifyNoMoreInteractions(mContext);
+        verifyNoMoreInteractions(mView);
+        verifyNoMoreInteractions(mDataSource);
     }
 
     @Test
@@ -69,7 +86,7 @@ public class AchievementsPresenterTest {
                 page);
 
         actLoad(page);
-        assertSuccessfulLoad();
+        assertSuccessfulLoad(page);
     }
 
     @Test
@@ -83,7 +100,7 @@ public class AchievementsPresenterTest {
                 page);
 
         actLoad(page);
-        assertFailureLoad();
+        assertFailureLoad(page);
     }
 
     @Test
@@ -97,7 +114,7 @@ public class AchievementsPresenterTest {
                 page);
 
         actLoad(page);
-        assertSuccessfulLoad();
+        assertSuccessfulLoad(page);
     }
 
     @Test
@@ -111,7 +128,7 @@ public class AchievementsPresenterTest {
                 page);
 
         actLoad(page);
-        assertFailureLoad();
+        assertFailureLoad(page);
     }
 
     @Test
@@ -145,6 +162,7 @@ public class AchievementsPresenterTest {
 
         // assert
         verify(mView).setLoadingIndicator(true);
+        verify(mDataSource).loadAchievements(eq(page), any(LoadCallback.class));
         verify(mView, times(2)).isActive();
         verifyNoMoreInteractions(mView);
     }
@@ -218,6 +236,27 @@ public class AchievementsPresenterTest {
         verifyNoMoreInteractions(mView);
     }
 
+    @Test
+    public void result_invalidRequestCode() {
+        // act
+        mPresenter.result(sValidRequestCode + 1, sValidResultCode);
+    }
+
+    @Test
+    public void result_invalidResultCode() {
+        // act
+        mPresenter.result(sValidRequestCode, sValidResultCode + 1);
+    }
+
+    @Test
+    public void result_shouldCallView() {
+        // act
+        mPresenter.result(sValidRequestCode, sValidResultCode);
+
+        // assert
+        verify(mView).showSuccessfulMessage(any(String.class));
+    }
+
     private void arrangeLoad(
             final Boolean isSuccessful,
             final Boolean initiallyInactiveView,
@@ -253,8 +292,10 @@ public class AchievementsPresenterTest {
         mPresenter.loadAchievements(page);
     }
 
-    private void assertSuccessfulLoad() {
+    private void assertSuccessfulLoad(int page) {
         verify(mView).setLoadingIndicator(true);
+
+        verify(mDataSource).loadAchievements(eq(page), any(LoadCallback.class));
         verify(mView).showAchievements(mActualLoadCaptor.capture());
         verify(mView).setLoadingIndicator(false);
         verify(mView).setPage(any(int.class));
@@ -265,8 +306,10 @@ public class AchievementsPresenterTest {
         assertTrue(mExpectedLoad == actualLoad);
     }
 
-    private void assertFailureLoad() {
+    private void assertFailureLoad(int page) {
         verify(mView).setLoadingIndicator(true);
+
+        verify(mDataSource).loadAchievements(eq(page), any(LoadCallback.class));
         verify(mView).showErrorMessage(any(String.class));
         verify(mView).setLoadingIndicator(false);
         verify(mView, times(2)).isActive();

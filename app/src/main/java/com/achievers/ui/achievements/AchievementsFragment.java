@@ -87,7 +87,7 @@ public class AchievementsFragment
         outState.putInt(PAGE_STATE, mViewModel.getPage());
     }
 
-        @Override
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         mPresenter.result(requestCode, resultCode);
     }
