@@ -1,13 +1,16 @@
 package com.achievers.ui.achievements;
 
 import android.app.Activity;
-import android.databinding.Observable;
+import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
 
 import com.achievers.AchieversDebugTestApplication;
 import com.achievers.BuildConfig;
-import com.achievers.R;
-import com.achievers.ui._base._shadows.IntentShadow;
+import com.achievers.data.entities.Achievement;
+import com.achievers.ui._base._mocks.AchievementsActivityMock;
+import com.achievers.ui.achievement.AchievementActivity;
 import com.achievers.ui.add_achievement.AddAchievementActivity;
 
 import org.junit.After;
@@ -18,14 +21,22 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowActivity;
+import org.robolectric.shadows.ShadowApplication;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 import static org.robolectric.Shadows.shadowOf;
 import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
 
@@ -51,7 +62,7 @@ public class AchievementsFragmentTest {
         mFragment.setPresenter(mPresenter);
         mFragment.setViewModel(mViewModel);
 
-        startFragment(mFragment, AchievementsActivity.class);
+        startFragment(mFragment, AchievementsActivityMock.class);
 
         verify(mViewModel).setAdapter(isA(AchievementsContracts.Adapter.class));
         verify(mViewModel).getPage();
@@ -78,5 +89,111 @@ public class AchievementsFragmentTest {
 
         // assert
         verify(mPresenter).result(eq(sValidRequestCode), eq(sValidResultCode));
+    }
+
+    @Test
+    public void showAchievements() {
+        // arrange
+        List<Achievement> achievements = new ArrayList<>();
+        for (int i = 0; i < 5; i++) achievements.add(new Achievement(i));
+
+        AchievementsContracts.Adapter adapter = mock(AchievementsContracts.Adapter.class);
+        when(mViewModel.getAdapter()).thenReturn(adapter);
+
+        // act
+        mFragment.showAchievements(achievements);
+
+        // assert
+        verify(mViewModel).getAdapter();
+        verify(adapter).add(eq(achievements));
+    }
+
+    @Test
+    public void openAchievementUi() {
+        // arrange
+        long id = 503;
+
+        // act
+        mFragment.openAchievementUi(id);
+
+        // assert
+        Intent intent = ShadowApplication.getInstance().getNextStartedActivity();
+
+        Bundle extras = intent.getExtras();
+        assertNotNull(extras);
+        assertTrue(extras.containsKey(AchievementActivity.EXTRA_ACHIEVEMENT_ID));
+        assertEquals(id, extras.get(AchievementActivity.EXTRA_ACHIEVEMENT_ID));
+    }
+
+    @Test
+    public void openAddAchievementUi() {
+        // arrange
+        long id = 503;
+
+        // act
+        mFragment.openAchievementUi(id);
+
+        // assert
+        ShadowActivity shadowActivity = shadowOf(mFragment.getActivity());
+        Intent intent = shadowActivity.getNextStartedActivity();
+
+        Bundle extras = intent.getExtras();
+        assertNotNull(extras);
+        assertTrue(extras.containsKey(AchievementActivity.EXTRA_ACHIEVEMENT_ID));
+        assertEquals(id, extras.get(AchievementActivity.EXTRA_ACHIEVEMENT_ID));
+    }
+
+    @Test
+    public void getPage() {
+        // act
+        mFragment.getPage();
+
+        // assert
+        verify(mViewModel, times(2)).getPage();
+    }
+
+    @Test
+    public void setPage() {
+        // arrange
+        int page = 5;
+
+        // act
+        mFragment.setPage(page);
+
+        // assert
+        verify(mViewModel).setPage(eq(5));
+    }
+
+    @Test
+    public void onClick() {
+        // arrange
+        View view = mock(View.class);
+
+        // act
+        mFragment.onClick(view);
+
+        // assert
+        verify(mPresenter).clickAddAchievement();
+    }
+
+    @Test
+    public void onAchievementClick() {
+        // arrange
+        Achievement achievement = mock(Achievement.class);
+
+        // act
+        mFragment.onAchievementClick(achievement);
+
+        // assert
+        verify(mPresenter).clickAchievement(eq(achievement));
+    }
+
+    @Test
+    public void onRefresh() {
+        // act
+        mFragment.onRefresh();
+
+        // assert
+        verify(mPresenter).refresh();
     }
 }

@@ -31,6 +31,8 @@ public class AchievementsAdapter
 
     @Override
     public void add(List<Achievement> achievements) {
+        if (achievements == null) return;
+
         int start = getItemCount();
         mAchievements.addAll(achievements);
         notifyItemRangeInserted(start, achievements.size());

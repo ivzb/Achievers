@@ -24,7 +24,7 @@ import org.mockito.MockitoAnnotations;
 import org.parceler.Parcels;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.ShadowApplication;
+import org.robolectric.shadows.ShadowActivity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -102,7 +102,8 @@ public class AddAchievementFragmentTest {
         mFragment.takePicture(uri, requestCode);
 
         // assert
-        Intent intent = ShadowApplication.getInstance().getNextStartedActivity();
+        ShadowActivity shadowActivity = shadowOf(mFragment.getActivity());
+        Intent intent = shadowActivity.getNextStartedActivity();
         assertEquals(intent.getAction(), MediaStore.ACTION_IMAGE_CAPTURE);
     }
 
@@ -116,7 +117,8 @@ public class AddAchievementFragmentTest {
         mFragment.choosePicture(type, requestCode);
 
         // assert
-        Intent intent = ShadowApplication.getInstance().getNextStartedActivity();
+        ShadowActivity shadowActivity = shadowOf(mFragment.getActivity());
+        Intent intent = shadowActivity.getNextStartedActivity();
         assertEquals(intent.getAction(), Intent.ACTION_PICK);
     }
 
@@ -149,7 +151,8 @@ public class AddAchievementFragmentTest {
         mFragment.upload(expected);
 
         // assert
-        Intent intent = ShadowApplication.getInstance().getNextStartedService();
+        ShadowActivity shadowActivity = shadowOf(mFragment.getActivity());
+        Intent intent = shadowActivity.getNextStartedService();
 
         Parcelable parc = intent.getParcelableExtra(ACHIEVEMENT_EXTRA);
         Achievement actual = Parcels.unwrap(parc);
