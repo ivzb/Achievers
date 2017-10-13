@@ -12,7 +12,7 @@ import com.achievers.ui.add_achievement.AddAchievementActivity;
 
 import java.util.List;
 
-import static com.achievers.Config.sRecyclerInitialPage;
+import static com.achievers.Config.RECYCLER_INITIAL_PAGE;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class AchievementsPresenter
@@ -38,7 +38,7 @@ public class AchievementsPresenter
 
     @Override
     public void refresh() {
-        loadAchievements(sRecyclerInitialPage);
+        loadAchievements(RECYCLER_INITIAL_PAGE);
     }
 
     @Override

@@ -32,36 +32,13 @@ import com.orhanobut.dialogplus.Holder;
 import com.orhanobut.dialogplus.OnCancelListener;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnDismissListener;
-import com.orhanobut.dialogplus.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Main UI for the task detail screen.
- */
 public class AchievementFragment
         extends AbstractFragment<AchievementContract.Presenter, AchievementContract.ViewModel, AchievementFragBinding>
         implements AchievementContract.View<AchievementFragBinding> {
-
-    public static final String ARGUMENT_ACHIEVEMENT_ID = "ACHIEVEMENT_ID";
-
-    public static final int REQUEST_EDIT_ACHIEVEMENT = 1;
-
-    public static AchievementFragment newInstance(int achievementId) {
-        Bundle arguments = new Bundle();
-        arguments.putInt(ARGUMENT_ACHIEVEMENT_ID, achievementId);
-        AchievementFragment fragment = new AchievementFragment();
-        fragment.setArguments(arguments);
-        return fragment;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        mPresenter.getAchievement();
-    }
 
     @Nullable
     @Override
@@ -74,21 +51,12 @@ public class AchievementFragment
         mDataBinding.setResources(getContext().getResources());
         mDataBinding.setViewModel(mViewModel);
 
-        // Set up floating action button
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_edit_achievement);
-        fab.setVisibility(View.GONE); // gone until functionality implemented
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                int achievementId = getArguments().getInt(ARGUMENT_ACHIEVEMENT_ID, 0);
-//                Intent intent = new Intent(getContext(), AddEditAchievementActivity.class);
-//                intent.putExtra(AddEditAchievementFragment.ARGUMENT_EDIT_ACHIEVEMENT_ID, achievementId);
-//                startActivityForResult(intent, REQUEST_EDIT_ACHIEVEMENT);
-            }
-        });
-
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.achievement_fragment_menu, menu);
     }
 
     @Override
@@ -120,12 +88,6 @@ public class AchievementFragment
                             // todo
                         }
                     })
-                    .setOnItemClickListener(new OnItemClickListener() {
-                        @Override public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
-                            Log.d("DialogPlus", "onItemClick() called with: " + "item = [" +
-                                    item + "], position = [" + position + "]");
-                        }
-                    })
                     .setOnDismissListener(new OnDismissListener() {
                         @Override
                         public void onDismiss(DialogPlus dialog) {
@@ -151,30 +113,22 @@ public class AchievementFragment
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.achievement_fragment_menu, menu);
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_EDIT_ACHIEVEMENT:
-                if (resultCode == Activity.RESULT_OK) {
-                    getActivity().finish();
-                    return;
-                }
-
-                break;
-        }
+//        switch (requestCode) {
+//            case REQUEST_EDIT_ACHIEVEMENT:
+//                if (resultCode == Activity.RESULT_OK) {
+//                    getActivity().finish();
+//                    return;
+//                }
+//
+//                break;
+//        }
     }
 
     @Override
     public void setLoadingIndicator(final boolean active) {
-        if (getView() == null) return;
+        final SwipeRefreshLayout srl = mDataBinding.refreshLayout;
 
-        final SwipeRefreshLayout srl = (SwipeRefreshLayout) getView().findViewById(R.id.refresh_layout);
-
-        // Make sure setRefreshing() is called after the layout is done with everything else.
         srl.post(new Runnable() {
             @Override
             public void run() {
@@ -185,33 +139,13 @@ public class AchievementFragment
 
     @Override
     public void showAchievement(Achievement achievement) {
-        this.mViewModel.setAchievement(achievement);
+        mViewModel.setAchievement(achievement);
+        mPresenter.loadEvidence();
     }
 
     @Override
     public void showEvidence(List<Evidence> evidence) {
         EvidenceAdapter adapter = new EvidenceAdapter(evidence, mPresenter);
-        this.mViewModel.setEvidenceAdapter(adapter);
-    }
-
-    @Override
-    public void showLoadingAchievementError() {
-        showMessage(getString(R.string.loading_achievement_error));
-    }
-
-    @Override
-    public void showLoadingEvidenceError() {
-        showMessage(getString(R.string.loading_evidence_error));
-    }
-
-    private void showMessage(String message) {
-        if (getView() == null) return;
-
-        Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
-    }
-
-    @Override
-    public boolean isActive() {
-        return isAdded();
+        mViewModel.setEvidenceAdapter(adapter);
     }
 }

@@ -1,5 +1,6 @@
 package com.achievers.ui.achievement;
 
+import android.databinding.Bindable;
 import android.databinding.ViewDataBinding;
 
 import com.achievers.data.entities.Achievement;
@@ -20,26 +21,21 @@ public interface AchievementContract {
         void showAchievement(Achievement achievement);
 
         void showEvidence(List<Evidence> evidence);
-
-        void showLoadingAchievementError();
-
-        void showLoadingEvidenceError();
-
-        boolean isActive();
     }
 
     interface Presenter extends BasePresenter {
 
-        void getAchievement();
-
-        void loadEvidence(long achievementId, boolean forceUpdate);
+//        void getAchievement();
+        void loadEvidence();
     }
 
     interface ViewModel extends BaseViewModel {
 
+        @Bindable
         Achievement getAchievement();
         void setAchievement(Achievement achievement);
 
+        @Bindable
         EvidenceAdapter getEvidenceAdapter();
         void setEvidenceAdapter(EvidenceAdapter evidenceAdapter);
     }

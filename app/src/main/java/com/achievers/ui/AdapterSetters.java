@@ -35,6 +35,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import im.ene.toro.Toro;
 
 public class AdapterSetters {
+
     // Fresco
     @BindingAdapter({ "bind:url", "bind:resources" })
     public static void loadImage(SimpleDraweeView view, String imageUrl, Resources resources) {
@@ -182,7 +183,7 @@ public class AdapterSetters {
         view.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.loadEvidence(achievement.getId(), true);
+                presenter.loadEvidence();
             }
         });
     }

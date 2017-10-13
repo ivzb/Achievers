@@ -5,10 +5,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
 import com.achievers.R;
+import com.achievers.data.source.achievements.AchievementsMockDataSource;
 import com.achievers.data.source.achievements.AchievementsRemoteDataSource;
 import com.achievers.data.source.evidence.EvidenceRemoteDataSource;
 import com.achievers.ui._base.AbstractActivity;
 import com.achievers.utils.ActivityUtils;
+
+import static com.achievers.Config.NO_ID;
 
 public class AchievementActivity extends AbstractActivity {
 
@@ -34,22 +37,22 @@ public class AchievementActivity extends AbstractActivity {
                 .findFragmentById(R.id.contentFrame);
 
         if (view == null) {
-            int achievementId = getIntent().getIntExtra(EXTRA_ACHIEVEMENT_ID, 0);
-            view = AchievementFragment.newInstance(achievementId);
-
-            AchievementPresenter presenter = new AchievementPresenter(
-                    achievementId,
-                    view,
-                    AchievementsRemoteDataSource.getInstance(),
-                    EvidenceRemoteDataSource.getInstance());
-
-            view.setViewModel(new AchievementViewModel());
-            view.setPresenter(presenter);
+            view = new AchievementFragment();
 
             ActivityUtils.addFragmentToActivity(
                 getSupportFragmentManager(),
                 view,
                 R.id.contentFrame);
         }
+
+        long achievementId = getIntent().getLongExtra(EXTRA_ACHIEVEMENT_ID, NO_ID);
+        AchievementPresenter presenter = new AchievementPresenter(
+                achievementId,
+                view,
+                AchievementsMockDataSource.getInstance(),
+                EvidenceRemoteDataSource.getInstance());
+
+        view.setViewModel(new AchievementViewModel());
+        view.setPresenter(presenter);
     }
 }
