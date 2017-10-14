@@ -107,16 +107,10 @@ public abstract class BaseMockDataSourceTest<T extends BaseModel> {
     }
 
     protected void load_assertSuccess(Long id, int page, int expectedSize) {
-        int start = page * expectedSize;
-
         mDataSource.load(id, page, mLoadCallback);
         verify(mLoadCallback).onSuccess(mSuccessListCaptor.capture());
 
         List<T> actual = mSuccessListCaptor.getValue();
-
-        for (int i = 0; i < expectedSize; i++) {
-            int expectedId = start + i + 1;
-            assertEquals(expectedId, actual.get(i).getId());
-        }
+        assertEquals(expectedSize, actual.size());
     }
 }
