@@ -12,7 +12,7 @@ import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.achievements.AchievementsMockDataSource;
-import com.achievers.data.source.evidence.EvidenceRemoteDataSource;
+import com.achievers.data.source.evidences.EvidencesRemoteDataSource;
 import com.achievers.ui._base.AbstractActivity;
 import com.achievers.utils.ActivityUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -61,13 +61,13 @@ public class AchievementActivity extends AbstractActivity {
                 achievementId,
                 view,
                 achievementsDataSource,
-                EvidenceRemoteDataSource.getInstance()));
+                EvidencesRemoteDataSource.getInstance()));
     }
 
     private void initCollapsingToolbar(long achievementId, AchievementsDataSource achievementsDataSource) {
         // todo: add default achievement image while loading
 
-        achievementsDataSource.getAchievement(achievementId, new GetCallback<Achievement>() {
+        achievementsDataSource.get(achievementId, new GetCallback<Achievement>() {
             @Override
             public void onSuccess(Achievement achievement) {
                 SimpleDraweeView image = findViewById(R.id.image);

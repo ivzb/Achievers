@@ -28,6 +28,7 @@ import io.bloco.faker.Faker;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -162,7 +163,7 @@ public class AchievementsPresenterTest {
 
         // assert
         verify(mView).setLoadingIndicator(true);
-        verify(mDataSource).loadAchievements(eq(page), any(LoadCallback.class));
+        verify(mDataSource).load(isNull(Long.class), eq(page), any(LoadCallback.class));
         verify(mView, times(2)).isActive();
         verifyNoMoreInteractions(mView);
     }
@@ -271,7 +272,7 @@ public class AchievementsPresenterTest {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 LoadCallback<Achievement> callback =
-                        (LoadCallback<Achievement>) invocation.getArguments()[1];
+                        (LoadCallback<Achievement>) invocation.getArguments()[2];
 
                 when(mView.isActive()).thenReturn(callbackInactiveView);
 
@@ -284,8 +285,8 @@ public class AchievementsPresenterTest {
                 callback.onFailure(sLoadFailure);
                 return null;
             }
-        }).when(mDataSource).loadAchievements(
-                any(int.class), any(LoadCallback.class));
+        }).when(mDataSource).load(
+                isNull(Long.class), any(int.class), any(LoadCallback.class));
     }
 
     private void actLoad(int page) {
@@ -295,7 +296,7 @@ public class AchievementsPresenterTest {
     private void assertSuccessfulLoad(int page) {
         verify(mView).setLoadingIndicator(true);
 
-        verify(mDataSource).loadAchievements(eq(page), any(LoadCallback.class));
+        verify(mDataSource).load(isNull(Long.class), eq(page), any(LoadCallback.class));
         verify(mView).showAchievements(mActualLoadCaptor.capture());
         verify(mView).setLoadingIndicator(false);
         verify(mView).setPage(any(int.class));
@@ -309,7 +310,7 @@ public class AchievementsPresenterTest {
     private void assertFailureLoad(int page) {
         verify(mView).setLoadingIndicator(true);
 
-        verify(mDataSource).loadAchievements(eq(page), any(LoadCallback.class));
+        verify(mDataSource).load(isNull(Long.class), eq(page), any(LoadCallback.class));
         verify(mView).showErrorMessage(any(String.class));
         verify(mView).setLoadingIndicator(false);
         verify(mView, times(2)).isActive();

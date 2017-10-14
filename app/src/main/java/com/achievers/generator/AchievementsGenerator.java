@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class AchievementsGenerator {
+public class AchievementsGenerator implements BaseGenerator<Achievement> {
 
     public Achievement single(long id) {
         return GeneratorUtils.getInstance().getAchievement(id, new Date());

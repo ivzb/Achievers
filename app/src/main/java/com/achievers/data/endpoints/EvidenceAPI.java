@@ -10,13 +10,13 @@ import retrofit2.http.Path;
 
 public interface EvidenceAPI {
 
-    @GET("Evidence/LoadByAchievement/{id}")
-    Call<List<Evidence>> loadByAchievement(
-            @Path("id") int id
-    );
-
     @GET("Evidence/Details/{id}")
     Call<Evidence> getEvidence(
-            @Path("id") int id
+            @Path("id") long id
+    );
+
+    @GET("Evidence/LoadByAchievement/{id}")
+    Call<List<Evidence>> loadByAchievement(
+            @Path("id") long id
     );
 }

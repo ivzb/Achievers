@@ -35,35 +35,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
     }
 
     @Override
-    public void loadAchievements(
-//            final long categoryId,
-            final int page,
-            final @NonNull LoadCallback<Achievement> callback) {
-
-//        final Call<List<Achievement>> call = this.apiService.loadByCategory(/*categoryId, pageSize, page * pageSize*/);
-//
-//        call.enqueue(new Callback<List<Achievement>>() {
-//            @Override
-//            public void onResponse(Call<List<Achievement>> call, Response<List<Achievement>> response) {
-//                int statusCode = response.code();
-//
-//                if (statusCode != 200) {
-//                    callback.onFailure("Error occurred. Please try again.");
-//                    return;
-//                }
-//
-//                callback.onSuccess(response.body());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Achievement>> call, Throwable t) {
-//                callback.onFailure("Server could not be reached. Please try again.");
-//            }
-//        });
-    }
-
-    @Override
-    public void getAchievement(
+    public void get(
             final long id,
             final @NonNull GetCallback<Achievement> callback) {
 
@@ -91,7 +63,35 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
     }
 
     @Override
-    public void saveAchievement(
+    public void load(
+            final Long categoryId,
+            final int page,
+            final @NonNull LoadCallback<Achievement> callback) {
+
+//        final Call<List<Achievement>> call = this.apiService.loadByCategory(/*categoryId, pageSize, page * pageSize*/);
+//
+//        call.enqueue(new Callback<List<Achievement>>() {
+//            @Override
+//            public void onResponse(Call<List<Achievement>> call, Response<List<Achievement>> response) {
+//                int statusCode = response.code();
+//
+//                if (statusCode != 200) {
+//                    callback.onFailure("Error occurred. Please try again.");
+//                    return;
+//                }
+//
+//                callback.onSuccess(response.body());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Achievement>> call, Throwable t) {
+//                callback.onFailure("Server could not be reached. Please try again.");
+//            }
+//        });
+    }
+
+    @Override
+    public void save(
             @NonNull Achievement achievement,
             @NonNull SaveCallback<Long> callback) {
 

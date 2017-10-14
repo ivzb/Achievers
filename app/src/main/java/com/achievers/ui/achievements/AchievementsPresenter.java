@@ -47,7 +47,7 @@ public class AchievementsPresenter
 
         mView.setLoadingIndicator(true);
 
-        mDataSource.loadAchievements(page, new LoadCallback<Achievement>() {
+        mDataSource.load(null, page, new LoadCallback<Achievement>() {
             @Override
             public void onSuccess(List<Achievement> data) {
                 if (!mView.isActive()) return;

@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.achievers.utils.Preconditions.checkIsNull;
 import static com.achievers.utils.Preconditions.checkNotNull;
 
 public class AchievementsMockDataSource implements AchievementsDataSource {
@@ -20,7 +21,7 @@ public class AchievementsMockDataSource implements AchievementsDataSource {
     private static AchievementsDataSource sINSTANCE;
     private static int sPageSize = 9;
     private static String sDoesNotExistFailMessage = "Achievement does not exist.";
-    private static String sNoAchievementFailMessage = "No achievement to save.";
+    private static String sNoAchievementFailMessage = "No entity to save.";
     private static String sInvalidPageFailMessage = "Please provide non negative page.";
 
     private List<Achievement> mEntities;
@@ -41,7 +42,7 @@ public class AchievementsMockDataSource implements AchievementsDataSource {
     }
 
     @Override
-    public void getAchievement(
+    public void get(
             long id,
             @NonNull GetCallback<Achievement> callback) {
 
@@ -56,10 +57,12 @@ public class AchievementsMockDataSource implements AchievementsDataSource {
     }
 
     @Override
-    public void loadAchievements(
+    public void load(
+            Long categoryId,
             int page,
             @NonNull LoadCallback<Achievement> callback) {
 
+        checkIsNull(categoryId);
         checkNotNull(callback);
 
         if (page < 0) {
@@ -75,7 +78,7 @@ public class AchievementsMockDataSource implements AchievementsDataSource {
     }
 
     @Override
-    public void saveAchievement(
+    public void save(
             @NonNull Achievement achievement,
             @NonNull SaveCallback<Long> callback) {
 

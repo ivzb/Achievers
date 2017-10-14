@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.source.achievements.AchievementsDataSource;
-import com.achievers.data.source.evidence.EvidenceDataSource;
+import com.achievers.data.source.evidences.EvidencesDataSource;
 import com.achievers.ui._base.AbstractPresenter;
 
 public class AchievementPresenter
@@ -15,18 +15,18 @@ public class AchievementPresenter
     private final long mAchievementId;
 
     private final AchievementsDataSource mAchievementsDataSource;
-    private final EvidenceDataSource mEvidenceDataSource;
+    private final EvidencesDataSource mEvidencesDataSource;
 
     AchievementPresenter(
            long achievementId,
            @NonNull AchievementContract.View view,
            AchievementsDataSource achievementsDataSource,
-           EvidenceDataSource evidenceDataSource) {
+           EvidencesDataSource evidencesDataSource) {
 
         mAchievementId = achievementId;
         mView = view;
         mAchievementsDataSource = achievementsDataSource;
-        mEvidenceDataSource = evidenceDataSource;
+        mEvidencesDataSource = evidencesDataSource;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class AchievementPresenter
     }
 
     private void getAchievement() {
-        mAchievementsDataSource.getAchievement(mAchievementId, new GetCallback<Achievement>() {
+        mAchievementsDataSource.get(mAchievementId, new GetCallback<Achievement>() {
             @Override
             public void onSuccess(final Achievement achievement) {
                 if (!mView.isActive()) return;

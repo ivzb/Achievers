@@ -8,14 +8,11 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-/**
- * Immutable model class for an Evidence.
- */
 public class Evidence {
 
     @SerializedName("id")
     @NonNull
-    private Integer id;
+    private long id;
 
     @SerializedName("comment")
     @NonNull
@@ -23,48 +20,44 @@ public class Evidence {
 
     @SerializedName("evidenceType")
     @NonNull
-    private String evidenceType;
+    private EvidenceType evidenceType;
+
+    @SerializedName("achievementId")
+    private long achievementId;
 
     @SerializedName("url")
     @NonNull
     private String url;
 
-    @SerializedName("achievement")
-    @NonNull
-    private Achievement achievement;
-
     @SerializedName("createdOn")
     @Nullable
     private Date createdOn;
 
-    /**
-     * An empty constructor is required by realm.
-     */
-    public Evidence() { }
+    public Evidence() {
 
-    /**
-     * Use this constructor to specify an Evidence if the Evidence already has an id
-     *
-     * @param id           id of the evidence
-     * @param comment      comment of the evidence
-     * @param evidenceType type of the evidence
-     * @param url         url url of the evidence
-     * @param achievement  achievement of the evidence
-     * @param createdOn    creation date of the evidence
-     */
-    public Evidence(Integer id, @NonNull String comment, @NonNull String evidenceType,
-                    @NonNull String url, @NonNull Achievement achievement, @Nullable Date createdOn) {
+    }
+
+    public Evidence(long id) {
         this.id = id;
+    }
+
+    public Evidence(long id, @NonNull String comment, @NonNull EvidenceType evidenceType,
+                    @NonNull String url,  @Nullable Date createdOn) {
+        this(id);
+
         this.comment = comment;
         this.evidenceType = evidenceType;
         this.url = url;
-        this.achievement = achievement;
         this.createdOn = createdOn;
     }
 
     @NonNull
-    public Integer getId() {
+    public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     @NonNull
@@ -74,7 +67,15 @@ public class Evidence {
 
     @NonNull
     public EvidenceType getEvidenceType() {
-        return EvidenceType.valueOf(evidenceType);
+        return evidenceType;
+    }
+
+    public long getAchievementId() {
+        return achievementId;
+    }
+
+    public void setAchievementId(long achievementId) {
+        this.achievementId = achievementId;
     }
 
     @NonNull
@@ -83,13 +84,12 @@ public class Evidence {
     }
 
     @NonNull
-    public Achievement getAchievement() {
-        return achievement;
-    }
-
-    @NonNull
     public Date getCreatedOn() {
         return createdOn;
+    }
+
+    public void setCreatedOn(@NonNull Date createdOn) {
+        this.createdOn = createdOn;
     }
 
     public boolean isNew() {
@@ -107,7 +107,7 @@ public class Evidence {
 
         Evidence other = (Evidence) o;
 
-        return this.getId().equals(other.getId()) && this.getComment().equals(other.getComment());
+        return this.getId() == other.getId() && this.getComment().equals(other.getComment());
     }
 
     @Override

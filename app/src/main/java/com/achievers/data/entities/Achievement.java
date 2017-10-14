@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.achievers.data.entities._base.BaseModel;
 import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
@@ -11,7 +12,7 @@ import org.parceler.Parcel;
 import java.util.Date;
 
 @Parcel(analyze = { Achievement.class })
-public class Achievement {
+public class Achievement implements BaseModel {
 
     @SerializedName("id")
     long id;
@@ -93,6 +94,7 @@ public class Achievement {
         this.pictureUrl = pictureUrl;
     }
 
+    @Override
     public long getId() {
         return id;
     }

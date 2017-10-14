@@ -75,7 +75,7 @@ public class UploadAchievementIntentService extends IntentService {
     }
 
     private void saveAchievement(final Achievement achievement) {
-        AchievementsMockDataSource.getInstance().saveAchievement(achievement, new SaveCallback<Long>() {
+        AchievementsMockDataSource.getInstance().save(achievement, new SaveCallback<Long>() {
             @Override
             public void onSuccess(Long id) {
                 showSuccess(id);

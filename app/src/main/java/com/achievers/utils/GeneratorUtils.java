@@ -1,6 +1,8 @@
 package com.achievers.utils;
 
 import com.achievers.data.entities.Achievement;
+import com.achievers.data.entities.Evidence;
+import com.achievers.data.entities.EvidenceType;
 import com.achievers.data.entities.Involvement;
 
 import java.util.Arrays;
@@ -62,5 +64,24 @@ public class GeneratorUtils {
         String imageUrl = getImageUrl();
 
         return new Achievement(id, title, description, involvement, imageUrl);
+    }
+
+    public EvidenceType getEvidenceType() {
+        checkNotNull(mRandom);
+
+        List<EvidenceType> values = Arrays.asList(EvidenceType.values());
+        int index = mRandom.nextInt(values.size());
+        return values.get(index);
+    }
+
+    public Evidence getEvidence(long id, Date createdOn) {
+        checkNotNull(mFaker);
+        checkNotNull(mRandom);
+
+        String comment = mFaker.lorem.sentence(5);
+        EvidenceType evidenceType = getEvidenceType();
+        String imageUrl = getImageUrl();
+
+        return new Evidence(id, comment, evidenceType, imageUrl, createdOn);
     }
 }

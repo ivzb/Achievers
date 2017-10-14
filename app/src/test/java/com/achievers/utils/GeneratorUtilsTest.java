@@ -1,6 +1,7 @@
 package com.achievers.utils;
 
 import com.achievers.data.entities.Achievement;
+import com.achievers.data.entities.EvidenceType;
 import com.achievers.data.entities.Involvement;
 
 import org.junit.Rule;
@@ -30,6 +31,7 @@ public class GeneratorUtilsTest {
     private static String sFailImage = String.format(sFailMessageFormat, "image");
     private static String sFailInvolvement = String.format(sFailMessageFormat, "involvement");
     private static String sFailAchievement = String.format(sFailMessageFormat, "achievement");
+    private static String sFailEvidence = String.format(sFailMessageFormat, "achievement");
     private static final String sImagePathFormat = "https://unsplash.it/500/500/?random&a=%d";
 
     @Rule
@@ -50,12 +52,6 @@ public class GeneratorUtilsTest {
         GeneratorUtils.getInstance().getImageUrl();
     }
 
-    @Test(expected = NullPointerException.class)
-    public void getInvolvement_withNullRandom_shouldThrowNullPointer() {
-        GeneratorUtils.initialize(null, mFaker);
-        GeneratorUtils.getInstance().getInvolvement();
-    }
-
     @Test
     public void getImage_shouldGenerateRandom() {
         GeneratorUtils.initialize(mRandom, mFaker);
@@ -67,6 +63,12 @@ public class GeneratorUtilsTest {
         String actual = GeneratorUtils.getInstance().getImageUrl();
 
         assertEquals(sFailImage, expected, actual);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void getInvolvement_withNullRandom_shouldThrowNullPointer() {
+        GeneratorUtils.initialize(null, mFaker);
+        GeneratorUtils.getInstance().getInvolvement();
     }
 
     @Test
@@ -109,6 +111,26 @@ public class GeneratorUtilsTest {
         Achievement actual = GeneratorUtils.getInstance().getAchievement(id, createdOn);
 
         assertEquals(sFailAchievement, expected, actual);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void getEvidenceType_withNullRandom_shouldThrowNullPointer() {
+        GeneratorUtils.initialize(null, mFaker);
+        GeneratorUtils.getInstance().getEvidenceType();
+    }
+
+    @Test
+    public void getEvidenceType_shouldGenerateRandom() {
+        GeneratorUtils.initialize(mRandom, mFaker);
+
+        EvidenceType[] expected = EvidenceType.values();
+
+        for (int i = 0; i < expected.length; i++) {
+            Mockito.when(mRandom.nextInt(isA(int.class))).thenReturn(i);
+            EvidenceType actual = GeneratorUtils.getInstance().getEvidenceType();
+
+            assertEquals(sFailEvidence, expected[i], actual);
+        }
     }
 
     private Date getDate() {
