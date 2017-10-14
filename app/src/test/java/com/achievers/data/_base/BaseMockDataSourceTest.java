@@ -1,12 +1,11 @@
-package com.achievers.data;
+package com.achievers.data._base;
 
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.callbacks.SaveCallback;
-import com.achievers.data.entities.Achievement;
+import com.achievers.data.entities.Evidence;
 import com.achievers.data.entities._base.BaseModel;
 import com.achievers.data.source._base.BaseDataSource;
-import com.achievers.data.source.achievements.AchievementsDataSource;
 
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -47,13 +46,32 @@ public abstract class BaseMockDataSourceTest<T extends BaseModel> {
         mDataSource.load(null, 1, null);
     }
 
+    @Test
+    public void load_invalidPage_shouldReturnFailure() {
+        Long id = 5L;
+        int page = -1;
+
+        mDataSource.load(id, page, mLoadCallback);
+        verify(mLoadCallback).onFailure(mFailureCaptor.capture());
+
+        final String actual = mFailureCaptor.getValue();
+        final String expected = "Please provide non negative page.";
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void save_null_shouldReturnFailure() {
+        assertSaveEntityFailure(null, mSaveCallback);
+    }
+
     protected void assertEntityDoesNotExist(long id) {
         mDataSource.get(id, mGetCallback);
 
         verify(mGetCallback).onFailure(mFailureCaptor.capture());
 
         final String actual = mFailureCaptor.getValue();
-        final String expected = "Achievement does not exist.";
+        final String expected = "Entity does not exist.";
 
         assertEquals(expected, actual);
     }
@@ -86,5 +104,19 @@ public abstract class BaseMockDataSourceTest<T extends BaseModel> {
         final String expected = "No entity to save.";
 
         assertEquals(expected, actual);
+    }
+
+    protected void load_assertSuccess(Long id, int page, int expectedSize) {
+        int start = page * expectedSize;
+
+        mDataSource.load(id, page, mLoadCallback);
+        verify(mLoadCallback).onSuccess(mSuccessListCaptor.capture());
+
+        List<T> actual = mSuccessListCaptor.getValue();
+
+        for (int i = 0; i < expectedSize; i++) {
+            int expectedId = start + i + 1;
+            assertEquals(expectedId, actual.get(i).getId());
+        }
     }
 }

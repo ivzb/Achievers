@@ -20,7 +20,7 @@ public class AchievementsMockDataSource implements AchievementsDataSource {
 
     private static AchievementsDataSource sINSTANCE;
     private static int sPageSize = 9;
-    private static String sDoesNotExistFailMessage = "Achievement does not exist.";
+    private static String sDoesNotExistFailMessage = "Entity does not exist.";
     private static String sNoAchievementFailMessage = "No entity to save.";
     private static String sInvalidPageFailMessage = "Please provide non negative page.";
 
@@ -62,7 +62,6 @@ public class AchievementsMockDataSource implements AchievementsDataSource {
             int page,
             @NonNull LoadCallback<Achievement> callback) {
 
-        checkIsNull(categoryId);
         checkNotNull(callback);
 
         if (page < 0) {

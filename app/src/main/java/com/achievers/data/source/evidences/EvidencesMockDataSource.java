@@ -23,7 +23,7 @@ public class EvidencesMockDataSource implements EvidencesDataSource {
 
     private static EvidencesDataSource sINSTANCE;
     private static int sPageSize = 9;
-    private static String sDoesNotExistFailMessage = "Evidence does not exist.";
+    private static String sDoesNotExistFailMessage = "Entity does not exist.";
     private static String sNoEvidenceFailMessage = "No entity to save.";
     private static String sInvalidPageFailMessage = "Please provide non negative page.";
 
@@ -107,8 +107,15 @@ public class EvidencesMockDataSource implements EvidencesDataSource {
     }
 
     private void load(long achievementId, int to) {
-        long nextId = mEntities.size() + 1;
-        int size = to - mEntities.size();
+        long nextId = mEntitiesById.size() + 1;
+
+        int entitiesSize = 0;
+
+        if (mEntitiesById.containsKey(achievementId)) {
+            entitiesSize = mEntities.get(achievementId).size();
+        }
+
+        int size = to - entitiesSize;
 
         if (size > 0) {
             List<Evidence> generated = mGenerator.multiple(nextId, size);

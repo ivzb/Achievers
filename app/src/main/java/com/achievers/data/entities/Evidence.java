@@ -3,12 +3,13 @@ package com.achievers.data.entities;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.achievers.data.entities._base.BaseModel;
 import com.google.common.base.Objects;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class Evidence {
+public class Evidence implements BaseModel {
 
     @SerializedName("id")
     @NonNull
