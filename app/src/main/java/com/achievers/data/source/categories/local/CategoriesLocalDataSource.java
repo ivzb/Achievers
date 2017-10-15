@@ -13,7 +13,7 @@ import com.achievers.provider.AchieversContract;
 
 import java.util.List;
 
-import static com.google.android.exoplayer2.util.Assertions.checkNotNull;
+import static com.achievers.utils.Preconditions.checkNotNull;
 
 public class CategoriesLocalDataSource implements CategoriesDataSource {
 

@@ -26,6 +26,8 @@ public interface AchievementContract {
 
     interface Presenter extends BasePresenter {
 
+        void refresh(long achievementId);
+
         void loadEvidences(long achievementId, int page);
     }
 

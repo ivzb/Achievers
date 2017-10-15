@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.achievers.Config;
 import com.achievers.R;
 import com.achievers.data.entities.Evidence;
 import com.achievers.data.entities.UploadEvidenceItem;
@@ -43,7 +42,7 @@ import java.util.List;
 public class AchievementFragment
         extends AbstractFragment<AchievementContract.Presenter, AchievementContract.ViewModel, AchievementFragBinding>
         implements AchievementContract.View<AchievementFragBinding>, View.OnClickListener,
-            BaseActionHandler<Evidence> {
+            BaseActionHandler<Evidence>, SwipeRefreshLayout.OnRefreshListener {
 
     @Nullable
     @Override
@@ -57,13 +56,12 @@ public class AchievementFragment
         // todo: persist page state
 
         setUpEvidencesRecycler(getContext());
+        setUpLoadingIndicator();
         setUpFab();
 
         // todo: persist recycler state
 
-        mPresenter.loadEvidences(
-                mViewModel.getAchievement().getId(),
-                Config.RECYCLER_INITIAL_PAGE);
+        mPresenter.refresh(mViewModel.getAchievement().getId());
 
         return view;
 
@@ -130,21 +128,17 @@ public class AchievementFragment
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        switch (requestCode) {
-//            case REQUEST_EDIT_ACHIEVEMENT:
-//                if (resultCode == Activity.RESULT_OK) {
-//                    getActivity().finish();
-//                    return;
-//                }
-//
-//                break;
-//        }
-    }
-
-    @Override
     public void setLoadingIndicator(final boolean active) {
-        // todo
+        if (!isActive()) return;
+
+        final SwipeRefreshLayout srl = mDataBinding.refreshLayout;
+
+        srl.post(new Runnable() {
+            @Override
+            public void run() {
+                srl.setRefreshing(active);
+            }
+        });
     }
 
     @Override
@@ -165,6 +159,16 @@ public class AchievementFragment
     @Override
     public void onClick(View v) {
         // todo
+    }
+
+    @Override
+    public void onAdapterEntityClick(Evidence entity) {
+        // todo
+    }
+
+    @Override
+    public void onRefresh() {
+        mPresenter.refresh(mViewModel.getAchievement().getId());
     }
 
     private void setUpEvidencesRecycler(Context context) {
@@ -188,12 +192,18 @@ public class AchievementFragment
         fab.setOnClickListener(this);
     }
 
-    private int getColor(int color) {
-        return ContextCompat.getColor(getActivity(), color);
+    private void setUpLoadingIndicator() {
+        mDataBinding.refreshLayout.setColorSchemeColors(
+                getColor(R.color.colorPrimary),
+                getColor(R.color.colorAccent),
+                getColor(R.color.colorPrimaryDark)
+        );
+
+        mDataBinding.refreshLayout.setScrollUpChild(mDataBinding.rvEvidences);
+        mDataBinding.refreshLayout.setOnRefreshListener(this);
     }
 
-    @Override
-    public void onAdapterEntityClick(Evidence entity) {
-        // todo
+    private int getColor(int color) {
+        return ContextCompat.getColor(getActivity(), color);
     }
 }

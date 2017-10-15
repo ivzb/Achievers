@@ -108,7 +108,7 @@ public class EvidencesMockDataSource implements EvidencesDataSource {
 
         int entitiesSize = 0;
 
-        if (mEntitiesById.containsKey(achievementId)) {
+        if (mEntities.containsKey(achievementId)) {
             entitiesSize = mEntities.get(achievementId).size();
         }
 

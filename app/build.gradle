@@ -99,10 +99,6 @@ dependencies {
     testCompile "org.robolectric:robolectric:3.4.2"
     testCompile "org.robolectric:shadows-support-v4:3.3.2"
 
-    // Glide
-    compile 'com.github.bumptech.glide:glide:4.2.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.2.0'
-
     // Room
     compile "android.arch.persistence.room:runtime:1.0.0-alpha9-1"
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha9-1"
@@ -128,14 +124,15 @@ dependencies {
     // Faker
     compile "com.github.blocoio:faker:${fakerVersion}"
 
-    // Toro
-    compile "im.ene.toro2:toro-ext-exoplayer2:${toroVersion}"
-
     // Fresco
     compile "com.facebook.fresco:fresco:${frescoVersion}"
     compile "com.facebook.fresco:imagepipeline-okhttp3:${frescoVersion}"
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+
+    // Glide
+    compile 'com.github.bumptech.glide:glide:4.2.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.2.0'
 
     // DialogPlus
     compile 'com.orhanobut:dialogplus:1.11@aar'

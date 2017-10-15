@@ -49,7 +49,6 @@ ext {
     retrofitVersion = '2.1.0'
     stethoVersion = '1.5.0'
     fakerVersion = '1.2.5'
-    toroVersion = '2.2.0'
     frescoVersion = '1.5.0'
     parcelerVersion = '1.1.7'
 }

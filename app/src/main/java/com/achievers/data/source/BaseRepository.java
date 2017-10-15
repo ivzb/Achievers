@@ -2,7 +2,7 @@ package com.achievers.data.source;
 
 import android.support.annotation.NonNull;
 
-import static com.google.android.exoplayer2.util.Assertions.checkNotNull;
+import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
 public abstract class BaseRepository<T> {
 

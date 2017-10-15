@@ -8,7 +8,7 @@ import android.support.v4.content.Loader;
 
 import com.achievers.provider.AchieversContract;
 
-import static com.google.android.exoplayer2.util.Assertions.checkNotNull;
+import static android.support.v4.util.Preconditions.checkNotNull;
 
 public class CategoriesLoaderProvider {
 

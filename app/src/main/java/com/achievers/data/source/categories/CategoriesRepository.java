@@ -9,7 +9,7 @@ import com.achievers.data.source.BaseRepository;
 
 import java.util.List;
 
-import static com.google.android.exoplayer2.util.Assertions.checkNotNull;
+import static com.achievers.utils.Preconditions.checkNotNull;
 
 public class CategoriesRepository extends BaseRepository<CategoriesDataSource> implements CategoriesDataSource {
 

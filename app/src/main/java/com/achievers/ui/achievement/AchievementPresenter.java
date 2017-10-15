@@ -10,6 +10,8 @@ import com.achievers.ui._base.AbstractPresenter;
 
 import java.util.List;
 
+import static com.achievers.Config.RECYCLER_INITIAL_PAGE;
+
 public class AchievementPresenter
         extends AbstractPresenter<AchievementContract.View>
         implements AchievementContract.Presenter {
@@ -30,6 +32,11 @@ public class AchievementPresenter
     @Override
     public void start() {
 
+    }
+
+    @Override
+    public void refresh(long achievementId) {
+        loadEvidences(achievementId, RECYCLER_INITIAL_PAGE);
     }
 
     @Override

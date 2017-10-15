@@ -73,7 +73,7 @@ public class AchievementsFragment
                 mDataBinding.rvAchievements.getLayoutManager().onRestoreInstanceState(layoutManagerState);
             }
         } else {
-            mPresenter.loadAchievements(Config.RECYCLER_INITIAL_PAGE);
+            mPresenter.refresh();
         }
 
         return mDataBinding.getRoot();
