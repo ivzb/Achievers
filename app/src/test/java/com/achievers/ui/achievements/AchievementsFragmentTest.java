@@ -48,7 +48,7 @@ import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFr
         application = AchieversDebugTestApplication.class)
 public class AchievementsFragmentTest {
 
-    private @Mock AchievementsContracts.Presenter mPresenter;
+    private @Mock AchievementsContract.Presenter mPresenter;
     private @Mock AchievementsViewModel mViewModel;
 
     private AchievementsFragment mFragment;
@@ -70,7 +70,7 @@ public class AchievementsFragmentTest {
         verify(mViewModel).getPage();
 
         verify(mPresenter).start();
-        verify(mPresenter).loadAchievements(0);
+        verify(mPresenter).refresh();
     }
 
     @After
@@ -190,6 +190,6 @@ public class AchievementsFragmentTest {
         mFragment.onRefresh();
 
         // assert
-        verify(mPresenter).refresh();
+        verify(mPresenter, times(2)).refresh();
     }
 }

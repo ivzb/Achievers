@@ -16,14 +16,14 @@ import static com.achievers.Config.RECYCLER_INITIAL_PAGE;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class AchievementsPresenter
-        extends AbstractPresenter<AchievementsContracts.View>
-        implements AchievementsContracts.Presenter {
+        extends AbstractPresenter<AchievementsContract.View>
+        implements AchievementsContract.Presenter {
 
     private final AchievementsDataSource mDataSource;
 
     AchievementsPresenter(
             @NonNull Context context,
-            @NonNull AchievementsContracts.View view,
+            @NonNull AchievementsContract.View view,
             @NonNull AchievementsDataSource dataSource) {
 
         mContext = checkNotNull(context, "context cannot be null");

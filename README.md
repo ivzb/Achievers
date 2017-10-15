@@ -23,7 +23,7 @@ User may choose between LinearLayout and CardView layouts.
 * CardView layout is simple list with multiple **Evidence** artifacts. They could be scrolled down. When 80% of them are reached, new ones are being loaded. User might swipe left/right for like/dislike each item. A button might be clicked to load comments. 
 
 * Custom layout has better UX as the user interacts only with one **Evidence** at a time.
-He might swipe left for dislike current **Evidence** or opposite - swipe right to like it. After every interaction, next **Evidence** which he hasn't reviewed yet is being loaded.
+He might react to it, read/write comments or swipe left/right for navigation between Evidences.
 
 ## Involvement
 1. Bronze
@@ -33,16 +33,14 @@ He might swipe left for dislike current **Evidence** or opposite - swipe right t
 5. Diamond
 
 # TODO
-1. ScrollChildSwipeRefreshLayout - show user friendly message when there is no data in inner RecyclerView
-   1. refresh correct category, now it is always root
-2. AchievementDetailView/Evidence RecyclerView layout
-   1. Audio support inside RecyclerView - possibly extend Toro
-   2. Show Location as map
-   3. Upload Evidence
+1. ScrollChildSwipeRefreshLayout - show user friendly message when there is no data inside RecyclerView
+2. AchievementView
+   1. Upon evidence click, open EvidenceView with following support: Image/Video/Audio/Location
+   2. Upload Evidence
 3. User profile
-   1. Own evidence
-   2. Own achievements - define yourself goals and make little steps everyday and observe how you are improving yourself overtime.
-   3. Friend someone by scanning his QR profile code
+   1. Own achievements - define yourself goals and make little steps everyday and observe how you are improving yourself overtime.
+   2. Own evidence
+   3. Friend people (either by navigating to their profiles or scanning their QR codes)
 4. Achievements structure
 5. Quests - essential part
 6. Groups - achieve something with friends/strangers
@@ -51,7 +49,7 @@ He might swipe left for dislike current **Evidence** or opposite - swipe right t
    2. Protected
    3. Private
 8. Authentication
-9. Mock components
+9. Local data source using Room
 
 # Dependencies
 1) GSON - A Java serialization/deserialization library to convert Java Objects into JSON and back. [GitHub](https://github.com/google/gson)
@@ -59,10 +57,8 @@ He might swipe left for dislike current **Evidence** or opposite - swipe right t
 3) Retrofit - Type-safe HTTP client on the top of OkHttp. [GitHub](https://github.com/square/retrofit)
 4) Stetho - Sophisticated debug bridge, enabling the powerful Chrome Developer Tools. [GitHub](https://github.com/facebook/stetho)
 5) Faker - Provides fake data, used while developing in order not to make server requests. [GitHub](https://github.com/thiagokimo/Faker)
-6) Toro - Video list auto playback made simple, specially built for RecyclerView. [GitHub](https://github.com/eneim/Toro)
-7) Fresco - Powerful system for displaying images. [GitHub](https://github.com/facebook/fresco)
-8) DialogPlus
-9) Parceler - a code generation library that generates the Android Parcelable boilerplate source code. [GitHub](https://github.com/johncarl81/parceler)
-10) Mockito
-11) Android components
-12) Room
+6) Fresco - Powerful system for displaying images. [GitHub](https://github.com/facebook/fresco)
+7) DialogPlus
+8) Parceler - a code generation library that generates the Android Parcelable boilerplate source code. [GitHub](https://github.com/johncarl81/parceler)
+9) Mockito
+10) Android components (only Room for now)

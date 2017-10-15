@@ -11,7 +11,7 @@ import com.achievers.ui._base.contracts.BaseViewModel;
 
 import java.util.List;
 
-public class AchievementsContracts {
+public class AchievementsContract {
 
     public interface View<DB extends ViewDataBinding>
             extends BaseView<Presenter, ViewModel, DB>, BaseActionHandler<Achievement> {

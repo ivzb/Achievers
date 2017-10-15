@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.achievers.Config;
 import com.achievers.R;
 import com.achievers.data.entities.Achievement;
 import com.achievers.databinding.AchievementsFragBinding;
@@ -31,8 +30,8 @@ import org.parceler.Parcels;
 import java.util.List;
 
 public class AchievementsFragment
-        extends AbstractFragment<AchievementsContracts.Presenter, AchievementsContracts.ViewModel, AchievementsFragBinding>
-        implements AchievementsContracts.View<AchievementsFragBinding>, View.OnClickListener,
+        extends AbstractFragment<AchievementsContract.Presenter, AchievementsContract.ViewModel, AchievementsFragBinding>
+        implements AchievementsContract.View<AchievementsFragBinding>, View.OnClickListener,
             BaseActionHandler<Achievement>, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String ACHIEVEMENTS_STATE = "achievements_state";

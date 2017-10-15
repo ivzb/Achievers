@@ -7,7 +7,7 @@ import com.achievers.ui._base.contracts.BaseAdapter;
 
 public class AchievementsViewModel
         extends BaseObservable
-        implements AchievementsContracts.ViewModel {
+        implements AchievementsContract.ViewModel {
 
     private int mPage;
     private BaseAdapter<Achievement> mAdapter;

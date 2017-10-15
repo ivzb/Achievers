@@ -37,6 +37,7 @@
     <string name="take_picture">Take Picture</string>
     <string name="choose_existing">Choose Existing</string>
     <string name="achievement_title">Achievement title</string>
+    <string name="achievement_description">Achievement description</string>
     <string name="evidence_title">Evidence title</string>
     <string name="select_involvement">Select involvement</string>
     <string name="dialog_discard_picture">Discard picture?</string>

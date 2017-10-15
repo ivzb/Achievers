@@ -38,12 +38,12 @@ import static org.mockito.Mockito.when;
 public class AchievementsPresenterTest {
 
     @Mock private Context mContext;
-    @Mock private AchievementsContracts.View mView;
+    @Mock private AchievementsContract.View mView;
     @Mock private AchievementsDataSource mDataSource;
 
-    @Captor private ArgumentCaptor<List<Achievement>> mActualLoadCaptor;
+    @Captor private ArgumentCaptor<List<Achievement>> mLoadCaptor;
 
-    private AchievementsContracts.Presenter mPresenter;
+    private AchievementsContract.Presenter mPresenter;
 
     private List<Achievement> mExpectedLoad;
 
@@ -70,8 +70,23 @@ public class AchievementsPresenterTest {
         verifyNoMoreInteractions(mDataSource);
     }
 
+    @Test(expected = NullPointerException.class)
+    public void nullContext_shouldThrow() {
+        new AchievementsPresenter(null, mView, mDataSource);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void nullView_shouldThrow() {
+        new AchievementsPresenter(mContext, null, mDataSource);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void nullDataSource_shouldThrow() {
+        new AchievementsPresenter(mContext, mView, null);
+    }
+
     @Test
-    public void start_shouldInternallyCallLoadAchievements() {
+    public void start_shouldDoNothing() {
         mPresenter.start();
         verifyNoMoreInteractions(mView);
     }
@@ -264,7 +279,7 @@ public class AchievementsPresenterTest {
             final Boolean callbackInactiveView,
             final int page) {
 
-        mActualLoadCaptor = ArgumentCaptor.forClass(List.class);
+        mLoadCaptor = ArgumentCaptor.forClass(List.class);
 
         when(mView.isActive()).thenReturn(initiallyInactiveView);
 
@@ -297,13 +312,13 @@ public class AchievementsPresenterTest {
         verify(mView).setLoadingIndicator(true);
 
         verify(mDataSource).load(isNull(Long.class), eq(page), any(LoadCallback.class));
-        verify(mView).showAchievements(mActualLoadCaptor.capture());
+        verify(mView).showAchievements(mLoadCaptor.capture());
         verify(mView).setLoadingIndicator(false);
         verify(mView).setPage(any(int.class));
         verify(mView, times(2)).isActive();
         verifyNoMoreInteractions(mView);
 
-        List<Achievement> actualLoad = mActualLoadCaptor.getValue();
+        List<Achievement> actualLoad = mLoadCaptor.getValue();
         assertTrue(mExpectedLoad == actualLoad);
     }
 

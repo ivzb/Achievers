@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 
 import com.achievers.R;
 import com.achievers.data.entities.Achievement;
-import com.achievers.data.source.achievements.AchievementsMockDataSource;
 import com.achievers.data.source.evidences.EvidencesMockDataSource;
 import com.achievers.ui._base.AbstractActivity;
 import com.achievers.utils.ActivityUtils;
@@ -18,7 +17,7 @@ import org.parceler.Parcels;
 
 public class AchievementActivity extends AbstractActivity {
 
-    public static final String EXTRA_ACHIEVEMENT = "ACHIEVEMENT";
+    public static final String EXTRA_ACHIEVEMENT = "achievement";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +54,6 @@ public class AchievementActivity extends AbstractActivity {
         view.setViewModel(new AchievementViewModel(achievement));
         view.setPresenter(new AchievementPresenter(
                 view,
-                AchievementsMockDataSource.getInstance(),
                 EvidencesMockDataSource.getInstance()));
     }
 

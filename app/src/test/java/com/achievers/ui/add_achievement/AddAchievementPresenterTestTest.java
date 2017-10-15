@@ -38,7 +38,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-public class AddAchievementPresenterTest {
+public class AddAchievementPresenterTestTest {
 
     @Mock private Context mContext;
     @Mock private AddAchievementContract.View mView;

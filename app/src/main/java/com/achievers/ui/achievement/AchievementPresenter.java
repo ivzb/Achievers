@@ -4,29 +4,26 @@ import android.support.annotation.NonNull;
 
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Evidence;
-import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.evidences.EvidencesDataSource;
 import com.achievers.ui._base.AbstractPresenter;
 
 import java.util.List;
 
 import static com.achievers.Config.RECYCLER_INITIAL_PAGE;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class AchievementPresenter
         extends AbstractPresenter<AchievementContract.View>
         implements AchievementContract.Presenter {
 
-    private final AchievementsDataSource mAchievementsDataSource;
     private final EvidencesDataSource mEvidencesDataSource;
 
     AchievementPresenter(
            @NonNull AchievementContract.View view,
-           AchievementsDataSource achievementsDataSource,
            EvidencesDataSource evidencesDataSource) {
 
-        mView = view;
-        mAchievementsDataSource = achievementsDataSource;
-        mEvidencesDataSource = evidencesDataSource;
+        mView = checkNotNull(view, "view cannot be null");
+        mEvidencesDataSource = checkNotNull(evidencesDataSource, "context cannot be null");
     }
 
     @Override
