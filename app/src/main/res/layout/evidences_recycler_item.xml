@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="achievement"
-            type="com.achievers.data.entities.Achievement" />
+            name="evidence"
+            type="com.achievers.data.entities.Evidence" />
 
         <variable
             name="resources"
@@ -20,15 +20,15 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{ () -> actionHandler.onAdapterEntityClick(achievement) }">
+        android:onClick="@{ () -> actionHandler.onAdapterEntityClick(evidence) }">
 
         <TextView
-            android:id="@+id/tvTitle"
+            android:id="@+id/tvMessage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:text="@{ achievement.title }"
+            android:text="@{ evidence.comment }"
             tools:text="@string/achievement_title"
             android:textSize="30sp"
             android:textAlignment="center"
@@ -43,7 +43,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            app:url="@{ achievement.pictureUrl }"
+            app:url="@{ evidence.url }"
             app:resources="@{ resources }"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"

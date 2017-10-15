@@ -36,6 +36,6 @@ public class AchievementsScreenTest extends AbstractScreenTest<AchievementsActiv
         onView(withId(R.id.rvAchievements))
                 .perform(actionOnItemAtPosition(0, click()));
 
-        onView(withId(R.id.llAchievement)).check(matches(isDisplayed()));
+        onView(withId(R.id.rvEvidences)).check(matches(isDisplayed()));
     }
 }

@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.achievers.utils.Preconditions.checkIsNull;
 import static com.achievers.utils.Preconditions.checkNotNull;
 
 public class AchievementsMockDataSource implements AchievementsDataSource {

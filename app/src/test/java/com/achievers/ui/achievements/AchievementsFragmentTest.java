@@ -9,6 +9,7 @@ import android.view.View;
 import com.achievers.AchieversDebugTestApplication;
 import com.achievers.BuildConfig;
 import com.achievers.data.entities.Achievement;
+import com.achievers.ui._base.AbstractAdapter;
 import com.achievers.ui._base._mocks.AchievementsActivityMock;
 import com.achievers.ui.achievement.AchievementActivity;
 import com.achievers.ui.add_achievement.AddAchievementActivity;
@@ -19,6 +20,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.parceler.Parcels;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
@@ -64,7 +66,7 @@ public class AchievementsFragmentTest {
 
         startFragment(mFragment, AchievementsActivityMock.class);
 
-        verify(mViewModel).setAdapter(isA(AchievementsContracts.Adapter.class));
+        verify(mViewModel).setAdapter(isA(AbstractAdapter.class));
         verify(mViewModel).getPage();
 
         verify(mPresenter).start();
@@ -97,7 +99,7 @@ public class AchievementsFragmentTest {
         List<Achievement> achievements = new ArrayList<>();
         for (int i = 0; i < 5; i++) achievements.add(new Achievement(i));
 
-        AchievementsContracts.Adapter adapter = mock(AchievementsContracts.Adapter.class);
+        AbstractAdapter<Achievement> adapter = mock(AbstractAdapter.class);
         when(mViewModel.getAdapter()).thenReturn(adapter);
 
         // act
@@ -111,36 +113,30 @@ public class AchievementsFragmentTest {
     @Test
     public void openAchievementUi() {
         // arrange
-        long id = 503;
+        Achievement achievement = new Achievement(503);
 
         // act
-        mFragment.openAchievementUi(id);
+        mFragment.openAchievementUi(achievement);
 
         // assert
         Intent intent = ShadowApplication.getInstance().getNextStartedActivity();
 
         Bundle extras = intent.getExtras();
         assertNotNull(extras);
-        assertTrue(extras.containsKey(AchievementActivity.EXTRA_ACHIEVEMENT_ID));
-        assertEquals(id, extras.get(AchievementActivity.EXTRA_ACHIEVEMENT_ID));
+        assertTrue(extras.containsKey(AchievementActivity.EXTRA_ACHIEVEMENT));
+        Achievement actual = Parcels.unwrap(extras.getParcelable(AchievementActivity.EXTRA_ACHIEVEMENT));
+        assertEquals(achievement, actual);
     }
 
     @Test
     public void openAddAchievementUi() {
-        // arrange
-        long id = 503;
-
         // act
-        mFragment.openAchievementUi(id);
+        mFragment.openAddAchievementUi();
 
         // assert
         ShadowActivity shadowActivity = shadowOf(mFragment.getActivity());
         Intent intent = shadowActivity.getNextStartedActivity();
-
-        Bundle extras = intent.getExtras();
-        assertNotNull(extras);
-        assertTrue(extras.containsKey(AchievementActivity.EXTRA_ACHIEVEMENT_ID));
-        assertEquals(id, extras.get(AchievementActivity.EXTRA_ACHIEVEMENT_ID));
+        assertNotNull(intent);
     }
 
     @Test
@@ -182,7 +178,7 @@ public class AchievementsFragmentTest {
         Achievement achievement = mock(Achievement.class);
 
         // act
-        mFragment.onAchievementClick(achievement);
+        mFragment.onAdapterEntityClick(achievement);
 
         // assert
         verify(mPresenter).clickAchievement(eq(achievement));

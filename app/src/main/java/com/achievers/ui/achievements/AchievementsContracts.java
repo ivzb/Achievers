@@ -1,9 +1,10 @@
 package com.achievers.ui.achievements;
 
 import android.databinding.ViewDataBinding;
-import android.os.Parcelable;
 
 import com.achievers.data.entities.Achievement;
+import com.achievers.ui._base.contracts.BaseActionHandler;
+import com.achievers.ui._base.contracts.BaseAdapter;
 import com.achievers.ui._base.contracts.BasePresenter;
 import com.achievers.ui._base.contracts.BaseView;
 import com.achievers.ui._base.contracts.BaseViewModel;
@@ -13,13 +14,13 @@ import java.util.List;
 public class AchievementsContracts {
 
     public interface View<DB extends ViewDataBinding>
-            extends BaseView<Presenter, ViewModel, DB>, AchievementsActionHandler {
+            extends BaseView<Presenter, ViewModel, DB>, BaseActionHandler<Achievement> {
 
         void setLoadingIndicator(boolean active);
 
         void showAchievements(List<Achievement> achievements);
 
-        void openAchievementUi(long id);
+        void openAchievementUi(Achievement achievement);
         void openAddAchievementUi();
 
         int getPage();
@@ -43,15 +44,7 @@ public class AchievementsContracts {
         int getPage();
         void setPage(int page);
 
-        AchievementsContracts.Adapter getAdapter();
-        void setAdapter(AchievementsContracts.Adapter adapter);
-    }
-
-    public interface Adapter {
-
-        void add(List<Achievement> achievements);
-
-        Parcelable onSaveInstanceState();
-        void onRestoreInstanceState(Parcelable parcelable);
+        BaseAdapter<Achievement> getAdapter();
+        void setAdapter(BaseAdapter<Achievement> adapter);
     }
 }

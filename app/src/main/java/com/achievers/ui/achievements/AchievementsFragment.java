@@ -19,16 +19,21 @@ import com.achievers.R;
 import com.achievers.data.entities.Achievement;
 import com.achievers.databinding.AchievementsFragBinding;
 import com.achievers.ui._base.AbstractFragment;
+import com.achievers.ui._base.contracts.BaseActionHandler;
+import com.achievers.ui._base.contracts.BaseAdapter;
 import com.achievers.ui.achievement.AchievementActivity;
+import com.achievers.ui.achievements.adapters.AchievementsAdapter;
 import com.achievers.ui.add_achievement.AddAchievementActivity;
 import com.achievers.utils.EndlessRecyclerViewScrollListener;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
 public class AchievementsFragment
         extends AbstractFragment<AchievementsContracts.Presenter, AchievementsContracts.ViewModel, AchievementsFragBinding>
         implements AchievementsContracts.View<AchievementsFragBinding>, View.OnClickListener,
-            AchievementsActionHandler, SwipeRefreshLayout.OnRefreshListener {
+            BaseActionHandler<Achievement>, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String ACHIEVEMENTS_STATE = "achievements_state";
     private static final String LAYOUT_MANAGER_STATE = "layout_manager_state";
@@ -98,9 +103,9 @@ public class AchievementsFragment
     }
 
     @Override
-    public void openAchievementUi(long id) {
+    public void openAchievementUi(Achievement achievement) {
         Intent intent = new Intent(getContext(), AchievementActivity.class);
-        intent.putExtra(AchievementActivity.EXTRA_ACHIEVEMENT_ID, id);
+        intent.putExtra(AchievementActivity.EXTRA_ACHIEVEMENT, Parcels.wrap(achievement));
         startActivity(intent);
     }
 
@@ -140,7 +145,7 @@ public class AchievementsFragment
     }
 
     @Override
-    public void onAchievementClick(Achievement achievement) {
+    public void onAdapterEntityClick(Achievement achievement) {
         mPresenter.clickAchievement(achievement);
     }
 
@@ -150,7 +155,7 @@ public class AchievementsFragment
     }
 
     private void setUpAchievementsRecycler(Context context) {
-        AchievementsContracts.Adapter adapter = new AchievementsAdapter(getContext(), this);
+        BaseAdapter<Achievement> adapter = new AchievementsAdapter(getContext(), this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
 
         mViewModel.setAdapter(adapter);

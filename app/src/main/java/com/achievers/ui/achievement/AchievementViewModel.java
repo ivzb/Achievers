@@ -5,14 +5,30 @@ import android.databinding.Bindable;
 
 import com.achievers.BR;
 import com.achievers.data.entities.Achievement;
-import com.achievers.ui.evidence.EvidenceAdapter;
+import com.achievers.data.entities.Evidence;
+import com.achievers.ui._base.contracts.BaseAdapter;
 
 public class AchievementViewModel
         extends BaseObservable
         implements AchievementContract.ViewModel {
 
     private Achievement mAchievement;
-    private EvidenceAdapter mEvidenceAdapter;
+    private BaseAdapter<Evidence> mAdapter;
+    private int mPage;
+
+    AchievementViewModel(Achievement achievement) {
+        setAchievement(achievement);
+    }
+
+    @Override
+    public int getPage() {
+        return mPage;
+    }
+
+    @Override
+    public void setPage(int page) {
+        mPage = page;
+    }
 
     @Bindable
     @Override
@@ -28,13 +44,13 @@ public class AchievementViewModel
 
     @Bindable
     @Override
-    public EvidenceAdapter getEvidenceAdapter() {
-        return this.mEvidenceAdapter;
+    public BaseAdapter<Evidence> getAdapter() {
+        return this.mAdapter;
     }
 
     @Override
-    public void setEvidenceAdapter(EvidenceAdapter evidenceAdapter) {
-        this.mEvidenceAdapter = evidenceAdapter;
-        notifyPropertyChanged(BR.evidenceAdapter);
+    public void setAdapter(BaseAdapter<Evidence> adapter) {
+        this.mAdapter = adapter;
+        notifyPropertyChanged(BR.adapter);
     }
 }

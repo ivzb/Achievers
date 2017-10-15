@@ -2,12 +2,15 @@ package com.achievers.ui.achievements;
 
 import android.databinding.BaseObservable;
 
+import com.achievers.data.entities.Achievement;
+import com.achievers.ui._base.contracts.BaseAdapter;
+
 public class AchievementsViewModel
         extends BaseObservable
         implements AchievementsContracts.ViewModel {
 
     private int mPage;
-    private AchievementsContracts.Adapter mAdapter;
+    private BaseAdapter<Achievement> mAdapter;
 
     @Override
     public int getPage() {
@@ -20,12 +23,12 @@ public class AchievementsViewModel
     }
 
     @Override
-    public AchievementsContracts.Adapter getAdapter() {
+    public BaseAdapter<Achievement> getAdapter() {
         return mAdapter;
     }
 
     @Override
-    public void setAdapter(AchievementsContracts.Adapter adapter) {
+    public void setAdapter(BaseAdapter<Achievement> adapter) {
         mAdapter = adapter;
     }
 }

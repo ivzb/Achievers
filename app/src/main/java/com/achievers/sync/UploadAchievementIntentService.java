@@ -78,7 +78,8 @@ public class UploadAchievementIntentService extends IntentService {
         AchievementsMockDataSource.getInstance().save(achievement, new SaveCallback<Long>() {
             @Override
             public void onSuccess(Long id) {
-                showSuccess(id);
+                achievement.setId(id);
+                showSuccess(achievement);
             }
 
             @Override
@@ -88,8 +89,8 @@ public class UploadAchievementIntentService extends IntentService {
         });
     }
 
-    private void showSuccess(Long id) {
-        PendingIntent intent = getSuccessIntent(this, id);
+    private void showSuccess(Achievement achievement) {
+        PendingIntent intent = getSuccessIntent(this, achievement);
         show("Achievement uploaded.", intent);
     }
 
@@ -102,9 +103,9 @@ public class UploadAchievementIntentService extends IntentService {
         NotificationUtils.notify(this, getString(R.string.app_name), text, intent);
     }
 
-    private PendingIntent getSuccessIntent(Context context, Long id) {
+    private PendingIntent getSuccessIntent(Context context, Achievement achievement) {
         Intent startActivityIntent = new Intent(context, AchievementActivity.class);
-        startActivityIntent.putExtra(AchievementActivity.EXTRA_ACHIEVEMENT_ID, id);
+        startActivityIntent.putExtra(AchievementActivity.EXTRA_ACHIEVEMENT, Parcels.wrap(achievement));
 
         return PendingIntent.getActivity(
                 context,

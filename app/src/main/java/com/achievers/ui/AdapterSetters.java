@@ -13,15 +13,12 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
 import com.achievers.R;
-import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Category;
 import com.achievers.data.entities.Involvement;
 import com.achievers.ui._base.contracts.BaseSelectableAdapter;
-import com.achievers.ui.achievement.AchievementContract;
 import com.achievers.ui.add_achievement.AddAchievementContract;
 import com.achievers.ui.categories.CategoriesAdapter;
 import com.achievers.ui.categories.CategoriesContract;
-import com.achievers.ui.evidence.EvidenceAdapter;
 import com.achievers.utils.FreskoCircleProgressBarDrawable;
 import com.achievers.utils.ScrollChildSwipeRefreshLayout;
 import com.bumptech.glide.Glide;
@@ -31,8 +28,6 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.view.SimpleDraweeView;
-
-import im.ene.toro.Toro;
 
 public class AdapterSetters {
 
@@ -142,18 +137,6 @@ public class AdapterSetters {
         }
     }
 
-    // AchievementFragment
-    @BindingAdapter("rvEvidenceAdapter")
-    public static void setRvEvidenceAdapter(RecyclerView view, EvidenceAdapter adapter) {
-        if (adapter != null) {
-            view.setHasFixedSize(false);
-            view.setAdapter(adapter);
-            view.setLayoutManager(new LinearLayoutManager(adapter.getContext()));
-
-            Toro.register(view);
-        }
-    }
-
     /**
      * Reloads the data when the pull-to-refresh is triggered.
      * <p>
@@ -168,22 +151,6 @@ public class AdapterSetters {
                 //Integer parentId = parent != null ? parent.getId() : null;
                 // todo: refresh accurate parent
                 presenter.loadCategories(null);
-            }
-        });
-    }
-
-    /**
-     * Reloads the data when the pull-to-refresh is triggered.
-     * <p>
-     * Creates the {@code android:onRefresh} for a {@link SwipeRefreshLayout}
-     * that takes a {@link AchievementContract.Presenter}.
-     */
-    @BindingAdapter({ "adapter:onRefresh", "adapter:achievement" })
-    public static void setSwipeRefreshLayoutOnEvidenceRefreshListener(ScrollChildSwipeRefreshLayout view, final AchievementContract.Presenter presenter, final Achievement achievement) {
-        view.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                presenter.loadEvidence();
             }
         });
     }

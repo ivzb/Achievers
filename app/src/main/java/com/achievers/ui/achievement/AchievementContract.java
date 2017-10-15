@@ -5,10 +5,10 @@ import android.databinding.ViewDataBinding;
 
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
+import com.achievers.ui._base.contracts.BaseAdapter;
 import com.achievers.ui._base.contracts.BasePresenter;
 import com.achievers.ui._base.contracts.BaseView;
 import com.achievers.ui._base.contracts.BaseViewModel;
-import com.achievers.ui.evidence.EvidenceAdapter;
 
 import java.util.List;
 
@@ -18,25 +18,28 @@ public interface AchievementContract {
 
         void setLoadingIndicator(boolean active);
 
-        void showAchievement(Achievement achievement);
+        void showEvidences(List<Evidence> evidences);
 
-        void showEvidence(List<Evidence> evidence);
+        int getPage();
+        void setPage(int page);
     }
 
     interface Presenter extends BasePresenter {
 
-//        void getAchievement();
-        void loadEvidence();
+        void loadEvidences(long achievementId, int page);
     }
 
     interface ViewModel extends BaseViewModel {
+
+        int getPage();
+        void setPage(int page);
 
         @Bindable
         Achievement getAchievement();
         void setAchievement(Achievement achievement);
 
         @Bindable
-        EvidenceAdapter getEvidenceAdapter();
-        void setEvidenceAdapter(EvidenceAdapter evidenceAdapter);
+        BaseAdapter<Evidence> getAdapter();
+        void setAdapter(BaseAdapter<Evidence> adapter);
     }
 }

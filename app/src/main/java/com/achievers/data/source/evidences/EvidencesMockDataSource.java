@@ -5,10 +5,7 @@ import android.support.annotation.NonNull;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.callbacks.SaveCallback;
-import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
-import com.achievers.data.source.achievements.AchievementsDataSource;
-import com.achievers.generator.AchievementsGenerator;
 import com.achievers.generator.BaseGenerator;
 import com.achievers.generator.EvidencesGenerator;
 

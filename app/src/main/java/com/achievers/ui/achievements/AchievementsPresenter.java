@@ -76,7 +76,7 @@ public class AchievementsPresenter
             return;
         }
 
-        mView.openAchievementUi(achievement.getId());
+        mView.openAchievementUi(achievement);
     }
 
     @Override

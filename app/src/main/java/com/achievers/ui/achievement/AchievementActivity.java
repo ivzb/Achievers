@@ -5,23 +5,20 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
 
 import com.achievers.R;
-import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.entities.Achievement;
-import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.achievements.AchievementsMockDataSource;
-import com.achievers.data.source.evidences.EvidencesRemoteDataSource;
+import com.achievers.data.source.evidences.EvidencesMockDataSource;
 import com.achievers.ui._base.AbstractActivity;
 import com.achievers.utils.ActivityUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import static com.achievers.Config.NO_ID;
+import org.parceler.Parcels;
 
 public class AchievementActivity extends AbstractActivity {
 
-    public static final String EXTRA_ACHIEVEMENT_ID = "ACHIEVEMENT_ID";
+    public static final String EXTRA_ACHIEVEMENT = "ACHIEVEMENT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +36,10 @@ public class AchievementActivity extends AbstractActivity {
             ab.setDisplayShowHomeEnabled(true);
         }
 
+        Achievement achievement = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_ACHIEVEMENT));
+
+        initCollapsingToolbar(achievement);
+
         AchievementFragment view = (AchievementFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
 
@@ -51,37 +52,21 @@ public class AchievementActivity extends AbstractActivity {
                 R.id.contentFrame);
         }
 
-        long achievementId = getIntent().getLongExtra(EXTRA_ACHIEVEMENT_ID, NO_ID);
-        AchievementsDataSource achievementsDataSource = AchievementsMockDataSource.getInstance();
-
-        initCollapsingToolbar(achievementId, achievementsDataSource);
-
-        view.setViewModel(new AchievementViewModel());
+        view.setViewModel(new AchievementViewModel(achievement));
         view.setPresenter(new AchievementPresenter(
-                achievementId,
                 view,
-                achievementsDataSource,
-                EvidencesRemoteDataSource.getInstance()));
+                AchievementsMockDataSource.getInstance(),
+                EvidencesMockDataSource.getInstance()));
     }
 
-    private void initCollapsingToolbar(long achievementId, AchievementsDataSource achievementsDataSource) {
+    private void initCollapsingToolbar(Achievement achievement) {
         // todo: add default achievement image while loading
 
-        achievementsDataSource.get(achievementId, new GetCallback<Achievement>() {
-            @Override
-            public void onSuccess(Achievement achievement) {
-                SimpleDraweeView image = findViewById(R.id.image);
-                Uri uri = Uri.parse(achievement.getPictureUrl());
-                image.setImageURI(uri);
+        SimpleDraweeView image = findViewById(R.id.image);
+        Uri uri = Uri.parse(achievement.getPictureUrl());
+        image.setImageURI(uri);
 
-                CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
-                collapsingToolbarLayout.setTitle(achievement.getTitle());
-            }
-
-            @Override
-            public void onFailure(String message) {
-                Toast.makeText(AchievementActivity.this, message, Toast.LENGTH_LONG).show();
-            }
-        });
+        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitle(achievement.getTitle());
     }
 }
