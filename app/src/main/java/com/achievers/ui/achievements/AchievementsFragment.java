@@ -82,13 +82,19 @@ public class AchievementsFragment
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        Parcelable achievementsState = mViewModel.getAdapter().onSaveInstanceState();
-        outState.putParcelable(ACHIEVEMENTS_STATE, achievementsState);
+        if (mViewModel != null) {
+            outState.putInt(PAGE_STATE, mViewModel.getPage());
 
-        Parcelable layoutManagerState = mDataBinding.rvAchievements.getLayoutManager().onSaveInstanceState();
-        outState.putParcelable(LAYOUT_MANAGER_STATE, layoutManagerState);
+            if (mViewModel.getAdapter() != null){
+                Parcelable achievementsState = mViewModel.getAdapter().onSaveInstanceState();
+                outState.putParcelable(ACHIEVEMENTS_STATE, achievementsState);
+            }
+        }
 
-        outState.putInt(PAGE_STATE, mViewModel.getPage());
+        if (mDataBinding.rvAchievements != null && mDataBinding.rvAchievements.getLayoutManager() != null) {
+            Parcelable layoutManagerState = mDataBinding.rvAchievements.getLayoutManager().onSaveInstanceState();
+            outState.putParcelable(LAYOUT_MANAGER_STATE, layoutManagerState);
+        }
     }
 
     @Override

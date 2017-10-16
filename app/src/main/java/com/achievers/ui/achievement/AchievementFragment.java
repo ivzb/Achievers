@@ -1,9 +1,9 @@
 package com.achievers.ui.achievement;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -44,6 +44,10 @@ public class AchievementFragment
         implements AchievementContract.View<AchievementFragBinding>, View.OnClickListener,
             BaseActionHandler<Evidence>, SwipeRefreshLayout.OnRefreshListener {
 
+    private static final String EVIDENCES_STATE = "evidences_state";
+    private static final String LAYOUT_MANAGER_STATE = "layout_manager_state";
+    private static final String PAGE_STATE = "page_state";
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,20 +57,56 @@ public class AchievementFragment
         mDataBinding = AchievementFragBinding.bind(view);
         mDataBinding.setViewModel(mViewModel);
 
-        // todo: persist page state
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(PAGE_STATE)) {
+                int page = savedInstanceState.getInt(PAGE_STATE);
+                setPage(page);
+            }
+        }
 
         setUpEvidencesRecycler(getContext());
         setUpLoadingIndicator();
         setUpFab();
 
-        // todo: persist recycler state
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(EVIDENCES_STATE)) {
+                Parcelable evidencesState = savedInstanceState.getParcelable(EVIDENCES_STATE);
+                mViewModel.getAdapter().onRestoreInstanceState(evidencesState);
+            }
 
-        mPresenter.refresh(mViewModel.getAchievement().getId());
+            if (savedInstanceState.containsKey(LAYOUT_MANAGER_STATE)) {
+                Parcelable layoutManagerState = savedInstanceState.getParcelable(LAYOUT_MANAGER_STATE);
+                mDataBinding.rvEvidences.getLayoutManager().onRestoreInstanceState(layoutManagerState);
+            }
+        } else {
+            long achievementId = mViewModel.getAchievement().getId();
+            mPresenter.refresh(achievementId);
+        }
 
         return view;
 
         // todo: achievement module, showing evidence previews,
         // todo: onClick opens specific evidence fragment with player and navigation (prev and next)
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (mViewModel != null) {
+            outState.putInt(PAGE_STATE, mViewModel.getPage());
+
+            if (mViewModel.getAdapter() != null) {
+                Parcelable evidencesState = mViewModel.getAdapter().onSaveInstanceState();
+                outState.putParcelable(EVIDENCES_STATE, evidencesState);
+            }
+        }
+
+        if (mDataBinding.rvEvidences != null && mDataBinding.rvEvidences.getLayoutManager() != null) {
+            Parcelable layoutManagerState = mDataBinding.rvEvidences.getLayoutManager().onSaveInstanceState();
+            outState.putParcelable(LAYOUT_MANAGER_STATE, layoutManagerState);
+        }
+
     }
 
     @Override

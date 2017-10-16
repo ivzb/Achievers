@@ -52,7 +52,6 @@ public class AchievementsPresenterTest {
     private static final int sValidRequestCode = AddAchievementActivity.REQUEST_ADD_ACHIEVEMENT;
     private static final int sValidResultCode = Activity.RESULT_OK;
 
-
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);

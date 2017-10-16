@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="guideline_small" format="float" type="dimen">0.125</item>
+    <item name="guideline_small" format="float" type="dimen">0.1</item>
+    <item name="guideline_xsmall" format="float" type="dimen">0.125</item>
 </resources>

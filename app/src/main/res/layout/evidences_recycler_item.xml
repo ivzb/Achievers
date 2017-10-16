@@ -22,34 +22,76 @@
         android:layout_height="wrap_content"
         android:onClick="@{ () -> actionHandler.onAdapterEntityClick(evidence) }">
 
+        <ImageView
+            android:id="@+id/ivProfilePicture"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/bunny"
+            android:layout_margin="@dimen/spacing_medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/glVertical"
+            app:layout_constraintBottom_toTopOf="@+id/glHorizontal"
+            app:roundAsCircle="true" />
+
+        <TextView
+            android:id="@+id/tvAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ivan Zahariev"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            style="@style/Ellipsize"
+            android:layout_marginStart="@dimen/spacing_medium"
+            app:layout_constraintTop_toTopOf="@+id/ivProfilePicture"
+            app:layout_constraintStart_toEndOf="@+id/ivProfilePicture" />
+
+        <TextView
+            android:id="@+id/tvCreatedOn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yesterday at 8:33"
+            style="@style/Ellipsize"
+            app:layout_constraintTop_toBottomOf="@+id/tvAuthor"
+            app:layout_constraintStart_toStartOf="@+id/tvAuthor" />
+
         <TextView
             android:id="@+id/tvMessage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:text="@{ evidence.comment }"
             tools:text="@string/evidence_title"
-            android:textSize="30sp"
-            android:textAlignment="center"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginRight="8dp"
-            app:layout_constraintRight_toRightOf="parent" />
+            android:textSize="20sp"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            app:layout_constraintTop_toBottomOf="@+id/ivProfilePicture"
+            app:layout_constraintStart_toStartOf="@+id/ivProfilePicture"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdvPicture"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             app:url="@{ evidence.url }"
             app:resources="@{ resources }"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/spacing_xsmall"
             app:layout_constraintTop_toBottomOf="@+id/tvMessage"
-            android:layout_marginLeft="0dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginRight="0dp"
             app:layout_constraintRight_toRightOf="parent" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/glVertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/guideline_xsmall" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/glHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="@dimen/guideline_small" />
     </android.support.constraint.ConstraintLayout>
 </layout>

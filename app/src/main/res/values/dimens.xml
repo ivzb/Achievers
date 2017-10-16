@@ -15,5 +15,6 @@
 
     <dimen name="fab_margin">12dp</dimen>
 
-    <item name="guideline_small" format="float" type="dimen">0.2</item>
+    <item name="guideline_small" format="float" type="dimen">0.15</item>
+    <item name="guideline_xsmall" format="float" type="dimen">0.2</item>
 </resources>

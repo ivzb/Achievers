@@ -1,18 +1,13 @@
 package com.achievers.ui.achievement;
 
-import android.app.Activity;
 import android.os.Build;
 
 import com.achievers.AchieversDebugTestApplication;
 import com.achievers.BuildConfig;
 import com.achievers.data.entities.Achievement;
+import com.achievers.data.entities.Evidence;
 import com.achievers.ui._base.AbstractAdapter;
 import com.achievers.ui._base._mocks.AchievementActivityMock;
-import com.achievers.ui._base._mocks.AchievementsActivityMock;
-import com.achievers.ui.achievements.AchievementsContract;
-import com.achievers.ui.achievements.AchievementsFragment;
-import com.achievers.ui.achievements.AchievementsViewModel;
-import com.achievers.ui.add_achievement.AddAchievementActivity;
 
 import org.junit.After;
 import org.junit.Before;
@@ -23,9 +18,14 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static com.achievers.Config.RECYCLER_INITIAL_PAGE;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -75,5 +75,43 @@ public class AchievementFragmentTest {
     @Test
     public void shouldNotBeNull() throws Exception {
         assertNotNull(mFragment);
+    }
+
+    @Test
+    public void showEvidences() {
+        // arrange
+        List<Evidence> evidences = new ArrayList<>();
+        for (int i = 0; i < 5; i++) evidences.add(new Evidence(i));
+
+        AbstractAdapter<Evidence> adapter = mock(AbstractAdapter.class);
+        when(mViewModel.getAdapter()).thenReturn(adapter);
+
+        // act
+        mFragment.showEvidences(evidences);
+
+        // assert
+        verify(mViewModel).getAdapter();
+        verify(adapter).add(eq(evidences));
+    }
+
+    @Test
+    public void getPage() {
+        // act
+        mFragment.getPage();
+
+        // assert
+        verify(mViewModel, times(2)).getPage();
+    }
+
+    @Test
+    public void setPage() {
+        // arrange
+        int page = 5;
+
+        // act
+        mFragment.setPage(page);
+
+        // assert
+        verify(mViewModel).setPage(eq(5));
     }
 }
