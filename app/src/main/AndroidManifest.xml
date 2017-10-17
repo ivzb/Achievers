@@ -18,15 +18,6 @@
         android:fullBackupContent="@xml/backup_descriptor"
         android:allowBackup="true">
 
-         <!--<activity-->
-             <!--android:name=".ui.categories.CategoriesActivity"-->
-             <!--android:theme="@style/AppTheme.OverlapSystemBar">-->
-
-             <!--<intent-filter>-->
-                 <!--<action android:name="android.intent.action.MAIN" />-->
-                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
-             <!--</intent-filter>-->
-        <!--</activity>-->
         <activity android:name=".ui.achievements.AchievementsActivity"
             android:theme="@style/AppTheme.OverlapSystemBar">
 
@@ -37,6 +28,7 @@
         </activity>
         <activity android:name=".ui.achievement.AchievementActivity" />
         <activity android:name=".ui.add_achievement.AddAchievementActivity" />
+        <activity android:name=".ui.evidence.EvidenceActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

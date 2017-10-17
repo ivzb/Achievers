@@ -12,8 +12,12 @@ import com.achievers.ui._base.contracts.BaseActionHandler;
 
 public class EvidencesAdapter extends AbstractAdapter<Evidence> {
 
+    private Context mContext;
+
     public EvidencesAdapter(Context context, BaseActionHandler<Evidence> actionHandler) {
         super(context, actionHandler);
+
+        mContext = context;
     }
 
     @Override

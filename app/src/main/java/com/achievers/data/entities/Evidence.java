@@ -7,32 +7,35 @@ import com.achievers.data.entities._base.BaseModel;
 import com.google.common.base.Objects;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 import java.util.Date;
 
+@Parcel(analyze = { Evidence.class })
 public class Evidence implements BaseModel {
 
     @SerializedName("id")
     @NonNull
-    private long id;
+    long id;
 
     @SerializedName("comment")
     @NonNull
-    private String comment;
+    String comment;
 
     @SerializedName("evidenceType")
     @NonNull
-    private EvidenceType evidenceType;
+    EvidenceType evidenceType;
 
     @SerializedName("achievementId")
-    private long achievementId;
+    long achievementId;
 
     @SerializedName("url")
     @NonNull
-    private String url;
+    String url;
 
     @SerializedName("createdOn")
     @Nullable
-    private Date createdOn;
+    Date createdOn;
 
     public Evidence() {
 

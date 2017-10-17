@@ -1,6 +1,7 @@
 package com.achievers.ui.achievement;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -28,6 +29,7 @@ import com.achievers.ui._base.contracts.BaseActionHandler;
 import com.achievers.ui._base.contracts.BaseAdapter;
 import com.achievers.ui.achievement.adapters.EvidencesAdapter;
 import com.achievers.ui.achievement.adapters.UploadEvidenceDialogSimpleAdapter;
+import com.achievers.ui.evidence.EvidenceActivity;
 import com.achievers.utils.EndlessRecyclerViewScrollListener;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.GridHolder;
@@ -35,6 +37,8 @@ import com.orhanobut.dialogplus.Holder;
 import com.orhanobut.dialogplus.OnCancelListener;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnDismissListener;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,12 +110,11 @@ public class AchievementFragment
             Parcelable layoutManagerState = mDataBinding.rvEvidences.getLayoutManager().onSaveInstanceState();
             outState.putParcelable(LAYOUT_MANAGER_STATE, layoutManagerState);
         }
-
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.achievement_fragment_menu, menu);
+        inflater.inflate(R.menu.upload_fragment_menu, menu);
     }
 
     @Override
@@ -203,7 +206,9 @@ public class AchievementFragment
 
     @Override
     public void onAdapterEntityClick(Evidence entity) {
-        // todo
+        Intent intent = new Intent(getContext(), EvidenceActivity.class);
+        intent.putExtra(EvidenceActivity.EXTRA_EVIDENCE, Parcels.wrap(entity));
+        startActivity(intent);
     }
 
     @Override

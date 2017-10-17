@@ -8,7 +8,7 @@ import java.util.Random;
 public enum EvidenceType {
     Image(1),
     Video(2),
-    Voice(3),
+    Audio(3),
     Location(4);
 
     private int id;

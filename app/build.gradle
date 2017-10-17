@@ -140,4 +140,6 @@ dependencies {
     // Parceler
     compile "org.parceler:parceler-api:${parcelerVersion}"
     annotationProcessor "org.parceler:parceler:${parcelerVersion}"
+
+    compile 'com.google.android.exoplayer:exoplayer:r2.2.0'
 }
