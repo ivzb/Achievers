@@ -23,7 +23,7 @@ public class EvidencePhotoFragment extends EvidenceFragment<EvidencePhotoFragBin
         mDataBinding.setViewModel(mViewModel);
 
         AdapterSetters.loadImage(
-                mDataBinding.sdvPicture,
+                mDataBinding.sdvPreview,
                 mViewModel.getEvidence().getUrl(),
                 getContext().getResources());
 

@@ -58,6 +58,11 @@ public class AdapterSetters {
         }
     }
 
+    @BindingAdapter({ "bind:resource" })
+    public static void loadImage(SimpleDraweeView view, int resource) {
+        view.setImageResource(resource);
+    }
+
     // Binding Drawable to ImageView
     @BindingAdapter("android:src")
     public static void setImageDrawable(ImageView view, Drawable drawable) {

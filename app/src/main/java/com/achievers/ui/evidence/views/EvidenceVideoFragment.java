@@ -42,36 +42,52 @@ public class EvidenceVideoFragment extends EvidenceFragment<EvidenceVideoFragBin
 
         mPlayerView = mDataBinding.playerView;
 
-        initializePlayer(
-                getContext(),
-                Uri.parse("http://www.html5videoplayer.net/videos/toystory.mp4"));
+        initializePlayer(getContext());
 
         return view;
     }
 
-    private void initializePlayer(Context context, Uri mediaUri) {
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        play(getContext(), Uri.parse("http://www.html5videoplayer.net/videos/toystory.mp4"));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        mExoPlayer.stop();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        mExoPlayer.release();
+        mExoPlayer = null;
+    }
+
+    private void initializePlayer(Context context) {
         if (mExoPlayer == null) {
             // Create an instance of the ExoPlayer.
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
             mExoPlayer = ExoPlayerFactory.newSimpleInstance(context, trackSelector, loadControl);
             mPlayerView.setPlayer(mExoPlayer);
-            // Prepare the MediaSource.
-            String userAgent = Util.getUserAgent(context, "Achievers");
-            MediaSource mediaSource = new ExtractorMediaSource(
-                    mediaUri,
-                    new DefaultDataSourceFactory(context, userAgent),
-                    new DefaultExtractorsFactory(),
-                    null,
-                    null);
-            mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
         }
     }
 
-    private void releasePlayer() {
-        mExoPlayer.stop();
-        mExoPlayer.release();
-        mExoPlayer = null;
+    private void play(Context context, Uri mediaUri) {
+        String userAgent = Util.getUserAgent(context, "Achievers");
+        MediaSource mediaSource = new ExtractorMediaSource(
+                mediaUri,
+                new DefaultDataSourceFactory(context, userAgent),
+                new DefaultExtractorsFactory(),
+                null,
+                null);
+        mExoPlayer.prepare(mediaSource);
+        mExoPlayer.setPlayWhenReady(true);
     }
 }
