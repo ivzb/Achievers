@@ -51,5 +51,6 @@
         android:id="@+id/fabAddEvidence"
         app:layout_anchor="@id/app_bar_layout"
         app:layout_anchorGravity="bottom|right|end"
+        android:src="@drawable/ic_thumb_up"
         style="@style/FabStyle"/>
 </android.support.design.widget.CoordinatorLayout>

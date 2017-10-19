@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 public enum EvidenceType {
-    Image(1),
+    Photo(1),
     Video(2),
     Audio(3),
     Location(4);

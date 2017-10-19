@@ -43,7 +43,7 @@ public class EvidenceActivity extends AbstractActivity {
 
         if (view == null) {
             switch (evidence.getEvidenceType()) {
-                case Image:
+                case Photo:
                     view = new EvidencePhotoFragment();
                     break;
                 case Video:
