@@ -21,7 +21,7 @@ public class AchievementsPresenter
 
     private final AchievementsDataSource mDataSource;
 
-    AchievementsPresenter(
+    public AchievementsPresenter(
             @NonNull Context context,
             @NonNull AchievementsContract.View view,
             @NonNull AchievementsDataSource dataSource) {

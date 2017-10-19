@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 
 import com.achievers.R;
 import com.achievers.data.entities.Achievement;
+import com.achievers.data.source.achievements.AchievementsDataSource;
+import com.achievers.data.source.achievements.AchievementsMockDataSource;
 import com.achievers.databinding.AchievementsFragBinding;
 import com.achievers.ui._base.AbstractFragment;
 import com.achievers.ui._base.contracts.BaseActionHandler;
@@ -40,6 +42,17 @@ public class AchievementsFragment
 
     public AchievementsFragment() {
 
+    }
+
+    public static AchievementsFragment newInstance(Context context) {
+        AchievementsFragment view = new AchievementsFragment();
+
+        AchievementsDataSource dataSource = AchievementsMockDataSource.getInstance();
+
+        view.setViewModel(new AchievementsViewModel());
+        view.setPresenter(new AchievementsPresenter(context, view, dataSource));
+
+        return view;
     }
 
     @Nullable
@@ -187,8 +200,8 @@ public class AchievementsFragment
     }
 
     private void setUpFab() {
-        FloatingActionButton fab = getActivity().findViewById(R.id.fabAddAchievement);
-        fab.setOnClickListener(this);
+//        FloatingActionButton fab = getActivity().findViewById(R.id.fabAddAchievement);
+//        fab.setOnClickListener(this);
     }
 
     private int getColor(int color) {

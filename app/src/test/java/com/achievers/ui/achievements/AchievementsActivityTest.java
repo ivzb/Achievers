@@ -35,8 +35,8 @@ public class AchievementsActivityTest extends AbstractActivityTest<AchievementsA
 
     @Test
     public void clickAddAchievement_shouldOpenAddAchievementActivity() {
-        FloatingActionButton fabAddAchievement = mActivity.findViewById(R.id.fabAddAchievement);
-        fabAddAchievement.performClick();
+//        FloatingActionButton fabAddAchievement = mActivity.findViewById(R.id.fabAddAchievement);
+//        fabAddAchievement.performClick();
 
         Intent expectedIntent = new Intent(mActivity, AddAchievementActivity.class);
         Intent actual = ShadowApplication.getInstance().getNextStartedActivity();

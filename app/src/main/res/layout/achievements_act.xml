@@ -28,36 +28,64 @@
                 app:theme="@style/Toolbar" />
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.design.widget.CoordinatorLayout
-            android:id="@+id/coordinatorLayout"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <FrameLayout
-                android:id="@+id/contentFrame"
+            <android.support.v4.view.ViewPager
+                android:id="@+id/view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="0dp"
+                android:background="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/sliding_tabs" />
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fabAddAchievement"
-                android:layout_width="wrap_content"
+            <android.support.design.widget.TabLayout
+                android:id="@+id/sliding_tabs"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/fab_margin"
-                android:src="@drawable/ic_add"
-                app:fabSize="normal"
-                app:layout_anchor="@id/contentFrame"
-                app:layout_behavior="com.achievers.utils.ScrollAwareFABBehavior"
-                app:layout_anchorGravity="bottom|right|end" />
-        </android.support.design.widget.CoordinatorLayout>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:tabGravity="fill"
+                app:tabMaxWidth="0dp"
+                app:tabMode="fixed" />
+        </android.support.constraint.ConstraintLayout>
+
+        <!--<android.support.design.widget.CoordinatorLayout-->
+            <!--android:id="@+id/coordinatorLayout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+            <!---->
+            <!---->
+
+            <!--&lt;!&ndash;<FrameLayout&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/contentFrame"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="match_parent" />&ndash;&gt;-->
+
+            <!--&lt;!&ndash;<android.support.design.widget.FloatingActionButton&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/fabAddAchievement"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_margin="@dimen/fab_margin"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:src="@drawable/ic_add"&ndash;&gt;-->
+                <!--&lt;!&ndash;app:fabSize="normal"&ndash;&gt;-->
+                <!--&lt;!&ndash;app:layout_anchor="@id/contentFrame"&ndash;&gt;-->
+                <!--&lt;!&ndash;app:layout_behavior="com.achievers.utils.ScrollAwareFABBehavior"&ndash;&gt;-->
+                <!--&lt;!&ndash;app:layout_anchorGravity="bottom|right|end" />&ndash;&gt;-->
+        <!--</android.support.design.widget.CoordinatorLayout>-->
     </LinearLayout>
 
     <!-- Navigation Drawer -->
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_actions" />
+    <!--<android.support.design.widget.NavigationView-->
+        <!--android:id="@+id/nav_view"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="start"-->
+        <!--android:fitsSystemWindows="true"-->
+        <!--app:headerLayout="@layout/nav_header"-->
+        <!--app:menu="@menu/drawer_actions" />-->
 </android.support.v4.widget.DrawerLayout>

@@ -9,7 +9,6 @@ import com.achievers.data.entities.Evidence;
 import com.achievers.data.source.evidences.EvidencesMockDataSource;
 import com.achievers.ui._base.AbstractActivity;
 import com.achievers.ui.evidence.views.EvidenceAudioFragment;
-import com.achievers.ui.evidence.views.EvidenceLocationFragment;
 import com.achievers.ui.evidence.views.EvidencePhotoFragment;
 import com.achievers.ui.evidence.views.EvidenceVideoFragment;
 import com.achievers.utils.ActivityUtils;
@@ -51,9 +50,6 @@ public class EvidenceActivity extends AbstractActivity {
                     break;
                 case Audio:
                     view = new EvidenceAudioFragment();
-                    break;
-                case Location:
-                    view = new EvidenceLocationFragment();
                     break;
                 default:
                     throw new IllegalArgumentException("View should extend EvidenceFragment");

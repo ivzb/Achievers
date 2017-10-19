@@ -1,14 +1,18 @@
 package com.achievers.ui.achievements;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
 import com.achievers.R;
-import com.achievers.data.source.achievements.AchievementsDataSource;
-import com.achievers.data.source.achievements.AchievementsMockDataSource;
 import com.achievers.ui._base.AbstractActivity;
-import com.achievers.utils.ActivityUtils;
+import com.achievers.ui.achievements.adapters.AchievementsFragmentPagerAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AchievementsActivity extends AbstractActivity {
 
@@ -27,21 +31,14 @@ public class AchievementsActivity extends AbstractActivity {
             ab.setDisplayShowHomeEnabled(true);
         }
 
-        AchievementsFragment view = (AchievementsFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.contentFrame);
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(AchievementsFragment.newInstance(this));
+        fragments.add(AchievementsFragment.newInstance(this));
 
-        if (view == null) {
-            view = new AchievementsFragment();
+        ViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager.setAdapter(new AchievementsFragmentPagerAdapter(getSupportFragmentManager(), fragments));
 
-            ActivityUtils.addFragmentToActivity(
-                    getSupportFragmentManager(),
-                    view,
-                    R.id.contentFrame);
-        }
-
-        AchievementsDataSource dataSource = AchievementsMockDataSource.getInstance();
-
-        view.setViewModel(new AchievementsViewModel());
-        view.setPresenter(new AchievementsPresenter(this, view, dataSource));
+        TabLayout tabLayout = findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(viewPager);
     }
 }

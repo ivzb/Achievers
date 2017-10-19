@@ -16,14 +16,26 @@
             type="android.content.res.Resources" />
 
         <variable
-            name="actionHandler"
+            name="adapterActionHandler"
             type="com.achievers.ui._base.contracts.BaseActionHandler" />
+
+        <variable
+            name="evidenceMultimediaActionHandler"
+            type="com.achievers.ui.achievement.EvidenceMultimediaActionHandler" />
+
+        <variable
+            name="multimediaPlaying"
+            type="Boolean" />
+
+        <variable
+            name="multimediaDrawable"
+            type="Integer" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{ () -> actionHandler.onAdapterEntityClick(evidence) }">
+        android:onClick="@{ () -> adapterActionHandler.onAdapterEntityClick(evidence) }">
 
         <ImageView
             android:id="@+id/ivProfilePicture"
@@ -96,25 +108,20 @@
             app:layout_constraintTop_toTopOf="@+id/sdvPreview"
             app:layout_constraintLeft_toLeftOf="@+id/sdvPreview"
             app:layout_constraintRight_toRightOf="@+id/sdvPreview"
-            app:layout_constraintBottom_toBottomOf="@+id/sdvPreview">
+            app:layout_constraintBottom_toBottomOf="@+id/sdvPreview"
+            android:onClick="@{ () -> evidenceMultimediaActionHandler.onEvidenceMultimediaClick(evidence) }">
 
             <ImageView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:visibility="@{ EvidenceType.Video == evidence.evidenceType ? View.VISIBLE : View.GONE }"
-                android:src="@drawable/ic_play" />
+                android:visibility="@{ multimediaPlaying ? View.GONE : View.VISIBLE }"
+                android:src="@{ multimediaDrawable }" />
 
             <ImageView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:visibility="@{ EvidenceType.Audio == evidence.evidenceType ? View.VISIBLE : View.GONE }"
-                android:src="@drawable/ic_music_note" />
-
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:visibility="@{ EvidenceType.Location == evidence.evidenceType ? View.VISIBLE : View.GONE }"
-                android:src="@drawable/ic_location" />
+                android:visibility="@{ multimediaPlaying ? View.VISIBLE : View.GONE }"
+                android:src="@drawable/ic_pause" />
         </android.support.v7.widget.CardView>
 
         <android.support.constraint.Guideline

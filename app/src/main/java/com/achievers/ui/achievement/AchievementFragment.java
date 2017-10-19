@@ -217,12 +217,12 @@ public class AchievementFragment
     }
 
     private void setUpEvidencesRecycler(Context context) {
-        BaseAdapter<Evidence> adapter = new EvidencesAdapter(getContext(), this);
+        final EvidencesAdapter adapter = new EvidencesAdapter(getContext(), this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
 
         mViewModel.setAdapter(adapter);
 
-        mDataBinding.rvEvidences.setAdapter((RecyclerView.Adapter) adapter);
+        mDataBinding.rvEvidences.setAdapter(adapter);
         mDataBinding.rvEvidences.setLayoutManager(layoutManager);
         mDataBinding.rvEvidences.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager, mViewModel.getPage()) {
             @Override

@@ -183,14 +183,11 @@ public class AchieversContract {
 
         public static final String EVIDENCE_TYPE_VOICE = "voice";
 
-        public static final String EVIDENCE_TYPE_LOCATION = "location";
-
         public static final boolean isValidEvidenceType(String type) {
             switch (type) {
                 case EVIDENCE_TYPE_IMAGE:
                 case EVIDENCE_TYPE_VIDEO:
                 case EVIDENCE_TYPE_VOICE:
-                case EVIDENCE_TYPE_LOCATION:
                     return true;
             }
 
