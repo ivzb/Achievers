@@ -15,7 +15,7 @@
             type="com.achievers.ui.categories.CategoriesContract.Presenter" />
     </data>
 
-    <com.achievers.utils.ScrollChildSwipeRefreshLayout
+    <com.achievers.utils.ui.ScrollChildSwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -62,5 +62,5 @@
                     android:layout_marginBottom="@dimen/spacing_medium"/>
             </LinearLayout>
         </RelativeLayout>
-    </com.achievers.utils.ScrollChildSwipeRefreshLayout>
+    </com.achievers.utils.ui.ScrollChildSwipeRefreshLayout>
 </layout>

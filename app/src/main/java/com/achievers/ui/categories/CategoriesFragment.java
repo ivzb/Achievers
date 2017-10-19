@@ -23,7 +23,7 @@ import com.achievers.databinding.CategoriesFragBinding;
 import com.achievers.provider.AppContentProvider;
 import com.achievers.ui._base.AbstractFragment;
 import com.achievers.utils.CursorUtils;
-import com.achievers.utils.ScrollChildSwipeRefreshLayout;
+import com.achievers.utils.ui.ScrollChildSwipeRefreshLayout;
 
 public class CategoriesFragment
         extends AbstractFragment<CategoriesContract.Presenter, CategoriesContract.ViewModel, CategoriesFragBinding>

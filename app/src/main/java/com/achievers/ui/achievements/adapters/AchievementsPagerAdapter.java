@@ -6,12 +6,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.List;
 
-public class AchievementsFragmentPagerAdapter extends FragmentPagerAdapter {
+public class AchievementsPagerAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> mFragments;
-    private String tabTitles[] = new String[] { "Tab1", "Tab2", "Tab3" };
 
-    public AchievementsFragmentPagerAdapter(
+    public AchievementsPagerAdapter(
             FragmentManager fm,
             List<Fragment> fragments) {
 
@@ -27,11 +26,5 @@ public class AchievementsFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         return mFragments.get(position);
-    }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-        // Generate title based on item position
-        return tabTitles[position];
     }
 }

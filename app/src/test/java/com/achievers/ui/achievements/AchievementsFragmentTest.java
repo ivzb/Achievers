@@ -129,17 +129,6 @@ public class AchievementsFragmentTest {
     }
 
     @Test
-    public void openAddAchievementUi() {
-        // act
-        mFragment.openAddAchievementUi();
-
-        // assert
-        ShadowActivity shadowActivity = shadowOf(mFragment.getActivity());
-        Intent intent = shadowActivity.getNextStartedActivity();
-        assertNotNull(intent);
-    }
-
-    @Test
     public void getPage() {
         // act
         mFragment.getPage();
@@ -158,18 +147,6 @@ public class AchievementsFragmentTest {
 
         // assert
         verify(mViewModel).setPage(eq(5));
-    }
-
-    @Test
-    public void onClick() {
-        // arrange
-        View view = mock(View.class);
-
-        // act
-        mFragment.onClick(view);
-
-        // assert
-        verify(mPresenter).clickAddAchievement();
     }
 
     @Test

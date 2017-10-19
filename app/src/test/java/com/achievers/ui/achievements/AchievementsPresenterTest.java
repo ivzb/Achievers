@@ -225,33 +225,6 @@ public class AchievementsPresenterTest {
     }
 
     @Test
-    public void clickAddAchievement_shouldOpenAddAchievementUi() {
-        // arrange
-        when(mView.isActive()).thenReturn(true);
-
-        // act
-        mPresenter.clickAddAchievement();
-
-        // assert
-        verify(mView).isActive();
-        verify(mView).openAddAchievementUi();
-        verifyNoMoreInteractions(mView);
-    }
-
-    @Test
-    public void clickAddAchievement_inactiveView_shouldReturn() {
-        // arrange
-        when(mView.isActive()).thenReturn(false);
-
-        // act
-        mPresenter.clickAddAchievement();
-
-        // assert
-        verify(mView).isActive();
-        verifyNoMoreInteractions(mView);
-    }
-
-    @Test
     public void result_invalidRequestCode() {
         // act
         mPresenter.result(sValidRequestCode + 1, sValidResultCode);

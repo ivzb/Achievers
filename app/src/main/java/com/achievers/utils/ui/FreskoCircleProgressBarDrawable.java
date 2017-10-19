@@ -1,4 +1,4 @@
-package com.achievers.utils;
+package com.achievers.utils.ui;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
+import com.achievers.utils.ArcUtils;
 import com.facebook.drawee.drawable.ProgressBarDrawable;
 
 public class FreskoCircleProgressBarDrawable extends ProgressBarDrawable {

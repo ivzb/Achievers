@@ -1,4 +1,4 @@
-package com.achievers.utils;
+package com.achievers.utils.ui;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;

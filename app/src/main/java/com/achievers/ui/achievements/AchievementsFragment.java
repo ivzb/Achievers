@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,8 +23,7 @@ import com.achievers.ui._base.contracts.BaseActionHandler;
 import com.achievers.ui._base.contracts.BaseAdapter;
 import com.achievers.ui.achievement.AchievementActivity;
 import com.achievers.ui.achievements.adapters.AchievementsAdapter;
-import com.achievers.ui.add_achievement.AddAchievementActivity;
-import com.achievers.utils.EndlessRecyclerViewScrollListener;
+import com.achievers.utils.ui.EndlessRecyclerViewScrollListener;
 
 import org.parceler.Parcels;
 
@@ -33,7 +31,7 @@ import java.util.List;
 
 public class AchievementsFragment
         extends AbstractFragment<AchievementsContract.Presenter, AchievementsContract.ViewModel, AchievementsFragBinding>
-        implements AchievementsContract.View<AchievementsFragBinding>, View.OnClickListener,
+        implements AchievementsContract.View<AchievementsFragBinding>,
             BaseActionHandler<Achievement>, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String ACHIEVEMENTS_STATE = "achievements_state";
@@ -72,7 +70,6 @@ public class AchievementsFragment
 
         setUpAchievementsRecycler(getContext());
         setUpLoadingIndicator();
-        setUpFab();
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(ACHIEVEMENTS_STATE)) {
@@ -128,12 +125,6 @@ public class AchievementsFragment
     }
 
     @Override
-    public void openAddAchievementUi() {
-        Intent intent = new Intent(getContext(), AddAchievementActivity.class);
-        startActivityForResult(intent, AddAchievementActivity.REQUEST_ADD_ACHIEVEMENT);
-    }
-
-    @Override
     public int getPage() {
         return mViewModel.getPage();
     }
@@ -155,11 +146,6 @@ public class AchievementsFragment
                 srl.setRefreshing(active);
             }
         });
-    }
-
-    @Override
-    public void onClick(View view) {
-        mPresenter.clickAddAchievement();
     }
 
     @Override
@@ -197,11 +183,6 @@ public class AchievementsFragment
 
         mDataBinding.refreshLayout.setScrollUpChild(mDataBinding.rvAchievements);
         mDataBinding.refreshLayout.setOnRefreshListener(this);
-    }
-
-    private void setUpFab() {
-//        FloatingActionButton fab = getActivity().findViewById(R.id.fabAddAchievement);
-//        fab.setOnClickListener(this);
     }
 
     private int getColor(int color) {

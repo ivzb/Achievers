@@ -1,4 +1,4 @@
-package com.achievers.utils;
+package com.achievers.utils.ui;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;

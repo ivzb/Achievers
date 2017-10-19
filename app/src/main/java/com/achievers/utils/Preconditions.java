@@ -1,26 +1,20 @@
 package com.achievers.utils;
 
+import android.support.annotation.NonNull;
+
 import javax.annotation.Nullable;
 
 public class Preconditions {
 
-    public static <T> void checkIsNull(T reference) {
-        checkIsNull(reference, "Reference is null.");
+    public static @NonNull <T> T checkNotNull(final T reference) {
+        return checkNotNull(reference, "Reference is null.");
     }
 
-    public static <T> void checkIsNull(T reference, @Nullable String errorMessage) {
-        if (null != reference) {
+    public static @NonNull <T> T checkNotNull(final T reference, @Nullable String errorMessage) {
+        if (reference == null) {
             throw new NullPointerException(errorMessage);
         }
-    }
 
-    public static <T> void checkNotNull(T reference) {
-        checkNotNull(reference, "Reference is null.");
-    }
-
-    public static <T> void checkNotNull(T reference, @Nullable String errorMessage) {
-        if (null == reference) {
-            throw new NullPointerException(errorMessage);
-        }
+        return reference;
     }
 }

@@ -37,10 +37,12 @@ public abstract class AbstractActivityTest<A extends AppCompatActivity> {
 
     @Test
     public void shouldHaveFragment() throws Exception {
-        android.support.v4.app.Fragment fragment = mActivity
-                .getSupportFragmentManager()
-                .findFragmentById(R.id.contentFrame);
+        if (mActivity.findViewById(R.id.contentFrame) != null) {
+            android.support.v4.app.Fragment fragment = mActivity
+                    .getSupportFragmentManager()
+                    .findFragmentById(R.id.contentFrame);
 
-        assertNotNull(fragment);
+            assertNotNull(fragment);
+        }
     }
 }

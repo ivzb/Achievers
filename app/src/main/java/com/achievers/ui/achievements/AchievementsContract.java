@@ -21,7 +21,6 @@ public class AchievementsContract {
         void showAchievements(List<Achievement> achievements);
 
         void openAchievementUi(Achievement achievement);
-        void openAddAchievementUi();
 
         int getPage();
         void setPage(int page);
@@ -34,7 +33,6 @@ public class AchievementsContract {
         void loadAchievements(int page);
 
         void clickAchievement(Achievement achievement);
-        void clickAddAchievement();
 
         void result(int requestCode, int resultCode);
     }

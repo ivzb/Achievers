@@ -21,7 +21,7 @@ public class AchievementsPresenter
 
     private final AchievementsDataSource mDataSource;
 
-    public AchievementsPresenter(
+    AchievementsPresenter(
             @NonNull Context context,
             @NonNull AchievementsContract.View view,
             @NonNull AchievementsDataSource dataSource) {
@@ -77,13 +77,6 @@ public class AchievementsPresenter
         }
 
         mView.openAchievementUi(achievement);
-    }
-
-    @Override
-    public void clickAddAchievement() {
-        if (!mView.isActive()) return;
-
-        mView.openAddAchievementUi();
     }
 
     @Override
