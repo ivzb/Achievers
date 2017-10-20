@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.achievers.data.entities._base.BaseModel;
-import com.google.common.base.Objects;
 import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
@@ -29,6 +28,10 @@ public class Evidence implements BaseModel {
     @SerializedName("achievementId")
     long achievementId;
 
+    @SerializedName("previewUrl")
+    @NonNull
+    String previewUrl;
+
     @SerializedName("url")
     @NonNull
     String url;
@@ -46,11 +49,12 @@ public class Evidence implements BaseModel {
     }
 
     public Evidence(long id, @NonNull String comment, @NonNull EvidenceType evidenceType,
-                    @NonNull String url,  @Nullable Date createdOn) {
+                    @NonNull String previewUrl, @NonNull String url, @Nullable Date createdOn) {
         this(id);
 
         this.comment = comment;
         this.evidenceType = evidenceType;
+        this.previewUrl = previewUrl;
         this.url = url;
         this.createdOn = createdOn;
     }
@@ -80,6 +84,11 @@ public class Evidence implements BaseModel {
 
     public void setAchievementId(long achievementId) {
         this.achievementId = achievementId;
+    }
+
+    @NonNull
+    public String getPreviewUrl() {
+        return previewUrl;
     }
 
     @NonNull
@@ -116,7 +125,14 @@ public class Evidence implements BaseModel {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, comment);
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + comment.hashCode();
+        result = 31 * result + evidenceType.hashCode();
+        result = 31 * result + (int) (achievementId ^ (achievementId >>> 32));
+        result = 31 * result + url.hashCode();
+        result = 31 * result + previewUrl.hashCode();
+        result = 31 * result + (createdOn != null ? createdOn.hashCode() : 0);
+        return result;
     }
 
     @Override

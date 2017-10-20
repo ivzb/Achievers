@@ -80,8 +80,18 @@ public class GeneratorUtils {
 
         String comment = mFaker.lorem.sentence(5);
         EvidenceType evidenceType = getEvidenceType();
-        String imageUrl = getImageUrl();
+        String previewUrl = getImageUrl();
+        String url;
 
-        return new Evidence(id, comment, evidenceType, imageUrl, createdOn);
+        switch (evidenceType) {
+            case Video:
+                url = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
+                break;
+            default:
+                url = previewUrl;
+                break;
+        }
+
+        return new Evidence(id, comment, evidenceType, previewUrl, url, createdOn);
     }
 }
