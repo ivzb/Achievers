@@ -1,24 +1,17 @@
-package com.achievers.utils.ui;
+package com.achievers.utils.ui.multimedia;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 
-import com.achievers.BuildConfig;
 import com.achievers.R;
 import com.achievers.databinding.MultimediaViewBinding;
+import com.achievers.ui._base.contracts.BaseMultimediaPlayer;
 import com.achievers.ui._base.contracts.action_handlers.BaseActionHandler;
 import com.achievers.ui._base.contracts.action_handlers.BaseMultimediaActionHandler;
 import com.achievers.ui._base.contracts.views.BaseMultimediaView;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
 
 import static com.achievers.utils.Preconditions.checkNotNull;
 
@@ -28,19 +21,17 @@ public class MultimediaView
 
     private MultimediaViewBinding mBinding;
 
+    private MultimediaType mType;
+    private BaseMultimediaPlayer mPlayer;
     private boolean mIsPlaying;
 
     private String mPreviewUrl;
-    private String mUrl;
 
     private boolean mShowControls;
     private int mPlayResource;
     private int mPauseResource;
 
     private BaseMultimediaActionHandler mActionHandler;
-
-    @Deprecated // extract in VideoMultimediaView
-    private SimpleExoPlayer mExoPlayer;
 
     public MultimediaView(Context context) {
         super(context);
@@ -67,7 +58,12 @@ public class MultimediaView
         mIsPlaying = false;
         executePlayingBinding(mShowControls);
 
-        stopVideo();
+        mPlayer.stop();
+    }
+
+    @Override
+    public View getPlayerView() {
+        return mBinding.playerView;
     }
 
     @Override
@@ -78,11 +74,11 @@ public class MultimediaView
         mActionHandler.onMultimediaAction(this);
 
         if (mIsPlaying) {
-            playVideo(mBinding.playerView, getContext(), mUrl);
+            mPlayer.play();
             return;
         }
 
-        stopVideo();
+        mPlayer.stop();
     }
 
     private void executePlayingBinding(boolean showControls) {
@@ -100,39 +96,12 @@ public class MultimediaView
         mPauseResource = R.drawable.ic_pause;
     }
 
-    private void playVideo(
-            SimpleExoPlayerView playerView,
-            Context context,
-            String url) {
-
-        checkNotNull(mExoPlayer);
-
-        Uri videoUri = Uri.parse(url);
-
-        playerView.setPlayer(mExoPlayer);
-
-        String userAgent = Util.getUserAgent(context, BuildConfig.APPLICATION_ID);
-        MediaSource mediaSource = new ExtractorMediaSource(
-                videoUri,
-                new DefaultDataSourceFactory(context, userAgent),
-                new DefaultExtractorsFactory(),
-                null,
-                null);
-
-        mExoPlayer.prepare(mediaSource);
-        mExoPlayer.setPlayWhenReady(true);
-    }
-
-    private void stopVideo() {
-        mExoPlayer.setPlayWhenReady(false);
+    private void setType(MultimediaType type) {
+        mType = type;
     }
 
     private void setPreviewUrl(String url) {
         mPreviewUrl = url;
-    }
-
-    private void setUrl(String url) {
-        mUrl = url;
     }
 
     private void setShowControls(boolean showControls) {
@@ -151,12 +120,12 @@ public class MultimediaView
         mActionHandler = actionHandler;
     }
 
-    @Deprecated // extract in VideoMultimediaView
-    private void setExoPlayer(SimpleExoPlayer exoPlayer) {
-        mExoPlayer = exoPlayer;
+    private void setPlayer(BaseMultimediaPlayer player) {
+        mPlayer = player;
     }
 
     private void build() {
+        mBinding.setType(mType);
         mBinding.setPreviewUrl(mPreviewUrl);
         mBinding.setActionHandler(this);
 
@@ -166,7 +135,6 @@ public class MultimediaView
         mBinding.setPauseResource(mPauseResource);
 
         mBinding.setResources(getResources());
-
         mBinding.executePendingBindings();
     }
 
@@ -174,17 +142,13 @@ public class MultimediaView
 
         private final MultimediaView mMultimediaView;
 
-        public Builder(MultimediaView multimediaView) {
+        public Builder(MultimediaView multimediaView, MultimediaType type) {
             mMultimediaView = checkNotNull(multimediaView);
+            multimediaView.setType(checkNotNull(type));
         }
 
         public Builder withPreviewUrl(String previewUrl) {
             mMultimediaView.setPreviewUrl(previewUrl);
-            return this;
-        }
-
-        public Builder withUrl(String url) {
-            mMultimediaView.setUrl(url);
             return this;
         }
 
@@ -208,9 +172,8 @@ public class MultimediaView
             return this;
         }
 
-        @Deprecated // extract in VideoMultimediaView
-        public Builder withExoPlayer(SimpleExoPlayer exoPlayer) {
-            mMultimediaView.setExoPlayer(exoPlayer);
+        public Builder withPlayer(BaseMultimediaPlayer player) {
+            mMultimediaView.setPlayer(player);
             return this;
         }
 

@@ -38,14 +38,11 @@ public abstract class MultimediaAdapter<T extends BaseModel>
 
     @Override
     public void onMultimediaAction(BaseMultimediaView view) {
-        if (view.isPlaying()) {
+        if (mActiveMultimedia != view) {
             releaseMedia();
-            mActiveMultimedia = view;
-
-            return;
         }
 
-        mActiveMultimedia = null;
+        mActiveMultimedia = view;
     }
 
     private void initializePlayer(Context context) {

@@ -1,6 +1,7 @@
 package com.achievers.ui.achievement.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -8,10 +9,14 @@ import com.achievers.BR;
 import com.achievers.data.entities.Evidence;
 import com.achievers.databinding.EvidencesRecyclerItemBinding;
 import com.achievers.ui._base.adapters.MultimediaAdapter;
+import com.achievers.ui._base.contracts.BaseMultimediaPlayer;
 import com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler;
-import com.achievers.utils.ui.MultimediaView;
+import com.achievers.utils.ui.multimedia.MultimediaView;
+import com.achievers.utils.ui.multimedia.players.SimpleMultimediaPlayer;
+import com.achievers.utils.ui.multimedia.players.VideoMultimediaPlayer;
 
 import static com.achievers.data.entities.EvidenceType.Photo;
+import static com.achievers.data.entities.EvidenceType.Video;
 
 public class EvidencesAdapter extends MultimediaAdapter<Evidence> {
 
@@ -39,13 +44,25 @@ public class EvidencesAdapter extends MultimediaAdapter<Evidence> {
 
         MultimediaView mvEvidence  = ((EvidencesRecyclerItemBinding) viewHolder.getBinding()).mvEvidence;
 
-        new MultimediaView.Builder(mvEvidence)
+        BaseMultimediaPlayer player;
+
+        if (evidence.getEvidenceType() == Video) {
+            player = new VideoMultimediaPlayer(
+                    mContext,
+                    mExoPlayer,
+                    mvEvidence.getPlayerView(),
+                    evidence.getUrl());
+        } else {
+            player = new SimpleMultimediaPlayer();
+        }
+
+        // todo: catch if builder throws null pointer
+        new MultimediaView.Builder(mvEvidence, )
                 .withPreviewUrl(evidence.getPreviewUrl())
-                .withUrl(evidence.getUrl())
                 .withControls(evidence.getEvidenceType() != Photo)
                 .withPlayResource(evidence.getEvidenceType().getPlayResource())
                 .withActionHandler(this)
-                .withExoPlayer(mExoPlayer)
+                .withPlayer(player)
                 .build();
     }
 }

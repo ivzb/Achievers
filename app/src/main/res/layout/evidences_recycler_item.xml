@@ -68,7 +68,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:onClick="@{ () -> actionHandler.onAdapterEntityClick(evidence) }" />
 
-        <com.achievers.utils.ui.MultimediaView
+        <com.achievers.utils.ui.multimedia.MultimediaView
             android:id="@+id/mvEvidence"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

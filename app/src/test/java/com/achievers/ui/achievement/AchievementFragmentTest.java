@@ -8,6 +8,7 @@ import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
 import com.achievers.ui._base.AbstractAdapter;
 import com.achievers.ui._base._mocks.AchievementActivityMock;
+import com.achievers.ui._base.adapters.MultimediaAdapter;
 
 import org.junit.After;
 import org.junit.Before;
@@ -58,7 +59,7 @@ public class AchievementFragmentTest {
 
         startFragment(mFragment, AchievementActivityMock.class);
 
-        verify(mViewModel).setAdapter(isA(AbstractAdapter.class));
+        verify(mViewModel).setAdapter(isA(MultimediaAdapter.class));
         verify(mViewModel).getPage();
         verify(mViewModel).getAchievement();
 
@@ -83,7 +84,7 @@ public class AchievementFragmentTest {
         List<Evidence> evidences = new ArrayList<>();
         for (int i = 0; i < 5; i++) evidences.add(new Evidence(i));
 
-        AbstractAdapter<Evidence> adapter = mock(AbstractAdapter.class);
+        MultimediaAdapter<Evidence> adapter = mock(MultimediaAdapter.class);
         when(mViewModel.getAdapter()).thenReturn(adapter);
 
         // act
