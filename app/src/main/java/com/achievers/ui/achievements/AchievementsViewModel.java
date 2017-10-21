@@ -3,7 +3,7 @@ package com.achievers.ui.achievements;
 import android.databinding.BaseObservable;
 
 import com.achievers.data.entities.Achievement;
-import com.achievers.ui._base.contracts.BaseAdapter;
+import com.achievers.ui._base.contracts.adapters.BaseAdapter;
 
 public class AchievementsViewModel
         extends BaseObservable

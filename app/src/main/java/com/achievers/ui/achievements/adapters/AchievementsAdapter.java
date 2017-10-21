@@ -8,11 +8,11 @@ import com.achievers.BR;
 import com.achievers.data.entities.Achievement;
 import com.achievers.databinding.AchievementsRecyclerItemBinding;
 import com.achievers.ui._base.AbstractAdapter;
-import com.achievers.ui._base.contracts.BaseActionHandler;
+import com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler;
 
 public class AchievementsAdapter extends AbstractAdapter<Achievement> {
 
-    public AchievementsAdapter(Context context, BaseActionHandler<Achievement> actionHandler) {
+    public AchievementsAdapter(Context context, BaseAdapterActionHandler<Achievement> actionHandler) {
         super(context, actionHandler);
     }
 

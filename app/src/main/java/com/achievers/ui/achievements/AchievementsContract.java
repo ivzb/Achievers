@@ -3,8 +3,8 @@ package com.achievers.ui.achievements;
 import android.databinding.ViewDataBinding;
 
 import com.achievers.data.entities.Achievement;
-import com.achievers.ui._base.contracts.BaseActionHandler;
-import com.achievers.ui._base.contracts.BaseAdapter;
+import com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler;
+import com.achievers.ui._base.contracts.adapters.BaseAdapter;
 import com.achievers.ui._base.contracts.BasePresenter;
 import com.achievers.ui._base.contracts.BaseView;
 import com.achievers.ui._base.contracts.BaseViewModel;
@@ -14,7 +14,7 @@ import java.util.List;
 public class AchievementsContract {
 
     public interface View<DB extends ViewDataBinding>
-            extends BaseView<Presenter, ViewModel, DB>, BaseActionHandler<Achievement> {
+            extends BaseView<Presenter, ViewModel, DB>, BaseAdapterActionHandler<Achievement> {
 
         void setLoadingIndicator(boolean active);
 

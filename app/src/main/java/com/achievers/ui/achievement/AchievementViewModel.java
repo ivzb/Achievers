@@ -6,14 +6,15 @@ import android.databinding.Bindable;
 import com.achievers.BR;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
-import com.achievers.ui._base.contracts.BaseAdapter;
+import com.achievers.ui._base.contracts.adapters.BaseAdapter;
+import com.achievers.ui._base.contracts.adapters.BaseMultimediaAdapter;
 
 public class AchievementViewModel
         extends BaseObservable
         implements AchievementContract.ViewModel {
 
     private Achievement mAchievement;
-    private BaseAdapter<Evidence> mAdapter;
+    private BaseMultimediaAdapter<Evidence> mAdapter;
     private int mPage;
 
     AchievementViewModel(Achievement achievement) {
@@ -44,12 +45,12 @@ public class AchievementViewModel
 
     @Bindable
     @Override
-    public BaseAdapter<Evidence> getAdapter() {
+    public BaseMultimediaAdapter<Evidence> getAdapter() {
         return this.mAdapter;
     }
 
     @Override
-    public void setAdapter(BaseAdapter<Evidence> adapter) {
+    public void setAdapter(BaseMultimediaAdapter<Evidence> adapter) {
         this.mAdapter = adapter;
         notifyPropertyChanged(BR.adapter);
     }

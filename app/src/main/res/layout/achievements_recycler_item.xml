@@ -14,7 +14,7 @@
 
         <variable
             name="actionHandler"
-            type="com.achievers.ui._base.contracts.BaseActionHandler" />
+            type="com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler" />
     </data>
 
     <android.support.constraint.ConstraintLayout

@@ -19,8 +19,8 @@ import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.achievements.AchievementsMockDataSource;
 import com.achievers.databinding.AchievementsFragBinding;
 import com.achievers.ui._base.AbstractFragment;
-import com.achievers.ui._base.contracts.BaseActionHandler;
-import com.achievers.ui._base.contracts.BaseAdapter;
+import com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler;
+import com.achievers.ui._base.contracts.adapters.BaseAdapter;
 import com.achievers.ui.achievement.AchievementActivity;
 import com.achievers.ui.achievements.adapters.AchievementsAdapter;
 import com.achievers.utils.ui.EndlessRecyclerViewScrollListener;
@@ -32,7 +32,7 @@ import java.util.List;
 public class AchievementsFragment
         extends AbstractFragment<AchievementsContract.Presenter, AchievementsContract.ViewModel, AchievementsFragBinding>
         implements AchievementsContract.View<AchievementsFragBinding>,
-            BaseActionHandler<Achievement>, SwipeRefreshLayout.OnRefreshListener {
+        BaseAdapterActionHandler<Achievement>, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String ACHIEVEMENTS_STATE = "achievements_state";
     private static final String LAYOUT_MANAGER_STATE = "layout_manager_state";

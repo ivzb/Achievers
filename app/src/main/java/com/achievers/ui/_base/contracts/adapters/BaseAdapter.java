@@ -1,4 +1,4 @@
-package com.achievers.ui._base.contracts;
+package com.achievers.ui._base.contracts.adapters;
 
 import android.os.Parcelable;
 

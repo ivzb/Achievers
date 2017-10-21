@@ -39,37 +39,6 @@ import com.google.android.exoplayer2.util.Util;
 
 public class AdapterSetters {
 
-    @BindingAdapter({ "bind:exoPlayer", "bind:play", "bind:context", "bind:url" })
-    public static void toggleVideo(
-            SimpleExoPlayerView playerView,
-            SimpleExoPlayer exoPlayer,
-            boolean play,
-            Context context,
-            String url) {
-
-        if (exoPlayer == null) return;
-
-        if (!play) {
-            exoPlayer.stop();
-            return;
-        }
-
-        Uri mediaUri = Uri.parse(url);
-
-        playerView.setPlayer(exoPlayer);
-
-        String userAgent = Util.getUserAgent(context, "Achievers");
-        MediaSource mediaSource = new ExtractorMediaSource(
-                mediaUri,
-                new DefaultDataSourceFactory(context, userAgent),
-                new DefaultExtractorsFactory(),
-                null,
-                null);
-
-        exoPlayer.prepare(mediaSource);
-        exoPlayer.setPlayWhenReady(true);
-    }
-
     // Fresco
     @BindingAdapter({ "bind:url", "bind:resources" })
     public static void loadImage(SimpleDraweeView view, String imageUrl, Resources resources) {

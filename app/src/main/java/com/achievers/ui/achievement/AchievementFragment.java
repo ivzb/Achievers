@@ -25,7 +25,7 @@ import com.achievers.data.entities.Evidence;
 import com.achievers.data.entities.UploadEvidenceItem;
 import com.achievers.databinding.AchievementFragBinding;
 import com.achievers.ui._base.AbstractFragment;
-import com.achievers.ui._base.contracts.BaseActionHandler;
+import com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler;
 import com.achievers.ui.achievement.adapters.EvidencesAdapter;
 import com.achievers.ui.achievement.adapters.UploadEvidenceDialogSimpleAdapter;
 import com.achievers.ui.evidence.EvidenceActivity;
@@ -45,7 +45,7 @@ import java.util.List;
 public class AchievementFragment
         extends AbstractFragment<AchievementContract.Presenter, AchievementContract.ViewModel, AchievementFragBinding>
         implements AchievementContract.View<AchievementFragBinding>, View.OnClickListener,
-            BaseActionHandler<Evidence>, SwipeRefreshLayout.OnRefreshListener {
+        BaseAdapterActionHandler<Evidence>, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String EVIDENCES_STATE = "evidences_state";
     private static final String LAYOUT_MANAGER_STATE = "layout_manager_state";
@@ -109,6 +109,12 @@ public class AchievementFragment
             Parcelable layoutManagerState = mDataBinding.rvEvidences.getLayoutManager().onSaveInstanceState();
             outState.putParcelable(LAYOUT_MANAGER_STATE, layoutManagerState);
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mViewModel.getAdapter().releaseMedia();
     }
 
     @Override
@@ -216,9 +222,8 @@ public class AchievementFragment
     }
 
     private void setUpEvidencesRecycler(Context context) {
-        final EvidencesAdapter adapter = new EvidencesAdapter(getContext(), this);
+        final EvidencesAdapter adapter = new EvidencesAdapter(getContext(),this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-
         mViewModel.setAdapter(adapter);
 
         mDataBinding.rvEvidences.setAdapter(adapter);

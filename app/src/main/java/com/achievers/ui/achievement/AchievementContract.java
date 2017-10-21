@@ -5,10 +5,11 @@ import android.databinding.ViewDataBinding;
 
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
-import com.achievers.ui._base.contracts.BaseAdapter;
+import com.achievers.ui._base.contracts.adapters.BaseAdapter;
 import com.achievers.ui._base.contracts.BasePresenter;
 import com.achievers.ui._base.contracts.BaseView;
 import com.achievers.ui._base.contracts.BaseViewModel;
+import com.achievers.ui._base.contracts.adapters.BaseMultimediaAdapter;
 
 import java.util.List;
 
@@ -41,7 +42,7 @@ public interface AchievementContract {
         void setAchievement(Achievement achievement);
 
         @Bindable
-        BaseAdapter<Evidence> getAdapter();
-        void setAdapter(BaseAdapter<Evidence> adapter);
+        BaseMultimediaAdapter<Evidence> getAdapter();
+        void setAdapter(BaseMultimediaAdapter<Evidence> adapter);
     }
 }
