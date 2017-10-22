@@ -4,4 +4,5 @@ public interface BaseMultimediaPlayer {
 
     void play();
     void stop();
+    boolean showControls();
 }

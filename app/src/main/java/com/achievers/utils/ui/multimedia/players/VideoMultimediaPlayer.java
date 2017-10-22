@@ -57,4 +57,11 @@ public class VideoMultimediaPlayer implements BaseMultimediaPlayer {
     public void stop() {
         mExoPlayer.setPlayWhenReady(false);
     }
+
+    @Override
+    public boolean showControls() {
+        return false;
+    }
+
+
 }

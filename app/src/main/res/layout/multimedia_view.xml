@@ -4,6 +4,7 @@
 
     <data>
         <import type="android.view.View" />
+        <import type="com.achievers.utils.ui.multimedia.MultimediaType" />
 
         <variable
             name="type"
@@ -47,18 +48,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:visibility="@{ isPlaying ? View.INVISIBLE : View.VISIBLE }"
             app:url="@{ previewUrl }"
             app:resources="@{ resources }"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-            android:id="@+id/playerView"
+        <include
+            android:id="@+id/player"
+            layout="@layout/multimedia_video_view"
             android:layout_width="0dp"
             android:layout_height="300dp"
-            android:visibility="@{ isPlaying ? View.VISIBLE : View.GONE }"
+            android:visibility="@{ type == MultimediaType.Video &amp; isPlaying ? View.VISIBLE : View.GONE }"
             app:layout_constraintTop_toTopOf="@+id/sdvPreview"
             app:layout_constraintStart_toStartOf="@+id/sdvPreview"
             app:layout_constraintEnd_toEndOf="@+id/sdvPreview"

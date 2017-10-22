@@ -56,21 +56,23 @@ public class MultimediaView
     @Override
     public void release() {
         mIsPlaying = false;
-        executePlayingBinding(mShowControls);
+        executePlayingBinding();
+        executeShowControlsBinding(mShowControls);
 
         mPlayer.stop();
     }
 
     @Override
     public View getPlayerView() {
-        return mBinding.playerView;
+        return mBinding.player;
     }
 
     @Override
     public void onClick() {
         mIsPlaying = !mIsPlaying;
 
-        executePlayingBinding(false);
+        executePlayingBinding();
+        executeShowControlsBinding(mPlayer.showControls());
         mActionHandler.onMultimediaAction(this);
 
         if (mIsPlaying) {
@@ -81,9 +83,13 @@ public class MultimediaView
         mPlayer.stop();
     }
 
-    private void executePlayingBinding(boolean showControls) {
-        mBinding.setShowControls(showControls);
+    private void executePlayingBinding() {
         mBinding.setIsPlaying(mIsPlaying);
+        mBinding.executePendingBindings();
+    }
+
+    private void executeShowControlsBinding(boolean showControls) {
+        mBinding.setShowControls(showControls);
         mBinding.executePendingBindings();
     }
 

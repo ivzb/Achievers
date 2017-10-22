@@ -1,7 +1,6 @@
 package com.achievers.ui.achievement.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -15,8 +14,8 @@ import com.achievers.utils.ui.multimedia.MultimediaView;
 import com.achievers.utils.ui.multimedia.players.SimpleMultimediaPlayer;
 import com.achievers.utils.ui.multimedia.players.VideoMultimediaPlayer;
 
-import static com.achievers.data.entities.EvidenceType.Photo;
-import static com.achievers.data.entities.EvidenceType.Video;
+import static com.achievers.utils.ui.multimedia.MultimediaType.Photo;
+import static com.achievers.utils.ui.multimedia.MultimediaType.Video;
 
 public class EvidencesAdapter extends MultimediaAdapter<Evidence> {
 
@@ -46,7 +45,7 @@ public class EvidencesAdapter extends MultimediaAdapter<Evidence> {
 
         BaseMultimediaPlayer player;
 
-        if (evidence.getEvidenceType() == Video) {
+        if (evidence.getMultimediaType() == Video) {
             player = new VideoMultimediaPlayer(
                     mContext,
                     mExoPlayer,
@@ -57,10 +56,10 @@ public class EvidencesAdapter extends MultimediaAdapter<Evidence> {
         }
 
         // todo: catch if builder throws null pointer
-        new MultimediaView.Builder(mvEvidence, )
+        new MultimediaView.Builder(mvEvidence, evidence.getMultimediaType())
                 .withPreviewUrl(evidence.getPreviewUrl())
-                .withControls(evidence.getEvidenceType() != Photo)
-                .withPlayResource(evidence.getEvidenceType().getPlayResource())
+                .withControls(evidence.getMultimediaType() != Photo)
+                .withPlayResource(evidence.getMultimediaType().getPlayResource())
                 .withActionHandler(this)
                 .withPlayer(player)
                 .build();

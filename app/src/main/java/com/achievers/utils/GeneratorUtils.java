@@ -2,8 +2,8 @@ package com.achievers.utils;
 
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
-import com.achievers.data.entities.EvidenceType;
 import com.achievers.data.entities.Involvement;
+import com.achievers.utils.ui.multimedia.MultimediaType;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -66,10 +66,10 @@ public class GeneratorUtils {
         return new Achievement(id, title, description, involvement, imageUrl);
     }
 
-    public EvidenceType getEvidenceType() {
+    public MultimediaType getMultimediaType() {
         checkNotNull(mRandom);
 
-        List<EvidenceType> values = Arrays.asList(EvidenceType.values());
+        List<MultimediaType> values = Arrays.asList(MultimediaType.values());
         int index = mRandom.nextInt(values.size());
         return values.get(index);
     }
@@ -79,11 +79,11 @@ public class GeneratorUtils {
         checkNotNull(mRandom);
 
         String comment = mFaker.lorem.sentence(5);
-        EvidenceType evidenceType = getEvidenceType();
+        MultimediaType multimediaType = getMultimediaType();
         String previewUrl = getImageUrl();
         String url;
 
-        switch (evidenceType) {
+        switch (multimediaType) {
             case Video:
                 url = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
                 break;
@@ -92,6 +92,6 @@ public class GeneratorUtils {
                 break;
         }
 
-        return new Evidence(id, comment, evidenceType, previewUrl, url, createdOn);
+        return new Evidence(id, comment, multimediaType, previewUrl, url, createdOn);
     }
 }

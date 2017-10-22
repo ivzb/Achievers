@@ -13,4 +13,9 @@ public class SimpleMultimediaPlayer implements BaseMultimediaPlayer {
     public void stop() {
 
     }
+
+    @Override
+    public boolean showControls() {
+        return true;
+    }
 }

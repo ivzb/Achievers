@@ -13,6 +13,7 @@ import android.provider.BaseColumns;
  * {@code int} {@link android.provider.BaseColumns#_ID} values, which are prone to shuffle during
  * sync.
  */
+@Deprecated
 public class AchieversContract {
 
     public static final String CONTENT_TYPE_APP_BASE = "achievers.";
@@ -183,7 +184,7 @@ public class AchieversContract {
 
         public static final String EVIDENCE_TYPE_VOICE = "voice";
 
-        public static final boolean isValidEvidenceType(String type) {
+        public static final boolean isValidMultimediaType(String type) {
             switch (type) {
                 case EVIDENCE_TYPE_IMAGE:
                 case EVIDENCE_TYPE_VIDEO:

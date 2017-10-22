@@ -1,8 +1,8 @@
 package com.achievers.utils;
 
 import com.achievers.data.entities.Achievement;
-import com.achievers.data.entities.EvidenceType;
 import com.achievers.data.entities.Involvement;
+import com.achievers.utils.ui.multimedia.MultimediaType;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -114,20 +114,20 @@ public class GeneratorUtilsTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void getEvidenceType_withNullRandom_shouldThrowNullPointer() {
+    public void getMultimediaType_withNullRandom_shouldThrowNullPointer() {
         GeneratorUtils.initialize(null, mFaker);
-        GeneratorUtils.getInstance().getEvidenceType();
+        GeneratorUtils.getInstance().getMultimediaType();
     }
 
     @Test
-    public void getEvidenceType_shouldGenerateRandom() {
+    public void getMultimediaType_shouldGenerateRandom() {
         GeneratorUtils.initialize(mRandom, mFaker);
 
-        EvidenceType[] expected = EvidenceType.values();
+        MultimediaType[] expected = MultimediaType.values();
 
         for (int i = 0; i < expected.length; i++) {
             Mockito.when(mRandom.nextInt(isA(int.class))).thenReturn(i);
-            EvidenceType actual = GeneratorUtils.getInstance().getEvidenceType();
+            MultimediaType actual = GeneratorUtils.getInstance().getMultimediaType();
 
             assertEquals(sFailEvidence, expected[i], actual);
         }

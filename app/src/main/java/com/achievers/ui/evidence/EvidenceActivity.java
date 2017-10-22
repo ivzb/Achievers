@@ -41,7 +41,7 @@ public class EvidenceActivity extends AbstractActivity {
                 .findFragmentById(R.id.contentFrame);
 
         if (view == null) {
-            switch (evidence.getEvidenceType()) {
+            switch (evidence.getMultimediaType()) {
                 case Photo:
                     view = new EvidencePhotoFragment();
                     break;

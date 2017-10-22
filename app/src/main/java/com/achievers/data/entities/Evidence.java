@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.achievers.data.entities._base.BaseModel;
+import com.achievers.utils.ui.multimedia.MultimediaType;
 import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
@@ -21,9 +22,9 @@ public class Evidence implements BaseModel {
     @NonNull
     String comment;
 
-    @SerializedName("evidenceType")
+    @SerializedName("multimediaType")
     @NonNull
-    EvidenceType evidenceType;
+    MultimediaType multimediaType;
 
     @SerializedName("achievementId")
     long achievementId;
@@ -48,12 +49,12 @@ public class Evidence implements BaseModel {
         this.id = id;
     }
 
-    public Evidence(long id, @NonNull String comment, @NonNull EvidenceType evidenceType,
+    public Evidence(long id, @NonNull String comment, @NonNull MultimediaType multimediaType,
                     @NonNull String previewUrl, @NonNull String url, @Nullable Date createdOn) {
         this(id);
 
         this.comment = comment;
-        this.evidenceType = evidenceType;
+        this.multimediaType = multimediaType;
         this.previewUrl = previewUrl;
         this.url = url;
         this.createdOn = createdOn;
@@ -74,8 +75,8 @@ public class Evidence implements BaseModel {
     }
 
     @NonNull
-    public EvidenceType getEvidenceType() {
-        return evidenceType;
+    public MultimediaType getMultimediaType() {
+        return multimediaType;
     }
 
     public long getAchievementId() {
@@ -127,7 +128,7 @@ public class Evidence implements BaseModel {
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + comment.hashCode();
-        result = 31 * result + evidenceType.hashCode();
+        result = 31 * result + multimediaType.hashCode();
         result = 31 * result + (int) (achievementId ^ (achievementId >>> 32));
         result = 31 * result + url.hashCode();
         result = 31 * result + previewUrl.hashCode();
