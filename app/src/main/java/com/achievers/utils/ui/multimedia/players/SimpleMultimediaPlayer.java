@@ -1,6 +1,6 @@
 package com.achievers.utils.ui.multimedia.players;
 
-import com.achievers.ui._base.contracts.BaseMultimediaPlayer;
+import com.achievers.ui._base.contracts.multimedia.BaseMultimediaPlayer;
 
 public class SimpleMultimediaPlayer implements BaseMultimediaPlayer {
 

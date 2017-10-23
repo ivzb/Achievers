@@ -1,4 +1,4 @@
-package com.achievers.ui._base.contracts;
+package com.achievers.ui._base.contracts.multimedia;
 
 public interface BaseMultimediaPlayer {
 

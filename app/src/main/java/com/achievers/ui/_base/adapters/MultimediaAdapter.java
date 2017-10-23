@@ -7,7 +7,7 @@ import com.achievers.ui._base.AbstractAdapter;
 import com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler;
 import com.achievers.ui._base.contracts.action_handlers.BaseMultimediaActionHandler;
 import com.achievers.ui._base.contracts.adapters.BaseMultimediaAdapter;
-import com.achievers.ui._base.contracts.views.BaseMultimediaView;
+import com.achievers.ui._base.contracts.multimedia.BaseMultimediaView;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;

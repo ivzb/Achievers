@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.view.View;
 
 import com.achievers.BuildConfig;
-import com.achievers.ui._base.contracts.BaseMultimediaPlayer;
+import com.achievers.ui._base.contracts.multimedia.BaseMultimediaPlayer;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;

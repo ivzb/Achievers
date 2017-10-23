@@ -8,7 +8,7 @@ import com.achievers.BR;
 import com.achievers.data.entities.Evidence;
 import com.achievers.databinding.EvidencesRecyclerItemBinding;
 import com.achievers.ui._base.adapters.MultimediaAdapter;
-import com.achievers.ui._base.contracts.BaseMultimediaPlayer;
+import com.achievers.ui._base.contracts.multimedia.BaseMultimediaPlayer;
 import com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler;
 import com.achievers.utils.ui.multimedia.MultimediaView;
 import com.achievers.utils.ui.multimedia.players.SimpleMultimediaPlayer;
@@ -56,7 +56,7 @@ public class EvidencesAdapter extends MultimediaAdapter<Evidence> {
         }
 
         // todo: catch if builder throws null pointer
-        new MultimediaView.Builder(mvEvidence, evidence.getMultimediaType())
+        mvEvidence.builder(evidence.getMultimediaType())
                 .withPreviewUrl(evidence.getPreviewUrl())
                 .withControls(evidence.getMultimediaType() != Photo)
                 .withPlayResource(evidence.getMultimediaType().getPlayResource())
