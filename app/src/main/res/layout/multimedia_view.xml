@@ -7,36 +7,8 @@
         <import type="com.achievers.utils.ui.multimedia.MultimediaType" />
 
         <variable
-            name="type"
-            type="com.achievers.utils.ui.multimedia.MultimediaType" />
-
-        <variable
-            name="previewUrl"
-            type="String" />
-
-        <variable
-            name="actionHandler"
-            type="com.achievers.ui._base.contracts.action_handlers.BaseActionHandler" />
-
-        <variable
-            name="showControls"
-            type="Boolean" />
-
-        <variable
-            name="playResource"
-            type="Integer" />
-
-        <variable
-            name="pauseResource"
-            type="Integer" />
-
-        <variable
-            name="isPlaying"
-            type="Boolean" />
-
-        <variable
-            name="resources"
-            type="android.content.res.Resources" />
+            name="viewModel"
+            type="com.achievers.utils.ui.multimedia._base.BaseMultimediaViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -48,8 +20,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            app:url="@{ previewUrl }"
-            app:resources="@{ resources }"
+            app:url="@{ viewModel.previewUrl }"
+            app:resources="@{ viewModel.resources }"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -59,12 +31,11 @@
             layout="@layout/multimedia_video_view"
             android:layout_width="0dp"
             android:layout_height="300dp"
-            android:visibility="@{ type == MultimediaType.Video &amp; isPlaying ? View.VISIBLE : View.GONE }"
+            android:visibility="@{ viewModel.playingVideo ? View.VISIBLE : View.GONE }"
             app:layout_constraintTop_toTopOf="@+id/sdvPreview"
             app:layout_constraintStart_toStartOf="@+id/sdvPreview"
             app:layout_constraintEnd_toEndOf="@+id/sdvPreview"
             app:layout_constraintBottom_toBottomOf="@+id/sdvPreview" />
-        <!--android:visibility="@{ viewModel.playingVideo ? View.VISIBLE : View.GONE }"-->
 
         <android.support.v7.widget.CardView
             android:layout_width="wrap_content"
@@ -78,20 +49,20 @@
             app:layout_constraintLeft_toLeftOf="@+id/sdvPreview"
             app:layout_constraintRight_toRightOf="@+id/sdvPreview"
             app:layout_constraintBottom_toBottomOf="@+id/sdvPreview"
-            android:onClick="@{ () -> actionHandler.onClick() }"
-            android:visibility="@{ showControls ? View.VISIBLE : View.GONE }">
+            android:onClick="@{ () -> viewModel.actionHandler.onClick() }"
+            android:visibility="@{ viewModel.showControls ? View.VISIBLE : View.GONE }">
 
             <ImageView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:src="@{ playResource }"
-                android:visibility="@{ isPlaying ? View.GONE : View.VISIBLE }" />
+                android:src="@{ viewModel.playResource }"
+                android:visibility="@{ viewModel.isPlaying ? View.GONE : View.VISIBLE }" />
 
             <ImageView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:src="@{ pauseResource }"
-                android:visibility="@{ isPlaying ? View.VISIBLE : View.GONE }" />
+                android:src="@{ viewModel.pauseResource }"
+                android:visibility="@{ viewModel.isPlaying ? View.VISIBLE : View.GONE }" />
         </android.support.v7.widget.CardView>
     </android.support.constraint.ConstraintLayout>
 </layout>

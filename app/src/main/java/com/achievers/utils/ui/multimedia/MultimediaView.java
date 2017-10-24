@@ -9,11 +9,12 @@ import android.view.View;
 
 import com.achievers.R;
 import com.achievers.databinding.MultimediaViewBinding;
-import com.achievers.ui._base.contracts.multimedia.BaseMultimediaBuilder;
-import com.achievers.ui._base.contracts.multimedia.BaseMultimediaPlayer;
 import com.achievers.ui._base.contracts.action_handlers.BaseActionHandler;
 import com.achievers.ui._base.contracts.action_handlers.BaseMultimediaActionHandler;
-import com.achievers.ui._base.contracts.multimedia.BaseMultimediaView;
+import com.achievers.utils.ui.multimedia._base.BaseMultimediaBuilder;
+import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
+import com.achievers.utils.ui.multimedia._base.BaseMultimediaView;
+import com.achievers.utils.ui.multimedia._base.BaseMultimediaViewModel;
 
 import static com.achievers.utils.Preconditions.checkNotNull;
 
@@ -23,73 +24,48 @@ public class MultimediaView
 
     private Context mContext;
     private MultimediaViewBinding mBinding;
-
-    private MultimediaType mType;
-    private BaseMultimediaPlayer mPlayer;
-    private boolean mIsPlaying;
-
-    private String mPreviewUrl;
-
-    private boolean mShowControls;
-    private int mPlayResource;
-    private int mPauseResource;
-
-    private BaseMultimediaActionHandler mActionHandler;
+    private BaseMultimediaViewModel mViewModel;
 
     public MultimediaView(Context context) {
         super(context);
-
-        mContext = context;
-        init(inflate(context));
+        init(context);
     }
 
     public MultimediaView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        mContext = context;
-        init(inflate(context));
+        init(context);
     }
 
     public MultimediaView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
-        mContext = context;
-        init(inflate(context));
+        init(context);
     }
 
     @VisibleForTesting
-    public MultimediaView(Context context, MultimediaViewBinding binding) {
+    public MultimediaView(
+            Context context,
+            MultimediaViewBinding binding,
+            BaseMultimediaViewModel viewModel) {
+
         super(context);
 
-        mContext = context;
-        init(binding);
+        mContext = checkNotNull(context);
+        init(binding, viewModel);
     }
 
-    private MultimediaViewBinding inflate(Context context) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        return MultimediaViewBinding.inflate(layoutInflater, this, true);
-    }
-
-    private void init(MultimediaViewBinding binding) {
-        mBinding = binding;
-
-        mIsPlaying = false;
-        mPlayResource = R.drawable.ic_play;
-        mPauseResource = R.drawable.ic_pause;
+    @Override
+    public BaseMultimediaBuilder builder(MultimediaType multimediaType) {
+        return new Builder(multimediaType).clean();
     }
 
     @Override
     public boolean isPlaying() {
-        return mIsPlaying;
+        return mViewModel.isPlaying();
     }
 
     @Override
-    public void release() {
-        mIsPlaying = false;
-        executePlayingBinding();
-        executeShowControlsBinding(mShowControls);
-
-        if (mPlayer != null) mPlayer.stop();
+    public void stop() {
+        togglePlayer(false);
     }
 
     @Override
@@ -99,149 +75,145 @@ public class MultimediaView
 
     @Override
     public void onClick() {
-        mIsPlaying = !mIsPlaying;
+        mViewModel.setPlaying(!isPlaying());
+        mViewModel.getMultimediaActionHandler().onMultimediaAction(this);
 
-        executePlayingBinding();
+        togglePlayer(isPlaying());
+    }
 
-        boolean showControls = mShowControls;
-        if (mPlayer != null) showControls |= mPlayer.showControls();
+    private void init(Context context) {
+        mContext = checkNotNull(context);
 
-        executeShowControlsBinding(showControls);
-        mActionHandler.onMultimediaAction(this);
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        MultimediaViewBinding binding = MultimediaViewBinding.inflate(
+                layoutInflater,
+                this,
+                true);
 
-        if (mPlayer != null) {
-            if (mIsPlaying) {
-                mPlayer.play();
+        MultimediaViewModel viewModel = new MultimediaViewModel();
+
+        init(binding, viewModel);
+    }
+
+    private void init(MultimediaViewBinding binding, BaseMultimediaViewModel viewModel) {
+        checkNotNull(binding);
+        checkNotNull(viewModel);
+
+        mBinding = binding;
+        mBinding.setViewModel(viewModel);
+
+        mViewModel = viewModel;
+        mViewModel.setResources(mContext.getResources());
+    }
+
+    private void togglePlayer(boolean play) {
+        BaseMultimediaPlayer player = mViewModel.getPlayer();
+        boolean hasPlayer = player != null;
+
+        boolean showControls = !play;
+        if (hasPlayer) showControls |= player.showControls();
+
+        mViewModel.setPlaying(play);
+        mViewModel.setShowControls(showControls);
+
+        if (hasPlayer) {
+            if (play) {
+                player.play();
                 return;
             }
 
-            mPlayer.stop();
+            player.stop();
         }
-    }
-
-    @Override
-    public Builder builder(MultimediaType multimediaType) {
-        reset();
-        return new Builder(this, multimediaType);
-    }
-
-    private void reset() {
-        mType = null;
-
-        if (mPlayer != null) {
-            mPlayer.stop();
-            mPlayer = null;
-        }
-
-        mIsPlaying = false;
-        mPreviewUrl = null;
-        mShowControls = false;
-        mPlayResource = 0;
-        mPauseResource = 0;
-    }
-
-    private void executePlayingBinding() {
-        mBinding.setIsPlaying(mIsPlaying);
-        mBinding.executePendingBindings();
-    }
-
-    private void executeShowControlsBinding(boolean showControls) {
-        mBinding.setShowControls(showControls);
-        mBinding.executePendingBindings();
-    }
-
-    private void setType(MultimediaType type) {
-        mType = type;
-    }
-
-    private void setPreviewUrl(String url) {
-        mPreviewUrl = url;
-    }
-
-    private void setShowControls(boolean showControls) {
-        mShowControls = showControls;
-    }
-
-    private void setPlayResource(int resource) {
-        mPlayResource = resource;
-    }
-
-    private void setPauseResource(int resource) {
-        mPauseResource = resource;
-    }
-
-    private void setActionHandler(BaseMultimediaActionHandler actionHandler) {
-        mActionHandler = actionHandler;
-    }
-
-    private void setPlayer(BaseMultimediaPlayer player) {
-        mPlayer = player;
-    }
-
-    private void build() {
-        mIsPlaying = false;
-
-        mBinding.setType(mType);
-        mBinding.setPreviewUrl(mPreviewUrl);
-        mBinding.setActionHandler(this);
-
-        mBinding.setIsPlaying(mIsPlaying);
-        mBinding.setShowControls(mShowControls);
-        mBinding.setPlayResource(mPlayResource);
-        mBinding.setPauseResource(mPauseResource);
-
-        mBinding.setResources(mContext.getResources());
-        mBinding.executePendingBindings();
     }
 
     public class Builder implements BaseMultimediaBuilder {
 
-        private final MultimediaView mMultimediaView;
+        private MultimediaType mType;
+        private boolean mIsPlaying;
 
-        Builder(MultimediaView multimediaView, MultimediaType type) {
-            mMultimediaView = checkNotNull(multimediaView);
-            multimediaView.setType(checkNotNull(type));
+        private String mPreviewUrl;
+
+        private boolean mShowControls;
+        private int mPlayResource;
+        private int mPauseResource;
+
+        private BaseMultimediaActionHandler mMultimediaActionHandler;
+        private BaseMultimediaPlayer mPlayer;
+
+        Builder(MultimediaType type) {
+            mType = checkNotNull(type);
+            mPlayResource = R.drawable.ic_play;
+            mPauseResource = R.drawable.ic_pause;
         }
 
         @Override
-		public Builder withPreviewUrl(String previewUrl) {
-            mMultimediaView.setPreviewUrl(previewUrl);
+		public BaseMultimediaBuilder withPreviewUrl(String previewUrl) {
+            mPreviewUrl = previewUrl;
             return this;
         }
 
         @Override
-		public Builder withControls(boolean showControls) {
-            mMultimediaView.setShowControls(showControls);
+		public BaseMultimediaBuilder withControls(boolean showControls) {
+            mShowControls = showControls;
             return this;
         }
 
         @Override
-		public Builder withPlayResource(int resource) {
-            mMultimediaView.setPlayResource(resource);
+		public BaseMultimediaBuilder withPlayResource(int resource) {
+            mPlayResource = resource;
             return this;
         }
 
         @Override
-		public Builder withPauseResource(int resource) {
-            mMultimediaView.setPauseResource(resource);
+		public BaseMultimediaBuilder withPauseResource(int resource) {
+            mPauseResource = resource;
             return this;
         }
 
         @Override
-		public Builder withActionHandler(BaseMultimediaActionHandler actionHandler) {
-            mMultimediaView.setActionHandler(actionHandler);
+        public BaseMultimediaBuilder withPlaying(boolean isPlaying) {
+            mIsPlaying = isPlaying;
             return this;
         }
 
         @Override
-		public Builder withPlayer(BaseMultimediaPlayer player) {
-            mMultimediaView.setPlayer(player);
+		public BaseMultimediaBuilder withActionHandler(BaseMultimediaActionHandler actionHandler) {
+            mMultimediaActionHandler = actionHandler;
+            return this;
+        }
+
+        @Override
+		public BaseMultimediaBuilder withPlayer(BaseMultimediaPlayer player) {
+            mPlayer = player;
             return this;
         }
 
         @Override
 		public void build() {
-            mMultimediaView.build();
+            mViewModel.setType(mType);
+            mViewModel.setPreviewUrl(mPreviewUrl);
+            mViewModel.setActionHandler(MultimediaView.this);
+
+            mViewModel.setPlaying(mIsPlaying);
+            mViewModel.setShowControls(mShowControls);
+            mViewModel.setPlayResource(mPlayResource);
+            mViewModel.setPauseResource(mPauseResource);
+
+            mViewModel.setMultimediaActionHandler(mMultimediaActionHandler);
+            mViewModel.setPlayer(mPlayer);
+        }
+
+        private BaseMultimediaBuilder clean() {
+            if (!isNew()) {
+                stop();
+                build();
+            }
+
+            return this;
+        }
+
+        private boolean isNew() {
+            return mViewModel.getType() == null;
         }
     }
 }

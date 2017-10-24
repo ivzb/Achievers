@@ -7,7 +7,7 @@ import com.achievers.ui._base.AbstractAdapter;
 import com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler;
 import com.achievers.ui._base.contracts.action_handlers.BaseMultimediaActionHandler;
 import com.achievers.ui._base.contracts.adapters.BaseMultimediaAdapter;
-import com.achievers.ui._base.contracts.multimedia.BaseMultimediaView;
+import com.achievers.utils.ui.multimedia._base.BaseMultimediaView;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
@@ -32,7 +32,7 @@ public abstract class MultimediaAdapter<T extends BaseModel>
     @Override
     public void releaseMedia() {
         if (mActiveMultimedia != null) {
-            mActiveMultimedia.release();
+            mActiveMultimedia.stop();
         }
     }
 

@@ -8,9 +8,9 @@ import com.achievers.BR;
 import com.achievers.data.entities.Evidence;
 import com.achievers.databinding.EvidencesRecyclerItemBinding;
 import com.achievers.ui._base.adapters.MultimediaAdapter;
-import com.achievers.ui._base.contracts.multimedia.BaseMultimediaPlayer;
 import com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler;
 import com.achievers.utils.ui.multimedia.MultimediaView;
+import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 import com.achievers.utils.ui.multimedia.players.SimpleMultimediaPlayer;
 import com.achievers.utils.ui.multimedia.players.VideoMultimediaPlayer;
 
