@@ -124,6 +124,50 @@ public class MultimediaViewTest {
     }
 
     @Test
+    public void builder_stop() {
+        // arrange
+        when(mViewModel.getPlayer()).thenReturn(mPlayer);
+
+        playerAndActionHandlerBuilder(mBuilderType, null, mPlayer);
+
+        // act
+        mView.stop();
+
+        // assert
+        verify(mViewModel).getPlayer();
+        verify(mPlayer).showControls();
+        verify(mViewModel, times(2)).setPlaying(false);
+        verify(mViewModel).setShowControls(true);
+
+        verify(mPlayer).stop();
+    }
+
+    private void playerAndActionHandlerBuilder(
+            MultimediaType type,
+            BaseMultimediaActionHandler actionHandler,
+            BaseMultimediaPlayer player) {
+
+        // act
+        mView.builder(type)
+                .withActionHandler(actionHandler)
+                .withPlayer(player)
+                .build();
+
+        // assert
+        verifyViewModel(
+                type,
+                null,
+                false,
+                0,
+                0,
+                false,
+                actionHandler,
+                player);
+    }
+
+    // todo: test toggle with view's different states
+
+    @Test
     public void emptyBuilder_photo() {
         emptyBuilder(MultimediaType.Photo);
     }

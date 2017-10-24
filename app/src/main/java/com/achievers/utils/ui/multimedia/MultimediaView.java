@@ -108,22 +108,19 @@ public class MultimediaView
 
     private void togglePlayer(boolean play) {
         BaseMultimediaPlayer player = mViewModel.getPlayer();
-        boolean hasPlayer = player != null;
 
+        boolean hasPlayer = player != null;
         boolean showControls = !play;
-        if (hasPlayer) showControls |= player.showControls();
+
+        if (hasPlayer) {
+            showControls |= player.showControls();
+
+            if (play) player.play();
+            else player.stop();
+        }
 
         mViewModel.setPlaying(play);
         mViewModel.setShowControls(showControls);
-
-        if (hasPlayer) {
-            if (play) {
-                player.play();
-                return;
-            }
-
-            player.stop();
-        }
     }
 
     public class Builder implements BaseMultimediaBuilder {
