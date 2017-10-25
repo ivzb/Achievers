@@ -9,7 +9,6 @@ import android.view.View;
 
 import com.achievers.R;
 import com.achievers.databinding.MultimediaViewBinding;
-import com.achievers.ui._base.contracts.action_handlers.BaseActionHandler;
 import com.achievers.ui._base.contracts.action_handlers.BaseMultimediaActionHandler;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaBuilder;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
@@ -20,7 +19,7 @@ import static com.achievers.utils.Preconditions.checkNotNull;
 
 public class MultimediaView
         extends ConstraintLayout
-        implements BaseMultimediaView, BaseActionHandler {
+        implements BaseMultimediaView {
 
     private Context mContext;
     private MultimediaViewBinding mBinding;
@@ -65,7 +64,10 @@ public class MultimediaView
 
     @Override
     public void stop() {
-        togglePlayer(false);
+        BaseMultimediaPlayer player = mViewModel.getPlayer();
+        startPlayer(player, false);
+
+        mViewModel.setShowControls(true);
     }
 
     @Override
@@ -75,10 +77,15 @@ public class MultimediaView
 
     @Override
     public void onClick() {
-        mViewModel.setPlaying(!isPlaying());
         mViewModel.getMultimediaActionHandler().onMultimediaAction(this);
+        BaseMultimediaPlayer player = mViewModel.getPlayer();
+        boolean isPlaying = isPlaying();
 
-        togglePlayer(isPlaying());
+        boolean showControls = isPlaying;
+        if (player != null) showControls |= player.showControls();
+        mViewModel.setShowControls(showControls);
+
+        startPlayer(player, !isPlaying);
     }
 
     private void init(Context context) {
@@ -106,21 +113,16 @@ public class MultimediaView
         mViewModel.setResources(mContext.getResources());
     }
 
-    private void togglePlayer(boolean play) {
-        BaseMultimediaPlayer player = mViewModel.getPlayer();
-
-        boolean hasPlayer = player != null;
-        boolean showControls = !play;
-
-        if (hasPlayer) {
-            showControls |= player.showControls();
-
-            if (play) player.play();
-            else player.stop();
+    private void startPlayer(BaseMultimediaPlayer player, boolean start) {
+        if (player != null) {
+            if (start) {
+                player.start();
+            } else {
+                player.stop();
+            }
         }
 
-        mViewModel.setPlaying(play);
-        mViewModel.setShowControls(showControls);
+        mViewModel.setPlaying(start);
     }
 
     public class Builder implements BaseMultimediaBuilder {
@@ -139,6 +141,7 @@ public class MultimediaView
 
         Builder(MultimediaType type) {
             mType = checkNotNull(type);
+            mShowControls = true;
             mPlayResource = R.drawable.ic_play;
             mPauseResource = R.drawable.ic_pause;
         }

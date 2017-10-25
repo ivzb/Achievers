@@ -44,14 +44,29 @@ public class MultimediaViewTest {
     @Mock private BaseMultimediaPlayer mPlayer;
 
     private BaseMultimediaView mView;
-    private MultimediaType mBuilderType;
+
+    private MultimediaType mDefaultType;
+    private String mDefaultPreviewUrl;
+    private boolean mDefaultShowControls;
+    private int mDefaultPlayResource;
+    private int mDefaultPauseResource;
+    private boolean mDefaultIsPlaying;
+    private BaseMultimediaActionHandler mDefaultMultimediaActionHandler;
+    private BaseMultimediaPlayer mDefaultPlayer;
 
     @Before
     public void before() throws Exception {
         when(mContext.getResources()).thenReturn(mResources);
 
         mView = new MultimediaView(mContext, mBinding, mViewModel);
-        mBuilderType = MultimediaType.Photo;
+        mDefaultType = MultimediaType.Photo;
+        mDefaultPreviewUrl = null;
+        mDefaultShowControls = true;
+        mDefaultPlayResource = 0;
+        mDefaultPauseResource = 0;
+        mDefaultIsPlaying = false;
+        mDefaultMultimediaActionHandler = null;
+        mDefaultPlayer = null;
 
         verify(mBinding).setViewModel(mViewModel);
     }
@@ -124,25 +139,100 @@ public class MultimediaViewTest {
     }
 
     @Test
-    public void builder_stop() {
+    public void builder_withPlayer_stop() {
         // arrange
         when(mViewModel.getPlayer()).thenReturn(mPlayer);
 
-        playerAndActionHandlerBuilder(mBuilderType, null, mPlayer);
+        buildWithPlayerAndActionHandler(mDefaultType, null, mPlayer);
 
         // act
         mView.stop();
 
         // assert
         verify(mViewModel).getPlayer();
-        verify(mPlayer).showControls();
-        verify(mViewModel, times(2)).setPlaying(false);
-        verify(mViewModel).setShowControls(true);
-
         verify(mPlayer).stop();
+        verifyStopCaptors();
     }
 
-    private void playerAndActionHandlerBuilder(
+    @Test
+    public void builder_withoutPlayer_stop() {
+        // arrange
+        emptyBuilder(mDefaultType);
+
+        // act
+        mView.stop();
+
+        // assert
+        verify(mViewModel).getPlayer();
+        verifyStopCaptors();
+    }
+
+    private void verifyStopCaptors() {
+        ArgumentCaptor<Boolean> showControlsCaptor = ArgumentCaptor.forClass(Boolean.class);
+        verify(mViewModel, times(2)).setShowControls(showControlsCaptor.capture());
+        assertThat(showControlsCaptor.getAllValues(), hasItems(true, true));
+
+        ArgumentCaptor<Boolean> playingCaptor = ArgumentCaptor.forClass(Boolean.class);
+        verify(mViewModel, times(2)).setPlaying(playingCaptor.capture());
+        assertThat(playingCaptor.getAllValues(), hasItems(false, false));
+    }
+
+    @Test
+    public void builder_click_notPlayingNotShowingControls_shouldPlayNotShowingControls() {
+        verifyPlayerAndControls(false, false);
+    }
+
+    @Test
+    public void builder_click_notPlayingShowingControls_shouldPlayNotShowingControls() {
+        verifyPlayerAndControls(false, true);
+    }
+
+    @Test
+    public void builder_click_playingNotShowingControls_shouldNotPlayShowingControls() {
+        verifyPlayerAndControls(true, false);
+    }
+
+    @Test
+    public void builder_click_playing_showingControls_shouldNotPlayShowingControls() {
+        verifyPlayerAndControls(true, true);
+    }
+
+    private void verifyPlayerAndControls(boolean isPlaying, boolean showControls) {
+        // arrange
+        when(mViewModel.getMultimediaActionHandler()).thenReturn(mActionHandler);
+        when(mViewModel.getPlayer()).thenReturn(mPlayer);
+        when(mViewModel.isPlaying()).thenReturn(isPlaying);
+        when(mPlayer.showControls()).thenReturn(showControls);
+
+        buildWithPlayerAndActionHandler(mDefaultType, mActionHandler, mPlayer);
+
+        // act
+        mView.onClick();
+
+        // assert
+        verify(mViewModel).getMultimediaActionHandler();
+        verify(mActionHandler).onMultimediaAction(isA(BaseMultimediaView.class));
+        verify(mViewModel).isPlaying();
+
+        verify(mViewModel).getPlayer();
+        verify(mPlayer).showControls();
+
+        if (isPlaying) {
+            verify(mPlayer).stop();
+        } else {
+            verify(mPlayer).start();
+        }
+
+        ArgumentCaptor<Boolean> playingCaptor = ArgumentCaptor.forClass(Boolean.class);
+        verify(mViewModel, times(2)).setPlaying(playingCaptor.capture());
+        assertThat(playingCaptor.getAllValues(), hasItems(false, !isPlaying));
+
+        ArgumentCaptor<Boolean> showControlsCaptor = ArgumentCaptor.forClass(Boolean.class);
+        verify(mViewModel, times(2)).setShowControls(showControlsCaptor.capture());
+        assertThat(showControlsCaptor.getAllValues(), hasItems(true, isPlaying || showControls));
+    }
+
+    private void buildWithPlayerAndActionHandler(
             MultimediaType type,
             BaseMultimediaActionHandler actionHandler,
             BaseMultimediaPlayer player) {
@@ -154,18 +244,12 @@ public class MultimediaViewTest {
                 .build();
 
         // assert
-        verifyViewModel(
-                type,
-                null,
-                false,
-                0,
-                0,
-                false,
-                actionHandler,
-                player);
-    }
+        mDefaultType = type;
+        mDefaultMultimediaActionHandler = actionHandler;
+        mDefaultPlayer = player;
 
-    // todo: test toggle with view's different states
+        verifyViewModel();
+    }
 
     @Test
     public void emptyBuilder_photo() {
@@ -187,19 +271,12 @@ public class MultimediaViewTest {
         mView.builder(type).build();
 
         // assert
-        verifyViewModel(
-                type,
-                null,
-                false,
-                0,
-                0,
-                false,
-                null,
-                null);
+        mDefaultType = type;
+        verifyViewModel();
     }
 
     @Test
-    public void clean() {
+    public void reuseView_typicalRecyclerBehaviour() {
         // arrange
         int size = 2;
 
@@ -210,7 +287,7 @@ public class MultimediaViewTest {
         String secondPreviewUrl = null;
 
         boolean firstShowControls = true;
-        boolean secondShowControls = false;
+        boolean secondShowControls = true;
 
         int firstPlayResource = 37;
         int secondPlayResource = R.drawable.ic_play;
@@ -292,6 +369,7 @@ public class MultimediaViewTest {
     public void build_withPreviewUrl() {
         // arrange
         String previewUrl = "preview-url.com";
+        mDefaultPreviewUrl = previewUrl;
 
         // act
         getBuilder()
@@ -299,15 +377,7 @@ public class MultimediaViewTest {
                 .build();
 
         // assert
-        verifyViewModel(
-                mBuilderType,
-                previewUrl,
-                false,
-                0,
-                0,
-                false,
-                null,
-                null);
+        verifyViewModel();
     }
 
     @Test
@@ -321,27 +391,23 @@ public class MultimediaViewTest {
     }
 
     private void build_withControls(boolean showControls) {
+        // arrange
+        mDefaultShowControls = showControls;
+
         // act
         getBuilder()
                 .withControls(showControls)
                 .build();
 
         // assert
-        verifyViewModel(
-                mBuilderType,
-                null,
-                showControls,
-                0,
-                0,
-                false,
-                null,
-                null);
+        verifyViewModel();
     }
 
     @Test
     public void build_withPlayResource() {
         // arrange
         int resource = 17;
+        mDefaultPlayResource = resource;
 
         // act
         getBuilder()
@@ -349,21 +415,14 @@ public class MultimediaViewTest {
                 .build();
 
         // assert
-        verifyViewModel(
-                mBuilderType,
-                null,
-                false,
-                resource,
-                0,
-                false,
-                null,
-                null);
+        verifyViewModel();
     }
 
     @Test
     public void build_withPauseResource() {
         // arrange
         int resource = 38;
+        mDefaultPauseResource = resource;
 
         // act
         getBuilder()
@@ -371,15 +430,7 @@ public class MultimediaViewTest {
                 .build();
 
         // assert
-        verifyViewModel(
-                mBuilderType,
-                null,
-                false,
-                0,
-                resource,
-                false,
-                null,
-                null);
+        verifyViewModel();
     }
 
     @Test
@@ -393,27 +444,23 @@ public class MultimediaViewTest {
     }
 
     private void build_withPlaying(boolean playing) {
+        // arrange
+        mDefaultIsPlaying = playing;
+
         // act
         getBuilder()
                 .withPlaying(playing)
                 .build();
 
         // assert
-        verifyViewModel(
-                mBuilderType,
-                null,
-                false,
-                0,
-                0,
-                playing,
-                null,
-                null);
+        verifyViewModel();
     }
 
     @Test
     public void build_withActionHandler() {
         // arrange
         BaseMultimediaActionHandler actionHandler = mock(BaseMultimediaActionHandler.class);
+        mDefaultMultimediaActionHandler = actionHandler;
 
         // act
         getBuilder()
@@ -421,21 +468,14 @@ public class MultimediaViewTest {
                 .build();
 
         // assert
-        verifyViewModel(
-                mBuilderType,
-                null,
-                false,
-                0,
-                0,
-                false,
-                actionHandler,
-                null);
+        verifyViewModel();
     }
 
     @Test
     public void build_withPlayer() {
         // arrange
         BaseMultimediaPlayer player = mock(BaseMultimediaPlayer.class);
+        mDefaultPlayer = player;
 
         // act
         getBuilder()
@@ -443,46 +483,29 @@ public class MultimediaViewTest {
                 .build();
 
         // assert
-        verifyViewModel(
-                mBuilderType,
-                null,
-                false,
-                0,
-                0,
-                false,
-                null,
-                player);
+        verifyViewModel();
     }
 
     private BaseMultimediaBuilder getBuilder() {
-        return mView.builder(mBuilderType);
+        return mView.builder(mDefaultType);
     }
 
-    private void verifyViewModel(
-            MultimediaType type,
-            String previewUrl,
-            boolean showControls,
-            int playResource,
-            int pauseResource,
-            boolean isPlaying,
-            BaseMultimediaActionHandler multimediaActionHandler,
-            BaseMultimediaPlayer player) {
-
-        if (playResource == 0) playResource = R.drawable.ic_play;
-        if (pauseResource == 0) pauseResource = R.drawable.ic_pause;
+    private void verifyViewModel() {
+        if (mDefaultPlayResource == 0) mDefaultPlayResource= R.drawable.ic_play;
+        if (mDefaultPauseResource == 0) mDefaultPauseResource = R.drawable.ic_pause;
 
         verify(mViewModel).getType();
-        verify(mViewModel).setType(type);
+        verify(mViewModel).setType(mDefaultType);
 
-        verify(mViewModel).setPreviewUrl(previewUrl);
+        verify(mViewModel).setPreviewUrl(mDefaultPreviewUrl);
         verify(mViewModel).setActionHandler(isA(BaseActionHandler.class));
 
-        verify(mViewModel).setPlaying(isPlaying);
-        verify(mViewModel).setShowControls(showControls);
-        verify(mViewModel).setPlayResource(playResource);
-        verify(mViewModel).setPauseResource(pauseResource);
+        verify(mViewModel).setPlaying(mDefaultIsPlaying);
+        verify(mViewModel).setShowControls(mDefaultShowControls);
+        verify(mViewModel).setPlayResource(mDefaultPlayResource);
+        verify(mViewModel).setPauseResource(mDefaultPauseResource);
 
-        verify(mViewModel).setMultimediaActionHandler(multimediaActionHandler);
-        verify(mViewModel).setPlayer(player);
+        verify(mViewModel).setMultimediaActionHandler(mDefaultMultimediaActionHandler);
+        verify(mViewModel).setPlayer(mDefaultPlayer);
     }
 }

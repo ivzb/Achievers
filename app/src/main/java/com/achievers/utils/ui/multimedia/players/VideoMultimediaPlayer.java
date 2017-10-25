@@ -36,7 +36,7 @@ public class VideoMultimediaPlayer implements BaseMultimediaPlayer {
     }
 
     @Override
-    public void play() {
+    public void start() {
         Uri videoUri = Uri.parse(mUrl);
 
         mExoPlayerView.setPlayer(mExoPlayer);
@@ -62,6 +62,4 @@ public class VideoMultimediaPlayer implements BaseMultimediaPlayer {
     public boolean showControls() {
         return false;
     }
-
-
 }

@@ -5,7 +5,7 @@ import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 public class SimpleMultimediaPlayer implements BaseMultimediaPlayer {
 
     @Override
-    public void play() {
+    public void start() {
 
     }
 
