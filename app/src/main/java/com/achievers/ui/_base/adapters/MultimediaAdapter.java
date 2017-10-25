@@ -26,13 +26,13 @@ public abstract class MultimediaAdapter<T extends BaseModel>
         super(context, actionHandler);
 
         mActiveMultimedia = null;
-        initializePlayer(context);
+        initializeExoPlayer(context);
     }
 
     @Override
     public void releaseMedia() {
         if (mActiveMultimedia != null) {
-            mActiveMultimedia.stop();
+            mActiveMultimedia.release();
         }
     }
 
@@ -45,7 +45,7 @@ public abstract class MultimediaAdapter<T extends BaseModel>
         mActiveMultimedia = view;
     }
 
-    private void initializePlayer(Context context) {
+    private void initializeExoPlayer(Context context) {
         TrackSelector trackSelector = new DefaultTrackSelector();
         LoadControl loadControl = new DefaultLoadControl();
         mExoPlayer = ExoPlayerFactory.newSimpleInstance(context, trackSelector, loadControl);

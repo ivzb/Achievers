@@ -130,7 +130,7 @@ public class MultimediaViewTest {
     @Test
     public void noBuilder_stop() {
         // act
-        mView.stop();
+        mView.release();
 
         // assert
         verify(mViewModel).getPlayer();
@@ -146,7 +146,7 @@ public class MultimediaViewTest {
         buildWithPlayerAndActionHandler(mDefaultType, null, mPlayer);
 
         // act
-        mView.stop();
+        mView.release();
 
         // assert
         verify(mViewModel).getPlayer();
@@ -160,7 +160,7 @@ public class MultimediaViewTest {
         emptyBuilder(mDefaultType);
 
         // act
-        mView.stop();
+        mView.release();
 
         // assert
         verify(mViewModel).getPlayer();

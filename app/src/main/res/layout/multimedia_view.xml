@@ -4,7 +4,7 @@
 
     <data>
         <import type="android.view.View" />
-        <import type="com.achievers.utils.ui.multimedia.MultimediaType" />
+        <import type="com.achievers.utils.ui.multimedia.MultimediaControllerState" />
 
         <variable
             name="viewModel"
@@ -50,19 +50,19 @@
             app:layout_constraintRight_toRightOf="@+id/sdvPreview"
             app:layout_constraintBottom_toBottomOf="@+id/sdvPreview"
             android:onClick="@{ () -> viewModel.actionHandler.onClick() }"
-            android:visibility="@{ viewModel.showControls ? View.VISIBLE : View.GONE }">
+            android:visibility="@{ viewModel.controllerState != MultimediaControllerState.None ? View.VISIBLE : View.GONE }">
 
             <ImageView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:src="@{ viewModel.playResource }"
-                android:visibility="@{ viewModel.isPlaying ? View.GONE : View.VISIBLE }" />
+                android:visibility="@{ viewModel.controllerState == MultimediaControllerState.Play ? View.VISIBLE : View.GONE }" />
 
             <ImageView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:src="@{ viewModel.pauseResource }"
-                android:visibility="@{ viewModel.isPlaying ? View.VISIBLE : View.GONE }" />
+                android:visibility="@{ viewModel.controllerState == MultimediaControllerState.Stop ? View.VISIBLE : View.GONE }" />
         </android.support.v7.widget.CardView>
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -13,7 +13,7 @@ import com.achievers.ui.add_achievement.AddAchievementActivity;
 import java.util.List;
 
 import static com.achievers.Config.RECYCLER_INITIAL_PAGE;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.achievers.utils.Preconditions.checkNotNull;
 
 public class AchievementsPresenter
         extends AbstractPresenter<AchievementsContract.View>
@@ -21,7 +21,7 @@ public class AchievementsPresenter
 
     private final AchievementsDataSource mDataSource;
 
-    AchievementsPresenter(
+    public AchievementsPresenter(
             @NonNull Context context,
             @NonNull AchievementsContract.View view,
             @NonNull AchievementsDataSource dataSource) {

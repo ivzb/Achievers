@@ -13,13 +13,14 @@ import com.achievers.ui._base.contracts.action_handlers.BaseMultimediaActionHand
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaBuilder;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaView;
+import com.achievers.utils.ui.multimedia._base.BaseMultimediaViewActionHandler;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaViewModel;
 
 import static com.achievers.utils.Preconditions.checkNotNull;
 
 public class MultimediaView
         extends ConstraintLayout
-        implements BaseMultimediaView {
+        implements BaseMultimediaView, BaseMultimediaViewActionHandler {
 
     private Context mContext;
     private MultimediaViewBinding mBinding;
@@ -53,21 +54,19 @@ public class MultimediaView
     }
 
     @Override
+    public void changeState(MultimediaControllerState state) {
+        mViewModel.setControllerState(state);
+    }
+
+    @Override
     public BaseMultimediaBuilder builder(MultimediaType multimediaType) {
         return new Builder(multimediaType).clean();
     }
 
     @Override
-    public boolean isPlaying() {
-        return mViewModel.isPlaying();
-    }
-
-    @Override
-    public void stop() {
+    public void release() {
         BaseMultimediaPlayer player = mViewModel.getPlayer();
         startPlayer(player, false);
-
-        mViewModel.setShowControls(true);
     }
 
     @Override
@@ -79,13 +78,11 @@ public class MultimediaView
     public void onClick() {
         mViewModel.getMultimediaActionHandler().onMultimediaAction(this);
         BaseMultimediaPlayer player = mViewModel.getPlayer();
-        boolean isPlaying = isPlaying();
+        startPlayer(player, !isPlaying());
+    }
 
-        boolean showControls = isPlaying;
-        if (player != null) showControls |= player.showControls();
-        mViewModel.setShowControls(showControls);
-
-        startPlayer(player, !isPlaying);
+    private boolean isPlaying() {
+        return mViewModel.getControllerState() == MultimediaControllerState.Play;
     }
 
     private void init(Context context) {
@@ -121,18 +118,15 @@ public class MultimediaView
                 player.stop();
             }
         }
-
-        mViewModel.setPlaying(start);
     }
 
     public class Builder implements BaseMultimediaBuilder {
 
         private MultimediaType mType;
-        private boolean mIsPlaying;
+        private MultimediaControllerState mControllerState;
 
         private String mPreviewUrl;
 
-        private boolean mShowControls;
         private int mPlayResource;
         private int mPauseResource;
 
@@ -141,7 +135,7 @@ public class MultimediaView
 
         Builder(MultimediaType type) {
             mType = checkNotNull(type);
-            mShowControls = true;
+            mControllerState = MultimediaControllerState.None;
             mPlayResource = R.drawable.ic_play;
             mPauseResource = R.drawable.ic_pause;
         }
@@ -153,26 +147,8 @@ public class MultimediaView
         }
 
         @Override
-		public BaseMultimediaBuilder withControls(boolean showControls) {
-            mShowControls = showControls;
-            return this;
-        }
-
-        @Override
-		public BaseMultimediaBuilder withPlayResource(int resource) {
-            mPlayResource = resource;
-            return this;
-        }
-
-        @Override
-		public BaseMultimediaBuilder withPauseResource(int resource) {
-            mPauseResource = resource;
-            return this;
-        }
-
-        @Override
-        public BaseMultimediaBuilder withPlaying(boolean isPlaying) {
-            mIsPlaying = isPlaying;
+		public BaseMultimediaBuilder withControllerState(MultimediaControllerState state) {
+            mControllerState = state;
             return this;
         }
 
@@ -194,8 +170,8 @@ public class MultimediaView
             mViewModel.setPreviewUrl(mPreviewUrl);
             mViewModel.setActionHandler(MultimediaView.this);
 
-            mViewModel.setPlaying(mIsPlaying);
-            mViewModel.setShowControls(mShowControls);
+            mViewModel.setControllerState(mControllerState);
+
             mViewModel.setPlayResource(mPlayResource);
             mViewModel.setPauseResource(mPauseResource);
 
@@ -205,7 +181,7 @@ public class MultimediaView
 
         private BaseMultimediaBuilder clean() {
             if (!isNew()) {
-                stop();
+                release();
                 build();
             }
 

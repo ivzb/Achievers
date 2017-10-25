@@ -10,6 +10,7 @@ import com.achievers.ui._base.contracts.action_handlers.BaseMultimediaActionHand
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaViewModel;
 
+import static com.achievers.utils.ui.multimedia.MultimediaControllerState.Play;
 import static com.achievers.utils.ui.multimedia.MultimediaType.Video;
 
 public class MultimediaViewModel
@@ -19,10 +20,11 @@ public class MultimediaViewModel
     private MultimediaType mType;
     private String mPreviewUrl;
     private BaseActionHandler mActionHandler;
-    private boolean mShowControls;
+    private MultimediaControllerState mControllerState;
+
     private int mPlayResource;
     private int mPauseResource;
-    private boolean mIsPlaying;
+
     private Resources mResources;
 
     private BaseMultimediaPlayer mPlayer;
@@ -67,18 +69,6 @@ public class MultimediaViewModel
 
     @Bindable
     @Override
-    public boolean getShowControls() {
-        return mShowControls;
-    }
-
-    @Override
-    public void setShowControls(boolean showControls) {
-        mShowControls = showControls;
-        notifyPropertyChanged(BR.showControls);
-    }
-
-    @Bindable
-    @Override
     public int getPlayResource() {
         return mPlayResource;
     }
@@ -103,21 +93,21 @@ public class MultimediaViewModel
 
     @Bindable
     @Override
-    public boolean isPlaying() {
-        return mIsPlaying;
+    public MultimediaControllerState getControllerState() {
+        return mControllerState;
     }
 
     @Override
-    public void setPlaying(boolean isPlaying) {
-        mIsPlaying = isPlaying;
-        notifyPropertyChanged(BR.playing);
+    public void setControllerState(MultimediaControllerState controller) {
+        mControllerState = controller;
+        notifyPropertyChanged(BR.controllerState);
         notifyPropertyChanged(BR.playingVideo);
     }
 
     @Bindable
     @Override
     public boolean isPlayingVideo() {
-        return isPlaying() && getType() == Video;
+        return getControllerState() == Play && getType() == Video;
     }
 
     @Bindable

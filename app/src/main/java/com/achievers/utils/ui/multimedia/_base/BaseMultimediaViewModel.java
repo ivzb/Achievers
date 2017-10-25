@@ -6,6 +6,7 @@ import android.databinding.Observable;
 
 import com.achievers.ui._base.contracts.action_handlers.BaseActionHandler;
 import com.achievers.ui._base.contracts.action_handlers.BaseMultimediaActionHandler;
+import com.achievers.utils.ui.multimedia.MultimediaControllerState;
 import com.achievers.utils.ui.multimedia.MultimediaType;
 
 public interface BaseMultimediaViewModel extends Observable {
@@ -23,10 +24,6 @@ public interface BaseMultimediaViewModel extends Observable {
     void setActionHandler(BaseActionHandler actionHandler);
 
     @Bindable
-    boolean getShowControls();
-    void setShowControls(boolean showControls);
-
-    @Bindable
     int getPlayResource();
     void setPlayResource(int playResource);
 
@@ -35,8 +32,8 @@ public interface BaseMultimediaViewModel extends Observable {
     void setPauseResource(int pauseResource);
 
     @Bindable
-    boolean isPlaying();
-    void setPlaying(boolean isPlaying);
+    MultimediaControllerState getControllerState();
+    void setControllerState(MultimediaControllerState controller);
 
     @Bindable
     boolean isPlayingVideo();

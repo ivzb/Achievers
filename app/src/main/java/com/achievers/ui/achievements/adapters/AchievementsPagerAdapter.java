@@ -2,11 +2,11 @@ package com.achievers.ui.achievements.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
-public class AchievementsPagerAdapter extends FragmentPagerAdapter {
+public class AchievementsPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<Fragment> mFragments;
 
@@ -15,6 +15,7 @@ public class AchievementsPagerAdapter extends FragmentPagerAdapter {
             List<Fragment> fragments) {
 
         super(fm);
+
         mFragments = fragments;
     }
 

@@ -7,8 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.SparseArray;
-import android.util.SparseIntArray;
 import android.view.View;
 
 import com.achievers.R;
@@ -37,6 +35,7 @@ public class AchievementsActivity
         ViewPagerMetadata achievementsMetadata = initAchievementsMetadata();
 
         ViewPager viewPager = findViewById(R.id.view_pager);
+
         AchievementsPagerAdapter adapter = new AchievementsPagerAdapter(
                 getSupportFragmentManager(),
                 achievementsMetadata.getFragments());
@@ -58,17 +57,17 @@ public class AchievementsActivity
         ViewPagerMetadata achievementsMetadata = new ViewPagerMetadata(3);
 
         achievementsMetadata.add(
-                AchievementsFragment.newInstance(this),
+                new AchievementsFragment(),
                 "Home",
                 R.drawable.ic_home);
 
         achievementsMetadata.add(
-                AchievementsFragment.newInstance(this),
+                new AchievementsFragment(),
                 "Trending",
                 R.drawable.ic_trending);
 
         achievementsMetadata.add(
-                AchievementsFragment.newInstance(this),
+                new AchievementsFragment(),
                 "Subscriptions",
                 R.drawable.ic_subscriptions);
 
@@ -77,39 +76,30 @@ public class AchievementsActivity
 
     private class ViewPagerMetadata {
 
-        private int mSize;
-        private SparseArray<Fragment> mFragments;
-        private SparseArray<String> mTitles;
-        private SparseIntArray mIcons;
+        private List<Fragment> mFragments;
+        private List<String> mTitles;
+        private List<Integer> mIcons;
 
         ViewPagerMetadata(int initialCapacity) {
-            mSize = 0;
-            mFragments = new SparseArray<>(initialCapacity);
-            mTitles = new SparseArray<>(initialCapacity);
-            mIcons = new SparseIntArray(initialCapacity);
+            mFragments = new ArrayList<>(initialCapacity);
+            mTitles = new ArrayList<>(initialCapacity);
+            mIcons = new ArrayList<>(initialCapacity);
         }
 
         void add(Fragment fragment, String title, int icon) {
-            mFragments.put(mSize, fragment);
-            mTitles.put(mSize, title);
-            mIcons.put(mSize, icon);
-            mSize++;
+            mFragments.add(fragment);
+            mTitles.add(title);
+            mIcons.add(icon);
         }
 
         List<Fragment> getFragments() {
-            List<Fragment> fragments = new ArrayList<>(mSize);
-
-            for (int i = 0; i < mSize; i++) {
-                fragments.add(mFragments.get(i));
-            }
-
-            return fragments;
+            return mFragments;
         }
 
         void setupTabLayout(Context context, TabLayout tabLayout) {
             checkNotNull(context);
 
-            for (int i = 0; i < mSize; i++) {
+            for (int i = 0; i < mFragments.size(); i++) {
                 TabLayout.Tab tab = checkNotNull(tabLayout.getTabAt(i));
 
                 tab.setText(mTitles.get(i));

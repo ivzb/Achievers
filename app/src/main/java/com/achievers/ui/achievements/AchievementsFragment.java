@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 
 import com.achievers.R;
 import com.achievers.data.entities.Achievement;
-import com.achievers.data.source.achievements.AchievementsDataSource;
 import com.achievers.data.source.achievements.AchievementsMockDataSource;
 import com.achievers.databinding.AchievementsFragBinding;
 import com.achievers.ui._base.AbstractFragment;
@@ -42,23 +41,16 @@ public class AchievementsFragment
 
     }
 
-    public static AchievementsFragment newInstance(Context context) {
-        AchievementsFragment view = new AchievementsFragment();
-
-        AchievementsDataSource dataSource = AchievementsMockDataSource.getInstance();
-
-        view.setViewModel(new AchievementsViewModel());
-        view.setPresenter(new AchievementsPresenter(context, view, dataSource));
-
-        return view;
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.achievements_frag, container, false);
 
         mDataBinding = AchievementsFragBinding.bind(view);
+
+        mViewModel = new AchievementsViewModel();
+        mPresenter = new AchievementsPresenter(getContext(), this, AchievementsMockDataSource.getInstance());
+
         mDataBinding.setViewModel(mViewModel);
 
         if (savedInstanceState != null) {

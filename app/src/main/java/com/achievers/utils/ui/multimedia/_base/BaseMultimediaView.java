@@ -8,7 +8,6 @@ import com.achievers.utils.ui.multimedia.MultimediaType;
 public interface BaseMultimediaView extends BaseActionHandler {
 
     BaseMultimediaBuilder builder(MultimediaType multimediaType);
-    boolean isPlaying();
-    void stop();
     View getPlayerView();
+    void release();
 }
