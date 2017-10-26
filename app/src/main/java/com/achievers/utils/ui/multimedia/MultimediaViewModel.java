@@ -22,9 +22,6 @@ public class MultimediaViewModel
     private BaseActionHandler mActionHandler;
     private MultimediaControllerState mControllerState;
 
-    private int mPlayResource;
-    private int mPauseResource;
-
     private Resources mResources;
 
     private BaseMultimediaPlayer mPlayer;
@@ -65,30 +62,6 @@ public class MultimediaViewModel
     public void setActionHandler(BaseActionHandler actionHandler) {
         mActionHandler = actionHandler;
         notifyPropertyChanged(BR.actionHandler);
-    }
-
-    @Bindable
-    @Override
-    public int getPlayResource() {
-        return mPlayResource;
-    }
-
-    @Override
-    public void setPlayResource(int playResource) {
-        mPlayResource = playResource;
-        notifyPropertyChanged(BR.playResource);
-    }
-
-    @Bindable
-    @Override
-    public int getPauseResource() {
-        return mPauseResource;
-    }
-
-    @Override
-    public void setPauseResource(int pauseResource) {
-        mPauseResource = pauseResource;
-        notifyPropertyChanged(BR.pauseResource);
     }
 
     @Bindable

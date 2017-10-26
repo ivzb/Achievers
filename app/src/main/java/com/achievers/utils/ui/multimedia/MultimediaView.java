@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.achievers.R;
 import com.achievers.databinding.MultimediaViewBinding;
 import com.achievers.ui._base.contracts.action_handlers.BaseMultimediaActionHandler;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaBuilder;
@@ -127,17 +126,12 @@ public class MultimediaView
 
         private String mPreviewUrl;
 
-        private int mPlayResource;
-        private int mPauseResource;
-
         private BaseMultimediaActionHandler mMultimediaActionHandler;
         private BaseMultimediaPlayer mPlayer;
 
         Builder(MultimediaType type) {
             mType = checkNotNull(type);
             mControllerState = MultimediaControllerState.None;
-            mPlayResource = R.drawable.ic_play;
-            mPauseResource = R.drawable.ic_pause;
         }
 
         @Override
@@ -171,9 +165,6 @@ public class MultimediaView
             mViewModel.setActionHandler(MultimediaView.this);
 
             mViewModel.setControllerState(mControllerState);
-
-            mViewModel.setPlayResource(mPlayResource);
-            mViewModel.setPauseResource(mPauseResource);
 
             mViewModel.setMultimediaActionHandler(mMultimediaActionHandler);
             mViewModel.setPlayer(mPlayer);

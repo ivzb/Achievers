@@ -23,13 +23,13 @@ public interface BaseMultimediaViewModel extends Observable {
     BaseActionHandler getActionHandler();
     void setActionHandler(BaseActionHandler actionHandler);
 
-    @Bindable
-    int getPlayResource();
-    void setPlayResource(int playResource);
-
-    @Bindable
-    int getPauseResource();
-    void setPauseResource(int pauseResource);
+//    @Bindable
+//    int getPlayResource();
+//    void setPlayResource(int playResource);
+//
+//    @Bindable
+//    int getPauseResource();
+//    void setPauseResource(int pauseResource);
 
     @Bindable
     MultimediaControllerState getControllerState();
