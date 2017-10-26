@@ -4,5 +4,6 @@ public enum MultimediaControllerState {
     None,
     Play,
     Stop,
-    Loading
+    Loading,
+    Error
 }

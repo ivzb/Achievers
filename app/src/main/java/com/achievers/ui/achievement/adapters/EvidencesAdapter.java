@@ -12,7 +12,7 @@ import com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler
 import com.achievers.utils.ui.multimedia.MultimediaView;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 import com.achievers.utils.ui.multimedia.players.AudioMultimediaPlayer;
-import com.achievers.utils.ui.multimedia.players.SimpleMultimediaPlayer;
+import com.achievers.utils.ui.multimedia.players.PhotoMultimediaPlayer;
 import com.achievers.utils.ui.multimedia.players.VideoMultimediaPlayer;
 
 import static com.achievers.utils.ui.multimedia.MultimediaType.Audio;
@@ -51,7 +51,6 @@ public class EvidencesAdapter extends MultimediaAdapter<Evidence> {
                     mvEvidence,
                     mContext,
                     mExoPlayer,
-                    mvEvidence.getPlayerView(),
                     evidence.getUrl());
         } else if (evidence.getMultimediaType() == Audio) {
             player = new AudioMultimediaPlayer(
@@ -60,14 +59,12 @@ public class EvidencesAdapter extends MultimediaAdapter<Evidence> {
                     mExoPlayer,
                     evidence.getUrl());
         } else {
-            player = new SimpleMultimediaPlayer(mvEvidence);
+            player = new PhotoMultimediaPlayer(mvEvidence);
         }
 
         // todo: catch if builder throws null pointer and show message
         mvEvidence.builder(evidence.getMultimediaType())
                 .withPreviewUrl(evidence.getPreviewUrl())
-//                .withControls(evidence.getMultimediaType() != Photo)
-//                .withPlayResource(evidence.getMultimediaType().getPlayResource())
                 .withActionHandler(this)
                 .withPlayer(player)
                 .build();

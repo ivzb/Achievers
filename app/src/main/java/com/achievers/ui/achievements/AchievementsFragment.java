@@ -48,8 +48,8 @@ public class AchievementsFragment
 
         mDataBinding = AchievementsFragBinding.bind(view);
 
-        mViewModel = new AchievementsViewModel();
-        mPresenter = new AchievementsPresenter(getContext(), this, AchievementsMockDataSource.getInstance());
+        if (mViewModel == null) mViewModel = new AchievementsViewModel();
+        if (mPresenter == null) mPresenter = new AchievementsPresenter(getContext(), this, AchievementsMockDataSource.getInstance());
 
         mDataBinding.setViewModel(mViewModel);
 

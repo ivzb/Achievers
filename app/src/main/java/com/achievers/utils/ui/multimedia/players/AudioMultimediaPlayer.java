@@ -1,25 +1,14 @@
 package com.achievers.utils.ui.multimedia.players;
 
 import android.content.Context;
-import android.net.Uri;
 
-import com.achievers.BuildConfig;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaViewActionHandler;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
 
-import static com.achievers.utils.Preconditions.checkNotNull;
 import static com.achievers.utils.ui.multimedia.MultimediaControllerState.Play;
+import static com.achievers.utils.ui.multimedia.MultimediaControllerState.Stop;
 
-public class AudioMultimediaPlayer extends SimpleMultimediaPlayer {
-
-    private Context mContext;
-    private SimpleExoPlayer mExoPlayer;
-    private String mUrl;
+public class AudioMultimediaPlayer extends ExoMultimediaPlayer {
 
     public AudioMultimediaPlayer(
             BaseMultimediaViewActionHandler actionHandler,
@@ -27,35 +16,18 @@ public class AudioMultimediaPlayer extends SimpleMultimediaPlayer {
             SimpleExoPlayer exoPlayer,
             String url) {
 
-        super(actionHandler);
-        mActionHandler.changeState(Play);
-
-        mContext = checkNotNull(context);
-        mExoPlayer = checkNotNull(exoPlayer);
-        mUrl = checkNotNull(url);
+        super(actionHandler, context, exoPlayer, url);
     }
 
     @Override
     public void start() {
         super.start();
-
-        Uri uri = Uri.parse(mUrl);
-
-        String userAgent = Util.getUserAgent(mContext, BuildConfig.APPLICATION_ID);
-        MediaSource mediaSource = new ExtractorMediaSource(
-                uri,
-                new DefaultDataSourceFactory(mContext, userAgent),
-                new DefaultExtractorsFactory(),
-                null,
-                null);
-
-        mExoPlayer.prepare(mediaSource);
-        mExoPlayer.setPlayWhenReady(true);
+        mActionHandler.changeState(Play);
     }
 
     @Override
     public void stop() {
         super.stop();
-        mExoPlayer.setPlayWhenReady(false);
+        mActionHandler.changeState(Stop);
     }
 }

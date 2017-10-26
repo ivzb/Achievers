@@ -10,7 +10,7 @@ import com.achievers.ui._base.contracts.action_handlers.BaseMultimediaActionHand
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaViewModel;
 
-import static com.achievers.utils.ui.multimedia.MultimediaControllerState.Play;
+import static com.achievers.utils.ui.multimedia.MultimediaControllerState.None;
 import static com.achievers.utils.ui.multimedia.MultimediaType.Video;
 
 public class MultimediaViewModel
@@ -19,6 +19,7 @@ public class MultimediaViewModel
 
     private MultimediaType mType;
     private String mPreviewUrl;
+    private boolean mPlaying;
     private BaseActionHandler mActionHandler;
     private MultimediaControllerState mControllerState;
 
@@ -54,6 +55,18 @@ public class MultimediaViewModel
 
     @Bindable
     @Override
+    public boolean isPlaying() {
+        return mPlaying;
+    }
+
+    @Override
+    public void setPlaying(boolean playing) {
+        mPlaying = playing;
+        notifyPropertyChanged(BR.playing);
+    }
+
+    @Bindable
+    @Override
     public BaseActionHandler getActionHandler() {
         return mActionHandler;
     }
@@ -71,8 +84,8 @@ public class MultimediaViewModel
     }
 
     @Override
-    public void setControllerState(MultimediaControllerState controller) {
-        mControllerState = controller;
+    public void setControllerState(MultimediaControllerState state) {
+        mControllerState = state;
         notifyPropertyChanged(BR.controllerState);
         notifyPropertyChanged(BR.playingVideo);
     }
@@ -80,7 +93,7 @@ public class MultimediaViewModel
     @Bindable
     @Override
     public boolean isPlayingVideo() {
-        return getControllerState() == Play && getType() == Video;
+        return getControllerState() == None && getType() == Video;
     }
 
     @Bindable

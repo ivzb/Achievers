@@ -20,16 +20,12 @@ public interface BaseMultimediaViewModel extends Observable {
     void setPreviewUrl(String previewUrl);
 
     @Bindable
+    boolean isPlaying();
+    void setPlaying(boolean playing);
+
+    @Bindable
     BaseActionHandler getActionHandler();
     void setActionHandler(BaseActionHandler actionHandler);
-
-//    @Bindable
-//    int getPlayResource();
-//    void setPlayResource(int playResource);
-//
-//    @Bindable
-//    int getPauseResource();
-//    void setPauseResource(int pauseResource);
 
     @Bindable
     MultimediaControllerState getControllerState();

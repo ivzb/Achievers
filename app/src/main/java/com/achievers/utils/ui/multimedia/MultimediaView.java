@@ -5,25 +5,26 @@ import android.support.annotation.VisibleForTesting;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 
 import com.achievers.databinding.MultimediaViewBinding;
 import com.achievers.ui._base.contracts.action_handlers.BaseMultimediaActionHandler;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaBuilder;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaView;
-import com.achievers.utils.ui.multimedia._base.BaseMultimediaViewActionHandler;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaViewModel;
+import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 
 import static com.achievers.utils.Preconditions.checkNotNull;
 
 public class MultimediaView
         extends ConstraintLayout
-        implements BaseMultimediaView, BaseMultimediaViewActionHandler {
+        implements BaseMultimediaView {
 
     private Context mContext;
     private MultimediaViewBinding mBinding;
     private BaseMultimediaViewModel mViewModel;
+
+//    private boolean mPlaying;
 
     public MultimediaView(Context context) {
         super(context);
@@ -53,35 +54,30 @@ public class MultimediaView
     }
 
     @Override
+    public BaseMultimediaBuilder builder(MultimediaType multimediaType) {
+        return new Builder(multimediaType);
+    }
+
+    @Override
+    public void onClick() {
+        triggerMultimediaActionHandler();
+        startPlayer();
+    }
+
+    @Override
+    public void release() {
+        mViewModel.setPlaying(true);
+        startPlayer();
+    }
+
+    @Override
     public void changeState(MultimediaControllerState state) {
         mViewModel.setControllerState(state);
     }
 
     @Override
-    public BaseMultimediaBuilder builder(MultimediaType multimediaType) {
-        return new Builder(multimediaType).clean();
-    }
-
-    @Override
-    public void release() {
-        BaseMultimediaPlayer player = mViewModel.getPlayer();
-        startPlayer(player, false);
-    }
-
-    @Override
-    public View getPlayerView() {
-        return mBinding.player;
-    }
-
-    @Override
-    public void onClick() {
-        mViewModel.getMultimediaActionHandler().onMultimediaAction(this);
-        BaseMultimediaPlayer player = mViewModel.getPlayer();
-        startPlayer(player, !isPlaying());
-    }
-
-    private boolean isPlaying() {
-        return mViewModel.getControllerState() == MultimediaControllerState.Play;
+    public SimpleExoPlayerView getExoPlayerView() {
+        return (SimpleExoPlayerView) mBinding.exoPlayerView;
     }
 
     private void init(Context context) {
@@ -109,8 +105,20 @@ public class MultimediaView
         mViewModel.setResources(mContext.getResources());
     }
 
-    private void startPlayer(BaseMultimediaPlayer player, boolean start) {
+    private void triggerMultimediaActionHandler() {
+        BaseMultimediaActionHandler multimediaActionHandler = mViewModel.getMultimediaActionHandler();
+
+        if (multimediaActionHandler != null) {
+            multimediaActionHandler.onMultimediaAction(this);
+        }
+    }
+
+    private void startPlayer() {
+        BaseMultimediaPlayer player = mViewModel.getPlayer();
+
         if (player != null) {
+            boolean start = !mViewModel.isPlaying();
+
             if (start) {
                 player.start();
             } else {
@@ -123,6 +131,7 @@ public class MultimediaView
 
         private MultimediaType mType;
         private MultimediaControllerState mControllerState;
+        private boolean mPlaying;
 
         private String mPreviewUrl;
 
@@ -132,6 +141,9 @@ public class MultimediaView
         Builder(MultimediaType type) {
             mType = checkNotNull(type);
             mControllerState = MultimediaControllerState.None;
+            mPlaying = false;
+
+            if (mViewModel.getType() != null) release();
         }
 
         @Override
@@ -140,11 +152,17 @@ public class MultimediaView
             return this;
         }
 
-        @Override
-		public BaseMultimediaBuilder withControllerState(MultimediaControllerState state) {
-            mControllerState = state;
-            return this;
-        }
+//        @Override
+//		public BaseMultimediaBuilder withControllerState(MultimediaControllerState state) {
+//            mControllerState = state;
+//            return this;
+//        }
+
+//        @Override
+//        public BaseMultimediaBuilder withPlaying(boolean playing) {
+//            mPlaying = playing;
+//            return this;
+//        }
 
         @Override
 		public BaseMultimediaBuilder withActionHandler(BaseMultimediaActionHandler actionHandler) {
@@ -161,26 +179,18 @@ public class MultimediaView
         @Override
 		public void build() {
             mViewModel.setType(mType);
-            mViewModel.setPreviewUrl(mPreviewUrl);
-            mViewModel.setActionHandler(MultimediaView.this);
-
             mViewModel.setControllerState(mControllerState);
+            mViewModel.setPlaying(mPlaying);
 
+            mViewModel.setPreviewUrl(mPreviewUrl);
+
+            mViewModel.setActionHandler(MultimediaView.this);
             mViewModel.setMultimediaActionHandler(mMultimediaActionHandler);
             mViewModel.setPlayer(mPlayer);
-        }
 
-        private BaseMultimediaBuilder clean() {
-            if (!isNew()) {
-                release();
-                build();
+            if (mPlayer != null) {
+                mPlayer.init();
             }
-
-            return this;
-        }
-
-        private boolean isNew() {
-            return mViewModel.getType() == null;
         }
     }
 }
