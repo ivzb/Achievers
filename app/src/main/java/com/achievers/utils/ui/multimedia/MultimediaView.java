@@ -24,8 +24,6 @@ public class MultimediaView
     private MultimediaViewBinding mBinding;
     private BaseMultimediaViewModel mViewModel;
 
-//    private boolean mPlaying;
-
     public MultimediaView(Context context) {
         super(context);
         init(context);
@@ -60,14 +58,18 @@ public class MultimediaView
 
     @Override
     public void onClick() {
-        triggerMultimediaActionHandler();
-        startPlayer();
+        BaseMultimediaActionHandler multimediaActionHandler = mViewModel.getMultimediaActionHandler();
+
+        if (multimediaActionHandler != null) {
+            multimediaActionHandler.onMultimediaAction(this);
+        }
+
+        togglePlayer(false);
     }
 
     @Override
     public void release() {
-        mViewModel.setPlaying(true);
-        startPlayer();
+        togglePlayer(true);
     }
 
     @Override
@@ -105,25 +107,19 @@ public class MultimediaView
         mViewModel.setResources(mContext.getResources());
     }
 
-    private void triggerMultimediaActionHandler() {
-        BaseMultimediaActionHandler multimediaActionHandler = mViewModel.getMultimediaActionHandler();
-
-        if (multimediaActionHandler != null) {
-            multimediaActionHandler.onMultimediaAction(this);
-        }
-    }
-
-    private void startPlayer() {
+    private void togglePlayer(boolean forceStop) {
         BaseMultimediaPlayer player = mViewModel.getPlayer();
 
         if (player != null) {
-            boolean start = !mViewModel.isPlaying();
+            boolean stop = forceStop || mViewModel.isPlaying();
 
-            if (start) {
-                player.start();
-            } else {
+            if (stop) {
                 player.stop();
+            } else {
+                player.start();
             }
+
+            mViewModel.setPlaying(!stop);
         }
     }
 

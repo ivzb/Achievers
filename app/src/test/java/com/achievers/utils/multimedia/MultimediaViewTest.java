@@ -12,8 +12,6 @@ import com.achievers.utils.ui.multimedia._base.BaseMultimediaView;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import static com.achievers.utils.ui.multimedia.MultimediaControllerState.None;
-import static com.achievers.utils.ui.multimedia.MultimediaControllerState.Play;
 import static com.achievers.utils.ui.multimedia.MultimediaType.Photo;
 import static com.achievers.utils.ui.multimedia.MultimediaType.Video;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
@@ -51,13 +49,53 @@ public class MultimediaViewTest extends AbstractMultimediaViewTest {
     }
 
     @Test
+    public void click_notPlaying_shouldPlay() {
+        // arrange
+        when(mViewModel.getMultimediaActionHandler()).thenReturn(null);
+        when(mViewModel.getPlayer()).thenReturn(mPlayer);
+        when(mViewModel.isPlaying()).thenReturn(false);
+
+        buildAndVerify();
+
+        // act
+        mView.onClick();
+
+        // assert
+        verify(mViewModel).getMultimediaActionHandler();
+        verify(mViewModel).getPlayer();
+        verify(mViewModel).isPlaying();
+        verify(mPlayer).start();
+        verify(mViewModel).setPlaying(true);
+    }
+
+    @Test
+    public void click_playing_shouldStop() {
+        // arrange
+        when(mViewModel.getMultimediaActionHandler()).thenReturn(null);
+        when(mViewModel.getPlayer()).thenReturn(mPlayer);
+        when(mViewModel.isPlaying()).thenReturn(true);
+
+        buildAndVerify();
+
+        // act
+        mView.onClick();
+
+        // assert
+        verify(mViewModel).getMultimediaActionHandler();
+        verify(mViewModel).getPlayer();
+        verify(mViewModel).isPlaying();
+        verify(mPlayer).stop();
+        verify(mViewModel, times(2)).setPlaying(false);
+    }
+
+    @Test
     public void click_builder_noActionHandler_noPlayer_nothingShouldHappen() {
-        click(null, null, null);
+        click(null, null, false);
     }
 
     @Test
     public void click_builder_actionHandler_actionHandler_noPlayer_shouldTriggerAction() {
-        click(mActionHandler, null, null);
+        click(mActionHandler, null, false);
     }
 
     @Test
@@ -83,14 +121,12 @@ public class MultimediaViewTest extends AbstractMultimediaViewTest {
     private void click(
             BaseMultimediaActionHandler multimediaActionHandler,
             BaseMultimediaPlayer player,
-            Boolean isPlaying) {
+            boolean isPlaying) {
 
         // arrange
         when(mViewModel.getMultimediaActionHandler()).thenReturn(multimediaActionHandler);
         when(mViewModel.getPlayer()).thenReturn(player);
-
-        MultimediaControllerState state = isPlaying != null && isPlaying ? Play : None;
-        when(mViewModel.getControllerState()).thenReturn(state);
+        when(mViewModel.isPlaying()).thenReturn(isPlaying);
 
         buildAndVerify();
 
@@ -106,13 +142,15 @@ public class MultimediaViewTest extends AbstractMultimediaViewTest {
 
         verify(mViewModel).getPlayer();
 
-        if (player != null && isPlaying != null) {
-//            when(mViewModel.isPlaying()).thenReturn(!isPlaying);
+        if (player != null) {
+            verify(mViewModel).isPlaying();
 
             if (isPlaying) {
                 verify(player).stop();
+                verify(mViewModel, times(2)).setPlaying(false);
             } else {
                 verify(player).start();
+                verify(mViewModel).setPlaying(true);
             }
         }
     }
@@ -123,7 +161,6 @@ public class MultimediaViewTest extends AbstractMultimediaViewTest {
         mView.release();
 
         // assert
-        verify(mViewModel).setPlaying(true);
         verify(mViewModel).getPlayer();
     }
 
@@ -150,6 +187,7 @@ public class MultimediaViewTest extends AbstractMultimediaViewTest {
         // assert
         verify(mViewModel).getPlayer();
         verify(mPlayer).stop();
+        verify(mViewModel, times(2)).setPlaying(false);
     }
 
     @Test
