@@ -2,6 +2,7 @@ package com.achievers.utils.ui.multimedia.players;
 
 import android.content.Context;
 
+import com.achievers.utils.ui.multimedia.MultimediaType;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaViewActionHandler;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -21,6 +22,12 @@ public class VideoMultimediaPlayer
             String url) {
 
         super(actionHandler, context, exoPlayer, url);
+
+        mPlayState = None;
+        mStopState = Stop;
+
+        mPlayDrawable = MultimediaType.Video.getPlayDrawable();
+        mStopDrawable = MultimediaType.Video.getStopDrawable();
     }
 
     @Override
@@ -30,13 +37,5 @@ public class VideoMultimediaPlayer
         if (mExoPlayerView != null) {
             mExoPlayerView.setPlayer(mExoPlayer);
         }
-
-        mActionHandler.changeState(None);
-    }
-
-    @Override
-    public void stop() {
-        super.stop();
-        mActionHandler.changeState(Stop);
     }
 }

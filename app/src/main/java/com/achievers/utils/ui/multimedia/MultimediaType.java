@@ -4,28 +4,28 @@ import com.achievers.R;
 
 public enum MultimediaType {
     Photo(1, 0, 0),
-    Video(2, R.drawable.ic_play, R.drawable.ic_pause),
-    Audio(3, R.drawable.ic_music_note, R.drawable.ic_pause);
+    Video(2, 0, R.drawable.ic_play),
+    Audio(3, R.drawable.ic_stop, R.drawable.ic_music_note);
 
     private int mId;
-    private int mPlayResource;
-    private int mPauseResource;
+    private int mPlayDrawable;
+    private int mStopDrawable;
 
-    MultimediaType(int id, int playResource, int pauseResource) {
+    MultimediaType(int id, int playDrawable, int stopDrawable) {
         mId = id;
-        mPlayResource = playResource;
-        mPauseResource = pauseResource;
+        mPlayDrawable = playDrawable;
+        mStopDrawable = stopDrawable;
     }
 
     public int getId() {
         return mId;
     }
 
-    public int getPlayResource() {
-        return mPlayResource;
+    public int getPlayDrawable() {
+        return mPlayDrawable;
     }
 
-    public int getPauseResource() {
-        return mPauseResource;
+    public int getStopDrawable() {
+        return mStopDrawable;
     }
 }

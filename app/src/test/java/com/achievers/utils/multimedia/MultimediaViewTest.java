@@ -191,16 +191,34 @@ public class MultimediaViewTest extends AbstractMultimediaViewTest {
     }
 
     @Test
-    public void changeState() {
-        for (MultimediaControllerState state: MultimediaControllerState.values()) {
-            changeState(state);
-        }
+    public void changeState_none() {
+        changeState(MultimediaControllerState.None, 1);
     }
 
-    private void changeState(MultimediaControllerState state) {
-        mView.changeState(state);
+    @Test
+    public void changeState_play() {
+        changeState(MultimediaControllerState.Play, 2);
+    }
 
+    @Test
+    public void changeState_stop() {
+        changeState(MultimediaControllerState.Stop, 3);
+    }
+
+    @Test
+    public void changeState_loading() {
+        changeState(MultimediaControllerState.Loading, 4);
+    }
+
+    @Test
+    public void changeState_error() {
+        changeState(MultimediaControllerState.Error, 5);
+    }
+
+    private void changeState(MultimediaControllerState state, int drawable) {
+        mView.changeState(state, drawable);
         verify(mViewModel).setControllerState(state);
+        verify(mViewModel).setControllerDrawable(drawable);
     }
 
     @Test

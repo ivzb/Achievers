@@ -1,5 +1,6 @@
 package com.achievers.utils.ui.multimedia.players;
 
+import com.achievers.utils.ui.multimedia.MultimediaType;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaViewActionHandler;
 
 import static com.achievers.utils.ui.multimedia.MultimediaControllerState.None;
@@ -12,7 +13,7 @@ public class PhotoMultimediaPlayer extends SimpleMultimediaPlayer {
 
     @Override
     public void init() {
-        mActionHandler.changeState(None);
+        mActionHandler.changeState(None, MultimediaType.Photo.getStopDrawable());
     }
 
     @Override

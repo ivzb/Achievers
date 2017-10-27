@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.achievers.BuildConfig;
+import com.achievers.R;
+import com.achievers.utils.ui.multimedia.MultimediaControllerState;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaViewActionHandler;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -21,7 +23,9 @@ import com.google.android.exoplayer2.util.Util;
 import javax.annotation.Nullable;
 
 import static com.achievers.utils.Preconditions.checkNotNull;
-import static com.achievers.utils.ui.multimedia.MultimediaControllerState.Stop;
+import static com.google.android.exoplayer2.ExoPlayer.STATE_BUFFERING;
+import static com.google.android.exoplayer2.ExoPlayer.STATE_ENDED;
+import static com.google.android.exoplayer2.ExoPlayer.STATE_READY;
 
 public abstract class ExoMultimediaPlayer
         extends SimpleMultimediaPlayer
@@ -31,6 +35,16 @@ public abstract class ExoMultimediaPlayer
     SimpleExoPlayer mExoPlayer;
     @Nullable SimpleExoPlayerView mExoPlayerView;
     private String mUrl;
+
+    MultimediaControllerState mPlayState;
+    MultimediaControllerState mStopState;
+    MultimediaControllerState mLoadingState;
+    MultimediaControllerState mErrorState;
+
+    int mPlayDrawable;
+    int mStopDrawable;
+    int mLoadingDrawable;
+    int mErrorDrawable;
 
     ExoMultimediaPlayer(
             BaseMultimediaViewActionHandler actionHandler,
@@ -48,11 +62,17 @@ public abstract class ExoMultimediaPlayer
         mExoPlayer = exoPlayer;
         mExoPlayerView = mActionHandler.getExoPlayerView();
         mUrl = url;
+
+        mLoadingState = MultimediaControllerState.Loading;
+        mErrorState = MultimediaControllerState.Error;
+
+        mLoadingDrawable = R.drawable.ic_dots;
+        mErrorDrawable = R.drawable.ic_error;
     }
 
     @Override
     public void init() {
-        mActionHandler.changeState(Stop);
+        mActionHandler.changeState(mStopState, mStopDrawable);
     }
 
     @Override
@@ -70,12 +90,14 @@ public abstract class ExoMultimediaPlayer
         mExoPlayer.addListener(this);
         mExoPlayer.prepare(mediaSource);
         mExoPlayer.setPlayWhenReady(true);
+        mActionHandler.changeState(mPlayState, mPlayDrawable);
     }
 
     @Override
     public void stop() {
         mExoPlayer.removeListener(this);
         mExoPlayer.setPlayWhenReady(false);
+        mActionHandler.changeState(mStopState, mStopDrawable);
     }
 
     // exoPlayer events
@@ -96,12 +118,24 @@ public abstract class ExoMultimediaPlayer
 
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+        if (playbackState == STATE_BUFFERING) {
+            mActionHandler.changeState(mLoadingState, mLoadingDrawable);
+        }
 
+        if (playbackState == STATE_READY) {
+            mActionHandler.changeState(mPlayState, mPlayDrawable);
+        }
+
+        if (playbackState == STATE_ENDED) {
+            mActionHandler.changeState(mStopState, mStopDrawable);
+            mExoPlayer.stop();
+            mActionHandler.release();
+        }
     }
 
     @Override
     public void onPlayerError(ExoPlaybackException error) {
-
+        mActionHandler.changeState(mErrorState, mErrorDrawable);
     }
 
     @Override

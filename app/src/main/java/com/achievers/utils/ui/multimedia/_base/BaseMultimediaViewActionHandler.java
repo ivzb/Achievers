@@ -6,5 +6,6 @@ import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 public interface BaseMultimediaViewActionHandler {
 
     SimpleExoPlayerView getExoPlayerView();
-    void changeState(MultimediaControllerState state);
+    void changeState(MultimediaControllerState state, int drawable);
+    void release();
 }

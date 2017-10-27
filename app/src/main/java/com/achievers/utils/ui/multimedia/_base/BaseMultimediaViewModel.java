@@ -32,6 +32,10 @@ public interface BaseMultimediaViewModel extends Observable {
     void setControllerState(MultimediaControllerState controller);
 
     @Bindable
+    int getControllerDrawable();
+    void setControllerDrawable(int drawable);
+
+    @Bindable
     boolean isPlayingVideo();
 
     @Bindable

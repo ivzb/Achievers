@@ -7,5 +7,4 @@ public interface BaseMultimediaView
         extends BaseActionHandler, BaseMultimediaViewActionHandler {
 
     BaseMultimediaBuilder builder(MultimediaType multimediaType);
-    void release();
 }

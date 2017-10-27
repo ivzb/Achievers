@@ -10,6 +10,7 @@ import com.achievers.ui._base.contracts.action_handlers.BaseMultimediaActionHand
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaViewModel;
 
+import static com.achievers.utils.ui.multimedia.MultimediaControllerState.Loading;
 import static com.achievers.utils.ui.multimedia.MultimediaControllerState.None;
 import static com.achievers.utils.ui.multimedia.MultimediaType.Video;
 
@@ -21,7 +22,9 @@ public class MultimediaViewModel
     private String mPreviewUrl;
     private boolean mPlaying;
     private BaseActionHandler mActionHandler;
+
     private MultimediaControllerState mControllerState;
+    private int mControllerDrawable;
 
     private Resources mResources;
 
@@ -92,8 +95,21 @@ public class MultimediaViewModel
 
     @Bindable
     @Override
+    public int getControllerDrawable() {
+        return mControllerDrawable;
+    }
+
+    @Override
+    public void setControllerDrawable(int drawable) {
+        mControllerDrawable = drawable;
+        notifyPropertyChanged(BR.controllerDrawable);
+    }
+
+    @Bindable
+    @Override
     public boolean isPlayingVideo() {
-        return getControllerState() == None && getType() == Video;
+        MultimediaControllerState state = getControllerState();
+        return (state == None || state == Loading) && getType() == Video;
     }
 
     @Bindable

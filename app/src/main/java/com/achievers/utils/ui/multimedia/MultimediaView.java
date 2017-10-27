@@ -73,8 +73,9 @@ public class MultimediaView
     }
 
     @Override
-    public void changeState(MultimediaControllerState state) {
+    public void changeState(MultimediaControllerState state, int drawable) {
         mViewModel.setControllerState(state);
+        mViewModel.setControllerDrawable(drawable);
     }
 
     @Override
