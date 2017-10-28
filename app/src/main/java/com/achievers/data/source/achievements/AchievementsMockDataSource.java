@@ -15,6 +15,7 @@ import java.util.List;
 
 import static com.achievers.utils.Preconditions.checkNotNull;
 
+@Deprecated
 public class AchievementsMockDataSource implements AchievementsDataSource {
 
     private static AchievementsDataSource sINSTANCE;

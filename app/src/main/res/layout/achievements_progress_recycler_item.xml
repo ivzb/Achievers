@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="achievementProgress"
+            type="com.achievers.data.entities.AchievementProgress" />
+
+        <variable
+            name="resources"
+            type="android.content.res.Resources" />
+
+        <variable
+            name="actionHandler"
+            type="com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/spacing_medium"
+        android:paddingBottom="@dimen/spacing_medium"
+        android:onClick="@{ () -> actionHandler.onAdapterEntityClick(achievementProgress) }">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Achievement progress here" />
+    </android.support.constraint.ConstraintLayout>
+</layout>

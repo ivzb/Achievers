@@ -1,6 +1,8 @@
 package com.achievers.utils;
 
 import com.achievers.data.entities.Achievement;
+import com.achievers.data.entities.AchievementProgress;
+import com.achievers.data.entities.AchievementType;
 import com.achievers.data.entities.Evidence;
 import com.achievers.data.entities.Involvement;
 import com.achievers.utils.ui.multimedia.MultimediaType;
@@ -64,6 +66,26 @@ public class GeneratorUtils {
         String imageUrl = getImageUrl();
 
         return new Achievement(id, title, description, involvement, imageUrl);
+    }
+
+    public AchievementProgress getAchievementProgress(long id, Date createdOn) {
+        checkNotNull(mFaker);
+        checkNotNull(mRandom);
+
+        long achievementId = mRandom.nextLong();
+        long userId = mRandom.nextLong();
+        AchievementType achievementType = getAchievementType();
+        int progress = mRandom.nextInt(100);
+
+        return new AchievementProgress(id, achievementId, userId, achievementType, progress);
+    }
+
+    public AchievementType getAchievementType() {
+        checkNotNull(mRandom);
+
+        List<AchievementType> values = Arrays.asList(AchievementType.values());
+        int index = mRandom.nextInt(values.size());
+        return values.get(index);
     }
 
     public MultimediaType getMultimediaType() {

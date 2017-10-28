@@ -3,11 +3,11 @@ package com.achievers.ui.achievements;
 import android.databinding.ViewDataBinding;
 
 import com.achievers.data.entities.Achievement;
-import com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler;
-import com.achievers.ui._base.contracts.adapters.BaseAdapter;
 import com.achievers.ui._base.contracts.BasePresenter;
 import com.achievers.ui._base.contracts.BaseView;
 import com.achievers.ui._base.contracts.BaseViewModel;
+import com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler;
+import com.achievers.ui._base.contracts.adapters.BaseAdapter;
 
 import java.util.List;
 

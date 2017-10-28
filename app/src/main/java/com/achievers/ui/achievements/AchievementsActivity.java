@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.achievers.R;
 import com.achievers.ui._base.AbstractActivity;
+import com.achievers.ui.achieveemnts_progress.AchievementsProgressFragment;
 import com.achievers.ui.achievements.adapters.AchievementsPagerAdapter;
 import com.achievers.ui.add_achievement.AddAchievementActivity;
 
@@ -57,7 +58,7 @@ public class AchievementsActivity
         ViewPagerMetadata achievementsMetadata = new ViewPagerMetadata(3);
 
         achievementsMetadata.add(
-                new AchievementsFragment(),
+                new AchievementsProgressFragment(),
                 "Home",
                 R.drawable.ic_home);
 

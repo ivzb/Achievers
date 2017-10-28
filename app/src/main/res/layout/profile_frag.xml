@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.achievers.ui.achieveemnts_progress.AchievementsProgressContract.ViewModel" />
+    </data>
+
+    <com.achievers.utils.ui.ScrollChildSwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvAchievementsProgress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.achievers.utils.ui.ScrollChildSwipeRefreshLayout>
+</layout>

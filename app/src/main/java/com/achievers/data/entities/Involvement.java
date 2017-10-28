@@ -9,18 +9,18 @@ public enum Involvement {
     Platinum(4),
     Diamond(5);
 
-    private int id;
+    private int mId;
 
     Involvement(int id) {
-        this.id = id;
+        mId = id;
     }
 
     public int getId() {
-        return id;
+        return mId;
     }
 
     public int getDrawable() {
-        switch (this.getId()) {
+        switch (getId()) {
             case 1: return R.drawable.bronze;
             case 2: return R.drawable.silver;
             case 3: return R.drawable.gold;
