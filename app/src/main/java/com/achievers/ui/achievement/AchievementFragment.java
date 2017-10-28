@@ -2,13 +2,11 @@ package com.achievers.ui.achievement;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,24 +20,21 @@ import android.view.ViewGroup;
 
 import com.achievers.R;
 import com.achievers.data.entities.Evidence;
-import com.achievers.data.entities.UploadEvidenceItem;
 import com.achievers.databinding.AchievementFragBinding;
 import com.achievers.ui._base.AbstractFragment;
 import com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler;
 import com.achievers.ui.achievement.adapters.EvidencesAdapter;
-import com.achievers.ui.achievement.adapters.UploadEvidenceDialogSimpleAdapter;
+import com.achievers.ui.achievement.adapters.UploadEvidenceAdapter;
 import com.achievers.ui.evidence.EvidenceActivity;
 import com.achievers.utils.ui.EndlessRecyclerViewScrollListener;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.GridHolder;
-import com.orhanobut.dialogplus.Holder;
 import com.orhanobut.dialogplus.OnCancelListener;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnDismissListener;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AchievementFragment
@@ -87,9 +82,6 @@ public class AchievementFragment
         }
 
         return view;
-
-        // todo: achievement module, showing evidence previews,
-        // todo: onClick opens specific evidence fragment with player and navigation (prev and next)
     }
 
     @Override
@@ -124,23 +116,12 @@ public class AchievementFragment
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Holder holder = new GridHolder(2);
-
-        List<UploadEvidenceItem> uploadEvidenceItems = new ArrayList<>();
-
-        Drawable photo = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_camera_alt_black_48dp, null);
-        uploadEvidenceItems.add(new UploadEvidenceItem("Photo", photo));
-
-        Drawable video = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_videocam_black_48dp, null);
-        uploadEvidenceItems.add(new UploadEvidenceItem("Video", video));
-
-        UploadEvidenceDialogSimpleAdapter adapter = new UploadEvidenceDialogSimpleAdapter(
-                getContext(), uploadEvidenceItems, true);
+        UploadEvidenceAdapter adapter = new UploadEvidenceAdapter(getContext());
 
         switch (item.getItemId()) {
             case R.id.menu_upload:
                 final DialogPlus dialog = DialogPlus.newDialog(getContext())
-                    .setContentHolder(holder)
+                    .setContentHolder(new GridHolder(3))
                     .setHeader(R.layout.evidence_upload_dialog_header)
                     .setCancelable(true)
                     .setGravity(Gravity.CENTER)

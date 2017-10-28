@@ -11,12 +11,11 @@ import com.achievers.ui._base.adapters.MultimediaAdapter;
 import com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler;
 import com.achievers.utils.ui.multimedia.MultimediaView;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
-import com.achievers.utils.ui.multimedia.players.AudioMultimediaPlayer;
 import com.achievers.utils.ui.multimedia.players.PhotoMultimediaPlayer;
 import com.achievers.utils.ui.multimedia.players.VideoMultimediaPlayer;
 
-import static com.achievers.utils.ui.multimedia.MultimediaType.Audio;
 import static com.achievers.utils.ui.multimedia.MultimediaType.Video;
+import static com.achievers.utils.ui.multimedia.MultimediaType.Voice;
 
 public class EvidencesAdapter extends MultimediaAdapter<Evidence> {
 
@@ -46,14 +45,8 @@ public class EvidencesAdapter extends MultimediaAdapter<Evidence> {
 
         BaseMultimediaPlayer player;
 
-        if (evidence.getMultimediaType() == Video) {
+        if (evidence.getMultimediaType() == Video || evidence.getMultimediaType() == Voice) {
             player = new VideoMultimediaPlayer(
-                    mvEvidence,
-                    mContext,
-                    mExoPlayer,
-                    evidence.getUrl());
-        } else if (evidence.getMultimediaType() == Audio) {
-            player = new AudioMultimediaPlayer(
                     mvEvidence,
                     mContext,
                     mExoPlayer,

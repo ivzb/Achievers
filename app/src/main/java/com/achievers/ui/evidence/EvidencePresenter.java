@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.achievers.data.source.evidences.EvidencesDataSource;
 import com.achievers.ui._base.AbstractPresenter;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.achievers.utils.Preconditions.checkNotNull;
 
 public class EvidencePresenter
         extends AbstractPresenter<EvidenceContract.View>

@@ -10,7 +10,7 @@ import com.achievers.ui._base.AbstractPresenter;
 import java.util.List;
 
 import static com.achievers.Config.RECYCLER_INITIAL_PAGE;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.achievers.utils.Preconditions.checkNotNull;
 
 public class AchievementPresenter
         extends AbstractPresenter<AchievementContract.View>

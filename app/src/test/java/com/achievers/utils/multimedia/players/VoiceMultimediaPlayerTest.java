@@ -2,7 +2,7 @@ package com.achievers.utils.multimedia.players;
 
 import com.achievers.R;
 import com.achievers.utils.multimedia.players._base.AbstractMultimediaPlayerTest;
-import com.achievers.utils.ui.multimedia.players.AudioMultimediaPlayer;
+import com.achievers.utils.ui.multimedia.players.VoiceMultimediaPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
 
 import org.junit.Test;
@@ -13,26 +13,26 @@ import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class AudioMultimediaPlayerTest extends AbstractMultimediaPlayerTest {
+public class VoiceMultimediaPlayerTest extends AbstractMultimediaPlayerTest {
 
     @Test(expected = NullPointerException.class)
     public void nullActionHandler() {
-        new AudioMultimediaPlayer(null, mContext, mExoPlayer, mUrl);
+        new VoiceMultimediaPlayer(null, mContext, mExoPlayer, mUrl);
     }
 
     @Test(expected = NullPointerException.class)
     public void nullContext() {
-        new AudioMultimediaPlayer(mMultimediaActionHandler, null, mExoPlayer, mUrl);
+        new VoiceMultimediaPlayer(mMultimediaActionHandler, null, mExoPlayer, mUrl);
     }
 
     @Test(expected = NullPointerException.class)
     public void nullExoPlayer() {
-        new AudioMultimediaPlayer(mMultimediaActionHandler, mContext, null, mUrl);
+        new VoiceMultimediaPlayer(mMultimediaActionHandler, mContext, null, mUrl);
     }
 
     @Test(expected = NullPointerException.class)
     public void nullUrl() {
-        new AudioMultimediaPlayer(mMultimediaActionHandler, mContext, mExoPlayer, null);
+        new VoiceMultimediaPlayer(mMultimediaActionHandler, mContext, mExoPlayer, null);
     }
 
     @Test
@@ -73,7 +73,7 @@ public class AudioMultimediaPlayerTest extends AbstractMultimediaPlayerTest {
     private void initPlayer() {
         when(mMultimediaActionHandler.getExoPlayerView()).thenReturn(mExoPlayerView);
 
-        mPlayer = new AudioMultimediaPlayer(
+        mPlayer = new VoiceMultimediaPlayer(
                 mMultimediaActionHandler,
                 mContext,
                 mExoPlayer,

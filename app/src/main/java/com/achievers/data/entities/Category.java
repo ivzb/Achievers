@@ -9,7 +9,6 @@ import android.content.ContentValues;
 import android.provider.BaseColumns;
 
 import com.achievers.utils.DateConverter;
-import com.google.common.base.Objects;
 import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
@@ -167,7 +166,7 @@ public class Category {
         Category other = (Category) o;
 
         if (id != other.id) return false;
-        return Objects.equal(parentId, other.parentId);
+        return parentId == other.parentId || (parentId != null && parentId.equals(other.parentId));
     }
 
     @Override

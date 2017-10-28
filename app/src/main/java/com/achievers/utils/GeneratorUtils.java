@@ -87,7 +87,7 @@ public class GeneratorUtils {
             case Video:
                 url = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
                 break;
-            case Audio:
+            case Voice:
                 url = "https://archive.org/download/testmp3testfile/mpthreetest.mp3";
                 break;
             default:

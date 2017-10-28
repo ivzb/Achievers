@@ -35,7 +35,7 @@ He might react to it, read/write comments or swipe left/right for navigation bet
 # TODO
 1. ScrollChildSwipeRefreshLayout - show user friendly message when there is no data inside RecyclerView
 2. AchievementView
-   1. Upon evidence click, open EvidenceView with following support: Image/Video/Audio/Location
+   1. Upon evidence click, open EvidenceView with following support: Image/Video/Voice
    2. Upload Evidence
 3. User profile
    1. Own achievements - define yourself goals and make little steps everyday and observe how you are improving yourself overtime.

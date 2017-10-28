@@ -9,9 +9,9 @@ import com.google.android.exoplayer2.SimpleExoPlayer;
 import static com.achievers.utils.ui.multimedia.MultimediaControllerState.Play;
 import static com.achievers.utils.ui.multimedia.MultimediaControllerState.Stop;
 
-public class AudioMultimediaPlayer extends ExoMultimediaPlayer {
+public class VoiceMultimediaPlayer extends ExoMultimediaPlayer {
 
-    public AudioMultimediaPlayer(
+    public VoiceMultimediaPlayer(
             BaseMultimediaViewActionHandler actionHandler,
             Context context,
             SimpleExoPlayer exoPlayer,
@@ -22,7 +22,7 @@ public class AudioMultimediaPlayer extends ExoMultimediaPlayer {
         mPlayState = Play;
         mStopState = Stop;
 
-        mPlayDrawable = MultimediaType.Audio.getPlayDrawable();
-        mStopDrawable = MultimediaType.Audio.getStopDrawable();
+        mPlayDrawable = MultimediaType.Voice.getPlayDrawable();
+        mStopDrawable = MultimediaType.Voice.getStopDrawable();
     }
 }

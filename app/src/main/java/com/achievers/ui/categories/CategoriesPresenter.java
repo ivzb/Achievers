@@ -11,7 +11,7 @@ import com.achievers.ui._base.AbstractPresenter;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.achievers.utils.Preconditions.checkNotNull;
 
 /**
  * Listens to user actions from the UI ({@link CategoriesFragment}), retrieves the data and updates the

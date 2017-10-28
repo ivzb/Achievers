@@ -6,9 +6,9 @@ import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 
 import org.junit.Test;
 
-import static com.achievers.utils.ui.multimedia.MultimediaType.Audio;
 import static com.achievers.utils.ui.multimedia.MultimediaType.Photo;
 import static com.achievers.utils.ui.multimedia.MultimediaType.Video;
+import static com.achievers.utils.ui.multimedia.MultimediaType.Voice;
 import static org.mockito.Mockito.mock;
 
 public class MultimediaBuilderTest extends AbstractMultimediaViewTest {
@@ -31,8 +31,8 @@ public class MultimediaBuilderTest extends AbstractMultimediaViewTest {
     }
 
     @Test
-    public void emptyBuilder_audio() {
-        mDefaultType = Audio;
+    public void emptyBuilder_voice() {
+        mDefaultType = Voice;
         buildAndVerify();
     }
 
