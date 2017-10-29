@@ -44,10 +44,10 @@ public class SelectableAdapter<T>
         Resources resources = context.getResources();
 
         mDefaultBackgroundColor = 0;
-        mDefaultTextColor = ResourcesCompat.getColor(resources, R.color.colorAccent, null);
+        mDefaultTextColor = ResourcesCompat.getColor(resources, R.color.accent, null);
 
-        mSelectedBackgroundColor = ResourcesCompat.getColor(resources, R.color.colorAccent, null);
-        mSelectedTextColor = ResourcesCompat.getColor(resources, R.color.colorLight, null);
+        mSelectedBackgroundColor = ResourcesCompat.getColor(resources, R.color.accent, null);
+        mSelectedTextColor = ResourcesCompat.getColor(resources, R.color.light, null);
     }
 
     @Override

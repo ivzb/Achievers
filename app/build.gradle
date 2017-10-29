@@ -12,8 +12,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-        multiDexEnabled true
     }
 
     buildTypes {
@@ -79,7 +77,6 @@ dependencies {
     compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
     compile "com.android.support:palette-v7:$rootProject.supportLibraryVersion"
     compile "com.android.support:exifinterface:$rootProject.supportLibraryVersion"
-    compile 'com.android.support:multidex:1.0.0'
 
     compile "com.android.support.constraint:constraint-layout:$rootProject.constraintLayoutVersion"
     compile "com.android.support.test.espresso:espresso-idling-resource:3.0.1"

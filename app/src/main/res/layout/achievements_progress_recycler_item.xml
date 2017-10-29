@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -23,9 +24,20 @@
         android:paddingBottom="@dimen/spacing_medium"
         android:onClick="@{ () -> actionHandler.onAdapterEntityClick(achievementProgress) }">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Achievement progress here" />
+        <com.achievers.utils.ui.circle_progress.CircleProgressView
+            android:id="@+id/circle_progress_view"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            app:invert="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:primaryText="@{ String.valueOf(achievementProgress.progress) + `%` }"
+            app:progress="@{ achievementProgress.progress }"
+            app:secondaryText="@{ String.valueOf(achievementProgress.accomplished) + ` of ` + String.valueOf(achievementProgress.total) }" />
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -126,9 +126,9 @@ public class AchievementsProgressFragment
 
     private void setUpLoadingIndicator() {
         mDataBinding.refreshLayout.setColorSchemeColors(
-            getColor(R.color.colorPrimary),
-            getColor(R.color.colorAccent),
-            getColor(R.color.colorPrimaryDark)
+            getColor(R.color.primary),
+            getColor(R.color.accent),
+            getColor(R.color.dark)
         );
 
         mDataBinding.refreshLayout.setScrollUpChild(mDataBinding.rvAchievementsProgress);

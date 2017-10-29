@@ -21,7 +21,7 @@ public class NotificationUtils {
 
     public static void notify(Context context, String title, String text, PendingIntent pendingIntent) {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
-                .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                .setColor(ContextCompat.getColor(context, R.color.primary))
                 .setSmallIcon(R.drawable.ic_check)
                 .setLargeIcon(largeIcon(context))
                 .setContentTitle(title)

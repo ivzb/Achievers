@@ -75,9 +75,16 @@ public class GeneratorUtils {
         long achievementId = mRandom.nextLong();
         long userId = mRandom.nextLong();
         AchievementType achievementType = getAchievementType();
-        int progress = mRandom.nextInt(100);
+        int total = mRandom.nextInt(25) + 1;
+        int accomplished = mRandom.nextInt(total + 1);
 
-        return new AchievementProgress(id, achievementId, userId, achievementType, progress);
+        return new AchievementProgress(
+                id,
+                achievementId,
+                userId,
+                achievementType,
+                total,
+                accomplished);
     }
 
     public AchievementType getAchievementType() {

@@ -55,9 +55,9 @@ public class CategoriesFragment
         // Set up progress indicator
         final ScrollChildSwipeRefreshLayout swipeRefreshLayout = mDataBinding.refreshLayout;
         swipeRefreshLayout.setColorSchemeColors(
-                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
-                ContextCompat.getColor(getActivity(), R.color.colorAccent),
-                ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark)
+                ContextCompat.getColor(getActivity(), R.color.primary),
+                ContextCompat.getColor(getActivity(), R.color.accent),
+                ContextCompat.getColor(getActivity(), R.color.dark)
         );
         // Set the scrolling view in the custom SwipeRefreshLayout.
         swipeRefreshLayout.setScrollUpChild(mDataBinding.rvCategories);
