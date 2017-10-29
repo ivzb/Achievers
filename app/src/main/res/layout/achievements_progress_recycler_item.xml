@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -25,19 +26,54 @@
         android:onClick="@{ () -> actionHandler.onAdapterEntityClick(achievementProgress) }">
 
         <com.achievers.utils.ui.circle_progress.CircleProgressView
-            android:id="@+id/circle_progress_view"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            app:invert="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            app:layout_constraintBottom_toBottomOf="@+id/tvDescription"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvTitle"
+            app:layout_constraintEnd_toStartOf="@+id/glVertical"
+            app:invert="false"
             app:primaryText="@{ String.valueOf(achievementProgress.progress) + `%` }"
             app:progress="@{ achievementProgress.progress }"
             app:secondaryText="@{ String.valueOf(achievementProgress.accomplished) + ` of ` + String.valueOf(achievementProgress.total) }" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:text="text"
+            android:paddingTop="@dimen/spacing_medium"
+            android:paddingBottom="@dimen/spacing_small"
+            tools:text="@string/achievement_title"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/glVertical"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="secondary text"
+            tools:text="@string/achievement_description"
+            android:paddingTop="@dimen/spacing_xsmall"
+            android:paddingBottom="@dimen/spacing_xmedium"
+            android:textSize="14sp"
+            style="@style/Ellipsize"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:layout_constraintStart_toEndOf="@+id/glVertical"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/glVertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/guideline_xsmall" />
     </android.support.constraint.ConstraintLayout>
 </layout>

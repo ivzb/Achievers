@@ -11,10 +11,11 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.View;
 
 import com.achievers.R;
+
+import java.util.Hashtable;
 
 public class CircleProgressView extends View {
 
@@ -26,14 +27,12 @@ public class CircleProgressView extends View {
     private float mHalfWidth;
     private float mHalfHeight;
     private float mRadius;
-    private float mOffset;
 
     private int mNotStartedColor;
     private int mProgressColor;
     private int mProgressLightColor;
     private int mCompletedColor;
     private int mCompletedLightColor;
-    private int mTextColor;
 
     private Paint mCirclePaint;
     private Paint mInnerCirclePaint;
@@ -41,7 +40,41 @@ public class CircleProgressView extends View {
     private TextPaint mPrimaryTextPaint;
     private TextPaint mSecondaryTextPaint;
 
+    private static Hashtable<Double, Line> mLines;
+
+    private class Line {
+
+        private float mStartX;
+        private float mStartY;
+        private float mStopX;
+        private float mStopY;
+
+        Line(float startX, float startY, float stopX, float stopY) {
+            mStartX = startX;
+            mStartY = startY;
+            mStopX = stopX;
+            mStopY = stopY;
+        }
+
+        float startX() {
+            return mStartX;
+        }
+
+        float startY() {
+            return mStartY;
+        }
+
+        float stopX() {
+            return mStopX;
+        }
+
+        float stopY() {
+            return mStopY;
+        }
+    }
+
     private RectF mRect;
+    private final float mStep = 3.6f; // in degrees
 
     public CircleProgressView(Context context) {
         super(context);
@@ -58,10 +91,6 @@ public class CircleProgressView extends View {
         init(context, attrs);
     }
 
-    public int getProgress() {
-        return mProgress;
-    }
-
     public void setProgress(int progress) {
         if (progress < 0) {
             progress = 0;
@@ -75,19 +104,11 @@ public class CircleProgressView extends View {
         invalidate();
     }
 
-    public String getPrimaryText() {
-        return mPrimaryText;
-    }
-
     public void setPrimaryText(String primaryText) {
         if (primaryText == null) primaryText = "";
 
         mPrimaryText = primaryText;
         invalidate();
-    }
-
-    public String getSecondaryText() {
-        return mSecondaryText;
     }
 
     public void setSecondaryText(String secondaryText) {
@@ -98,22 +119,16 @@ public class CircleProgressView extends View {
 
     }
 
-    public boolean isInverted() {
-        return mInverted;
-    }
-
     public void setInverted(boolean isInverted) {
         mInverted = isInverted;
         invalidate();
     }
 
     private void updatePaints() {
-        int progress = getProgress();
-
-        if (progress == 0) {
+        if (mProgress == 0) {
             mCirclePaint.setColor(mNotStartedColor);
             mInnerCirclePaint.setColor(mNotStartedColor);
-        } else if (progress < 100) {
+        } else if (mProgress < 100) {
             mCirclePaint.setColor(mProgressLightColor);
             mInnerCirclePaint.setColor(mProgressLightColor);
             mArcPaint.setColor(mProgressColor);
@@ -125,15 +140,12 @@ public class CircleProgressView extends View {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
-        mOffset = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, metrics);
-
         mNotStartedColor = getResources().getColor(R.color.cpvNotStarted);
         mCompletedColor = getResources().getColor(R.color.cpvCompleted);
         mCompletedLightColor = getResources().getColor(R.color.cpvCompletedLight);
         mProgressColor = getResources().getColor(R.color.cpvProgress);
         mProgressLightColor = getResources().getColor(R.color.cpvProgressLight);
-        mTextColor = getResources().getColor(R.color.cpvText);
+        int textColor = getResources().getColor(R.color.cpvText);
 
         mCirclePaint = new Paint();
         mCirclePaint.setAntiAlias(true);
@@ -148,12 +160,12 @@ public class CircleProgressView extends View {
         Typeface typeface = ResourcesCompat.getFont(context, R.font.open_sans_regular);
 
         mPrimaryTextPaint = new TextPaint();
-        mPrimaryTextPaint.setColor(mTextColor);
+        mPrimaryTextPaint.setColor(textColor);
         mPrimaryTextPaint.setAntiAlias(true);
         mPrimaryTextPaint.setTypeface(typeface);
 
         mSecondaryTextPaint = new TextPaint();
-        mSecondaryTextPaint.setColor(mTextColor);
+        mSecondaryTextPaint.setColor(textColor);
         mSecondaryTextPaint.setAntiAlias(true);
         mSecondaryTextPaint.setTypeface(typeface);
 
@@ -167,6 +179,8 @@ public class CircleProgressView extends View {
 
             arr.recycle();
         }
+
+        mLines = new Hashtable<>();
     }
 
     @Override
@@ -177,15 +191,17 @@ public class CircleProgressView extends View {
         mHalfHeight = height / 2;
         mRadius = Math.min(mHalfWidth , mHalfHeight);
 
-        boolean landscape = width > height;
-        float left, top, right, bottom;
+        float left;
+        float top;
+        float right;
+        float bottom;
 
-        if (landscape) {
+        if (width > height) { // landscape
             left = mHalfWidth - mRadius;
             top = 0;
             right = mHalfWidth + mRadius;
             bottom = height;
-        } else {
+        } else { // portrait
             left = 0;
             top = mHalfHeight - mRadius;
             right = width;
@@ -195,52 +211,102 @@ public class CircleProgressView extends View {
         mRect = new RectF(left, top, right, bottom);
 
         // text size aspect ratio according to the scribed rectangular
-        mPrimaryTextPaint.setTextSize(dpToPx(mRect.height() / 15));
-        mSecondaryTextPaint.setTextSize(dpToPx(mRect.height() / 30));
+        mPrimaryTextPaint.setTextSize(dpToPx(mRect.height() / 12));
+        mSecondaryTextPaint.setTextSize(dpToPx(mRect.height() / 20));
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        drawOuterCircle(canvas);
+        drawLines(canvas);
+        drawArc(canvas);
+        drawInnerCircle(canvas);
+        drawPrimaryText(canvas);
+        drawSecondaryText(canvas);
+    }
+
+    private void drawOuterCircle(Canvas canvas) {
         canvas.drawCircle(mHalfWidth, mHalfHeight, mRadius, mCirclePaint);
+    }
 
-        float degrees = 3.6f;
+    private void drawLines(Canvas canvas) {
+        float sweepAngle = mProgress * mStep;
+        float centerX = mRect.centerX();
+        float centerY = mRect.centerY();
 
-        for (float angle = 0; angle < 360; angle += degrees) {
-            double target = angle * Math.PI / 180;
-            float cosTarget = (float)(Math.cos(target) * mRadius);
-            float sinTarget = (float)(Math.sin(target) * mRadius);
+        double target = Math.PI / 180;
+
+        // todo: adapt it for inverted
+        for (float angle = sweepAngle; angle < 360; angle += mStep) {
+            double targetAngle = angle * target;
+
+            if (!mLines.containsKey(targetAngle)) {
+                double targetCos = Math.cos(targetAngle) * mRadius;
+                double targetSin = Math.sin(targetAngle) * mRadius;
+
+                float startX = centerX + (float)(targetCos * 0.75f);
+                float startY = centerY + (float)(targetSin * 0.75f);
+
+                float stopX = centerX + (float)(targetCos);
+                float stopY = centerY + (float)(targetSin);
+
+                Line line = new Line(startX, startY, stopX, stopY);
+
+                mLines.put(targetAngle, line);
+            }
+
+            Line line = mLines.get(targetAngle);
 
             canvas.drawLine(
-                    mRect.centerX(),
-                    mRect.centerY(),
-                    mRect.centerX() + cosTarget,
-                    mRect.centerY() + sinTarget,
+                    line.startX(),
+                    line.startY(),
+                    line.stopY(),
+                    line.stopY(),
                     mPrimaryTextPaint);
         }
+    }
 
-        float startAngle = 0;
-        float sweepAngle = getProgress() * degrees;
-        if (isInverted()) sweepAngle *= -1;
+    private void drawArc(Canvas canvas) {
+        int startAngle = 0;
+        float sweepAngle = mProgress * mStep;
+
+        if (mInverted) sweepAngle *= -1;
 
         canvas.drawArc(mRect, startAngle, sweepAngle, true, mArcPaint);
+    }
 
-        canvas.drawCircle(mHalfWidth, mHalfHeight, mRadius - mOffset, mInnerCirclePaint);
+    private void drawInnerCircle(Canvas canvas) {
+        canvas.drawCircle(mHalfWidth, mHalfHeight, mRadius * 0.75f, mInnerCirclePaint);
+    }
 
-        canvas.drawText(
-                getPrimaryText(),
-                mRect.centerX() - (mPrimaryTextPaint.measureText(getPrimaryText()) / 2),
-                (mRect.bottom - (mRadius * 1.2f)) - ((mPrimaryTextPaint.descent() + mPrimaryTextPaint.ascent()) / 2),
-                mPrimaryTextPaint
-        );
+    private void drawPrimaryText(Canvas canvas) {
+        String text = mPrimaryText;
+        Paint paint = mPrimaryTextPaint;
+        float x = mRect.centerX() - (paint.measureText(text) / 2);
+        float y = (mRect.bottom - (mRadius * 1.2f)) - ((paint.descent() + paint.ascent()) / 2);
 
-        canvas.drawText(
-                getSecondaryText(),
-                mRect.centerX() - (mSecondaryTextPaint.measureText(getSecondaryText().toUpperCase()) / 2),
-                (mRect.top + (mRadius * 1.2f)) - ((mSecondaryTextPaint.descent() + mSecondaryTextPaint.ascent()) / 2),
-                mSecondaryTextPaint
-        );
+        drawText(canvas, text, x, y, paint);
+    }
+
+    private void drawSecondaryText(Canvas canvas) {
+        String text = mSecondaryText;
+        Paint paint = mSecondaryTextPaint;
+        float x = mRect.centerX() - (paint.measureText(text) / 2);
+        float y = (mRect.top + (mRadius * 1.3f)) - ((paint.descent() + paint.ascent()) / 2);
+
+        drawText(canvas, text, x, y, paint);
+    }
+
+    private void drawText(
+            Canvas canvas,
+            String text,
+            float x,
+            float y,
+            Paint paint) {
+
+        canvas.drawText(text, x, y, paint);
     }
 
     private int dpToPx(float dp) {
