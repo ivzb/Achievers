@@ -5,17 +5,13 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.support.v4.content.res.ResourcesCompat;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.View;
 
 import com.achievers.R;
-
-import java.util.Hashtable;
 
 public class CircleProgressView extends View {
 
@@ -39,39 +35,6 @@ public class CircleProgressView extends View {
     private Paint mArcPaint;
     private TextPaint mPrimaryTextPaint;
     private TextPaint mSecondaryTextPaint;
-
-    private static Hashtable<Double, Line> mLines;
-
-    private class Line {
-
-        private float mStartX;
-        private float mStartY;
-        private float mStopX;
-        private float mStopY;
-
-        Line(float startX, float startY, float stopX, float stopY) {
-            mStartX = startX;
-            mStartY = startY;
-            mStopX = stopX;
-            mStopY = stopY;
-        }
-
-        float startX() {
-            return mStartX;
-        }
-
-        float startY() {
-            return mStartY;
-        }
-
-        float stopX() {
-            return mStopX;
-        }
-
-        float stopY() {
-            return mStopY;
-        }
-    }
 
     private RectF mRect;
     private final float mStep = 3.6f; // in degrees
@@ -157,17 +120,17 @@ public class CircleProgressView extends View {
         mArcPaint = new Paint();
         mArcPaint.setAntiAlias(true);
 
-        Typeface typeface = ResourcesCompat.getFont(context, R.font.open_sans_regular);
-
         mPrimaryTextPaint = new TextPaint();
         mPrimaryTextPaint.setColor(textColor);
         mPrimaryTextPaint.setAntiAlias(true);
-        mPrimaryTextPaint.setTypeface(typeface);
+        mPrimaryTextPaint.setTypeface(ResourcesCompat.getFont(context, R.font.open_sans_bold));
+        mPrimaryTextPaint.setTextSize(getResources().getDimensionPixelSize(R.dimen.font_size_large));
 
         mSecondaryTextPaint = new TextPaint();
         mSecondaryTextPaint.setColor(textColor);
         mSecondaryTextPaint.setAntiAlias(true);
-        mSecondaryTextPaint.setTypeface(typeface);
+        mSecondaryTextPaint.setTypeface(ResourcesCompat.getFont(context, R.font.open_sans_regular));
+        mSecondaryTextPaint.setTextSize(getResources().getDimensionPixelSize(R.dimen.font_size_medium));
 
         if (attrs != null) {
             TypedArray arr = context.obtainStyledAttributes(attrs, R.styleable.CircleProgressView);
@@ -179,8 +142,6 @@ public class CircleProgressView extends View {
 
             arr.recycle();
         }
-
-        mLines = new Hashtable<>();
     }
 
     @Override
@@ -209,10 +170,6 @@ public class CircleProgressView extends View {
         }
 
         mRect = new RectF(left, top, right, bottom);
-
-        // text size aspect ratio according to the scribed rectangular
-        mPrimaryTextPaint.setTextSize(dpToPx(mRect.height() / 12));
-        mSecondaryTextPaint.setTextSize(dpToPx(mRect.height() / 20));
     }
 
     @Override
@@ -239,31 +196,24 @@ public class CircleProgressView extends View {
         double target = Math.PI / 180;
 
         // todo: adapt it for inverted
-        for (float angle = sweepAngle; angle < 360; angle += mStep) {
+        float step = mStep * 2;
+        for (float angle = sweepAngle; angle < 360; angle += step) {
             double targetAngle = angle * target;
 
-            if (!mLines.containsKey(targetAngle)) {
-                double targetCos = Math.cos(targetAngle) * mRadius;
-                double targetSin = Math.sin(targetAngle) * mRadius;
+            double targetCos = Math.cos(targetAngle) * mRadius;
+            double targetSin = Math.sin(targetAngle) * mRadius;
 
-                float startX = centerX + (float)(targetCos * 0.75f);
-                float startY = centerY + (float)(targetSin * 0.75f);
+            float startX = centerX + (float)(targetCos * 0.75f);
+            float startY = centerY + (float)(targetSin * 0.75f);
 
-                float stopX = centerX + (float)(targetCos);
-                float stopY = centerY + (float)(targetSin);
-
-                Line line = new Line(startX, startY, stopX, stopY);
-
-                mLines.put(targetAngle, line);
-            }
-
-            Line line = mLines.get(targetAngle);
+            float stopX = centerX + (float)(targetCos);
+            float stopY = centerY + (float)(targetSin);
 
             canvas.drawLine(
-                    line.startX(),
-                    line.startY(),
-                    line.stopY(),
-                    line.stopY(),
+                    startX,
+                    startY,
+                    stopX,
+                    stopY,
                     mPrimaryTextPaint);
         }
     }
@@ -307,10 +257,5 @@ public class CircleProgressView extends View {
             Paint paint) {
 
         canvas.drawText(text, x, y, paint);
-    }
-
-    private int dpToPx(float dp) {
-        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-        return (int)((dp * displayMetrics.density) + 0.5);
     }
 }

@@ -17,63 +17,56 @@
             type="com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
-        android:background="?android:attr/selectableItemBackground"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/spacing_medium"
-        android:paddingBottom="@dimen/spacing_medium"
-        android:onClick="@{ () -> actionHandler.onAdapterEntityClick(achievementProgress) }">
+    <android.support.v7.widget.CardView
+        android:layout_width="125dp"
+        android:layout_height="175dp"
+        android:layout_marginEnd="@dimen/spacing_xmedium"
+        android:shape="ring"
+        android:foreground="?selectableItemBackground"
+        app:cardCornerRadius="5dp">
 
-        <com.achievers.utils.ui.circle_progress.CircleProgressView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:adjustViewBounds="true"
-            android:layout_marginEnd="@dimen/spacing_medium"
-            app:layout_constraintBottom_toBottomOf="@+id/tvDescription"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvTitle"
-            app:layout_constraintEnd_toStartOf="@+id/glVertical"
-            app:invert="false"
-            app:primaryText="@{ String.valueOf(achievementProgress.progress) + `%` }"
-            app:progress="@{ achievementProgress.progress }"
-            app:secondaryText="@{ String.valueOf(achievementProgress.accomplished) + ` of ` + String.valueOf(achievementProgress.total) }" />
+        <android.support.constraint.ConstraintLayout
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/spacing_medium"
+            android:onClick="@{ () -> actionHandler.onAdapterEntityClick(achievementProgress) }">
 
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:text="text"
-            android:paddingTop="@dimen/spacing_medium"
-            android:paddingBottom="@dimen/spacing_small"
-            tools:text="@string/achievement_title"
-            android:textSize="16sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/glVertical"
-            app:layout_constraintRight_toRightOf="parent" />
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:text="text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/glHorizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/title" />
 
-        <TextView
-            android:id="@+id/tvDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="secondary text"
-            tools:text="@string/achievement_description"
-            android:paddingTop="@dimen/spacing_xsmall"
-            android:paddingBottom="@dimen/spacing_xmedium"
-            android:textSize="14sp"
-            style="@style/Ellipsize"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            app:layout_constraintStart_toEndOf="@+id/glVertical"
-            app:layout_constraintEnd_toEndOf="parent" />
+            <com.achievers.utils.ui.circle_progress.CircleProgressView
+                android:id="@+id/cpvProgress"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:adjustViewBounds="true"
+                app:layout_constraintTop_toBottomOf="@id/glHorizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:invert="false"
+                app:primaryText="@{ String.valueOf(achievementProgress.progress) + `%` }"
+                app:progress="@{ achievementProgress.progress }"
+                app:secondaryText="@{ String.valueOf(achievementProgress.accomplished) + ` of ` + String.valueOf(achievementProgress.total) }" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/glVertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="@dimen/guideline_xsmall" />
-    </android.support.constraint.ConstraintLayout>
+            <android.support.constraint.Guideline
+                android:id="@+id/glHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="@dimen/guideline_xsmall"  />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
 </layout>

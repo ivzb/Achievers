@@ -5,6 +5,8 @@
     <color name="light">#fff</color>
     <color name="accent">#795548</color>
 
+    <color name="background">#eee</color>
+
     <!-- CircleProgressView -->
     <color name="cpvNotStarted">#E0E0E0</color>
     <color name="cpvCompleted">#8bc34a</color>
