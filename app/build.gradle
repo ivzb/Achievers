@@ -16,13 +16,9 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix ".debug"
             debuggable true
 
             buildConfigField("String", "BASE_URL", "\"http://95.87.234.253/\"")
-
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-fresco.pro'
-//            testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguardTest-rules.pro'
         }
 
         release {
@@ -43,14 +39,6 @@ android {
         }
 //        execution 'ANDROID_TEST_ORCHESTRATOR'
     }
-
-//    // If you need to add more flavors, consider using flavor dimensions.
-//    productFlavors {
-//        mock {
-//            applicationIdSuffix = ".mock"
-//        }
-//        prod
-//    }
 
     dataBinding {
         enabled = true

@@ -18,6 +18,8 @@
     <item name="guideline_small" format="float" type="dimen">0.15</item>
     <item name="guideline_xsmall" format="float" type="dimen">0.2</item>
 
-    <dimen name="font_size_medium">17sp</dimen>
-    <dimen name="font_size_large">26sp</dimen>
+    <dimen name="cpv_font_size_medium">17sp</dimen>
+    <dimen name="cpv_font_size_large">26sp</dimen>
+
+    <dimen name="wpv_font_size">26sp</dimen>
 </resources>

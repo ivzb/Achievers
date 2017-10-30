@@ -3,7 +3,7 @@
     <color name="primary">#e53935</color>
     <color name="dark">#ab000d</color>
     <color name="light">#fff</color>
-    <color name="accent">#795548</color>
+    <color name="accent">#3F51B5</color>
 
     <color name="background">#eee</color>
 
@@ -14,4 +14,12 @@
     <color name="cpvProgress">#f79618</color>
     <color name="cpvProgressLight">#FFE0B2</color>
     <color name="cpvText">#6d6d6d</color>
+
+    <!-- WeeklyProgressView -->
+    <color name="wpvText">#6d6d6d</color>
+    <color name="wpvWeightEmpty">#eeeeee</color>
+    <color name="wpvWeightLight">#c6e48b</color>
+    <color name="wpvWeightMediumLight">#7bc96f</color>
+    <color name="wpvWeightMediumDark">#239a3b</color>
+    <color name="wpvWeightDark">#196127</color>
 </resources>

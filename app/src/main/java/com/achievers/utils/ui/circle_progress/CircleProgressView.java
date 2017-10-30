@@ -124,13 +124,13 @@ public class CircleProgressView extends View {
         mPrimaryTextPaint.setColor(textColor);
         mPrimaryTextPaint.setAntiAlias(true);
         mPrimaryTextPaint.setTypeface(ResourcesCompat.getFont(context, R.font.open_sans_bold));
-        mPrimaryTextPaint.setTextSize(getResources().getDimensionPixelSize(R.dimen.font_size_large));
+        mPrimaryTextPaint.setTextSize(getResources().getDimensionPixelSize(R.dimen.cpv_font_size_large));
 
         mSecondaryTextPaint = new TextPaint();
         mSecondaryTextPaint.setColor(textColor);
         mSecondaryTextPaint.setAntiAlias(true);
         mSecondaryTextPaint.setTypeface(ResourcesCompat.getFont(context, R.font.open_sans_regular));
-        mSecondaryTextPaint.setTextSize(getResources().getDimensionPixelSize(R.dimen.font_size_medium));
+        mSecondaryTextPaint.setTextSize(getResources().getDimensionPixelSize(R.dimen.cpv_font_size_medium));
 
         if (attrs != null) {
             TypedArray arr = context.obtainStyledAttributes(attrs, R.styleable.CircleProgressView);
