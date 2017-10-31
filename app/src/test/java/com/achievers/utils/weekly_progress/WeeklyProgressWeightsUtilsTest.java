@@ -53,7 +53,7 @@ public class WeeklyProgressWeightsUtilsTest {
 
         for (int j = 0; j < 7; j++) {
             weights[j] = 0;
-            expected[j] = Empty.index;
+            expected[j] = WeeklyProgressWeightsUtils.Weight.Empty.index;
         }
 
         int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
@@ -97,6 +97,40 @@ public class WeeklyProgressWeightsUtilsTest {
         weights[0] = 1;
         weights[1] = 2;
         weights[2] = 3;
+
+        int[] expected = new int[7];
+        expected[0] = WeeklyProgressWeightsUtils.Weight.Light.index;
+        expected[1] = WeeklyProgressWeightsUtils.Weight.MediumLight.index;
+        expected[2] = WeeklyProgressWeightsUtils.Weight.MediumDark.index;
+
+        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void evaluate_greaterThreePositiveValues_shouldReturnLightAndMediumLightAndMediumDark() {
+        int[] weights = new int[7];
+        weights[0] = 1;
+        weights[1] = 3;
+        weights[2] = 5;
+
+        int[] expected = new int[7];
+        expected[0] = WeeklyProgressWeightsUtils.Weight.Light.index;
+        expected[1] = WeeklyProgressWeightsUtils.Weight.MediumLight.index;
+        expected[2] = WeeklyProgressWeightsUtils.Weight.MediumDark.index;
+
+        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void evaluate_evenGreaterThreePositiveValues_shouldReturnLightAndMediumLightAndMediumDark() {
+        int[] weights = new int[7];
+        weights[0] = 1;
+        weights[1] = 5;
+        weights[2] = 9;
 
         int[] expected = new int[7];
         expected[0] = WeeklyProgressWeightsUtils.Weight.Light.index;
@@ -217,6 +251,106 @@ public class WeeklyProgressWeightsUtilsTest {
         expected[1] = MediumLight.index;
         expected[2] = MediumDark.index;
         expected[3] = Dark.index;
+
+        assertArrayEquals(expected, actual);
+    }
+
+
+    @Test
+    public void evaluate_interval5_oneWeight() {
+        int[] weights = new int[7];
+        weights[0] = 5;
+
+        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+
+        int[] expected = new int[7];
+        expected[0] = Light.index;
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void evaluate_interval5_twoWeights() {
+        int[] weights = new int[7];
+        weights[0] = 5;
+        weights[1] = 10;
+
+        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+
+        int[] expected = new int[7];
+        expected[0] = Light.index;
+        expected[1] = MediumLight.index;
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void evaluate_interval5_threeWeights() {
+        int[] weights = new int[7];
+        weights[0] = 5;
+        weights[1] = 10;
+        weights[2] = 15;
+
+        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+
+        int[] expected = new int[7];
+        expected[0] = Light.index;
+        expected[1] = MediumLight.index;
+        expected[2] = MediumDark.index;
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void evaluate_interval5_fourWeights() {
+        int[] weights = new int[7];
+        weights[0] = 5;
+        weights[1] = 10;
+        weights[2] = 15;
+        weights[3] = 20;
+
+        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+
+        int[] expected = new int[7];
+        expected[0] = Light.index;
+        expected[1] = MediumLight.index;
+        expected[2] = MediumDark.index;
+        expected[3] = Dark.index;
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void evaluate_differentNumbers() {
+        // weights = { 4, 2, 6, 14, 8, 4, 11 }
+        // min = 2, max = 14
+        // interval = (max - min) / 4 = 3
+
+        // 0     // empty
+        // 2-5   // light
+        // 6-9   // mediumLight
+        // 10-13  // mediumDark
+        // 14-17 // dark
+
+        int[] weights = new int[7];
+        weights[0] = 4;
+        weights[1] = 2;
+        weights[2] = 6;
+        weights[3] = 14;
+        weights[4] = 8;
+        weights[5] = 4;
+        weights[6] = 11;
+
+        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+
+        int[] expected = new int[7];
+        expected[0] = Light.index;
+        expected[1] = Light.index;
+        expected[2] = MediumLight.index;
+        expected[3] = Dark.index;
+        expected[4] = MediumLight.index;
+        expected[5] = Light.index;
+        expected[6] = MediumDark.index;
 
         assertArrayEquals(expected, actual);
     }

@@ -3,11 +3,8 @@ package com.achievers.utils.ui.weekly_progress;
 import android.support.annotation.VisibleForTesting;
 
 import java.util.Arrays;
-
-import static com.achievers.utils.ui.weekly_progress.WeeklyProgressWeightsUtils.Weight.Dark;
-import static com.achievers.utils.ui.weekly_progress.WeeklyProgressWeightsUtils.Weight.Light;
-import static com.achievers.utils.ui.weekly_progress.WeeklyProgressWeightsUtils.Weight.MediumDark;
-import static com.achievers.utils.ui.weekly_progress.WeeklyProgressWeightsUtils.Weight.MediumLight;
+import java.util.HashSet;
+import java.util.Set;
 
 @VisibleForTesting
 public class WeeklyProgressWeightsUtils {
@@ -32,48 +29,40 @@ public class WeeklyProgressWeightsUtils {
         int[] evaluation = new int[weights.length];
         int min = Integer.MAX_VALUE;
         int max = Integer.MIN_VALUE;
-        int avg = 0;
-        int zeros = 0;
+        Set<Integer> uniqueNumbers = new HashSet<>();
 
         for (int i = 0; i < weights.length; i++) {
             if (weights[i] < 0) weights[i] = 0;
             int value = weights[i];
 
-            if (value == 0) zeros++;
-            if (min > value && value > 0) min = value;
+            if (value != 0) uniqueNumbers.add(value);
+            if (min > value && value != 0) min = value;
             if (max < value) max = value;
-            avg += value;
         }
 
-        int nonZerosLength = weights.length - zeros;
-        if (nonZerosLength > 0) avg /= nonZerosLength;
+        double divider = uniqueNumbers.size();
+        if (divider > 4) divider = 4;
+
+        double interval = (max - min) / divider;
 
         for (int i = 0; i < weights.length; i++) {
-            int weight = weights[i];
-
-            if (weight >= 0 && weight < Weight.values().length) {
-                evaluation[i] = Weight.values()[weight].index;
+            if (weights[i] == 0) {
+                evaluation[i] = Weight.Empty.index;
                 continue;
             }
 
-            if (weight == min) {
-                evaluation[i] = Light.index;
-                continue;
-            }
+            double start = min;
 
-            if (weight == max) {
-                evaluation[i] = Dark.index;
-                continue;
-            }
+            for (int j = 1; j < 5; ++j) {
+                double end = start + interval;
+                int weight = weights[i];
 
-            if (weight <= avg) {
-                evaluation[i] = MediumLight.index;
-                continue;
-            }
+                if (weight >= start && weight <= end) {
+                    evaluation[i] = Weight.values()[j].index;
+                    break;
+                }
 
-            if (weight > avg) {
-                evaluation[i] = MediumDark.index;
-                continue;
+                start += interval;
             }
         }
 

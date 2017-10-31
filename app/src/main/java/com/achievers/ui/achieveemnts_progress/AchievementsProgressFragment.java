@@ -21,6 +21,7 @@ import com.achievers.ui.achieveemnts_progress.adapter.AchievementsProgressAdapte
 import com.achievers.utils.ui.EndlessRecyclerViewScrollListener;
 
 import java.util.List;
+import java.util.Random;
 
 public class AchievementsProgressFragment
         extends AbstractFragment<AchievementsProgressContract.Presenter, AchievementsProgressContract.ViewModel, AchievementProgressFragBinding>
@@ -50,7 +51,21 @@ public class AchievementsProgressFragment
 
         mPresenter.refresh();
 
+        initContributions();
+
         return mDataBinding.getRoot();
+    }
+
+    private void initContributions() {
+        Random random = new Random();
+
+        int[] weights = new int[7];
+
+        for (int i = 0; i < weights.length; i++) {
+            weights[i] = random.nextInt(15);
+        }
+
+        mDataBinding.wpvContributions.setWeights(weights);
     }
 
     @Override
