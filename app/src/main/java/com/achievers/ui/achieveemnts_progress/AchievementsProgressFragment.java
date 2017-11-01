@@ -51,7 +51,14 @@ public class AchievementsProgressFragment
 
         mPresenter.refresh();
 
-        initContributions();
+        mDataBinding.wpvContributions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initContributions();
+            }
+        });
+
+        mDataBinding.wpvContributions.performClick();
 
         return mDataBinding.getRoot();
     }
