@@ -11,6 +11,9 @@ import java.util.TreeSet;
 @VisibleForTesting
 public class WeeklyProgressWeightsUtils {
 
+    private static final int WeightsSize = 7;
+    private static final int DividerSize = 4;
+
     public enum Weight {
         Empty,
         Light,
@@ -22,55 +25,55 @@ public class WeeklyProgressWeightsUtils {
         public int index = ordinal();
     }
 
+    private static double calculateInterval(int[] sequence) {
+        if (sequence.length < DividerSize) {
+            int elementsNeeded = DividerSize - sequence.length;
+            sequence = DifferenceTableUtils.findNext(elementsNeeded, sequence);
+        }
+
+        int min = sequence[0];
+        int max = sequence[sequence.length - 1];
+
+        return (max - min) / (double) DividerSize;
+    }
+
+    private static int[] getUniques(int[] weights) {
+        Set<Integer> uniques = new TreeSet<>();
+
+        for (int weight: weights) {
+            if (weight > 0) uniques.add(weight);
+        }
+
+        return setToArray(uniques);
+    }
+
+    private static int[] setToArray(Set<Integer> set) {
+        int[] array = new int[set.size()];
+        int index = 0;
+
+        for (Integer weight: set) {
+            array[index] = weight;
+            index++;
+        }
+
+        return array;
+    }
+
     @VisibleForTesting
     public static int[] evaluate(int[] weights) {
-        int weightsSize = 7;
-        int dividerSize = 4;
-
-        if (weights.length < weightsSize || weights.length > weightsSize) {
-            weights = Arrays.copyOf(weights, weightsSize); // truncate or pad
+        if (weights.length < WeightsSize || weights.length > WeightsSize) {
+            weights = Arrays.copyOf(weights, WeightsSize); // truncate or pad
         }
 
-        int[] evaluation = new int[weights.length];
-        int min = Integer.MAX_VALUE;
-        int max = Integer.MIN_VALUE;
-        Set<Integer> uniqueNumbers = new TreeSet<>();
+        int[] uniques = getUniques(weights);
+        int[] evaluation = new int[WeightsSize];
 
-        for (int i = 0; i < weights.length; i++) {
-            if (weights[i] < 0) weights[i] = 0;
-            int value = weights[i];
+        if (uniques.length == 0) return evaluation;
 
-            if (value != 0) {
-                uniqueNumbers.add(value);
-                if (min > value) min = value;
-                if (max < value) max = value;
-            }
-        }
+        double interval = calculateInterval(uniques);
+        double start = uniques[0];
 
-        double divider = Math.min(uniqueNumbers.size(), dividerSize);
-
-        if (divider < dividerSize) {
-            int size = (int) divider;
-            int[] sequence = new int[size];
-
-            int index = 0;
-
-            for (Integer weight: uniqueNumbers) {
-                sequence[index] = weight;
-                index++;
-            }
-
-            int[] predictedWeights = DifferenceTableUtils.findNext(dividerSize - size, sequence);
-
-            max = predictedWeights[predictedWeights.length - 1];
-
-            divider = dividerSize;
-        }
-
-        double interval = (max - min) / divider;
-        double start = min;
-
-        for (int i = 0; i < dividerSize; i++) {
+        for (int i = 0; i < DividerSize; i++) {
             double end = start + interval;
 
             for (int j = 0; j < weights.length; j++) {
