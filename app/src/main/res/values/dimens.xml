@@ -22,4 +22,6 @@
     <dimen name="cpv_font_size_large">26sp</dimen>
 
     <dimen name="wpv_font_size">26sp</dimen>
+
+    <dimen name="lv_font_size">26sp</dimen>
 </resources>

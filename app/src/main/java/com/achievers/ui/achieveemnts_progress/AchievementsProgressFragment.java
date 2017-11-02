@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 
 import com.achievers.R;
 import com.achievers.data.entities.AchievementProgress;
@@ -59,6 +60,25 @@ public class AchievementsProgressFragment
         });
 
         mDataBinding.wpvContributions.performClick();
+
+        mDataBinding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mDataBinding.lvLevel.setProgress(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        mDataBinding.seekBar.setProgress(55);
 
         return mDataBinding.getRoot();
     }

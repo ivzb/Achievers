@@ -1,22 +1,31 @@
 package com.achievers.utils.weekly_progress;
 
-import com.achievers.utils.ui.weekly_progress.WeeklyProgressWeightsUtils;
+import com.achievers.utils.ui.weekly_progress.WeeklyProgressWeightsEvaluator;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import static com.achievers.utils.ui.weekly_progress.WeeklyProgressWeightsUtils.Weight.Dark;
-import static com.achievers.utils.ui.weekly_progress.WeeklyProgressWeightsUtils.Weight.Empty;
-import static com.achievers.utils.ui.weekly_progress.WeeklyProgressWeightsUtils.Weight.Light;
-import static com.achievers.utils.ui.weekly_progress.WeeklyProgressWeightsUtils.Weight.MediumDark;
-import static com.achievers.utils.ui.weekly_progress.WeeklyProgressWeightsUtils.Weight.MediumLight;
+import static com.achievers.utils.ui.weekly_progress.WeeklyProgressWeightsEvaluator.Weight.Dark;
+import static com.achievers.utils.ui.weekly_progress.WeeklyProgressWeightsEvaluator.Weight.Empty;
+import static com.achievers.utils.ui.weekly_progress.WeeklyProgressWeightsEvaluator.Weight.Light;
+import static com.achievers.utils.ui.weekly_progress.WeeklyProgressWeightsEvaluator.Weight.MediumDark;
+import static com.achievers.utils.ui.weekly_progress.WeeklyProgressWeightsEvaluator.Weight.MediumLight;
+import static com.achievers.utils.ui.weekly_progress.WeeklyProgressWeightsEvaluator.Weight.values;
 import static junit.framework.Assert.assertEquals;
 
-public class WeeklyProgressWeightsUtilsTest {
+public class WeeklyProgressWeightsEvaluatorTest {
+    
+    private WeeklyProgressWeightsEvaluator mEvaluator;
+    
+    @Before
+    public void before() {
+        mEvaluator = new WeeklyProgressWeightsEvaluator();
+    }
 
     @Test
     public void evaluate_shorterLength_shouldPadWithZeros() {
         int[] expected = new int[7];
-        int[] actual = WeeklyProgressWeightsUtils.evaluate(new int[5]);
+        int[] actual = mEvaluator.evaluate(new int[5]);
 
         assertWeightsArrayEquals(expected, actual);
     }
@@ -24,7 +33,7 @@ public class WeeklyProgressWeightsUtilsTest {
     @Test
     public void evaluate_longerLength_shouldTrim() {
         int[] expected = new int[7];
-        int[] actual = WeeklyProgressWeightsUtils.evaluate(new int[10]);
+        int[] actual = mEvaluator.evaluate(new int[10]);
 
         assertWeightsArrayEquals(expected, actual);
     }
@@ -32,7 +41,7 @@ public class WeeklyProgressWeightsUtilsTest {
     @Test
     public void evaluate_negativeValues_shouldMakeThemZeros() {
         int[] expected = new int[7];
-        int[] actual = WeeklyProgressWeightsUtils.evaluate(new int[] { -1, -2, -3, 0, -5, -2, 0 });
+        int[] actual = mEvaluator.evaluate(new int[] { -1, -2, -3, 0, -5, -2, 0 });
 
         assertWeightsArrayEquals(expected, actual);
     }
@@ -40,7 +49,7 @@ public class WeeklyProgressWeightsUtilsTest {
     @Test
     public void evaluate_zeros_shouldReturnAllEmpty() {
         int[] weights = new int[7];
-        int[] expected = WeeklyProgressWeightsUtils.evaluate(weights);
+        int[] expected = mEvaluator.evaluate(weights);
         int[] actual = new int[7];
 
         assertWeightsArrayEquals(expected, actual);
@@ -53,10 +62,10 @@ public class WeeklyProgressWeightsUtilsTest {
 
         for (int j = 0; j < 7; j++) {
             weights[j] = 0;
-            expected[j] = WeeklyProgressWeightsUtils.Weight.Empty.index;
+            expected[j] = Empty.index;
         }
 
-        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+        int[] actual = mEvaluator.evaluate(weights);
 
         assertWeightsArrayEquals(expected, actual);
     }
@@ -68,10 +77,10 @@ public class WeeklyProgressWeightsUtilsTest {
 
         for (int j = 0; j < 7; j++) {
             weights[j] = 1;
-            expected[j] = WeeklyProgressWeightsUtils.Weight.Light.index;
+            expected[j] = Light.index;
         }
 
-        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+        int[] actual = mEvaluator.evaluate(weights);
 
         assertWeightsArrayEquals(expected, actual);
     }
@@ -83,10 +92,10 @@ public class WeeklyProgressWeightsUtilsTest {
         weights[1] = 2;
 
         int[] expected = new int[7];
-        expected[0] = WeeklyProgressWeightsUtils.Weight.Light.index;
-        expected[1] = WeeklyProgressWeightsUtils.Weight.MediumLight.index;
+        expected[0] = Light.index;
+        expected[1] = MediumLight.index;
 
-        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+        int[] actual = mEvaluator.evaluate(weights);
 
         assertWeightsArrayEquals(expected, actual);
     }
@@ -99,11 +108,11 @@ public class WeeklyProgressWeightsUtilsTest {
         weights[2] = 3;
 
         int[] expected = new int[7];
-        expected[0] = WeeklyProgressWeightsUtils.Weight.Light.index;
-        expected[1] = WeeklyProgressWeightsUtils.Weight.MediumLight.index;
-        expected[2] = WeeklyProgressWeightsUtils.Weight.MediumDark.index;
+        expected[0] = Light.index;
+        expected[1] = MediumLight.index;
+        expected[2] = MediumDark.index;
 
-        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+        int[] actual = mEvaluator.evaluate(weights);
 
         assertWeightsArrayEquals(expected, actual);
     }
@@ -116,11 +125,11 @@ public class WeeklyProgressWeightsUtilsTest {
         weights[2] = 5;
 
         int[] expected = new int[7];
-        expected[0] = WeeklyProgressWeightsUtils.Weight.Light.index;
-        expected[1] = WeeklyProgressWeightsUtils.Weight.MediumLight.index;
-        expected[2] = WeeklyProgressWeightsUtils.Weight.MediumDark.index;
+        expected[0] = Light.index;
+        expected[1] = MediumLight.index;
+        expected[2] = MediumDark.index;
 
-        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+        int[] actual = mEvaluator.evaluate(weights);
 
         assertWeightsArrayEquals(expected, actual);
     }
@@ -133,11 +142,11 @@ public class WeeklyProgressWeightsUtilsTest {
         weights[2] = 9;
 
         int[] expected = new int[7];
-        expected[0] = WeeklyProgressWeightsUtils.Weight.Light.index;
-        expected[1] = WeeklyProgressWeightsUtils.Weight.MediumLight.index;
-        expected[2] = WeeklyProgressWeightsUtils.Weight.MediumDark.index;
+        expected[0] = Light.index;
+        expected[1] = MediumLight.index;
+        expected[2] = MediumDark.index;
 
-        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+        int[] actual = mEvaluator.evaluate(weights);
 
         assertWeightsArrayEquals(expected, actual);
     }
@@ -151,12 +160,12 @@ public class WeeklyProgressWeightsUtilsTest {
         weights[3] = 4;
 
         int[] expected = new int[7];
-        expected[0] = WeeklyProgressWeightsUtils.Weight.Light.index;
-        expected[1] = WeeklyProgressWeightsUtils.Weight.MediumLight.index;
-        expected[2] = WeeklyProgressWeightsUtils.Weight.MediumDark.index;
-        expected[3] = WeeklyProgressWeightsUtils.Weight.Dark.index;
+        expected[0] = Light.index;
+        expected[1] = MediumLight.index;
+        expected[2] = MediumDark.index;
+        expected[3] = Dark.index;
 
-        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+        int[] actual = mEvaluator.evaluate(weights);
 
         assertWeightsArrayEquals(expected, actual);
     }
@@ -172,7 +181,7 @@ public class WeeklyProgressWeightsUtilsTest {
         weights[5] = 3;
         weights[6] = 2;
 
-        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+        int[] actual = mEvaluator.evaluate(weights);
 
         int[] expected = new int[7];
         expected[0] = Empty.index;
@@ -197,7 +206,7 @@ public class WeeklyProgressWeightsUtilsTest {
         weights[5] = 7;
         weights[6] = 6;
 
-        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+        int[] actual = mEvaluator.evaluate(weights);
 
         int[] expected = new int[7];
         expected[0] = Empty.index;
@@ -222,7 +231,7 @@ public class WeeklyProgressWeightsUtilsTest {
         weights[5] = 9;
         weights[6] = 7;
 
-        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+        int[] actual = mEvaluator.evaluate(weights);
 
         int[] expected = new int[7];
         expected[0] = Empty.index;
@@ -244,7 +253,7 @@ public class WeeklyProgressWeightsUtilsTest {
         weights[2] = 5;
         weights[3] = 6;
 
-        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+        int[] actual = mEvaluator.evaluate(weights);
 
         int[] expected = new int[7];
         expected[0] = Light.index;
@@ -261,7 +270,7 @@ public class WeeklyProgressWeightsUtilsTest {
         int[] weights = new int[7];
         weights[0] = 5;
 
-        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+        int[] actual = mEvaluator.evaluate(weights);
 
         int[] expected = new int[7];
         expected[0] = Light.index;
@@ -275,7 +284,7 @@ public class WeeklyProgressWeightsUtilsTest {
         weights[0] = 5;
         weights[1] = 10;
 
-        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+        int[] actual = mEvaluator.evaluate(weights);
 
         int[] expected = new int[7];
         expected[0] = Light.index;
@@ -291,7 +300,7 @@ public class WeeklyProgressWeightsUtilsTest {
         weights[1] = 10;
         weights[2] = 15;
 
-        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+        int[] actual = mEvaluator.evaluate(weights);
 
         int[] expected = new int[7];
         expected[0] = Light.index;
@@ -309,7 +318,7 @@ public class WeeklyProgressWeightsUtilsTest {
         weights[2] = 15;
         weights[3] = 20;
 
-        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+        int[] actual = mEvaluator.evaluate(weights);
 
         int[] expected = new int[7];
         expected[0] = Light.index;
@@ -341,7 +350,7 @@ public class WeeklyProgressWeightsUtilsTest {
         weights[5] = 4;
         weights[6] = 11;
 
-        int[] actual = WeeklyProgressWeightsUtils.evaluate(weights);
+        int[] actual = mEvaluator.evaluate(weights);
 
         int[] expected = new int[7];
         expected[0] = Light.index;
@@ -359,8 +368,8 @@ public class WeeklyProgressWeightsUtilsTest {
         assertEquals(expected.length, actual.length);
 
         for (int i = 0; i < expected.length; i++) {
-            WeeklyProgressWeightsUtils.Weight expectedWeight = WeeklyProgressWeightsUtils.Weight.values()[expected[i]];
-            WeeklyProgressWeightsUtils.Weight actualWeight = WeeklyProgressWeightsUtils.Weight.values()[actual[i]];
+            WeeklyProgressWeightsEvaluator.Weight expectedWeight = values()[expected[i]];
+            WeeklyProgressWeightsEvaluator.Weight actualWeight = values()[actual[i]];
             String message = String.format("\r\nindex = %d\r\nexpected: %s\r\nactual: %s",
                     i,
                     expectedWeight,

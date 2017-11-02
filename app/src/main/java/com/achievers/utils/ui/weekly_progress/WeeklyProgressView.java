@@ -15,6 +15,8 @@ public class WeeklyProgressView extends View {
 
     private static final String[] sDays = new String[] { "M", "T", "W", "T", "F", "S", "S" };
 
+    private WeeklyProgressWeightsEvaluator mEvaluator;
+
     private int[] mWeights;
     private int[] mWeightColors;
 
@@ -23,6 +25,7 @@ public class WeeklyProgressView extends View {
 
     private TextPaint mDayPaint;
     private Paint mWeightPaint;
+
 
     public WeeklyProgressView(Context context) {
         super(context);
@@ -40,6 +43,7 @@ public class WeeklyProgressView extends View {
     }
 
     private void init(Context context) {
+        mEvaluator = new WeeklyProgressWeightsEvaluator();
         mWeights = new int[sDays.length];
 
         mDayMeasurements = new DayMeasurement[sDays.length];
@@ -64,7 +68,7 @@ public class WeeklyProgressView extends View {
     }
 
     public void setWeights(int[] values) {
-        mWeights = WeeklyProgressWeightsUtils.evaluate(values);
+        mWeights = mEvaluator.evaluate(values);
         invalidate();
     }
 
