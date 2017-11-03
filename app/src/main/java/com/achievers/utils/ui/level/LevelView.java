@@ -52,16 +52,16 @@ public class LevelView extends View {
 
         mLeftPaint = new Paint();
         mLeftPaint.setAntiAlias(true);
-        mLeftPaint.setColor(getResources().getColor(R.color.lvLeft));
+        mLeftPaint.setColor(getResources().getColor(R.color.lvPending));
         mLeftPaint.setStyle(Paint.Style.FILL);
 
         mRingPaint = new Paint();
         mRingPaint.setAntiAlias(true);
-        mRingPaint.setColor(getResources().getColor(R.color.lvCompleted));
+        mRingPaint.setColor(getResources().getColor(R.color.lvDelimiter));
         mRingPaint.setStyle(Paint.Style.FILL);
 
-        mTextPaint = new TextPaint();
-        mTextPaint.setColor(getResources().getColor(R.color.lvDelimiter));
+        mTextPaint= new TextPaint();
+        mTextPaint.setColor(getResources().getColor(R.color.lvCompleted));
         mTextPaint.setAntiAlias(true);
         mTextPaint.setTypeface(ResourcesCompat.getFont(context, R.font.open_sans_bold));
         mTextPaint.setTextSize(getResources().getDimensionPixelSize(R.dimen.lv_font_size));
@@ -82,33 +82,50 @@ public class LevelView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        drawHolder(canvas);
+//        drawHolder(canvas);
 
         drawCompleted(canvas);
         drawLeft(canvas);
-        drawDelimiters(canvas);
-        drawRing(canvas);
+//        drawDelimiters(canvas);
+        drawInfo(canvas);
     }
 
-    private void drawRing(Canvas canvas) {
+//    private void drawRing(Canvas canvas) {
+//        float percentage = mProgress / 100f;
+//
+//        float x = (canvas.getWidth() * percentage) + mDelimiterPaint.getStrokeWidth();
+//        float y = canvas.getHeight() / 2;
+//        float radius = (canvas.getHeight() / 2) - (mDelimiterPaint.getStrokeWidth() / 2);
+//
+//        if (x < radius) x = radius;
+//        if (x + radius > canvas.getWidth()) x = canvas.getWidth() - radius;
+//
+//        canvas.drawCircle(x, y, radius, mRingPaint);
+////        canvas.drawCircle(x, y, radius, mDelimiterPaint);
+//
+//        String text = String.valueOf(mProgress) + "%";
+//
+//        x = x - (mTextPaint.measureText(text) / 2);
+//        y = y - ((mTextPaint.descent() + mTextPaint.ascent()) / 2);
+//
+//        canvas.drawText(text, x, y, mTextPaint);
+//    }
+
+    private void drawInfo(Canvas canvas) {
         float percentage = mProgress / 100f;
-
-        float x = (canvas.getWidth() * percentage) + mDelimiterPaint.getStrokeWidth();
-        float y = canvas.getHeight() / 2;
-        float radius = (canvas.getHeight() / 2) - (mDelimiterPaint.getStrokeWidth() / 2);
-
-        if (x < radius) x = radius;
-        if (x + radius > canvas.getWidth()) x = canvas.getWidth() - radius;
-
-        canvas.drawCircle(x, y, radius, mRingPaint);
-        canvas.drawCircle(x, y, radius, mDelimiterPaint);
 
         String text = String.valueOf(mProgress) + "%";
 
-        x = x - (mTextPaint.measureText(text) / 2);
-        y = y - ((mTextPaint.descent() + mTextPaint.ascent()) / 2);
+        float x = (mTextPaint.measureText(text) / 2);
+        float y = ((mTextPaint.descent() + mTextPaint.ascent()) / 2);
 
-        canvas.drawText(text, x, y, mTextPaint);
+        float left = (canvas.getWidth() * percentage);
+        float top = canvas.getHeight() * 0.25f;
+        float right = left + x;
+        float bottom = canvas.getHeight() * 0.75f;
+
+        canvas.drawRect(left, top, right, bottom, mRingPaint);
+        canvas.drawText(text, left, bottom + y, mTextPaint);
     }
 
     private void drawCompleted(Canvas canvas) {
