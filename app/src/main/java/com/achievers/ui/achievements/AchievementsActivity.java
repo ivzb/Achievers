@@ -58,12 +58,12 @@ public class AchievementsActivity
         ViewPagerMetadata achievementsMetadata = new ViewPagerMetadata(3);
 
         achievementsMetadata.add(
-                new AchievementsProgressFragment(),
+                new AchievementsFragment(),
                 "Home",
                 R.drawable.ic_home);
 
         achievementsMetadata.add(
-                new AchievementsFragment(),
+                new AchievementsProgressFragment(),
                 "Trending",
                 R.drawable.ic_trending);
 

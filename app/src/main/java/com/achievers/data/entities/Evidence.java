@@ -49,8 +49,14 @@ public class Evidence implements BaseModel {
         this.id = id;
     }
 
-    public Evidence(long id, @NonNull String comment, @NonNull MultimediaType multimediaType,
-                    @NonNull String previewUrl, @NonNull String url, @Nullable Date createdOn) {
+    public Evidence(
+            long id,
+            @NonNull String comment,
+            @NonNull MultimediaType multimediaType,
+            @NonNull String previewUrl,
+            @NonNull String url,
+            @Nullable Date createdOn) {
+
         this(id);
 
         this.comment = comment;

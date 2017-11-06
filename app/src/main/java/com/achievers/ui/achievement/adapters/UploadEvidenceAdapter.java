@@ -16,9 +16,9 @@ public class UploadEvidenceAdapter extends BaseAdapter {
     private LayoutInflater mLayoutInflater;
     private MultimediaType[] mItems;
 
-    public UploadEvidenceAdapter(Context context) {
+    public UploadEvidenceAdapter(Context context, MultimediaType[] items) {
         mLayoutInflater = LayoutInflater.from(context);
-        mItems = MultimediaType.values();
+        mItems = items;
     }
 
     @Override

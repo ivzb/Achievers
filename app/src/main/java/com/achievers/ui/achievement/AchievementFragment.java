@@ -25,13 +25,15 @@ import com.achievers.ui._base.AbstractFragment;
 import com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler;
 import com.achievers.ui.achievement.adapters.EvidencesAdapter;
 import com.achievers.ui.achievement.adapters.UploadEvidenceAdapter;
+import com.achievers.ui.add_evidence.AddEvidenceActivity;
 import com.achievers.ui.evidence.EvidenceActivity;
 import com.achievers.utils.ui.EndlessRecyclerViewScrollListener;
+import com.achievers.utils.ui.multimedia.MultimediaType;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.GridHolder;
 import com.orhanobut.dialogplus.OnCancelListener;
-import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnDismissListener;
+import com.orhanobut.dialogplus.OnItemClickListener;
 
 import org.parceler.Parcels;
 
@@ -110,13 +112,21 @@ public class AchievementFragment
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // todo
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.upload_fragment_menu, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        UploadEvidenceAdapter adapter = new UploadEvidenceAdapter(getContext());
+        MultimediaType[] types = MultimediaType.values();
+        UploadEvidenceAdapter adapter = new UploadEvidenceAdapter(getContext(), types);
 
         switch (item.getItemId()) {
             case R.id.menu_upload:
@@ -126,10 +136,17 @@ public class AchievementFragment
                     .setCancelable(true)
                     .setGravity(Gravity.CENTER)
                     .setAdapter(adapter)
-                    .setOnClickListener(new OnClickListener() {
+                    .setOnItemClickListener(new OnItemClickListener() {
                         @Override
-                        public void onClick(DialogPlus dialog, View view) {
-                            // todo
+                        public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                            Intent intent = new Intent(getContext(), AddEvidenceActivity.class);
+                            intent.putExtra(
+                                    AddEvidenceActivity.MultimediaTypeExtra,
+                                    (MultimediaType) item);
+
+                            startActivityForResult(intent, AddEvidenceActivity.REQUEST_ADD_EVIDENCE);
+
+                            dialog.dismiss();
                         }
                     })
                     .setOnDismissListener(new OnDismissListener() {

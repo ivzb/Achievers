@@ -5,7 +5,6 @@ import android.databinding.ViewDataBinding;
 
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
-import com.achievers.ui._base.contracts.adapters.BaseAdapter;
 import com.achievers.ui._base.contracts.BasePresenter;
 import com.achievers.ui._base.contracts.BaseView;
 import com.achievers.ui._base.contracts.BaseViewModel;

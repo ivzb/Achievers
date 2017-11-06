@@ -1,6 +1,5 @@
 package com.achievers.ui;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.databinding.BindingAdapter;
@@ -17,7 +16,7 @@ import com.achievers.R;
 import com.achievers.data.entities.Category;
 import com.achievers.data.entities.Involvement;
 import com.achievers.ui._base.contracts.BaseSelectableAdapter;
-import com.achievers.ui.add_achievement.AddAchievementContract;
+import com.achievers.ui._base.contracts.action_handlers.BasePictureLoadActionHandler;
 import com.achievers.ui.categories.CategoriesAdapter;
 import com.achievers.ui.categories.CategoriesContract;
 import com.achievers.utils.ui.FreskoCircleProgressBarDrawable;
@@ -29,13 +28,6 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
 
 public class AdapterSetters {
 
@@ -98,7 +90,7 @@ public class AdapterSetters {
     public static void setPicture(
             ImageView view,
             final Uri uri,
-            final AddAchievementContract.ActionHandler actionHandler) {
+            final BasePictureLoadActionHandler actionHandler) {
 
         if (uri == null || actionHandler == null) return;
 

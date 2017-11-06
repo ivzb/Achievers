@@ -84,7 +84,7 @@ public class AddAchievementFragment
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.add_achievement_fragment_menu, menu);
+        inflater.inflate(R.menu.add_fragment_menu, menu);
     }
 
     @Override

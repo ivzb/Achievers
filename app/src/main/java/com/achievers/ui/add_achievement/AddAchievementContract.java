@@ -1,6 +1,5 @@
 package com.achievers.ui.add_achievement;
 
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.Bindable;
 import android.databinding.ViewDataBinding;
@@ -13,6 +12,7 @@ import com.achievers.ui._base.contracts.BasePresenter;
 import com.achievers.ui._base.contracts.BaseSelectableAdapter;
 import com.achievers.ui._base.contracts.BaseView;
 import com.achievers.ui._base.contracts.BaseViewModel;
+import com.achievers.ui._base.contracts.action_handlers.BasePictureLoadActionHandler;
 
 import java.util.List;
 
@@ -73,10 +73,8 @@ public class AddAchievementContract {
         void setPictureLoading(boolean loaded);
     }
 
-    public interface ActionHandler {
+    public interface ActionHandler
+            extends BasePictureLoadActionHandler {
 
-        Context getContext();
-
-        void pictureLoaded(boolean successful);
     }
 }
