@@ -44,6 +44,9 @@ public class AddEvidenceFragment
             case Photo:
                 mPresenter.clickTakePicture();
                 break;
+            case Video:
+                mPresenter.clickTakeVideo();
+                break;
         }
 
         return mDataBinding.getRoot();
@@ -74,7 +77,7 @@ public class AddEvidenceFragment
             data.setData(mCapturedPictureUri);
         }
 
-        mPresenter.deliverPicture(requestCode, resultCode, data);
+        mPresenter.deliverMultimedia(requestCode, resultCode, data);
     }
 
     @Override
@@ -92,13 +95,24 @@ public class AddEvidenceFragment
     }
 
     @Override
-    public void showPicture(Uri uri) {
-        mViewModel.setPictureUri(uri);
+    public void takeVideo(int requestCode) {
+        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+
+        PackageManager packageManager = getActivity().getPackageManager();
+
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivityForResult(intent, requestCode);
+        }
     }
 
     @Override
-    public void showPictureLoading(boolean loading) {
-        mViewModel.setPictureLoading(loading);
+    public void showMultimedia(Uri uri) {
+        mViewModel.setMultimediaUri(uri);
+    }
+
+    @Override
+    public void showLoadingMultimedia(boolean loading) {
+        mViewModel.setMultimediaLoading(loading);
     }
 
     @Override

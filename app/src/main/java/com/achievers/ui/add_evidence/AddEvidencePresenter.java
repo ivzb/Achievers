@@ -28,6 +28,7 @@ public class AddEvidencePresenter
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
+    private static final int REQUEST_VIDEO_CAPTURE = 3;
 
     AddEvidencePresenter(
             @NonNull Context context,
@@ -67,37 +68,50 @@ public class AddEvidencePresenter
     }
 
     @Override
-    public void deliverPicture(int requestCode, int resultCode, Intent data) {
+    public void clickTakeVideo() {
+        if (!mView.isActive()) return;
+
+        mView.takeVideo(REQUEST_VIDEO_CAPTURE);
+    }
+
+    @Override
+    public void deliverMultimedia(int requestCode, int resultCode, Intent data) {
         if (!mView.isActive()) return;
 
         try {
             if (resultCode != Activity.RESULT_OK) throw new IllegalArgumentException();
 
-            Uri imageUri = null;
+            switch (requestCode) {
+                case REQUEST_IMAGE_CAPTURE:
+                case REQUEST_IMAGE_PICK:
+                case REQUEST_VIDEO_CAPTURE:
+                    Uri imageUri = data.getData();
 
-            if (requestCode == REQUEST_IMAGE_CAPTURE || requestCode == REQUEST_IMAGE_PICK) {
-                imageUri = data.getData();
+                    if (imageUri == null) {
+                        throw new FileNotFoundException();
+                    }
+
+                    mView.showLoadingMultimedia(true);
+                    mView.showMultimedia(imageUri);
+
+                    break;
+                default:
+                    mView.showErrorMessage("Could not recognize this multimedia. Try again?");
+                    break;
             }
-
-            if (imageUri == null) {
-                throw new FileNotFoundException();
-            }
-
-            mView.showPictureLoading(true);
-            mView.showPicture(imageUri);
         } catch (NullPointerException | IllegalArgumentException | FileNotFoundException e) {
-            mView.showErrorMessage("Did not select picture. Try again?");
+            mView.showErrorMessage("Nothing selected. Try again?");
         }
     }
 
     @Override
-    public void pictureLoaded(boolean isSuccessful) {
+    public void multimediaLoaded(boolean isSuccessful) {
         if (!mView.isActive()) return;
 
-        mView.showPictureLoading(false);
+        mView.showLoadingMultimedia(false);
 
         if (!isSuccessful) {
-            mView.showPicture(null);
+            mView.showMultimedia(null);
             mView.showErrorMessage("Could not load image.");
         }
     }

@@ -1,5 +1,7 @@
 package com.achievers.utils.multimedia;
 
+import android.net.Uri;
+
 import com.achievers.ui._base.contracts.action_handlers.BaseMultimediaActionHandler;
 import com.achievers.utils.multimedia._base.AbstractMultimediaViewTest;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
@@ -38,7 +40,13 @@ public class MultimediaBuilderTest extends AbstractMultimediaViewTest {
 
     @Test
     public void build_withPreviewUrl() {
-        mDefaultPreviewUrl = "preview-url.com";
+        mDefaultUrl = "preview-url.com";
+        buildAndVerify();
+    }
+
+    @Test
+    public void build_withPreviewUri() {
+        mDefaultUri = Uri.parse("preview-uri.com");
         buildAndVerify();
     }
 

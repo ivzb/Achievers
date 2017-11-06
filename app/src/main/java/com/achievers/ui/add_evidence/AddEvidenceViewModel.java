@@ -14,8 +14,8 @@ public class AddEvidenceViewModel
     private MultimediaType mMultimediaType;
     private String mTitle;
 
-    private Uri mImageUri;
-    private boolean mIsImageLoading;
+    private Uri mMultimediaUri;
+    private boolean mIsMultimediaLoading;
 
     AddEvidenceViewModel(MultimediaType multimediaType) {
         mMultimediaType = multimediaType;
@@ -38,26 +38,25 @@ public class AddEvidenceViewModel
 
     @Bindable
     @Override
-    public Uri getPictureUri() {
-        return mImageUri;
+    public Uri getMultimediaUri() {
+        return mMultimediaUri;
     }
 
     @Override
-    public void setPictureUri(Uri pictureUri) {
-        mImageUri = pictureUri;
-
+    public void setMultimediaUri(Uri multimediaUri) {
+        mMultimediaUri = multimediaUri;
         notifyPropertyChanged(BR.pictureUri);
     }
 
     @Bindable
     @Override
-    public boolean isPictureLoading() {
-        return mIsImageLoading;
+    public boolean isMultimediaLoading() {
+        return mIsMultimediaLoading;
     }
 
     @Override
-    public void setPictureLoading(boolean loaded) {
-        mIsImageLoading = loaded;
-        notifyPropertyChanged(BR.pictureLoading);
+    public void setMultimediaLoading(boolean isLoading) {
+        mIsMultimediaLoading = isLoading;
+        notifyPropertyChanged(BR.multimediaLoading);
     }
 }

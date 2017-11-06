@@ -47,7 +47,7 @@ public class EvidenceVideoFragment extends EvidenceFragment<EvidenceVideoFragBin
 
         // todo: catch if builder throws null pointer and show message
         mDataBinding.mvEvidence.builder(evidence.getMultimediaType())
-                .withPreviewUrl(evidence.getPreviewUrl())
+                .withUrl(evidence.getPreviewUrl())
                 .withPlayer(player)
                 .build();
     }

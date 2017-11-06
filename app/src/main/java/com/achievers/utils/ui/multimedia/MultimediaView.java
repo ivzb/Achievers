@@ -1,6 +1,7 @@
 package com.achievers.utils.ui.multimedia;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.VisibleForTesting;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
@@ -130,7 +131,8 @@ public class MultimediaView
         private MultimediaControllerState mControllerState;
         private boolean mPlaying;
 
-        private String mPreviewUrl;
+        private String mUrl;
+        private Uri mUri;
 
         private BaseMultimediaActionHandler mMultimediaActionHandler;
         private BaseMultimediaPlayer mPlayer;
@@ -144,12 +146,18 @@ public class MultimediaView
         }
 
         @Override
-		public BaseMultimediaBuilder withPreviewUrl(String previewUrl) {
-            mPreviewUrl = previewUrl;
+		public BaseMultimediaBuilder withUrl(String url) {
+            mUrl = url;
             return this;
         }
 
-//        @Override
+        @Override
+        public BaseMultimediaBuilder withUri(Uri uri) {
+            mUri = uri;
+            return this;
+        }
+
+        //        @Override
 //		public BaseMultimediaBuilder withControllerState(MultimediaControllerState state) {
 //            mControllerState = state;
 //            return this;
@@ -179,7 +187,8 @@ public class MultimediaView
             mViewModel.setControllerState(mControllerState);
             mViewModel.setPlaying(mPlaying);
 
-            mViewModel.setPreviewUrl(mPreviewUrl);
+            mViewModel.setUrl(mUrl);
+            mViewModel.setUri(mUri);
 
             mViewModel.setActionHandler(MultimediaView.this);
             mViewModel.setMultimediaActionHandler(mMultimediaActionHandler);

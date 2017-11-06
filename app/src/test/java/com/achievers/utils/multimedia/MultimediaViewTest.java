@@ -1,5 +1,7 @@
 package com.achievers.utils.multimedia;
 
+import android.net.Uri;
+
 import com.achievers.ui._base.contracts.action_handlers.BaseActionHandler;
 import com.achievers.ui._base.contracts.action_handlers.BaseMultimediaActionHandler;
 import com.achievers.utils.multimedia._base.AbstractMultimediaViewTest;
@@ -229,8 +231,11 @@ public class MultimediaViewTest extends AbstractMultimediaViewTest {
         MultimediaType firstType = Photo;
         MultimediaType secondType = Video;
 
-        String firstPreviewUrl = "url";
-        String secondPreviewUrl = null;
+        String firstUrl = "url";
+        String secondUrl = null;
+
+        Uri firstUri = Uri.parse("uri");
+        Uri secondUri = null;
 
         boolean firstPlaying = false;
         boolean secondPlaying = false;
@@ -243,7 +248,8 @@ public class MultimediaViewTest extends AbstractMultimediaViewTest {
 
         // act
         mView.builder(firstType)
-                .withPreviewUrl(firstPreviewUrl)
+                .withUrl(firstUrl)
+                .withUri(firstUri)
                 .withActionHandler(firstActionHandler)
                 .withPlayer(firstPlayer)
                 .build();
@@ -259,10 +265,14 @@ public class MultimediaViewTest extends AbstractMultimediaViewTest {
         verify(mViewModel, times(size)).setType(typeCaptor.capture());
         assertThat(typeCaptor.getAllValues(), hasItems(firstType, secondType));
 
-        // previewUrl
-        ArgumentCaptor<String> previewUrlCaptor = ArgumentCaptor.forClass(String.class);
-        verify(mViewModel, times(size)).setPreviewUrl(previewUrlCaptor.capture());
-        assertThat(previewUrlCaptor.getAllValues(), hasItems(firstPreviewUrl, secondPreviewUrl));
+        // url
+        ArgumentCaptor<String> urlCaptor = ArgumentCaptor.forClass(String.class);
+        verify(mViewModel, times(size)).setUrl(urlCaptor.capture());
+        assertThat(urlCaptor.getAllValues(), hasItems(firstUrl, secondUrl));
+
+        ArgumentCaptor<Uri> uriCaptor = ArgumentCaptor.forClass(Uri.class);
+        verify(mViewModel, times(size)).setUri(uriCaptor.capture());
+        assertThat(uriCaptor.getAllValues(), hasItems(firstUri, secondUri));
 
         // playing
         ArgumentCaptor<Boolean> playingCaptor = ArgumentCaptor.forClass(Boolean.class);

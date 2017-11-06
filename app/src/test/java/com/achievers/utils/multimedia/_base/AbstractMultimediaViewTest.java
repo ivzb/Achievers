@@ -2,6 +2,7 @@ package com.achievers.utils.multimedia._base;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.net.Uri;
 
 import com.achievers.databinding.MultimediaViewBinding;
 import com.achievers.ui._base.contracts.action_handlers.BaseActionHandler;
@@ -40,7 +41,8 @@ public abstract class AbstractMultimediaViewTest {
     protected BaseMultimediaView mView;
 
     protected MultimediaType mDefaultType;
-    protected String mDefaultPreviewUrl;
+    protected String mDefaultUrl;
+    protected Uri mDefaultUri;
     protected boolean mDefaultPlaying;
     protected BaseMultimediaActionHandler mDefaultMultimediaActionHandler;
     protected BaseMultimediaPlayer mDefaultPlayer;
@@ -52,7 +54,8 @@ public abstract class AbstractMultimediaViewTest {
 
         mView = new MultimediaView(mContext, mBinding, mViewModel);
         mDefaultType = Photo;
-        mDefaultPreviewUrl = null;
+        mDefaultUrl = null;
+        mDefaultUri = null;
         mDefaultPlaying = false;
         mDefaultMultimediaActionHandler = null;
         mDefaultPlayer = null;
@@ -81,7 +84,8 @@ public abstract class AbstractMultimediaViewTest {
 
     private void build() {
         mView.builder(mDefaultType)
-                .withPreviewUrl(mDefaultPreviewUrl)
+                .withUrl(mDefaultUrl)
+                .withUri(mDefaultUri)
                 .withActionHandler(mDefaultMultimediaActionHandler)
                 .withPlayer(mDefaultPlayer)
                 .build();
@@ -91,7 +95,9 @@ public abstract class AbstractMultimediaViewTest {
         verify(mViewModel).getType();
         verify(mViewModel).setType(mDefaultType);
 
-        verify(mViewModel).setPreviewUrl(mDefaultPreviewUrl);
+        verify(mViewModel).setUrl(mDefaultUrl);
+        verify(mViewModel).setUri(mDefaultUri);
+
         verify(mViewModel).setPlaying(mDefaultPlaying);
         verify(mViewModel).setActionHandler(isA(BaseActionHandler.class));
 

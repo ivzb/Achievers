@@ -64,7 +64,7 @@ public class EvidencesAdapter extends MultimediaAdapter<Evidence> {
 
         // todo: catch if builder throws null pointer and show message
         mvEvidence.builder(evidence.getMultimediaType())
-                .withPreviewUrl(evidence.getPreviewUrl())
+                .withUrl(evidence.getPreviewUrl())
                 .withActionHandler(this)
                 .withPlayer(player)
                 .build();

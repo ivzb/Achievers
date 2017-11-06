@@ -45,8 +45,8 @@
                 android:id="@+id/ivPicture"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="@{ viewModel.pictureUri == null ? View.GONE : View.VISIBLE }"
-                bind:uri="@{ viewModel.pictureUri }"
+                android:visibility="@{ viewModel.multimediaUri == null ? View.GONE : View.VISIBLE }"
+                bind:uri="@{ viewModel.multimediaUri }"
                 bind:actionHandler="@{ actionHandler }"
                 android:contentDescription="@string/uploaded_image_preview"
                 android:layout_marginTop="@dimen/spacing_medium"
@@ -55,11 +55,11 @@
                 app:layout_constraintBottom_toBottomOf="parent" />
 
             <ProgressBar
-                android:id="@+id/pbPicture"
+                android:id="@+id/pbLoading"
                 android:layout_width="@dimen/progress_bar"
                 android:layout_height="@dimen/progress_bar"
                 android:layout_margin="@dimen/spacing_medium"
-                android:visibility="@{ viewModel.pictureLoading ? View.VISIBLE : View.GONE }"
+                android:visibility="@{ viewModel.multimediaLoading ? View.VISIBLE : View.GONE }"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -3,6 +3,7 @@ package com.achievers.utils.ui.multimedia;
 import android.content.res.Resources;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.net.Uri;
 
 import com.achievers.BR;
 import com.achievers.ui._base.contracts.action_handlers.BaseActionHandler;
@@ -19,7 +20,10 @@ public class MultimediaViewModel
         implements BaseMultimediaViewModel {
 
     private MultimediaType mType;
-    private String mPreviewUrl;
+
+    private String mUrl;
+    private Uri mUri;
+
     private boolean mPlaying;
     private BaseActionHandler mActionHandler;
 
@@ -46,14 +50,26 @@ public class MultimediaViewModel
 
     @Bindable
     @Override
-    public String getPreviewUrl() {
-        return mPreviewUrl;
+    public String getUrl() {
+        return mUrl;
     }
 
     @Override
-    public void setPreviewUrl(String previewUrl) {
-        mPreviewUrl = previewUrl;
-        notifyPropertyChanged(BR.previewUrl);
+    public void setUrl(String url) {
+        mUrl = url;
+        notifyPropertyChanged(BR.url);
+    }
+
+    @Bindable
+    @Override
+    public Uri getUri() {
+        return mUri;
+    }
+
+    @Override
+    public void setUri(Uri uri) {
+        mUri = uri;
+        notifyPropertyChanged(BR.uri);
     }
 
     @Bindable

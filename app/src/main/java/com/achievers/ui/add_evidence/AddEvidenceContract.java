@@ -17,9 +17,10 @@ public class AddEvidenceContract {
     interface View<DB extends ViewDataBinding> extends BaseView<Presenter, ViewModel, DB> {
 
         void takePicture(Uri uri, int requestCode);
+        void takeVideo(int requestCode);
 
-        void showPicture(Uri pictureUri);
-        void showPictureLoading(boolean loading);
+        void showMultimedia(Uri uri);
+        void showLoadingMultimedia(boolean loading);
 
         void upload(Evidence evidence);
         void finish();
@@ -28,10 +29,11 @@ public class AddEvidenceContract {
     interface Presenter extends BasePresenter {
 
         void clickTakePicture();
+        void clickTakeVideo();
 
-        void deliverPicture(int requestCode, int resultCode, Intent data);
+        void deliverMultimedia(int requestCode, int resultCode, Intent data);
 
-        void pictureLoaded(boolean isSuccessful);
+        void multimediaLoaded(boolean isSuccessful);
 
         void saveEvidence(
                 String title,
@@ -46,11 +48,11 @@ public class AddEvidenceContract {
         String getTitle();
         void setTitle(String title);
 
-        @Bindable Uri getPictureUri();
-        void setPictureUri(Uri pictureUri);
+        @Bindable Uri getMultimediaUri();
+        void setMultimediaUri(Uri uri);
 
-        @Bindable boolean isPictureLoading();
-        void setPictureLoading(boolean loaded);
+        @Bindable boolean isMultimediaLoading();
+        void setMultimediaLoading(boolean loaded);
     }
 
     public interface ActionHandler

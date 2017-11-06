@@ -19,6 +19,6 @@ public class AddEvidenceActionHandler implements AddEvidenceContract.ActionHandl
 
     @Override
     public void pictureLoaded(boolean isSuccessful) {
-        mPresenter.pictureLoaded(isSuccessful);
+        mPresenter.multimediaLoaded(isSuccessful);
     }
 }

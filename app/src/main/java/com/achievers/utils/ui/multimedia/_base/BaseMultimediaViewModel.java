@@ -3,6 +3,7 @@ package com.achievers.utils.ui.multimedia._base;
 import android.content.res.Resources;
 import android.databinding.Bindable;
 import android.databinding.Observable;
+import android.net.Uri;
 
 import com.achievers.ui._base.contracts.action_handlers.BaseActionHandler;
 import com.achievers.ui._base.contracts.action_handlers.BaseMultimediaActionHandler;
@@ -16,8 +17,12 @@ public interface BaseMultimediaViewModel extends Observable {
     void setType(MultimediaType type);
 
     @Bindable
-    String getPreviewUrl();
-    void setPreviewUrl(String previewUrl);
+    String getUrl();
+    void setUrl(String url);
+
+    @Bindable
+    Uri getUri();
+    void setUri(Uri uri);
 
     @Bindable
     boolean isPlaying();
