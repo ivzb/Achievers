@@ -17,17 +17,17 @@ public class VideoMultimediaPlayerTest extends AbstractMultimediaPlayerTest {
 
     @Test(expected = NullPointerException.class)
     public void nullActionHandler() {
-        new VideoMultimediaPlayer(null, mContext, mExoPlayer, mUrl);
+        new VideoMultimediaPlayer(null, mContext, mExoPlayer, mUri);
     }
 
     @Test(expected = NullPointerException.class)
     public void nullContext() {
-        new VideoMultimediaPlayer(mMultimediaActionHandler, null, mExoPlayer, mUrl);
+        new VideoMultimediaPlayer(mMultimediaActionHandler, null, mExoPlayer, mUri);
     }
 
     @Test(expected = NullPointerException.class)
     public void nullExoPlayer() {
-        new VideoMultimediaPlayer(mMultimediaActionHandler, mContext, null, mUrl);
+        new VideoMultimediaPlayer(mMultimediaActionHandler, mContext, null, mUri);
     }
 
     @Test(expected = NullPointerException.class)
@@ -79,7 +79,7 @@ public class VideoMultimediaPlayerTest extends AbstractMultimediaPlayerTest {
                 mMultimediaActionHandler,
                 mContext,
                 mExoPlayer,
-                mUrl);
+                mUri);
 
         verify(mMultimediaActionHandler).getExoPlayerView();
     }

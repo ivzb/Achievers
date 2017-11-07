@@ -2,6 +2,7 @@ package com.achievers.utils.multimedia.players._base;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaViewActionHandler;
 import com.achievers.utils.ui.multimedia.players.ExoMultimediaPlayer;
@@ -28,13 +29,11 @@ public abstract class AbstractMultimediaPlayerTest {
     @Mock protected SimpleExoPlayerView mExoPlayerView;
     @Mock protected PackageManager mPackageManager;
 
-    protected String mUrl;
+    @Mock protected Uri mUri;
     protected ExoMultimediaPlayer mPlayer;
 
     @Before
     public void before() throws Exception {
-        mUrl = "url";
-
         when(mPackageManager.getPackageInfo(anyString(), anyInt()))
                 .thenThrow(PackageManager.NameNotFoundException.class);
 

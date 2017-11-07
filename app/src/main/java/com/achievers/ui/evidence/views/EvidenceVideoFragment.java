@@ -1,5 +1,6 @@
 package com.achievers.ui.evidence.views;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -38,12 +39,13 @@ public class EvidenceVideoFragment extends EvidenceFragment<EvidenceVideoFragBin
         super.onStart();
 
         Evidence evidence = mViewModel.getEvidence();
+        Uri uri = Uri.parse(evidence.getUrl());
 
         BaseMultimediaPlayer player = new VideoMultimediaPlayer(
                 mDataBinding.mvEvidence,
                 getContext(),
                 mExoPlayer,
-                evidence.getUrl());
+                uri);
 
         // todo: catch if builder throws null pointer and show message
         mDataBinding.mvEvidence.builder(evidence.getMultimediaType())

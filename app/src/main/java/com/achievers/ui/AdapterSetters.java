@@ -36,6 +36,13 @@ public class AdapterSetters {
     public static void loadImage(SimpleDraweeView view, String imageUrl, Resources resources) {
         if (imageUrl != null) {
             Uri uri = Uri.parse(imageUrl);
+            loadImage(view, uri, resources);
+        }
+    }
+
+    @BindingAdapter({ "bind:uri", "bind:resources" })
+    public static void loadImage(SimpleDraweeView view, Uri uri, Resources resources) {
+        if (uri != null) {
             view.setImageURI(uri);
 
             GenericDraweeHierarchy hierarchy = view.getHierarchy();

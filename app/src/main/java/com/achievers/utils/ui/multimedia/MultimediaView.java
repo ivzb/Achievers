@@ -157,17 +157,17 @@ public class MultimediaView
             return this;
         }
 
-        //        @Override
+//      @Override
 //		public BaseMultimediaBuilder withControllerState(MultimediaControllerState state) {
-//            mControllerState = state;
-//            return this;
-//        }
+//          mControllerState = state;
+//          return this;
+//      }
 
-//        @Override
-//        public BaseMultimediaBuilder withPlaying(boolean playing) {
-//            mPlaying = playing;
-//            return this;
-//        }
+//      @Override
+//      public BaseMultimediaBuilder withPlaying(boolean playing) {
+//          mPlaying = playing;
+//          return this;
+//      }
 
         @Override
 		public BaseMultimediaBuilder withActionHandler(BaseMultimediaActionHandler actionHandler) {

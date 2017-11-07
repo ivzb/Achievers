@@ -34,7 +34,7 @@ public abstract class ExoMultimediaPlayer
     protected Context mContext;
     SimpleExoPlayer mExoPlayer;
     @Nullable SimpleExoPlayerView mExoPlayerView;
-    private String mUrl;
+    private Uri mUri;
 
     MultimediaControllerState mPlayState;
     MultimediaControllerState mStopState;
@@ -50,18 +50,18 @@ public abstract class ExoMultimediaPlayer
             BaseMultimediaViewActionHandler actionHandler,
             Context context,
             SimpleExoPlayer exoPlayer,
-            String url) {
+            Uri uri) {
 
         super(actionHandler);
 
         checkNotNull(context);
         checkNotNull(exoPlayer);
-        checkNotNull(url);
+        checkNotNull(uri);
 
         mContext = context;
         mExoPlayer = exoPlayer;
         mExoPlayerView = mActionHandler.getExoPlayerView();
-        mUrl = url;
+        mUri = uri;
 
         mLoadingState = MultimediaControllerState.Loading;
         mErrorState = MultimediaControllerState.Error;
@@ -77,11 +77,9 @@ public abstract class ExoMultimediaPlayer
 
     @Override
     public void start() {
-        Uri videoUri = Uri.parse(mUrl);
-
         String userAgent = Util.getUserAgent(mContext, BuildConfig.APPLICATION_ID);
         MediaSource mediaSource = new ExtractorMediaSource(
-                videoUri,
+                mUri,
                 new DefaultDataSourceFactory(mContext, userAgent),
                 new DefaultExtractorsFactory(),
                 null,

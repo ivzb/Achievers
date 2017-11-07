@@ -19,6 +19,7 @@ import com.achievers.R;
 import com.achievers.data.entities.Evidence;
 import com.achievers.databinding.AddEvidenceFragBinding;
 import com.achievers.ui._base.AbstractFragment;
+import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 
 public class AddEvidenceFragment
         extends AbstractFragment<AddEvidenceContract.Presenter, AddEvidenceContract.ViewModel, AddEvidenceFragBinding>
@@ -38,7 +39,6 @@ public class AddEvidenceFragment
 
         mDataBinding = AddEvidenceFragBinding.bind(view);
         mDataBinding.setViewModel(mViewModel);
-        mDataBinding.setActionHandler(new AddEvidenceActionHandler(getContext(), mPresenter));
 
         switch (mViewModel.getMultimediaType()) {
             case Photo:
@@ -77,7 +77,14 @@ public class AddEvidenceFragment
             data.setData(mCapturedPictureUri);
         }
 
-        mPresenter.deliverMultimedia(requestCode, resultCode, data);
+        mPresenter.deliverMultimedia(requestCode, resultCode, data, mDataBinding.mvEvidence);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        mDataBinding.mvEvidence.release();
     }
 
     @Override
@@ -106,8 +113,14 @@ public class AddEvidenceFragment
     }
 
     @Override
-    public void showMultimedia(Uri uri) {
+    public void showMultimedia(Uri uri, BaseMultimediaPlayer player) {
         mViewModel.setMultimediaUri(uri);
+
+        // todo: catch if builder throws null pointer and show message
+        mDataBinding.mvEvidence.builder(mViewModel.getMultimediaType())
+                .withUri(uri)
+                .withPlayer(player)
+                .build();
     }
 
     @Override

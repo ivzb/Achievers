@@ -9,8 +9,9 @@ import com.achievers.data.entities.Evidence;
 import com.achievers.ui._base.contracts.BasePresenter;
 import com.achievers.ui._base.contracts.BaseView;
 import com.achievers.ui._base.contracts.BaseViewModel;
-import com.achievers.ui._base.contracts.action_handlers.BasePictureLoadActionHandler;
 import com.achievers.utils.ui.multimedia.MultimediaType;
+import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
+import com.achievers.utils.ui.multimedia._base.BaseMultimediaViewActionHandler;
 
 public class AddEvidenceContract {
 
@@ -19,7 +20,7 @@ public class AddEvidenceContract {
         void takePicture(Uri uri, int requestCode);
         void takeVideo(int requestCode);
 
-        void showMultimedia(Uri uri);
+        void showMultimedia(Uri uri, BaseMultimediaPlayer player);
         void showLoadingMultimedia(boolean loading);
 
         void upload(Evidence evidence);
@@ -31,9 +32,11 @@ public class AddEvidenceContract {
         void clickTakePicture();
         void clickTakeVideo();
 
-        void deliverMultimedia(int requestCode, int resultCode, Intent data);
-
-        void multimediaLoaded(boolean isSuccessful);
+        void deliverMultimedia(
+                int requestCode,
+                int resultCode,
+                Intent data,
+                BaseMultimediaViewActionHandler actionHandler);
 
         void saveEvidence(
                 String title,
@@ -53,10 +56,5 @@ public class AddEvidenceContract {
 
         @Bindable boolean isMultimediaLoading();
         void setMultimediaLoading(boolean loaded);
-    }
-
-    public interface ActionHandler
-            extends BasePictureLoadActionHandler {
-
     }
 }

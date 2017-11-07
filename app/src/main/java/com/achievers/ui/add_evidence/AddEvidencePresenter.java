@@ -11,10 +11,16 @@ import com.achievers.R;
 import com.achievers.data.entities.Evidence;
 import com.achievers.ui._base.AbstractPresenter;
 import com.achievers.utils.PictureUtils;
+import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
+import com.achievers.utils.ui.multimedia._base.BaseMultimediaViewActionHandler;
+import com.achievers.utils.ui.multimedia.players.PhotoMultimediaPlayer;
+import com.achievers.utils.ui.multimedia.players.VideoMultimediaPlayer;
+import com.achievers.utils.ui.multimedia.players.VoiceMultimediaPlayer;
 import com.achievers.validator.Validator;
 import com.achievers.validator.contracts.BaseValidation;
 import com.achievers.validator.rules.NotNullRule;
 import com.achievers.validator.rules.StringLengthRule;
+import com.google.android.exoplayer2.SimpleExoPlayer;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,15 +36,19 @@ public class AddEvidencePresenter
     private static final int REQUEST_IMAGE_PICK = 2;
     private static final int REQUEST_VIDEO_CAPTURE = 3;
 
+    private final SimpleExoPlayer mExoPlayer;
+
     AddEvidencePresenter(
             @NonNull Context context,
-            @NonNull AddEvidenceContract.View view) {
+            @NonNull AddEvidenceContract.View view,
+            @NonNull SimpleExoPlayer exoPlayer) {
 
         checkNotNull(context);
         checkNotNull(view);
 
         mContext = context;
         mView = view;
+        mExoPlayer = exoPlayer;
     }
 
     @Override
@@ -75,44 +85,51 @@ public class AddEvidencePresenter
     }
 
     @Override
-    public void deliverMultimedia(int requestCode, int resultCode, Intent data) {
+    public void deliverMultimedia(
+            int requestCode,
+            int resultCode,
+            Intent data,
+            BaseMultimediaViewActionHandler actionHandler) {
+
         if (!mView.isActive()) return;
 
         try {
             if (resultCode != Activity.RESULT_OK) throw new IllegalArgumentException();
 
+            Uri uri = data.getData();
+
+            if (uri == null) {
+                throw new FileNotFoundException();
+            }
+
+            BaseMultimediaPlayer player;
+
             switch (requestCode) {
                 case REQUEST_IMAGE_CAPTURE:
+                    player = new PhotoMultimediaPlayer(actionHandler);
+                    break;
                 case REQUEST_IMAGE_PICK:
+                    player = new VoiceMultimediaPlayer(
+                            actionHandler,
+                            mContext,
+                            mExoPlayer,
+                            uri);
+                    break;
                 case REQUEST_VIDEO_CAPTURE:
-                    Uri imageUri = data.getData();
-
-                    if (imageUri == null) {
-                        throw new FileNotFoundException();
-                    }
-
-                    mView.showLoadingMultimedia(true);
-                    mView.showMultimedia(imageUri);
-
+                    player = new VideoMultimediaPlayer(
+                            actionHandler,
+                            mContext,
+                            mExoPlayer,
+                            uri);
                     break;
                 default:
-                    mView.showErrorMessage("Could not recognize this multimedia. Try again?");
-                    break;
+                    throw new IllegalArgumentException();
             }
+
+            mView.showLoadingMultimedia(false);
+            mView.showMultimedia(uri, player);
         } catch (NullPointerException | IllegalArgumentException | FileNotFoundException e) {
             mView.showErrorMessage("Nothing selected. Try again?");
-        }
-    }
-
-    @Override
-    public void multimediaLoaded(boolean isSuccessful) {
-        if (!mView.isActive()) return;
-
-        mView.showLoadingMultimedia(false);
-
-        if (!isSuccessful) {
-            mView.showMultimedia(null);
-            mView.showErrorMessage("Could not load image.");
         }
     }
 

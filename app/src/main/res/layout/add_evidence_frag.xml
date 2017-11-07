@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <import type="android.view.View" />
@@ -9,10 +8,6 @@
         <variable
             name="viewModel"
             type="com.achievers.ui.add_evidence.AddEvidenceContract.ViewModel" />
-
-        <variable
-            name="actionHandler"
-            type="com.achievers.ui.add_evidence.AddEvidenceContract.ActionHandler" />
     </data>
 
     <ScrollView
@@ -41,13 +36,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/ivPicture"
+            <com.achievers.utils.ui.multimedia.MultimediaView
+                android:id="@+id/mvEvidence"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="@{ viewModel.multimediaUri == null ? View.GONE : View.VISIBLE }"
-                bind:uri="@{ viewModel.multimediaUri }"
-                bind:actionHandler="@{ actionHandler }"
                 android:contentDescription="@string/uploaded_image_preview"
                 android:layout_marginTop="@dimen/spacing_medium"
                 app:layout_constraintEnd_toEndOf="parent"

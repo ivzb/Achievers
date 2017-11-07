@@ -17,17 +17,17 @@ public class VoiceMultimediaPlayerTest extends AbstractMultimediaPlayerTest {
 
     @Test(expected = NullPointerException.class)
     public void nullActionHandler() {
-        new VoiceMultimediaPlayer(null, mContext, mExoPlayer, mUrl);
+        new VoiceMultimediaPlayer(null, mContext, mExoPlayer, mUri);
     }
 
     @Test(expected = NullPointerException.class)
     public void nullContext() {
-        new VoiceMultimediaPlayer(mMultimediaActionHandler, null, mExoPlayer, mUrl);
+        new VoiceMultimediaPlayer(mMultimediaActionHandler, null, mExoPlayer, mUri);
     }
 
     @Test(expected = NullPointerException.class)
     public void nullExoPlayer() {
-        new VoiceMultimediaPlayer(mMultimediaActionHandler, mContext, null, mUrl);
+        new VoiceMultimediaPlayer(mMultimediaActionHandler, mContext, null, mUri);
     }
 
     @Test(expected = NullPointerException.class)
@@ -77,7 +77,7 @@ public class VoiceMultimediaPlayerTest extends AbstractMultimediaPlayerTest {
                 mMultimediaActionHandler,
                 mContext,
                 mExoPlayer,
-                mUrl);
+                mUri);
 
         verify(mMultimediaActionHandler).getExoPlayerView();
     }

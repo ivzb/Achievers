@@ -1,6 +1,7 @@
 package com.achievers.utils.ui.multimedia.players;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.achievers.utils.ui.multimedia.MultimediaType;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
@@ -19,9 +20,9 @@ public class VideoMultimediaPlayer
             BaseMultimediaViewActionHandler actionHandler,
             Context context,
             SimpleExoPlayer exoPlayer,
-            String url) {
+            Uri uri) {
 
-        super(actionHandler, context, exoPlayer, url);
+        super(actionHandler, context, exoPlayer, uri);
 
         mPlayState = None;
         mStopState = Stop;
