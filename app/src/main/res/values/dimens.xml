@@ -24,4 +24,6 @@
     <dimen name="wpv_font_size">26sp</dimen>
 
     <dimen name="lv_font_size">26sp</dimen>
+
+    <dimen name="rvb_font_size">26sp</dimen>
 </resources>

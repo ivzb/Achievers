@@ -24,13 +24,11 @@
     <color name="wpvWeightDark">#196127</color>
 
     <!-- LevelView -->
-    <!--<color name="lvDelimiter">#f79618</color>-->
-    <!--<color name="lvCompleted">#FFCC80</color>-->
-    <!--<color name="lvLeft">#FFF3E0</color>-->
-
     <color name="lvDelimiter">#c6e48b</color>
     <color name="lvCompleted">#239a3b</color>
-    <!--<color name="lvCompleted">#FFCC80</color>-->
-    <!--<color name="lvLeft">#FFF3E0</color>-->
     <color name="lvPending">#eeeeee</color>
+
+    <!-- VoiceRecodingView -->
+    <color name="rvbCircleColor">#ab000d</color>
+    <color name="rvbTextColor">#eeeeee</color>
 </resources>
