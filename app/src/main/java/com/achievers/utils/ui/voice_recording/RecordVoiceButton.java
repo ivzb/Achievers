@@ -24,6 +24,7 @@ public class RecordVoiceButton extends View implements View.OnClickListener {
     private String mText;
 
     private Paint mCirclePaint;
+    private Paint mButtonPaint;
     private Paint mTextPaint;
 
     private RectF mRect;
@@ -49,12 +50,18 @@ public class RecordVoiceButton extends View implements View.OnClickListener {
         mText = "Start recording";
 
         int circleColor = getResources().getColor(R.color.rvbCircleColor);
+        int buttonColor = getResources().getColor(R.color.rvbButtonColor);
         int textColor = getResources().getColor(R.color.rvbTextColor);
 
         mCirclePaint = new Paint();
         mCirclePaint.setAntiAlias(true);
         mCirclePaint.setStyle(Paint.Style.FILL);
         mCirclePaint.setColor(circleColor);
+
+        mButtonPaint = new Paint();
+        mButtonPaint.setAntiAlias(true);
+        mButtonPaint.setStyle(Paint.Style.FILL);
+        mButtonPaint.setColor(buttonColor);
 
         mTextPaint = new TextPaint();
         mTextPaint.setColor(textColor);
@@ -87,7 +94,7 @@ public class RecordVoiceButton extends View implements View.OnClickListener {
 
         mHalfWidth = width / 2;
         mHalfHeight = height / 2;
-        mRadius = Math.min(mHalfWidth, mHalfHeight);
+        mRadius = Math.min(mHalfWidth , mHalfHeight);
 
         float left;
         float top;
@@ -115,9 +122,19 @@ public class RecordVoiceButton extends View implements View.OnClickListener {
 
         canvas.drawCircle(mHalfWidth, mHalfHeight, mRadius, mCirclePaint);
 
-        float x = mRect.centerX() - (mTextPaint.measureText(mText) / 2);
-        float y = mRect.centerY() - ((mTextPaint.descent() + mTextPaint.ascent()) / 2);
+        if (mStartRecording) {
+            float x = mHalfWidth;
+            float y = mHalfHeight;
+            float radius = mRadius * 0.5f;
 
-        canvas.drawText(mText, x, y, mTextPaint);
+            canvas.drawCircle(x, y, radius, mButtonPaint);
+        } else {
+            float left = mRect.centerX() - (mRadius / 2);
+            float top = mRect.centerY() - (mRadius / 2);
+            float right = mRadius + left;
+            float bottom = mRadius + top;
+
+            canvas.drawRect(left, top, right, bottom, mButtonPaint);
+        }
     }
 }

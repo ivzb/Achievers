@@ -29,6 +29,7 @@
     <color name="lvPending">#eeeeee</color>
 
     <!-- VoiceRecodingView -->
-    <color name="rvbCircleColor">#ab000d</color>
+    <color name="rvbCircleColor">#ccc</color>
+    <color name="rvbButtonColor">#f00</color>
     <color name="rvbTextColor">#eeeeee</color>
 </resources>
