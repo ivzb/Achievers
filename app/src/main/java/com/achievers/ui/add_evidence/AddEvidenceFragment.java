@@ -19,6 +19,7 @@ import com.achievers.R;
 import com.achievers.data.entities.Evidence;
 import com.achievers.databinding.AddEvidenceFragBinding;
 import com.achievers.ui._base.AbstractFragment;
+import com.achievers.ui.voice_recording.VoiceRecordingActivity;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 
 public class AddEvidenceFragment
@@ -46,6 +47,9 @@ public class AddEvidenceFragment
                 break;
             case Video:
                 mPresenter.clickTakeVideo();
+                break;
+            case Voice:
+                mPresenter.clickRecordVoice();
                 break;
         }
 
@@ -110,6 +114,12 @@ public class AddEvidenceFragment
         if (intent.resolveActivity(packageManager) != null) {
             startActivityForResult(intent, requestCode);
         }
+    }
+
+    @Override
+    public void recordVoice(int requestCode) {
+        Intent intent = new Intent(getContext(), VoiceRecordingActivity.class);
+        startActivityForResult(intent, requestCode);
     }
 
     @Override

@@ -19,6 +19,7 @@ public class AddEvidenceContract {
 
         void takePicture(Uri uri, int requestCode);
         void takeVideo(int requestCode);
+        void recordVoice(int requestCode);
 
         void showMultimedia(Uri uri, BaseMultimediaPlayer player);
         void showLoadingMultimedia(boolean loading);
@@ -31,6 +32,7 @@ public class AddEvidenceContract {
 
         void clickTakePicture();
         void clickTakeVideo();
+        void clickRecordVoice();
 
         void deliverMultimedia(
                 int requestCode,

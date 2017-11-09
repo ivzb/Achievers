@@ -35,6 +35,7 @@ public class AddEvidencePresenter
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
     private static final int REQUEST_VIDEO_CAPTURE = 3;
+    private static final int REQUEST_VOICE_CAPTURE = 4;
 
     private final SimpleExoPlayer mExoPlayer;
 
@@ -82,6 +83,13 @@ public class AddEvidencePresenter
         if (!mView.isActive()) return;
 
         mView.takeVideo(REQUEST_VIDEO_CAPTURE);
+    }
+
+    @Override
+    public void clickRecordVoice() {
+        if (!mView.isActive()) return;
+
+        mView.recordVoice(REQUEST_VOICE_CAPTURE);
     }
 
     @Override
