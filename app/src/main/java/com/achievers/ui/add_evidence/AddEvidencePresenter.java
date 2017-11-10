@@ -10,7 +10,7 @@ import android.support.v4.content.FileProvider;
 import com.achievers.R;
 import com.achievers.data.entities.Evidence;
 import com.achievers.ui._base.AbstractPresenter;
-import com.achievers.utils.PictureUtils;
+import com.achievers.utils.FileUtils;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaViewActionHandler;
 import com.achievers.utils.ui.multimedia.players.PhotoMultimediaPlayer;
@@ -26,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
 
+import static com.achievers.utils.FileUtils.FileType.Picture;
 import static com.achievers.utils.Preconditions.checkNotNull;
 
 public class AddEvidencePresenter
@@ -64,7 +65,7 @@ public class AddEvidencePresenter
         java.io.File photoFile = null;
 
         try {
-            photoFile = PictureUtils.createFile(mContext, new Date());
+            photoFile = FileUtils.createFile(mContext, new Date(), Picture);
         } catch (IOException ex) {
             mView.showErrorMessage("Could not take picture. Please try again.");
         }
@@ -130,6 +131,13 @@ public class AddEvidencePresenter
                             mExoPlayer,
                             uri);
                     break;
+                case REQUEST_VOICE_CAPTURE:
+                    player = new VoiceMultimediaPlayer(
+                            actionHandler,
+                            mContext,
+                            mExoPlayer,
+                            uri);
+                    break;
                 default:
                     throw new IllegalArgumentException();
             }
@@ -137,7 +145,7 @@ public class AddEvidencePresenter
             mView.showLoadingMultimedia(false);
             mView.showMultimedia(uri, player);
         } catch (NullPointerException | IllegalArgumentException | FileNotFoundException e) {
-            mView.showErrorMessage("Nothing selected. Try again?");
+            mView.finish();
         }
     }
 

@@ -14,7 +14,7 @@ import com.achievers.data.entities.Involvement;
 import com.achievers.data.source.involvements.InvolvementsDataSource;
 import com.achievers.ui._base.AbstractPresenter;
 import com.achievers.ui.add_achievement.AddAchievementContract.Presenter;
-import com.achievers.utils.PictureUtils;
+import com.achievers.utils.FileUtils;
 import com.achievers.validator.Validator;
 import com.achievers.validator.contracts.BaseValidation;
 import com.achievers.validator.rules.NotNullRule;
@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import static com.achievers.utils.FileUtils.FileType.Picture;
 import static com.achievers.utils.Preconditions.checkNotNull;
 
 public class AddAchievementPresenter
@@ -81,7 +82,7 @@ public class AddAchievementPresenter
         java.io.File photoFile = null;
 
         try {
-            photoFile = PictureUtils.createFile(mContext, new Date());
+            photoFile = FileUtils.createFile(mContext, new Date(), Picture);
         } catch (IOException ex) {
             mView.showErrorMessage("Could not take picture. Please try again.");
         }
