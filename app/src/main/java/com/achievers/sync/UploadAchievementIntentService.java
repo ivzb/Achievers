@@ -16,12 +16,12 @@ import com.achievers.data.source.achievements.AchievementsMockDataSource;
 import com.achievers.data.source.files.FilesMockDataSource;
 import com.achievers.ui.achievement.AchievementActivity;
 import com.achievers.ui.add_achievement.AddAchievementActivity;
+import com.achievers.utils.FileUtils;
 import com.achievers.utils.NotificationUtils;
-import com.achievers.utils.PictureUtils;
 
 import org.parceler.Parcels;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import static com.achievers.ui.add_achievement.AddAchievementFragment.DESCRIPTION_KEY;
 import static com.achievers.ui.add_achievement.AddAchievementFragment.INVOLVEMENTS_ADAPTER_SELECTED_POSITION_KEY;
@@ -51,8 +51,8 @@ public class UploadAchievementIntentService extends IntentService {
         File picture;
 
         try {
-            picture = PictureUtils.toFile(this, achievement.getPictureUri());
-        } catch (NullPointerException | FileNotFoundException e) {
+            picture = FileUtils.toFile(this, achievement.getPictureUri());
+        } catch (NullPointerException | IOException e) {
             showFailure(achievement);
             return;
         }

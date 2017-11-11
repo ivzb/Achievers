@@ -1,5 +1,6 @@
 package com.achievers.utils;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
@@ -46,13 +47,14 @@ public class FileUtils {
         checkNotNull(context);
         checkNotNull(uri);
 
-        InputStream stream = context
-                .getContentResolver()
-                .openInputStream(uri);
+        ContentResolver contentResolver = context.getContentResolver();
+
+        InputStream stream = contentResolver.openInputStream(uri);
 
         byte[] byteArray = IOUtils.toByteArray(stream);
+        String contentType = contentResolver.getType(uri);
 
-        return new File(byteArray, "video/mp4", uri);
+        return new File(byteArray, contentType, uri);
     }
 
     public enum FileType {

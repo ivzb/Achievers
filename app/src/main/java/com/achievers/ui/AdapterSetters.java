@@ -1,14 +1,12 @@
 package com.achievers.ui;
 
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.databinding.BindingAdapter;
+import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.annotation.Nullable;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
@@ -17,17 +15,15 @@ import com.achievers.data.entities.Category;
 import com.achievers.data.entities.Involvement;
 import com.achievers.ui._base.contracts.BaseSelectableAdapter;
 import com.achievers.ui._base.contracts.action_handlers.BasePictureLoadActionHandler;
-import com.achievers.ui.categories.CategoriesAdapter;
 import com.achievers.ui.categories.CategoriesContract;
 import com.achievers.utils.ui.FreskoCircleProgressBarDrawable;
 import com.achievers.utils.ui.ScrollChildSwipeRefreshLayout;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.image.ImageInfo;
 
 public class AdapterSetters {
 
@@ -65,11 +61,6 @@ public class AdapterSetters {
         }
     }
 
-    @BindingAdapter({ "bind:resource" })
-    public static void loadImage(SimpleDraweeView view, int resource) {
-        view.setImageResource(resource);
-    }
-
     // Binding Drawable to ImageView
     @BindingAdapter("android:src")
     public static void setImageDrawable(ImageView view, Drawable drawable) {
@@ -95,58 +86,28 @@ public class AdapterSetters {
 
     @BindingAdapter({ "bind:uri", "bind:actionHandler" })
     public static void setPicture(
-            ImageView view,
+            SimpleDraweeView view,
             final Uri uri,
             final BasePictureLoadActionHandler actionHandler) {
 
         if (uri == null || actionHandler == null) return;
 
-        Glide.with(actionHandler.getContext())
-                .load(uri)
-                .listener(new RequestListener<Drawable>() {
+        DraweeController controller = Fresco.newDraweeControllerBuilder()
+                .setUri(uri)
+                .setControllerListener(new BaseControllerListener<ImageInfo>() {
                     @Override
-                    public boolean onLoadFailed(
-                            @Nullable GlideException e,
-                            Object model, Target<Drawable> target,
-                            boolean isFirstResource) {
-
-                        actionHandler.pictureLoaded(false);
-                        return false;
+                    public void onFinalImageSet(String id, @javax.annotation.Nullable ImageInfo imageInfo, @javax.annotation.Nullable Animatable animatable) {
+                        actionHandler.pictureLoaded(true);
                     }
 
                     @Override
-                    public boolean onResourceReady(
-                            Drawable resource,
-                            Object model,
-                            Target<Drawable> target,
-                            DataSource dataSource,
-                            boolean isFirstResource) {
-
-                        actionHandler.pictureLoaded(true);
-                        return false;
+                    public void onFailure(String id, Throwable throwable) {
+                        actionHandler.pictureLoaded(false);
                     }
                 })
-                .into(view);
-    }
+                .build();
 
-    // CategoriesFragment
-    @BindingAdapter("categoriesAdapter")
-//    @BindingAdapter({ "bind:adapter", "bind:cursor" })
-    public static void setRvCategoriesAdapter(RecyclerView view, CategoriesAdapter adapter/*, Cursor cursor*/) {
-        if (adapter != null) {
-            view.setAdapter(adapter);
-            view.setLayoutManager(new LinearLayoutManager(adapter.getContext()));
-//            adapter.swapCursor(cursor);
-        }
-    }
-
-    @BindingAdapter("categoriesCursor")
-//    @BindingAdapter({ "bind:adapter", "bind:cursor" })
-    public static void setCategoriesCursor(RecyclerView view, Cursor cursor) {
-        if (view.getAdapter() != null) {
-            CategoriesAdapter adapter = (CategoriesAdapter) view.getAdapter();
-            adapter.swapCursor(cursor);
-        }
+        view.setController(controller);
     }
 
     /**

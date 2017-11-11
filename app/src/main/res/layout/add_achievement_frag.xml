@@ -104,13 +104,14 @@
                 app:layout_constraintStart_toStartOf="@+id/glVertical"
                 app:layout_constraintTop_toBottomOf="@+id/rvInvolvements" />
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/ivPicture"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="@{ viewModel.pictureUri == null ? View.GONE : View.VISIBLE }"
                 bind:uri="@{ viewModel.pictureUri }"
                 bind:actionHandler="@{ actionHandler }"
+                android:adjustViewBounds="true"
                 android:contentDescription="@string/uploaded_image_preview"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginBottom="@dimen/spacing_medium"

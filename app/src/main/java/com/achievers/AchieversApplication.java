@@ -21,6 +21,7 @@ public class AchieversApplication extends Application {
 
         ImagePipelineConfig imagePipelineConfig = OkHttpImagePipelineConfigFactory
                 .newBuilder(this, okHttpClient)
+                .setDownsampleEnabled(true)
                 .build();
 
         Fresco.initialize(this, imagePipelineConfig);

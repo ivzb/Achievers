@@ -10,6 +10,7 @@ import com.google.gson.annotations.SerializedName;
 import org.parceler.Parcel;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Parcel(analyze = { Achievement.class })
 public class Achievement implements BaseModel {
@@ -135,7 +136,7 @@ public class Achievement implements BaseModel {
         if (id != that.id) return false;
         if (!title.equals(that.title)) return false;
         if (!description.equals(that.description)) return false;
-        if (!pictureUri.equals(that.pictureUri)) return false;
+        if (!Objects.equals(pictureUri, that.pictureUri)) return false;
         if (involvement != that.involvement) return false;
         return true;//createdOn.equals(that.createdOn);
     }
