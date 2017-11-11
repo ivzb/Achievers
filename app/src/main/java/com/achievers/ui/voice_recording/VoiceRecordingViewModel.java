@@ -8,13 +8,15 @@ public class VoiceRecordingViewModel
         extends BaseObservable
         implements VoiceRecordingContract.ViewModel {
 
+    private File mFile;
+
     @Override
     public File getFile() {
-        return null;
+        return mFile;
     }
 
     @Override
     public void setFile(File file) {
-
+        mFile = file;
     }
 }

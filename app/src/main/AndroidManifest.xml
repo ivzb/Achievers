@@ -56,5 +56,9 @@
         <service
             android:name=".sync.UploadAchievementIntentService"
             android:exported="false"/>
+
+        <service
+            android:name=".sync.UploadEvidenceIntentService"
+            android:exported="false"/>
     </application>
 </manifest>

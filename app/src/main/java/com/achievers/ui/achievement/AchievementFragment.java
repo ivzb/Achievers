@@ -140,9 +140,9 @@ public class AchievementFragment
                         @Override
                         public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
                             Intent intent = new Intent(getContext(), AddEvidenceActivity.class);
-                            intent.putExtra(
-                                    AddEvidenceActivity.MultimediaTypeExtra,
-                                    (MultimediaType) item);
+
+                            intent.putExtra(AddEvidenceActivity.AchievementIdExtra, mViewModel.getAchievement().getId());
+                            intent.putExtra(AddEvidenceActivity.MultimediaTypeExtra, (MultimediaType) item);
 
                             startActivityForResult(intent, AddEvidenceActivity.REQUEST_ADD_EVIDENCE);
 

@@ -15,6 +15,7 @@ public class AddEvidenceActivity extends AbstractActivity {
 
     public static final int REQUEST_ADD_EVIDENCE = 156;
 
+    public static final String AchievementIdExtra = "AchievementId";
     public static final String MultimediaTypeExtra = "MultimediaType";
 
     private SimpleExoPlayer mExoPlayer;
@@ -49,15 +50,22 @@ public class AddEvidenceActivity extends AbstractActivity {
 
         Bundle extras = getIntent().getExtras();
 
+        long achievementId = -1;
         MultimediaType multimediaType = MultimediaType.Photo;
 
-        if (extras != null && extras.containsKey(MultimediaTypeExtra)) {
-            multimediaType = (MultimediaType) extras.getSerializable(MultimediaTypeExtra);
+        if (extras != null) {
+            if (extras.containsKey(AchievementIdExtra)) {
+                achievementId = extras.getLong(AchievementIdExtra);
+            }
+
+            if (extras.containsKey(MultimediaTypeExtra)) {
+                multimediaType = (MultimediaType) extras.getSerializable(MultimediaTypeExtra);
+            }
         }
 
         mExoPlayer = ExoPlayerUtils.initialize(this);
 
-        view.setViewModel(new AddEvidenceViewModel(multimediaType));
+        view.setViewModel(new AddEvidenceViewModel(achievementId, multimediaType));
         view.setPresenter(new AddEvidencePresenter(this, view, mExoPlayer));
     }
 

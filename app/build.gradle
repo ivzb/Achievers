@@ -131,4 +131,7 @@ dependencies {
 
     compile 'com.google.android.exoplayer:exoplayer:r2.2.0'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    // apache commons
+    compile 'commons-io:commons-io:2.6'
 }

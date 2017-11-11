@@ -18,9 +18,14 @@ import android.view.ViewGroup;
 import com.achievers.R;
 import com.achievers.data.entities.Evidence;
 import com.achievers.databinding.AddEvidenceFragBinding;
+import com.achievers.sync.UploadEvidenceIntentService;
 import com.achievers.ui._base.AbstractFragment;
 import com.achievers.ui.voice_recording.VoiceRecordingActivity;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
+
+import org.parceler.Parcels;
+
+import static com.achievers.sync.UploadEvidenceIntentService.EVIDENCE_EXTRA;
 
 public class AddEvidenceFragment
         extends AbstractFragment<AddEvidenceContract.Presenter, AddEvidenceContract.ViewModel, AddEvidenceFragBinding>
@@ -67,7 +72,11 @@ public class AddEvidenceFragment
             case R.id.menu_save:
                 String title = mViewModel.getTitle();
 
-                mPresenter.saveEvidence(title, mCapturedPictureUri);
+                mPresenter.saveEvidence(
+                        title,
+                        mViewModel.getAchievementId(),
+                        mViewModel.getMultimediaType(),
+                        mViewModel.getMultimediaUri());
                 break;
         }
 
@@ -142,10 +151,9 @@ public class AddEvidenceFragment
     public void upload(Evidence evidence) {
         Context context = getContext();
 
-        // todo
-//        Intent intent = new Intent(context, UploadEvidenceIntentService.class);
-//        intent.putExtra(ACHIEVEMENT_EXTRA, Parcels.wrap(evidence));
-//        context.startService(intent);
+        Intent intent = new Intent(context, UploadEvidenceIntentService.class);
+        intent.putExtra(EVIDENCE_EXTRA, Parcels.wrap(evidence));
+        context.startService(intent);
     }
 
     @Override

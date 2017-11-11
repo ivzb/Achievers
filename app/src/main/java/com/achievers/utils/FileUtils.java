@@ -1,11 +1,16 @@
 package com.achievers.utils;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Environment;
 
 import com.achievers.Config;
+import com.achievers.data.entities.File;
+
+import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -35,6 +40,21 @@ public class FileUtils {
         );
     }
 
+    public static File toFile(Context context, Uri uri)
+            throws NullPointerException, IOException {
+
+        checkNotNull(context);
+        checkNotNull(uri);
+
+        InputStream stream = context
+                .getContentResolver()
+                .openInputStream(uri);
+
+        byte[] byteArray = IOUtils.toByteArray(stream);
+
+        return new File(byteArray, "video/mp4");
+    }
+
     public enum FileType {
 
         Picture("JPEG", ".jpg", Environment.DIRECTORY_PICTURES),
@@ -53,11 +73,9 @@ public class FileUtils {
         String getPrefix() {
             return mPrefix;
         }
-
         String getExtension() {
             return mExtension;
         }
-
         String getDirectory() {
             return mDirectory;
         }

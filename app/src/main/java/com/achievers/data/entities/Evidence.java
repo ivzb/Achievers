@@ -1,5 +1,6 @@
 package com.achievers.data.entities;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -41,12 +42,26 @@ public class Evidence implements BaseModel {
     @Nullable
     Date createdOn;
 
+    private Uri mMultimediaUri;
+
     public Evidence() {
 
     }
 
     public Evidence(long id) {
         this.id = id;
+    }
+
+    public Evidence(
+            String comment,
+            long achievementId,
+            MultimediaType multimediaType,
+            Uri multimediaUri) {
+
+        this.comment = comment;
+        this.achievementId = achievementId;
+        this.multimediaType = multimediaType;
+        this.mMultimediaUri = multimediaUri;
     }
 
     public Evidence(
@@ -118,6 +133,10 @@ public class Evidence implements BaseModel {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Uri getMultimediaUri() {
+        return mMultimediaUri;
     }
 
     @Override

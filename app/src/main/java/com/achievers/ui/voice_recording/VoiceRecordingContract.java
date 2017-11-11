@@ -6,7 +6,6 @@ import android.databinding.ViewDataBinding;
 import com.achievers.ui._base.contracts.BasePresenter;
 import com.achievers.ui._base.contracts.BaseView;
 import com.achievers.ui._base.contracts.BaseViewModel;
-import com.achievers.utils.ui.multimedia._base.BaseMultimediaViewActionHandler;
 
 import java.io.File;
 
@@ -14,19 +13,24 @@ public class VoiceRecordingContract {
 
     interface View<DB extends ViewDataBinding> extends BaseView<Presenter, ViewModel, DB> {
 
+        void requestPermissions(String[] permissions, int requestCode);
+
+        File getFile();
+        void setFile(File file);
+
         void finish(int resultCode, Intent intent);
     }
 
     interface Presenter extends BasePresenter {
 
+        void requestRecordAudioPermission();
+
         void clickStartRecording();
         void clickStopRecording();
 
-        void deliverPermission(
+        void deliverPermissionsResult(
                 int requestCode,
-                int resultCode,
-                Intent data,
-                BaseMultimediaViewActionHandler actionHandler);
+                int[] grantResults);
     }
 
     public interface ViewModel extends BaseViewModel {

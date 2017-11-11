@@ -26,12 +26,15 @@
     <string name="logo">Logo</string>
     <string name="please_select_category">Please select category</string>
     <string name="voice">Voice</string>
+    <string name="achievement">Achievement</string>
     <string name="upload_evidence">Upload evidence</string>
     <string name="add_achievement">New Achievement</string>
     <string name="add_evidence">New Evidence</string>
+    <string name="voice_recording">Voice recording</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="picture">Picture</string>
+    <string name="multimedia">Multimedia</string>
     <string name="involvement">Involvement</string>
     <string name="uploaded_image_preview">Uploaded image preview</string>
     <string name="take_picture">Take Picture</string>

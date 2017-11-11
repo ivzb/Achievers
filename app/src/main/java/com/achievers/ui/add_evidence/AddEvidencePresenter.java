@@ -11,6 +11,7 @@ import com.achievers.R;
 import com.achievers.data.entities.Evidence;
 import com.achievers.ui._base.AbstractPresenter;
 import com.achievers.utils.FileUtils;
+import com.achievers.utils.ui.multimedia.MultimediaType;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaViewActionHandler;
 import com.achievers.utils.ui.multimedia.players.PhotoMultimediaPlayer;
@@ -20,6 +21,7 @@ import com.achievers.validator.Validator;
 import com.achievers.validator.contracts.BaseValidation;
 import com.achievers.validator.rules.NotNullRule;
 import com.achievers.validator.rules.StringLengthRule;
+import com.achievers.validator.rules.ValidIdRule;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 
 import java.io.FileNotFoundException;
@@ -117,13 +119,6 @@ public class AddEvidencePresenter
                 case REQUEST_IMAGE_CAPTURE:
                     player = new PhotoMultimediaPlayer(actionHandler);
                     break;
-                case REQUEST_IMAGE_PICK:
-                    player = new VoiceMultimediaPlayer(
-                            actionHandler,
-                            mContext,
-                            mExoPlayer,
-                            uri);
-                    break;
                 case REQUEST_VIDEO_CAPTURE:
                     player = new VideoMultimediaPlayer(
                             actionHandler,
@@ -152,7 +147,9 @@ public class AddEvidencePresenter
     @Override
     public void saveEvidence(
             String title,
-            Uri pictureUri) {
+            long achievementId,
+            MultimediaType multimediaType,
+            Uri multimediaUri) {
 
         if (!mView.isActive()) return;
 
@@ -164,8 +161,16 @@ public class AddEvidencePresenter
                         title,
                         new StringLengthRule(5, 100))
                 .addProperty(
-                        R.string.picture,
-                        pictureUri,
+                        R.string.achievement,
+                        achievementId,
+                        new ValidIdRule())
+                .addProperty(
+                        R.string.multimedia,
+                        multimediaType,
+                        new NotNullRule())
+                .addProperty(
+                        R.string.multimedia,
+                        multimediaUri,
                         new NotNullRule())
                 .validate();
 
@@ -174,7 +179,7 @@ public class AddEvidencePresenter
             return;
         }
 
-        Evidence evidence = new Evidence(5);
+        Evidence evidence = new Evidence(title, achievementId, multimediaType, multimediaUri);
 
         mView.upload(evidence);
         mView.finish();

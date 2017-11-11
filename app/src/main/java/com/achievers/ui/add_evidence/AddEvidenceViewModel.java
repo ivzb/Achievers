@@ -11,14 +11,20 @@ public class AddEvidenceViewModel
         extends BaseObservable
         implements AddEvidenceContract.ViewModel {
 
+    private long mAchievementId;
     private MultimediaType mMultimediaType;
     private String mTitle;
 
     private Uri mMultimediaUri;
     private boolean mIsMultimediaLoading;
 
-    AddEvidenceViewModel(MultimediaType multimediaType) {
+    AddEvidenceViewModel(long achievementId, MultimediaType multimediaType) {
+        mAchievementId = achievementId;
         mMultimediaType = multimediaType;
+    }
+
+    public long getAchievementId() {
+        return mAchievementId;
     }
 
     public MultimediaType getMultimediaType() {
