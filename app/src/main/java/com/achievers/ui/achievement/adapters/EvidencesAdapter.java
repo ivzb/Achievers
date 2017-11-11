@@ -1,7 +1,6 @@
 package com.achievers.ui.achievement.adapters;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -46,20 +45,19 @@ public class EvidencesAdapter extends MultimediaAdapter<Evidence> {
         MultimediaView mvEvidence  = ((EvidencesRecyclerItemBinding) viewHolder.getBinding()).mvEvidence;
 
         BaseMultimediaPlayer player;
-        Uri uri = Uri.parse(evidence.getUrl());
 
         if (evidence.getMultimediaType() == Video) {
             player = new VideoMultimediaPlayer(
                     mvEvidence,
                     mContext,
                     mExoPlayer,
-                    uri);
+                    evidence.getUri());
         } else if (evidence.getMultimediaType() == Voice) {
             player = new VoiceMultimediaPlayer(
                     mvEvidence,
                     mContext,
                     mExoPlayer,
-                    uri);
+                    evidence.getUri());
         } else {
             player = new PhotoMultimediaPlayer(mvEvidence);
         }

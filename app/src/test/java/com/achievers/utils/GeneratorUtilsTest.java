@@ -1,5 +1,7 @@
 package com.achievers.utils;
 
+import android.net.Uri;
+
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Involvement;
 import com.achievers.utils.ui.multimedia.MultimediaType;
@@ -107,7 +109,7 @@ public class GeneratorUtilsTest {
         f.setAccessible(true);
         f.set(mFaker, mLorem);
 
-        Achievement expected = new Achievement(5, title, description, involvement, imageUrl);
+        Achievement expected = new Achievement(5, title, description, involvement, Uri.parse(imageUrl));
         Achievement actual = GeneratorUtils.getInstance().getAchievement(id, createdOn);
 
         assertEquals(sFailAchievement, expected, actual);

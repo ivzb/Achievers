@@ -1,5 +1,7 @@
 package com.achievers.utils;
 
+import android.net.Uri;
+
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.AchievementProgress;
 import com.achievers.data.entities.AchievementType;
@@ -63,9 +65,9 @@ public class GeneratorUtils {
         String title = mFaker.lorem.word();
         String description = mFaker.lorem.sentence(5);
         Involvement involvement = getInvolvement();
-        String imageUrl = getImageUrl();
+        Uri imageUri = Uri.parse(getImageUrl());
 
-        return new Achievement(id, title, description, involvement, imageUrl);
+        return new Achievement(id, title, description, involvement, imageUri);
     }
 
     public AchievementProgress getAchievementProgress(long id, Date createdOn) {
@@ -124,6 +126,6 @@ public class GeneratorUtils {
                 break;
         }
 
-        return new Evidence(id, comment, multimediaType, previewUrl, url, createdOn);
+        return new Evidence(id, comment, multimediaType, previewUrl, Uri.parse(url), createdOn);
     }
 }

@@ -1,10 +1,10 @@
 package com.achievers.data.source.files;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities.File;
-import com.achievers.utils.GeneratorUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +32,7 @@ public class FilesMockDataSource implements FilesDataSource {
     }
 
     @Override
-    public void storeFile(@NonNull File file, @NonNull SaveCallback<String> callback) {
+    public void storeFile(@NonNull File file, @NonNull SaveCallback<Uri> callback) {
 
         checkNotNull(callback);
 
@@ -46,8 +46,6 @@ public class FilesMockDataSource implements FilesDataSource {
         mEntitiesById.put(file.getId(), file);
         mEntities.add(file);
 
-        String imageUrl = GeneratorUtils.getInstance().getImageUrl();
-
-        callback.onSuccess(imageUrl);
+        callback.onSuccess(file.getUri());
     }
 }

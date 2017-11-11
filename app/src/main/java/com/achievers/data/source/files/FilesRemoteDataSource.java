@@ -1,5 +1,6 @@
 package com.achievers.data.source.files;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.callbacks.SaveCallback;
@@ -36,7 +37,7 @@ public class FilesRemoteDataSource implements FilesDataSource {
     }
 
     @Override
-    public void storeFile(@NonNull File file, final @NonNull SaveCallback<String> callback) {
+    public void storeFile(@NonNull File file, final @NonNull SaveCallback<Uri> callback) {
         RequestBody requestBody = RequestBody.create(MediaType.parse(file.getContentType()), file.getContent());
         MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getContentType(), requestBody);
 
@@ -56,8 +57,9 @@ public class FilesRemoteDataSource implements FilesDataSource {
                     return;
                 }
 
-                String imageUrl = response.body();
-                callback.onSuccess(imageUrl);
+                String url = response.body();
+                Uri fileUri = Uri.parse(url);
+                callback.onSuccess(fileUri);
             }
 
             @Override

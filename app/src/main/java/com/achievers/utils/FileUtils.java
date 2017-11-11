@@ -52,7 +52,7 @@ public class FileUtils {
 
         byte[] byteArray = IOUtils.toByteArray(stream);
 
-        return new File(byteArray, "video/mp4");
+        return new File(byteArray, "video/mp4", uri);
     }
 
     public enum FileType {

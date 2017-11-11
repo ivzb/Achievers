@@ -34,15 +34,13 @@ public class Evidence implements BaseModel {
     @NonNull
     String previewUrl;
 
-    @SerializedName("url")
+    @SerializedName("uri")
     @NonNull
-    String url;
+    Uri uri;
 
     @SerializedName("createdOn")
     @Nullable
     Date createdOn;
-
-    private Uri mMultimediaUri;
 
     public Evidence() {
 
@@ -61,7 +59,7 @@ public class Evidence implements BaseModel {
         this.comment = comment;
         this.achievementId = achievementId;
         this.multimediaType = multimediaType;
-        this.mMultimediaUri = multimediaUri;
+        this.uri = multimediaUri;
     }
 
     public Evidence(
@@ -69,7 +67,7 @@ public class Evidence implements BaseModel {
             @NonNull String comment,
             @NonNull MultimediaType multimediaType,
             @NonNull String previewUrl,
-            @NonNull String url,
+            @NonNull Uri uri,
             @Nullable Date createdOn) {
 
         this(id);
@@ -77,7 +75,7 @@ public class Evidence implements BaseModel {
         this.comment = comment;
         this.multimediaType = multimediaType;
         this.previewUrl = previewUrl;
-        this.url = url;
+        this.uri = uri;
         this.createdOn = createdOn;
     }
 
@@ -114,8 +112,8 @@ public class Evidence implements BaseModel {
     }
 
     @NonNull
-    public String getUrl() {
-        return url;
+    public Uri getUri() {
+        return uri;
     }
 
     @NonNull
@@ -131,12 +129,8 @@ public class Evidence implements BaseModel {
         return this.getId() == 0;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public Uri getMultimediaUri() {
-        return mMultimediaUri;
+    public void setUri(Uri uri) {
+        this.uri = uri;
     }
 
     @Override
@@ -155,7 +149,7 @@ public class Evidence implements BaseModel {
         result = 31 * result + comment.hashCode();
         result = 31 * result + multimediaType.hashCode();
         result = 31 * result + (int) (achievementId ^ (achievementId >>> 32));
-        result = 31 * result + url.hashCode();
+        result = 31 * result + uri.hashCode();
         result = 31 * result + previewUrl.hashCode();
         result = 31 * result + (createdOn != null ? createdOn.hashCode() : 0);
         return result;

@@ -1,5 +1,6 @@
 package com.achievers.data.entities;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
@@ -22,9 +23,13 @@ public class File {
     @NonNull
     String contentType;
 
-    public File(@NonNull byte[] content, @NonNull String contentType) {
+    @Deprecated // used for memory file storage
+    private Uri mUri;
+
+    public File(@NonNull byte[] content, @NonNull String contentType, @Deprecated Uri uri) {
         this.content = content;
         this.contentType = contentType;
+        this.mUri = uri;
     }
 
     public long getId() {
@@ -41,5 +46,9 @@ public class File {
 
     public String getContentType() {
         return this.contentType;
+    }
+
+    public Uri getUri() {
+        return mUri;
     }
 }

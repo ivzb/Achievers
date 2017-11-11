@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 
@@ -47,7 +48,7 @@ public class UploadEvidenceIntentService extends IntentService {
         File multimedia;
 
         try {
-            multimedia = FileUtils.toFile(this, evidence.getMultimediaUri());
+            multimedia = FileUtils.toFile(this, evidence.getUri());
         } catch (NullPointerException | IOException e) {
             showFailure(evidence);
             return;
@@ -57,10 +58,10 @@ public class UploadEvidenceIntentService extends IntentService {
     }
 
     private void saveMultimedia(final File multimedia, final Evidence evidence) {
-        FilesMockDataSource.getInstance().storeFile(multimedia, new SaveCallback<String>() {
+        FilesMockDataSource.getInstance().storeFile(multimedia, new SaveCallback<Uri>() {
             @Override
-            public void onSuccess(String multimediaUrl) {
-                evidence.setUrl(multimediaUrl);
+            public void onSuccess(Uri multimediaUri) {
+                evidence.setUri(multimediaUri);
                 saveEvidence(evidence);
             }
 

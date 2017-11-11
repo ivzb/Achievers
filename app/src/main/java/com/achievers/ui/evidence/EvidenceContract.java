@@ -12,12 +12,20 @@ public interface EvidenceContract {
 
     interface View<DB extends ViewDataBinding> extends BaseView<Presenter, ViewModel, DB> {
 
+        void requestPermissions(String[] permissions, int requestCode);
 
+        void initMultimedia();
+
+        void finish();
     }
 
     interface Presenter extends BasePresenter {
 
+        void requestReadExternalStoragePermission();
 
+        void deliverPermissionsResult(
+                int requestCode,
+                int[] grantResults);
     }
 
     interface ViewModel extends BaseViewModel {

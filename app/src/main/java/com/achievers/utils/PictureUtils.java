@@ -41,6 +41,6 @@ public class PictureUtils {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] byteArray = stream.toByteArray();
 
-        return new File(byteArray, "image/jpeg");
+        return new File(byteArray, "image/jpeg", imageUri);
     }
 }

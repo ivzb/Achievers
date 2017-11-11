@@ -1,32 +1,30 @@
 package com.achievers.ui.evidence.views;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.achievers.R;
-import com.achievers.databinding.EvidencePhotoFragBinding;
-import com.achievers.ui.AdapterSetters;
+import com.achievers.data.entities.Evidence;
 import com.achievers.ui.evidence.EvidenceFragment;
+import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
+import com.achievers.utils.ui.multimedia.players.PhotoMultimediaPlayer;
 
-public class EvidencePhotoFragment extends EvidenceFragment<EvidencePhotoFragBinding> {
+public class EvidencePhotoFragment extends EvidenceFragment {
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.evidence_photo_frag, container, false);
+    public void initMultimedia() {
+        Evidence evidence = mViewModel.getEvidence();
 
-        mDataBinding = EvidencePhotoFragBinding.bind(view);
-        mDataBinding.setViewModel(mViewModel);
+        BaseMultimediaPlayer player = new PhotoMultimediaPlayer(
+                mDataBinding.mvEvidence);
 
-        AdapterSetters.loadImage(
-                mDataBinding.sdvPreview,
-                mViewModel.getEvidence().getUrl(),
-                getContext().getResources());
+        // todo: catch if builder throws null pointer and show message
+        mDataBinding.mvEvidence.builder(evidence.getMultimediaType())
+                .withUrl(evidence.getPreviewUrl())
+                .withPlayer(player)
+                .build();
+    }
 
-        return view;
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        mDataBinding.mvEvidence.release();
     }
 }

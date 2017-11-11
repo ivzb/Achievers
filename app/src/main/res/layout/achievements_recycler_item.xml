@@ -36,7 +36,7 @@
             app:layout_constraintEnd_toStartOf="@+id/glVertical"
             app:resources="@{ resources }"
             app:roundAsCircle="true"
-            app:url="@{ achievement.pictureUrl }" />
+            app:uri="@{ achievement.pictureUri }" />
 
         <TextView
             android:id="@+id/tvTitle"

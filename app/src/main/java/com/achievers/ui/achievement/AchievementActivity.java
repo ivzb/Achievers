@@ -1,6 +1,5 @@
 package com.achievers.ui.achievement;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
@@ -61,8 +60,7 @@ public class AchievementActivity extends AbstractActivity {
         // todo: add default achievement image while loading
 
         SimpleDraweeView image = findViewById(R.id.image);
-        Uri uri = Uri.parse(achievement.getPictureUrl());
-        image.setImageURI(uri);
+        image.setImageURI(achievement.getPictureUri());
 
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(achievement.getTitle());

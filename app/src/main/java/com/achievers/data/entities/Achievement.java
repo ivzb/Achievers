@@ -23,8 +23,8 @@ public class Achievement implements BaseModel {
     @SerializedName("description")
     String description;
 
-    @SerializedName("pictureUrl")
-    String pictureUrl;
+    @SerializedName("pictureUri")
+    Uri pictureUri;
 
 //    @SerializedName("category")
 //    private Category category;
@@ -38,7 +38,6 @@ public class Achievement implements BaseModel {
     @SerializedName("createdOn")
     Date createdOn;
 
-    private Uri mPictureUri;
     private int mInvolvementPosition;
 
     public Achievement() { }
@@ -58,17 +57,6 @@ public class Achievement implements BaseModel {
 
         this.id = id;
     }
-    public Achievement(
-            long id,
-            @NonNull String title,
-            @NonNull String description,
-            @NonNull Involvement involvement,
-            @NonNull String pictureUrl) {
-
-        this(title, description, involvement, pictureUrl);
-
-        this.id = id;
-    }
 
     public Achievement(
             @NonNull String title,
@@ -79,19 +67,7 @@ public class Achievement implements BaseModel {
         this.title = title;
         this.description = description;
         this.involvement = involvement;
-        this.mPictureUri = pictureUri;
-    }
-
-    public Achievement(
-            @NonNull String title,
-            @NonNull String description,
-            @NonNull Involvement involvement,
-            @NonNull String pictureUrl) {
-
-        this.title = title;
-        this.description = description;
-        this.involvement = involvement;
-        this.pictureUrl = pictureUrl;
+        this.pictureUri = pictureUri;
     }
 
     @Override
@@ -114,12 +90,12 @@ public class Achievement implements BaseModel {
     }
 
     @NonNull
-    public String getPictureUrl() {
-        return pictureUrl;
+    public Uri getPictureUri() {
+        return pictureUri;
     }
 
-    public void setPictureUrl(String pictureUrl) {
-        this.pictureUrl = pictureUrl;
+    public void setPictureUri(Uri pictureUri) {
+        this.pictureUri = pictureUri;
     }
 
 //    @NonNull
@@ -135,14 +111,6 @@ public class Achievement implements BaseModel {
     @Nullable
     public Date getCreatedOn() {
         return createdOn;
-    }
-
-    public Uri getPictureUri() {
-        return mPictureUri;
-    }
-
-    public void setPictureUri(Uri pictureUri) {
-        this.mPictureUri = pictureUri;
     }
 
     public int getInvolvementPosition() {
@@ -167,7 +135,7 @@ public class Achievement implements BaseModel {
         if (id != that.id) return false;
         if (!title.equals(that.title)) return false;
         if (!description.equals(that.description)) return false;
-        if (!pictureUrl.equals(that.pictureUrl)) return false;
+        if (!pictureUri.equals(that.pictureUri)) return false;
         if (involvement != that.involvement) return false;
         return true;//createdOn.equals(that.createdOn);
     }
@@ -177,7 +145,7 @@ public class Achievement implements BaseModel {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + title.hashCode();
         result = 31 * result + description.hashCode();
-        result = 31 * result + pictureUrl.hashCode();
+        result = 31 * result + pictureUri.hashCode();
         result = 31 * result + involvement.hashCode();
         result = 31 * result + createdOn.hashCode();
         return result;
