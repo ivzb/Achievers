@@ -74,7 +74,11 @@ public class AddAchievementActivityTest extends AbstractActivityTest<AddAchievem
     private AddAchievementActivityTest takePicture() {
         mActivity.findViewById(R.id.btnTakePicture).performClick();
         Intent intent = assertStarted(MediaStore.ACTION_IMAGE_CAPTURE);
-        receiveResult(intent);
+
+        shadowOf(mActivity).receiveResult(
+                intent,
+                Activity.RESULT_OK,
+                new Intent().setData(mock(Uri.class)));
 
         return this;
     }

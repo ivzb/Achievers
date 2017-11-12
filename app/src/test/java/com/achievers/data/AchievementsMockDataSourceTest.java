@@ -10,13 +10,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.List;
 import java.util.Random;
 
 import io.bloco.faker.Faker;
-
-import static junit.framework.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AchievementsMockDataSourceTest extends BaseMockDataSourceTest<Achievement> {

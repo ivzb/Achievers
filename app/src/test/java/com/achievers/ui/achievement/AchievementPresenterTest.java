@@ -1,15 +1,8 @@
 package com.achievers.ui.achievement;
 
-import android.app.Activity;
-import android.content.Context;
-
 import com.achievers.data.callbacks.LoadCallback;
-import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
 import com.achievers.data.source.evidences.EvidencesDataSource;
-import com.achievers.ui.achievements.AchievementsContract;
-import com.achievers.ui.achievements.AchievementsPresenter;
-import com.achievers.ui.add_achievement.AddAchievementActivity;
 import com.achievers.utils.GeneratorUtils;
 
 import org.junit.After;

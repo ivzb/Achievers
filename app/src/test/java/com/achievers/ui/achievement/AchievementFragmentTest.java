@@ -6,7 +6,6 @@ import com.achievers.AchieversDebugTestApplication;
 import com.achievers.BuildConfig;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
-import com.achievers.ui._base.AbstractAdapter;
 import com.achievers.ui._base._mocks.AchievementActivityMock;
 import com.achievers.ui._base.adapters.MultimediaAdapter;
 

@@ -3,7 +3,6 @@ package com.achievers.data._base;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.callbacks.SaveCallback;
-import com.achievers.data.entities.Evidence;
 import com.achievers.data.entities._base.BaseModel;
 import com.achievers.data.source._base.BaseDataSource;
 

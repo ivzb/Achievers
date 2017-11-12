@@ -7,10 +7,10 @@ import android.os.Parcelable;
 
 import com.achievers.AchieversDebugTestApplication;
 import com.achievers.BuildConfig;
-import com.achievers.data.entities.Achievement;
-import com.achievers.data.entities.Involvement;
+import com.achievers.data.entities.Evidence;
 import com.achievers.sync._base.AbstractIntentServiceTest;
 import com.achievers.sync._base._shadows.IOUtilsShadow;
+import com.achievers.utils.ui.multimedia.MultimediaType;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +18,7 @@ import org.parceler.Parcels;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static com.achievers.sync.UploadAchievementIntentService.ACHIEVEMENT_EXTRA;
+import static com.achievers.sync.UploadEvidenceIntentService.EVIDENCE_EXTRA;
 import static com.achievers.utils.NotificationUtils.ACHIEVEMENT_UPLOAD_NOTIFICATION_ID;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -30,23 +30,23 @@ import static org.mockito.Mockito.when;
         constants = BuildConfig.class,
         shadows = { IOUtilsShadow.class },
         application = AchieversDebugTestApplication.class)
-public class UploadAchievementIntentServiceTest
-        extends AbstractIntentServiceTest<UploadAchievementIntentService> {
+public class UploadEvidenceIntentServiceTest
+        extends AbstractIntentServiceTest<UploadEvidenceIntentService> {
 
-    public UploadAchievementIntentServiceTest() {
-        super(UploadAchievementIntentService.class);
+    public UploadEvidenceIntentServiceTest() {
+        super(UploadEvidenceIntentService.class);
     }
 
     @Test
-    public void noAchievement() {
+    public void noEvidence() {
         // arrange
-        when(mIntent.getParcelableExtra(ACHIEVEMENT_EXTRA)).thenReturn(null);
+        when(mIntent.getParcelableExtra(EVIDENCE_EXTRA)).thenReturn(null);
 
         // act
         mIntentService.onHandleIntent(mIntent);
 
         // assert
-        verify(mIntent).getParcelableExtra(ACHIEVEMENT_EXTRA);
+        verify(mIntent).getParcelableExtra(EVIDENCE_EXTRA);
 
         assertEquals(1, mShadowNotificationManager.size());
 
@@ -55,16 +55,16 @@ public class UploadAchievementIntentServiceTest
     }
 
     @Test
-    public void pictureNotFound() {
+    public void fileNotFound() {
         // arrange
-        Parcelable achievement = Parcels.wrap(new Achievement()); // empty achievement
-        when(mIntent.getParcelableExtra(ACHIEVEMENT_EXTRA)).thenReturn(achievement);
+        Parcelable evidence = Parcels.wrap(new Evidence()); // empty achievement
+        when(mIntent.getParcelableExtra(EVIDENCE_EXTRA)).thenReturn(evidence);
 
         // act
         mIntentService.onHandleIntent(mIntent);
 
         // assert
-        verify(mIntent).getParcelableExtra(ACHIEVEMENT_EXTRA);
+        verify(mIntent).getParcelableExtra(EVIDENCE_EXTRA);
 
         assertEquals(1, mShadowNotificationManager.size());
 
@@ -73,22 +73,22 @@ public class UploadAchievementIntentServiceTest
     }
 
     @Test
-    public void saveAchievement() {
+    public void saveEvidence() {
         // arrange
-        Parcelable achievement = Parcels.wrap(
-                new Achievement(
+        Parcelable evidence = Parcels.wrap(
+                new Evidence(
                         "title",
-                        "descrioption",
-                        Involvement.Gold,
+                        1,
+                        MultimediaType.Video,
                         Uri.parse("fake-uri")));
 
-        when(mIntent.getParcelableExtra(ACHIEVEMENT_EXTRA)).thenReturn(achievement);
+        when(mIntent.getParcelableExtra(EVIDENCE_EXTRA)).thenReturn(evidence);
 
         // act
         mIntentService.onHandleIntent(mIntent);
 
         // assert
-        verify(mIntent).getParcelableExtra(ACHIEVEMENT_EXTRA);
+        verify(mIntent).getParcelableExtra(EVIDENCE_EXTRA);
 
         assertEquals(1, mShadowNotificationManager.size());
 
