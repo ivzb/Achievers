@@ -135,15 +135,10 @@ public class AddAchievementPresenter
     }
 
     @Override
-    public void pictureLoaded(boolean isSuccessful) {
+    public void pictureLoaded() {
         if (!mView.isActive()) return;
 
         mView.showPictureLoading(false);
-
-        if (!isSuccessful) {
-            mView.showPicture(null);
-            mView.showErrorMessage("Could not load image.");
-        }
     }
 
     @Override

@@ -18,7 +18,7 @@ public class AddAchievementActionHandler implements AddAchievementContract.Actio
     }
 
     @Override
-    public void pictureLoaded(boolean isSuccessful) {
-        mPresenter.pictureLoaded(isSuccessful);
+    public void pictureLoaded() {
+        mPresenter.pictureLoaded();
     }
 }

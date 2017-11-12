@@ -109,8 +109,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="@{ viewModel.pictureUri == null ? View.GONE : View.VISIBLE }"
-                bind:uri="@{ viewModel.pictureUri }"
-                bind:actionHandler="@{ actionHandler }"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/uploaded_image_preview"
                 android:layout_marginTop="@dimen/spacing_medium"

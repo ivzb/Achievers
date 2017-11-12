@@ -5,5 +5,5 @@ import android.content.Context;
 public interface BasePictureLoadActionHandler {
 
     Context getContext();
-    void pictureLoaded(boolean successful);
+    void pictureLoaded();
 }

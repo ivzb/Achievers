@@ -2,7 +2,6 @@ package com.achievers.ui;
 
 import android.content.res.Resources;
 import android.databinding.BindingAdapter;
-import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v4.content.res.ResourcesCompat;
@@ -14,16 +13,11 @@ import com.achievers.R;
 import com.achievers.data.entities.Category;
 import com.achievers.data.entities.Involvement;
 import com.achievers.ui._base.contracts.BaseSelectableAdapter;
-import com.achievers.ui._base.contracts.action_handlers.BasePictureLoadActionHandler;
 import com.achievers.ui.categories.CategoriesContract;
 import com.achievers.utils.ui.FreskoCircleProgressBarDrawable;
 import com.achievers.utils.ui.ScrollChildSwipeRefreshLayout;
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
-import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.image.ImageInfo;
 
 public class AdapterSetters {
 
@@ -82,32 +76,6 @@ public class AdapterSetters {
 
         view.setAdapter((RecyclerView.Adapter) adapter);
         view.setLayoutManager(layoutManager);
-    }
-
-    @BindingAdapter({ "bind:uri", "bind:actionHandler" })
-    public static void setPicture(
-            SimpleDraweeView view,
-            final Uri uri,
-            final BasePictureLoadActionHandler actionHandler) {
-
-        if (uri == null || actionHandler == null) return;
-
-        DraweeController controller = Fresco.newDraweeControllerBuilder()
-                .setUri(uri)
-                .setControllerListener(new BaseControllerListener<ImageInfo>() {
-                    @Override
-                    public void onFinalImageSet(String id, @javax.annotation.Nullable ImageInfo imageInfo, @javax.annotation.Nullable Animatable animatable) {
-                        actionHandler.pictureLoaded(true);
-                    }
-
-                    @Override
-                    public void onFailure(String id, Throwable throwable) {
-                        actionHandler.pictureLoaded(false);
-                    }
-                })
-                .build();
-
-        view.setController(controller);
     }
 
     /**

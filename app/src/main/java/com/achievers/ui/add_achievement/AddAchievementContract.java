@@ -42,7 +42,7 @@ public class AddAchievementContract {
 
         void deliverPicture(int requestCode, int resultCode, Intent data);
 
-        void pictureLoaded(boolean isSuccessful);
+        void pictureLoaded();
 
         void saveAchievement(
                 String title,

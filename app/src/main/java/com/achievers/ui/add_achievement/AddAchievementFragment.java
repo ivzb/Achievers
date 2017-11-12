@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -27,6 +28,10 @@ import com.achievers.databinding.AddAchievementFragBinding;
 import com.achievers.sync.UploadAchievementIntentService;
 import com.achievers.ui._base.AbstractFragment;
 import com.achievers.ui._base.adapters.SelectableAdapter;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.imagepipeline.image.ImageInfo;
 
 import org.parceler.Parcels;
 
@@ -50,6 +55,7 @@ public class AddAchievementFragment
     private int mAdapterSelectedPosition;
 
     private Uri mCapturedPictureUri;
+    private AddAchievementContract.ActionHandler mActionHandler;
 
     public AddAchievementFragment() {
 
@@ -63,7 +69,9 @@ public class AddAchievementFragment
 
         mDataBinding = AddAchievementFragBinding.bind(view);
         mDataBinding.setViewModel(mViewModel);
-        mDataBinding.setActionHandler(new AddAchievementActionHandler(getContext(), mPresenter));
+
+        mActionHandler = new AddAchievementActionHandler(getContext(), mPresenter);
+        mDataBinding.setActionHandler(mActionHandler);
 
         mDataBinding.btnTakePicture.setOnClickListener(mTakePictureListener);
         mDataBinding.btnChoosePicture.setOnClickListener(mChoosePictureListener);
@@ -173,6 +181,18 @@ public class AddAchievementFragment
     @Override
     public void showPicture(Uri uri) {
         mViewModel.setPictureUri(uri);
+
+        DraweeController controller = Fresco.newDraweeControllerBuilder()
+                .setUri(uri)
+                .setControllerListener(new BaseControllerListener<ImageInfo>() {
+                    @Override
+                    public void onFinalImageSet(String id, @javax.annotation.Nullable ImageInfo imageInfo, @javax.annotation.Nullable Animatable animatable) {
+                        mActionHandler.pictureLoaded();
+                    }
+                })
+                .build();
+
+        mDataBinding.ivPicture.setController(controller);
     }
 
     @Override
