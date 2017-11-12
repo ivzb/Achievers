@@ -61,6 +61,8 @@ public class AddEvidenceActivity extends AbstractActivity {
             if (extras.containsKey(MultimediaTypeExtra)) {
                 multimediaType = (MultimediaType) extras.getSerializable(MultimediaTypeExtra);
             }
+
+            view.setArguments(extras);
         }
 
         mExoPlayer = ExoPlayerUtils.initialize(this);

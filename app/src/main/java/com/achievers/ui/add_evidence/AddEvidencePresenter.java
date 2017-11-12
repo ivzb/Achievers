@@ -113,35 +113,60 @@ public class AddEvidencePresenter
                 throw new FileNotFoundException();
             }
 
-            BaseMultimediaPlayer player;
+            MultimediaType multimediaType;
 
             switch (requestCode) {
                 case REQUEST_IMAGE_CAPTURE:
-                    player = new PhotoMultimediaPlayer(actionHandler);
+                    multimediaType = MultimediaType.Photo;
                     break;
                 case REQUEST_VIDEO_CAPTURE:
-                    player = new VideoMultimediaPlayer(
-                            actionHandler,
-                            mContext,
-                            mExoPlayer,
-                            uri);
+                    multimediaType = MultimediaType.Video;
                     break;
                 case REQUEST_VOICE_CAPTURE:
-                    player = new VoiceMultimediaPlayer(
-                            actionHandler,
-                            mContext,
-                            mExoPlayer,
-                            uri);
+                    multimediaType = MultimediaType.Voice;
                     break;
                 default:
                     throw new IllegalArgumentException();
             }
 
-            mView.showLoadingMultimedia(false);
-            mView.showMultimedia(uri, player);
+            showMultimedia(multimediaType, uri, actionHandler);
         } catch (NullPointerException | IllegalArgumentException | FileNotFoundException e) {
             mView.finish();
         }
+    }
+
+    @Override
+    public void showMultimedia(
+            MultimediaType multimediaType,
+            Uri multimediaUri,
+            BaseMultimediaViewActionHandler actionHandler) {
+
+        BaseMultimediaPlayer player;
+
+        switch (multimediaType) {
+            case Photo:
+                player = new PhotoMultimediaPlayer(actionHandler);
+                break;
+            case Video:
+                player = new VideoMultimediaPlayer(
+                        actionHandler,
+                        mContext,
+                        mExoPlayer,
+                        multimediaUri);
+                break;
+            case Voice:
+                player = new VoiceMultimediaPlayer(
+                        actionHandler,
+                        mContext,
+                        mExoPlayer,
+                        multimediaUri);
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
+
+        mView.showLoadingMultimedia(false);
+        mView.showMultimedia(multimediaUri, player);
     }
 
     @Override

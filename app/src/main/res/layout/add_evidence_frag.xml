@@ -43,6 +43,7 @@
                 android:visibility="@{ viewModel.multimediaUri == null ? View.GONE : View.VISIBLE }"
                 android:contentDescription="@string/uploaded_image_preview"
                 android:layout_marginTop="@dimen/spacing_medium"
+                app:layout_constraintTop_toBottomOf="@+id/etTitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" />

@@ -40,6 +40,11 @@ public class AddEvidenceContract {
                 Intent data,
                 BaseMultimediaViewActionHandler actionHandler);
 
+        void showMultimedia(
+                MultimediaType multimediaType,
+                Uri multimediaUri,
+                BaseMultimediaViewActionHandler actionHandler);
+
         void saveEvidence(
                 String title,
                 long achievementId,

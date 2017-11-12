@@ -31,6 +31,10 @@ public class AddEvidenceFragment
         extends AbstractFragment<AddEvidenceContract.Presenter, AddEvidenceContract.ViewModel, AddEvidenceFragBinding>
         implements AddEvidenceContract.View<AddEvidenceFragBinding> {
 
+    public static final String TITLE_KEY = "title";
+    public static final String MULTIMEDIA_URI_KEY = "multimedia_uri";
+    public static final String MULTIMEDIA_LOADING_KEY = "multimedia_loading";
+
     private Uri mCapturedPictureUri;
 
     public AddEvidenceFragment() {
@@ -46,19 +50,43 @@ public class AddEvidenceFragment
         mDataBinding = AddEvidenceFragBinding.bind(view);
         mDataBinding.setViewModel(mViewModel);
 
-        switch (mViewModel.getMultimediaType()) {
-            case Photo:
-                mPresenter.clickTakePicture();
-                break;
-            case Video:
-                mPresenter.clickTakeVideo();
-                break;
-            case Voice:
-                mPresenter.clickRecordVoice();
-                break;
+        if (getArguments() != null) {
+            restoreState(getArguments());
+        }
+
+        if (savedInstanceState != null) {
+            restoreState(savedInstanceState);
+        }
+
+        if (mViewModel.getMultimediaUri() == null) {
+            switch (mViewModel.getMultimediaType()) {
+                case Photo:
+                    mPresenter.clickTakePicture();
+                    break;
+                case Video:
+                    mPresenter.clickTakeVideo();
+                    break;
+                case Voice:
+                    mPresenter.clickRecordVoice();
+                    break;
+            }
+        } else {
+            mPresenter.showMultimedia(
+                    mViewModel.getMultimediaType(),
+                    mViewModel.getMultimediaUri(),
+                    mDataBinding.mvEvidence);
         }
 
         return mDataBinding.getRoot();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(TITLE_KEY, mViewModel.getTitle());
+        outState.putParcelable(MULTIMEDIA_URI_KEY, mViewModel.getMultimediaUri());
+        outState.putBoolean(MULTIMEDIA_LOADING_KEY, mViewModel.isMultimediaLoading());
     }
 
     @Override
@@ -160,5 +188,22 @@ public class AddEvidenceFragment
     public void finish() {
         getActivity().setResult(Activity.RESULT_OK);
         getActivity().finish();
+    }
+
+    private void restoreState(Bundle state) {
+        if (state.containsKey(TITLE_KEY)) {
+            String title = state.getString(TITLE_KEY);
+            mViewModel.setTitle(title);
+        }
+
+        if (state.containsKey(MULTIMEDIA_URI_KEY)) {
+            Uri multimediaUri = state.getParcelable(MULTIMEDIA_URI_KEY);
+            mViewModel.setMultimediaUri(multimediaUri);
+        }
+
+        if (state.containsKey(MULTIMEDIA_LOADING_KEY)) {
+            boolean isLoading = state.getBoolean(MULTIMEDIA_LOADING_KEY, false);
+            mViewModel.setMultimediaLoading(isLoading);
+        }
     }
 }

@@ -23,6 +23,8 @@ import org.parceler.Parcels;
 
 import java.io.IOException;
 
+import static com.achievers.ui.add_evidence.AddEvidenceFragment.MULTIMEDIA_URI_KEY;
+import static com.achievers.ui.add_evidence.AddEvidenceFragment.TITLE_KEY;
 import static com.achievers.ui.evidence.EvidenceActivity.EXTRA_EVIDENCE;
 
 public class UploadEvidenceIntentService extends IntentService {
@@ -117,6 +119,10 @@ public class UploadEvidenceIntentService extends IntentService {
 
         if (evidence != null) {
             Bundle evidenceExtras = new Bundle();
+
+            evidenceExtras.putString(TITLE_KEY, evidence.getComment());
+
+            evidenceExtras.putParcelable(MULTIMEDIA_URI_KEY, evidence.getUri());
 
             evidenceExtras.putLong(AddEvidenceActivity.AchievementIdExtra,
                     evidence.getAchievementId());
