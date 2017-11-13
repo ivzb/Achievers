@@ -16,8 +16,8 @@ import com.achievers.data.source.achievements.AchievementsMockDataSource;
 import com.achievers.data.source.files.FilesMockDataSource;
 import com.achievers.ui.achievement.AchievementActivity;
 import com.achievers.ui.add_achievement.AddAchievementActivity;
-import com.achievers.utils.FileUtils;
 import com.achievers.utils.NotificationUtils;
+import com.achievers.utils.files.FileUtils;
 
 import org.parceler.Parcels;
 

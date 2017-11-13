@@ -16,8 +16,8 @@ import com.achievers.data.source.evidences.EvidencesMockDataSource;
 import com.achievers.data.source.files.FilesMockDataSource;
 import com.achievers.ui.add_evidence.AddEvidenceActivity;
 import com.achievers.ui.evidence.EvidenceActivity;
-import com.achievers.utils.FileUtils;
 import com.achievers.utils.NotificationUtils;
+import com.achievers.utils.files.FileUtils;
 
 import org.parceler.Parcels;
 

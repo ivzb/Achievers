@@ -2,6 +2,8 @@ package com.achievers.utils;
 
 import android.content.Context;
 
+import com.achievers.utils.files.FileUtils;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,8 +18,8 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
-import static com.achievers.utils.FileUtils.FileType.Picture;
-import static com.achievers.utils.FileUtils.FileType.Voice;
+import static com.achievers.utils.files.FileUtils.FileType.Picture;
+import static com.achievers.utils.files.FileUtils.FileType.Voice;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)

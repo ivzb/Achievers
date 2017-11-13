@@ -10,7 +10,7 @@ import android.support.v4.content.FileProvider;
 import com.achievers.R;
 import com.achievers.data.entities.Evidence;
 import com.achievers.ui._base.AbstractPresenter;
-import com.achievers.utils.FileUtils;
+import com.achievers.utils.files.FileUtils;
 import com.achievers.utils.ui.multimedia.MultimediaType;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaViewActionHandler;
@@ -28,8 +28,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
 
-import static com.achievers.utils.FileUtils.FileType.Picture;
 import static com.achievers.utils.Preconditions.checkNotNull;
+import static com.achievers.utils.files.FileUtils.FileType.Picture;
 
 public class AddEvidencePresenter
         extends AbstractPresenter<AddEvidenceContract.View>

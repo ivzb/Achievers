@@ -8,39 +8,42 @@ import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.achievers.ui._base.AbstractPresenter;
-import com.achievers.utils.FileUtils;
+import com.achievers.utils.files.factory.FileFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 
-import static com.achievers.utils.FileUtils.FileType.Voice;
 import static com.achievers.utils.Preconditions.checkNotNull;
 
 public class VoiceRecordingPresenter
         extends AbstractPresenter<VoiceRecordingContract.View>
         implements VoiceRecordingContract.Presenter {
 
-    private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
+    @VisibleForTesting
+    static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
 
+    private FileFactory mFileFactory;
     private MediaRecorder mRecorder;
 
     VoiceRecordingPresenter(
             @NonNull Context context,
             @NonNull VoiceRecordingContract.View view,
+            @NonNull FileFactory fileFactory,
             @NonNull MediaRecorder recorder) {
 
         mContext = checkNotNull(context);
         mView = checkNotNull(view);
+        mFileFactory = checkNotNull(fileFactory);
         mRecorder = checkNotNull(recorder);
     }
 
     @Override
     public void start() {
         try {
-            File file = FileUtils.createFile(mContext, new Date(), Voice);
+            File file = mFileFactory.createFile();
             mView.setFile(file);
         } catch (IOException e) {
             finishCanceled();
@@ -49,18 +52,20 @@ public class VoiceRecordingPresenter
 
     @Override
     public void requestRecordAudioPermission() {
-        String [] permissions = { Manifest.permission.RECORD_AUDIO };
+        String[] permissions = { Manifest.permission.RECORD_AUDIO };
         mView.requestPermissions(permissions, REQUEST_RECORD_AUDIO_PERMISSION);
     }
 
     @Override
     public void clickStartRecording() {
-        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mRecorder.setOutputFile(mView.getFile().getAbsolutePath());
-        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-
         try {
+            String outputPath = mView.getFile().getAbsolutePath();
+
+            mRecorder.setOutputFile(outputPath);
+            mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+
             mRecorder.prepare();
             mRecorder.start();
         } catch (IOException e) {

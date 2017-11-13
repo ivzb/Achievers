@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import com.achievers.R;
 import com.achievers.ui._base.AbstractActivity;
 import com.achievers.utils.ActivityUtils;
+import com.achievers.utils.files.factory.VoiceFileFactory;
 
 public class VoiceRecordingActivity extends AbstractActivity {
 
@@ -47,6 +48,7 @@ public class VoiceRecordingActivity extends AbstractActivity {
         view.setPresenter(new VoiceRecordingPresenter(
                 this,
                 view,
+                new VoiceFileFactory(this),
                 mRecorder));
     }
 
