@@ -3,9 +3,13 @@ package com.achievers.ui.evidence;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.achievers.data.source.evidences.EvidencesDataSource;
 import com.achievers.ui._base.AbstractPresenter;
+import com.achievers.utils.ui.multimedia.MultimediaType;
+import com.achievers.utils.ui.multimedia.MultimediaView;
+import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 
 import static com.achievers.utils.Preconditions.checkNotNull;
 
@@ -13,7 +17,8 @@ public class EvidencePresenter
         extends AbstractPresenter<EvidenceContract.View>
         implements EvidenceContract.Presenter {
 
-    private static final int REQUEST_READ_EXTERNAL_STORAGE_PERMISSION = 300;
+    @VisibleForTesting
+    static final int REQUEST_READ_EXTERNAL_STORAGE_PERMISSION = 300;
 
     private final EvidencesDataSource mEvidencesDataSource;
 
@@ -50,5 +55,22 @@ public class EvidencePresenter
         }
 
         mView.initMultimedia();
+    }
+
+    @Override
+    public void buildMultimedia(
+            MultimediaView view,
+            MultimediaType type,
+            String previewUrl,
+            BaseMultimediaPlayer player) {
+
+        try {
+            view.builder(type)
+                    .withUrl(previewUrl)
+                    .withPlayer(player)
+                    .build();
+        } catch (NullPointerException e) {
+            mView.showMultimediaError();
+        }
     }
 }

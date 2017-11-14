@@ -7,6 +7,9 @@ import com.achievers.data.entities.Evidence;
 import com.achievers.ui._base.contracts.BasePresenter;
 import com.achievers.ui._base.contracts.BaseView;
 import com.achievers.ui._base.contracts.BaseViewModel;
+import com.achievers.utils.ui.multimedia.MultimediaType;
+import com.achievers.utils.ui.multimedia.MultimediaView;
+import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 
 public interface EvidenceContract {
 
@@ -15,6 +18,8 @@ public interface EvidenceContract {
         void requestPermissions(String[] permissions, int requestCode);
 
         void initMultimedia();
+
+        void showMultimediaError();
 
         void finish();
     }
@@ -26,6 +31,12 @@ public interface EvidenceContract {
         void deliverPermissionsResult(
                 int requestCode,
                 int[] grantResults);
+
+        void buildMultimedia(
+                MultimediaView view,
+                MultimediaType type,
+                String previewUrl,
+                BaseMultimediaPlayer player);
     }
 
     interface ViewModel extends BaseViewModel {
@@ -33,5 +44,9 @@ public interface EvidenceContract {
         @Bindable
         Evidence getEvidence();
         void setEvidence(Evidence evidence);
+
+        @Bindable
+        boolean isMultimediaFailed();
+        void setMultimediaFailed();
     }
 }

@@ -24,10 +24,34 @@
                 android:id="@+id/mvEvidence"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:visibility="@{ viewModel.multimediaFailed ? View.GONE : View.VISIBLE }"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/glHorizontal" />
+
+            <ImageView
+                android:id="@+id/ivMultimediaFailed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_sad_face"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:visibility="@{ viewModel.multimediaFailed ? View.VISIBLE : View.GONE }"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/glHorizontalMultimedia" />
+
+            <TextView
+                android:id="@+id/tvMultimediaFailed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/failed_loading_evidence"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                style="@style/Base.TextAppearance.AppCompat.Title"
+                android:visibility="@{ viewModel.multimediaFailed ? View.VISIBLE : View.GONE }"
+                app:layout_constraintTop_toBottomOf="@+id/glHorizontalMultimedia"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent" />
 
             <android.support.constraint.Guideline
                 android:id="@+id/glHorizontal"
@@ -35,6 +59,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintGuide_percent="0.4" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/glHorizontalMultimedia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.5" />
 
             <!-- todo: include comments fragment -->
         </android.support.constraint.ConstraintLayout>

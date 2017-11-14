@@ -9,8 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.achievers.R;
+import com.achievers.data.entities.Evidence;
 import com.achievers.databinding.EvidenceFragBinding;
 import com.achievers.ui._base.AbstractFragment;
+import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 
 public abstract class EvidenceFragment
         extends AbstractFragment<EvidenceContract.Presenter, EvidenceContract.ViewModel, EvidenceFragBinding>
@@ -31,6 +33,13 @@ public abstract class EvidenceFragment
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+
+        mDataBinding.mvEvidence.release();
+    }
+
+    @Override
     public void onRequestPermissionsResult(
             int requestCode,
             @NonNull String[] permissions,
@@ -40,8 +49,23 @@ public abstract class EvidenceFragment
     }
 
     @Override
+    public void showMultimediaError() {
+        mViewModel.setMultimediaFailed();
+    }
+
+    @Override
     public void finish() {
         getActivity().setResult(Activity.RESULT_OK);
         getActivity().finish();
+    }
+
+    protected void initMultimedia(BaseMultimediaPlayer player) {
+        Evidence evidence = mViewModel.getEvidence();
+
+        mPresenter.buildMultimedia(
+                mDataBinding.mvEvidence,
+                evidence.getMultimediaType(),
+                evidence.getPreviewUrl(),
+                player);
     }
 }

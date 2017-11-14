@@ -11,6 +11,7 @@ public class EvidenceViewModel
         implements EvidenceContract.ViewModel {
 
     private Evidence mEvidence;
+    private boolean mIsMultimediaFailed;
 
     EvidenceViewModel(Evidence evidence) {
         setEvidence(evidence);
@@ -26,5 +27,17 @@ public class EvidenceViewModel
     public void setEvidence(Evidence evidence) {
         mEvidence = evidence;
         notifyPropertyChanged(BR.evidence);
+    }
+
+    @Bindable
+    @Override
+    public boolean isMultimediaFailed() {
+        return mIsMultimediaFailed;
+    }
+
+    @Override
+    public void setMultimediaFailed() {
+        mIsMultimediaFailed = true;
+        notifyPropertyChanged(BR.multimediaFailed);
     }
 }

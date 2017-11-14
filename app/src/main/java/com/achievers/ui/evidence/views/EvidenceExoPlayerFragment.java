@@ -22,13 +22,6 @@ public abstract class EvidenceExoPlayerFragment extends EvidenceFragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-
-        mDataBinding.mvEvidence.release();
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
 
