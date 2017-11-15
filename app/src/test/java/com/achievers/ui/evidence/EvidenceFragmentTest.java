@@ -7,9 +7,11 @@ import com.achievers.BuildConfig;
 import com.achievers.ui._base._shadows.ResourcesCompatShadow;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
@@ -19,6 +21,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.robolectric.Shadows.shadowOf;
+import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.LOLLIPOP,
@@ -31,6 +34,19 @@ public abstract class EvidenceFragmentTest {
     protected @Mock EvidenceViewModel mViewModel;
 
     protected EvidenceFragment mFragment;
+
+    @Before
+    public void before() throws Exception {
+        MockitoAnnotations.initMocks(this);
+
+        mFragment.setPresenter(mPresenter);
+        mFragment.setViewModel(mViewModel);
+
+        startFragment(mFragment);
+
+        verify(mPresenter).start();
+        verify(mPresenter).requestReadExternalStoragePermission();
+    }
 
     @After
     public void after() {

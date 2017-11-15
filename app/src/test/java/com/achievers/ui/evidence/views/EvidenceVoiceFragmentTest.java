@@ -6,18 +6,24 @@ package com.achievers.ui.evidence.views;
 //@Config(sdk = Build.VERSION_CODES.LOLLIPOP,
 //        constants = BuildConfig.class,
 //        application = AchieversDebugTestApplication.class)
-//public class EvidencePhotoFragmentTest extends EvidenceFragmentTest {
+//public class EvidenceVoiceFragmentTest extends EvidenceFragmentTest {
 //
-//    public EvidencePhotoFragmentTest() {
-//        mFragment = new EvidencePhotoFragment();
+//    private @Mock Evidence mEvidence;
+//
+//    public EvidenceVoiceFragmentTest() {
+//        mFragment = new EvidenceVoiceFragment();
 //    }
 //
 //    @Test
 //    public void initMultimedia() {
+//        // arrange
+//        when(mViewModel.getEvidence()).thenReturn(mEvidence);
+//
 //        // act
 //        mFragment.initMultimedia();
 //
 //        // assert
+//        verify(mViewModel).getEvidence();
 //        verify(mPresenter).buildMultimedia(
 //                isA(MultimediaView.class),
 //                isA(MultimediaType.class),
