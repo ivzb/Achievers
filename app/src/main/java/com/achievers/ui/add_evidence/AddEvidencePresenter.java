@@ -5,12 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v4.content.FileProvider;
+import android.support.annotation.VisibleForTesting;
 
 import com.achievers.R;
 import com.achievers.data.entities.Evidence;
 import com.achievers.ui._base.AbstractPresenter;
-import com.achievers.utils.files.FileUtils;
+import com.achievers.utils.files.factory.FileFactory;
 import com.achievers.utils.ui.multimedia.MultimediaType;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaViewActionHandler;
@@ -26,32 +26,37 @@ import com.google.android.exoplayer2.SimpleExoPlayer;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Date;
 
 import static com.achievers.utils.Preconditions.checkNotNull;
-import static com.achievers.utils.files.FileUtils.FileType.Picture;
 
 public class AddEvidencePresenter
         extends AbstractPresenter<AddEvidenceContract.View>
         implements AddEvidenceContract.Presenter {
 
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final int REQUEST_IMAGE_PICK = 2;
-    private static final int REQUEST_VIDEO_CAPTURE = 3;
-    private static final int REQUEST_VOICE_CAPTURE = 4;
+    @VisibleForTesting
+    public static final int REQUEST_IMAGE_CAPTURE = 1;
+    @VisibleForTesting
+    public static final int REQUEST_VIDEO_CAPTURE = 2;
+    @VisibleForTesting
+    public static final int REQUEST_VOICE_CAPTURE = 3;
 
+    private final FileFactory mFileFactory;
     private final SimpleExoPlayer mExoPlayer;
 
     AddEvidencePresenter(
             @NonNull Context context,
             @NonNull AddEvidenceContract.View view,
+            @NonNull FileFactory fileFactory,
             @NonNull SimpleExoPlayer exoPlayer) {
 
         checkNotNull(context);
         checkNotNull(view);
+        checkNotNull(fileFactory);
+        checkNotNull(exoPlayer);
 
         mContext = context;
         mView = view;
+        mFileFactory = fileFactory;
         mExoPlayer = exoPlayer;
     }
 
@@ -64,21 +69,18 @@ public class AddEvidencePresenter
     public void clickTakePicture() {
         if (!mView.isActive()) return;
 
-        java.io.File photoFile = null;
+        Uri uri;
 
         try {
-            photoFile = FileUtils.createFile(mContext, new Date(), Picture);
-        } catch (IOException ex) {
+            java.io.File photoFile = mFileFactory.createFile();
+            uri = mFileFactory.getUri(photoFile);
+        } catch (IOException | NullPointerException e) {
+            // todo: check why message isn't being displayed
             mView.showErrorMessage("Could not take picture. Please try again.");
+            return;
         }
 
-        if (photoFile != null) {
-            Uri capturedImageUri = FileProvider.getUriForFile(mContext,
-                    "com.achievers.fileprovider",
-                    photoFile);
-
-            mView.takePicture(capturedImageUri, REQUEST_IMAGE_CAPTURE);
-        }
+        mView.takePicture(uri, REQUEST_IMAGE_CAPTURE);
     }
 
     @Override

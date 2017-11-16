@@ -8,6 +8,7 @@ import com.achievers.R;
 import com.achievers.ui._base.AbstractActivity;
 import com.achievers.utils.ActivityUtils;
 import com.achievers.utils.ExoPlayerUtils;
+import com.achievers.utils.files.factory.PictureFileFactory;
 import com.achievers.utils.ui.multimedia.MultimediaType;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 
@@ -68,7 +69,12 @@ public class AddEvidenceActivity extends AbstractActivity {
         mExoPlayer = ExoPlayerUtils.initialize(this);
 
         view.setViewModel(new AddEvidenceViewModel(achievementId, multimediaType));
-        view.setPresenter(new AddEvidencePresenter(this, view, mExoPlayer));
+        view.setPresenter(
+                new AddEvidencePresenter(
+                        this,
+                        view,
+                        new PictureFileFactory(this),
+                        mExoPlayer));
     }
 
     @Override

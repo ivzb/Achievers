@@ -84,6 +84,21 @@ public class AddAchievementPresenterTestTest {
         verifyNoMoreInteractions(mInvolvementsDataSource);
     }
 
+    @Test(expected = NullPointerException.class)
+    public void noContext_shouldThrow() {
+        new AddAchievementPresenter(null, mView, mInvolvementsDataSource);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void noFile_shouldThrow() {
+        new AddAchievementPresenter(mContext, null, mInvolvementsDataSource);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void noInvolvementsDataSource_shouldThrow() {
+        new AddAchievementPresenter(mContext, mView, null);
+    }
+
     @Test
     public void loadInvolvements_initiallyInactiveView() {
         // arrange

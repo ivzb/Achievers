@@ -6,9 +6,7 @@ import android.support.annotation.VisibleForTesting;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 
-import com.achievers.R;
 import com.achievers.databinding.MultimediaViewBinding;
 import com.achievers.ui._base.contracts.action_handlers.BaseMultimediaActionHandler;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaBuilder;
@@ -91,9 +89,10 @@ public class MultimediaView
         mContext = checkNotNull(context);
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.multimedia_view, this, true);
-
-        MultimediaViewBinding binding = MultimediaViewBinding.bind(view);
+        MultimediaViewBinding binding = MultimediaViewBinding.inflate(
+                layoutInflater,
+                this,
+                true);
 
         MultimediaViewModel viewModel = new MultimediaViewModel();
         viewModel.setControllerState(None);
