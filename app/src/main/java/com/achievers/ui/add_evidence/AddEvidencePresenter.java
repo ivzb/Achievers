@@ -34,7 +34,7 @@ public class AddEvidencePresenter
         implements AddEvidenceContract.Presenter {
 
     @VisibleForTesting
-    public static final int REQUEST_IMAGE_CAPTURE = 1;
+    public static final int REQUEST_PHOTO_CAPTURE = 1;
     @VisibleForTesting
     public static final int REQUEST_VIDEO_CAPTURE = 2;
     @VisibleForTesting
@@ -80,7 +80,7 @@ public class AddEvidencePresenter
             return;
         }
 
-        mView.takePicture(uri, REQUEST_IMAGE_CAPTURE);
+        mView.takePicture(uri, REQUEST_PHOTO_CAPTURE);
     }
 
     @Override
@@ -118,7 +118,7 @@ public class AddEvidencePresenter
             MultimediaType multimediaType;
 
             switch (requestCode) {
-                case REQUEST_IMAGE_CAPTURE:
+                case REQUEST_PHOTO_CAPTURE:
                     multimediaType = MultimediaType.Photo;
                     break;
                 case REQUEST_VIDEO_CAPTURE:
