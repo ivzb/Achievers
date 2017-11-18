@@ -33,23 +33,18 @@ He might react to it, read/write comments or swipe left/right for navigation bet
 5. Diamond
 
 # TODO
-1. ScrollChildSwipeRefreshLayout - show user friendly message when there is no data inside RecyclerView
-2. AchievementView
-   1. Upon evidence click, open EvidenceView with following support: Image/Video/Voice
-   2. Upload Evidence
-3. User profile
+1. User profile
    1. Own achievements - define yourself goals and make little steps everyday and observe how you are improving yourself overtime.
    2. Own evidence
    3. Friend people (either by navigating to their profiles or scanning their QR codes)
-4. Achievements structure
-5. Quests - essential part
-6. Groups - achieve something with friends/strangers
-7. Privacy
+2. Quests - essential part
+3. Groups - achieve something with friends/strangers
+4. Privacy
    1. Public
-   2. Protected
-   3. Private
-8. Authentication
-9. Local data source using Room
+   2. Protected
+   3. Private
+5. Authentication
+6. Local data source using Room
 
 # Dependencies
 1) GSON - A Java serialization/deserialization library to convert Java Objects into JSON and back. [GitHub](https://github.com/google/gson)

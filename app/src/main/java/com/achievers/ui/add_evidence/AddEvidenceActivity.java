@@ -80,6 +80,7 @@ public class AddEvidenceActivity extends AbstractActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         mExoPlayer.release();
         mExoPlayer = null;
     }
