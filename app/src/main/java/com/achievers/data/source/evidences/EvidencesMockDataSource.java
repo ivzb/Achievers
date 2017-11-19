@@ -6,8 +6,8 @@ import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities.Evidence;
-import com.achievers.generator.BaseGenerator;
 import com.achievers.generator.EvidencesGenerator;
+import com.achievers.generator._base.BaseGenerator;
 
 import java.util.ArrayList;
 import java.util.Date;

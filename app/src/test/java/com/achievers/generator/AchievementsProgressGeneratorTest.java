@@ -1,6 +1,6 @@
 package com.achievers.generator;
 
-import com.achievers.data.entities.Evidence;
+import com.achievers.data.entities.AchievementProgress;
 import com.achievers.generator._base.BaseGenerator;
 import com.achievers.utils.GeneratorUtils;
 
@@ -14,37 +14,44 @@ import io.bloco.faker.Faker;
 
 import static junit.framework.Assert.assertEquals;
 
-public class EvidencesGeneratorTest {
+public class AchievementsProgressGeneratorTest {
 
-    private static String sFailMessage = "Generated evidence does not match";
+    private static String sFailMessage = "Generated achievement progress does not match";
 
-    private BaseGenerator<Evidence> mGenerator;
+    private BaseGenerator<AchievementProgress> mGenerator;
 
     @Before
     public void before() {
         GeneratorUtils.initialize(new Random(), new Faker());
-        mGenerator = new EvidencesGenerator();
+        mGenerator = new AchievementsProgressGenerator();
     }
 
     @Test
-    public void testGeneratingSingleEvidence() {
+    public void testGeneratingSingleAchievementProgress() {
+        // arrange
         long id = 5;
-        Evidence expected = new Evidence(id);
+        AchievementProgress expected = new AchievementProgress(id);
 
-        Evidence actual = mGenerator.single(id);
+        // act
+        AchievementProgress actual = mGenerator.single(id);
 
+        // assert
         assertEquals(sFailMessage, expected.getId(), actual.getId());
     }
 
     @Test
     public void testGeneratingMultipleEvidence() {
+        // arrange
         long id = 5;
         int size = 5;
 
-        List<Evidence> actual = mGenerator.multiple(id, size);
+        // act
+        List<AchievementProgress> actual = mGenerator.multiple(id, size);
 
         for (int i = 0; i < size; i++) {
-            Evidence expected = new Evidence(id + i);
+            AchievementProgress expected = new AchievementProgress(id + i);
+
+            // assert
             assertEquals(sFailMessage, expected.getId(), actual.get(i).getId());
         }
     }

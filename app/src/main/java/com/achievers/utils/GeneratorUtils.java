@@ -4,14 +4,12 @@ import android.net.Uri;
 
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.AchievementProgress;
-import com.achievers.data.entities.AchievementType;
 import com.achievers.data.entities.Evidence;
 import com.achievers.data.entities.Involvement;
+import com.achievers.data.entities.Quest;
 import com.achievers.utils.ui.multimedia.MultimediaType;
 
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -27,10 +25,12 @@ public class GeneratorUtils {
     private static GeneratorUtils sInstance;
 
     private static final String sImagePathFormat = "https://unsplash.it/500/500/?random&a=%d";
+    public static final String sVideoPath = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
+    public static final String sVoicePath = "https://archive.org/download/testmp3testfile/mpthreetest.mp3";
 
     private GeneratorUtils(Random random, Faker faker) {
-        mRandom = random;
-        mFaker = faker;
+        mRandom = checkNotNull(random);
+        mFaker = checkNotNull(faker);
     }
 
     public static void initialize(Random random, Faker faker) {
@@ -38,88 +38,63 @@ public class GeneratorUtils {
     }
 
     public static GeneratorUtils getInstance() {
-        return sInstance;
+        return checkNotNull(sInstance);
+    }
+
+    public static void destroyInstance() {
+        sInstance = null;
+    }
+
+    public <T extends Enum<T>> T getEnum(T[] types) {
+        int selected = mRandom.nextInt(types.length);
+        return types[selected];
     }
 
     public String getImageUrl() {
-        checkNotNull(mRandom);
-
         return String.format(
                 Locale.getDefault(),
                 sImagePathFormat,
                 mRandom.nextInt(100));
     }
 
-    public Involvement getInvolvement() {
-        checkNotNull(mRandom);
-
-        List<Involvement> values = Arrays.asList(Involvement.values());
-        int index = mRandom.nextInt(values.size());
-        return values.get(index);
-    }
-
     public Achievement getAchievement(long id, Date createdOn) {
-        checkNotNull(mFaker);
-        checkNotNull(mRandom);
-
         String title = mFaker.lorem.word();
         String description = mFaker.lorem.sentence(5);
-        Involvement involvement = getInvolvement();
+        Involvement involvement = getEnum(Involvement.values());
         Uri imageUri = Uri.parse(getImageUrl());
 
-        return new Achievement(id, title, description, involvement, imageUri);
+        return new Achievement(id, title, description, involvement, imageUri, createdOn);
     }
 
     public AchievementProgress getAchievementProgress(long id, Date createdOn) {
-        checkNotNull(mFaker);
-        checkNotNull(mRandom);
-
         long achievementId = mRandom.nextLong();
         long userId = mRandom.nextLong();
-        AchievementType achievementType = getAchievementType();
-        int total = mRandom.nextInt(25) + 1;
-        int accomplished = mRandom.nextInt(total + 1);
+        int total = mRandom.nextInt(25);
+        int accomplished = mRandom.nextInt(total);
+        Achievement.Type type = getEnum(Achievement.Type.values());
 
         return new AchievementProgress(
                 id,
                 achievementId,
                 userId,
-                achievementType,
+                type,
                 total,
-                accomplished);
-    }
-
-    public AchievementType getAchievementType() {
-        checkNotNull(mRandom);
-
-        List<AchievementType> values = Arrays.asList(AchievementType.values());
-        int index = mRandom.nextInt(values.size());
-        return values.get(index);
-    }
-
-    public MultimediaType getMultimediaType() {
-        checkNotNull(mRandom);
-
-        List<MultimediaType> values = Arrays.asList(MultimediaType.values());
-        int index = mRandom.nextInt(values.size());
-        return values.get(index);
+                accomplished,
+                createdOn);
     }
 
     public Evidence getEvidence(long id, Date createdOn) {
-        checkNotNull(mFaker);
-        checkNotNull(mRandom);
-
         String comment = mFaker.lorem.sentence(5);
-        MultimediaType multimediaType = getMultimediaType();
+        MultimediaType multimediaType = getEnum(MultimediaType.values());
         String previewUrl = getImageUrl();
         String url;
 
         switch (multimediaType) {
             case Video:
-                url = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
+                url = sVideoPath;
                 break;
             case Voice:
-                url = "https://archive.org/download/testmp3testfile/mpthreetest.mp3";
+                url = sVoicePath;
                 break;
             default:
                 url = previewUrl;
@@ -127,5 +102,16 @@ public class GeneratorUtils {
         }
 
         return new Evidence(id, comment, multimediaType, previewUrl, Uri.parse(url), createdOn);
+    }
+
+    public Quest getQuest(long id, Date startedOn) {
+        String name = mFaker.lorem.word();
+        long[] achievementIds = new long[mRandom.nextInt(15)];
+
+        for (int i = 0; i < achievementIds.length; i++) {
+            achievementIds[i] = mRandom.nextInt(100);
+        }
+
+        return new Quest(id, name, achievementIds, startedOn);
     }
 }

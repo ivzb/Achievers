@@ -1,6 +1,6 @@
 package com.achievers.generator;
 
-import com.achievers.data.entities.Evidence;
+import com.achievers.data.entities.Quest;
 import com.achievers.generator._base.BaseGenerator;
 import com.achievers.utils.GeneratorUtils;
 
@@ -14,24 +14,24 @@ import io.bloco.faker.Faker;
 
 import static junit.framework.Assert.assertEquals;
 
-public class EvidencesGeneratorTest {
+public class QuestsGeneratorTest {
 
-    private static String sFailMessage = "Generated evidence does not match";
+    private static String sFailMessage = "Generated quest does not match";
 
-    private BaseGenerator<Evidence> mGenerator;
+    private BaseGenerator<Quest> mGenerator;
 
     @Before
     public void before() {
         GeneratorUtils.initialize(new Random(), new Faker());
-        mGenerator = new EvidencesGenerator();
+        mGenerator = new QuestsGenerator();
     }
 
     @Test
-    public void testGeneratingSingleEvidence() {
+    public void testGeneratingSingleQuest() {
         long id = 5;
-        Evidence expected = new Evidence(id);
+        Quest expected = new Quest(id);
 
-        Evidence actual = mGenerator.single(id);
+        Quest actual = mGenerator.single(id);
 
         assertEquals(sFailMessage, expected.getId(), actual.getId());
     }
@@ -41,10 +41,10 @@ public class EvidencesGeneratorTest {
         long id = 5;
         int size = 5;
 
-        List<Evidence> actual = mGenerator.multiple(id, size);
+        List<Quest> actual = mGenerator.multiple(id, size);
 
         for (int i = 0; i < size; i++) {
-            Evidence expected = new Evidence(id + i);
+            Quest expected = new Quest(id + i);
             assertEquals(sFailMessage, expected.getId(), actual.get(i).getId());
         }
     }

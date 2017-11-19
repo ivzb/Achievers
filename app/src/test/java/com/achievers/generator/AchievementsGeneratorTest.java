@@ -1,6 +1,7 @@
 package com.achievers.generator;
 
 import com.achievers.data.entities.Achievement;
+import com.achievers.generator._base.BaseGenerator;
 import com.achievers.utils.GeneratorUtils;
 
 import org.junit.Before;

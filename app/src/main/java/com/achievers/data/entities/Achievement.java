@@ -52,9 +52,10 @@ public class Achievement implements BaseModel {
             @NonNull String title,
             @NonNull String description,
             @NonNull Involvement involvement,
-            @NonNull Uri pictureUri) {
+            @NonNull Uri pictureUri,
+            @NonNull Date createdOn) {
 
-        this(title, description, involvement, pictureUri);
+        this(title, description, involvement, pictureUri, createdOn);
 
         this.id = id;
     }
@@ -65,10 +66,21 @@ public class Achievement implements BaseModel {
             @NonNull Involvement involvement,
             @NonNull Uri pictureUri) {
 
+        this(title, description, involvement, pictureUri, null);
+    }
+
+    public Achievement(
+            @NonNull String title,
+            @NonNull String description,
+            @NonNull Involvement involvement,
+            @NonNull Uri pictureUri,
+            Date createdOn) {
+
         this.title = title;
         this.description = description;
         this.involvement = involvement;
         this.pictureUri = pictureUri;
+        this.createdOn = createdOn;
     }
 
     @Override
@@ -114,16 +126,16 @@ public class Achievement implements BaseModel {
         return createdOn;
     }
 
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
+    }
+
     public int getInvolvementPosition() {
         return this.mInvolvementPosition;
     }
 
     public void setInvolvementPosition(int position) {
         this.mInvolvementPosition = position;
-    }
-
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
     }
 
     @Override
@@ -155,5 +167,21 @@ public class Achievement implements BaseModel {
     @Override
     public String toString() {
         return "Achievement #" + this.getId() + " with title: " + this.getTitle() + " and description: " + this.getDescription();
+    }
+
+    public enum Type {
+        SingleAction(1),
+        Progressive(2),
+        Meta(3);
+
+        private int mId;
+
+        Type(int id) {
+            mId = id;
+        }
+
+        public int getId() {
+            return mId;
+        }
     }
 }
