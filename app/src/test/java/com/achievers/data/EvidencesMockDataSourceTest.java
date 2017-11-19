@@ -14,29 +14,13 @@ import java.util.Random;
 
 import io.bloco.faker.Faker;
 
-import static junit.framework.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
-
 @RunWith(MockitoJUnitRunner.class)
 public class EvidencesMockDataSourceTest extends BaseMockDataSourceTest<Evidence> {
 
     @Before
     public void before() {
         GeneratorUtils.initialize(new Random(), new Faker());
-        mDataSource = EvidencesMockDataSource.getInstance();
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void load_nullId_shouldThrow() {
-        int page = 1;
-
-        mDataSource.load(null, page, mLoadCallback);
-        verify(mLoadCallback).onFailure(mFailureCaptor.capture());
-
-        final String actual = mFailureCaptor.getValue();
-        final String expected = "Please provide non negative page.";
-
-        assertEquals(expected, actual);
+        super.setDataSource(EvidencesMockDataSource.getInstance());
     }
 
     @Test

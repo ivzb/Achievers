@@ -69,8 +69,8 @@ public class GeneratorUtils {
     public AchievementProgress getAchievementProgress(long id, Date createdOn) {
         long achievementId = mRandom.nextLong();
         long userId = mRandom.nextLong();
-        int total = mRandom.nextInt(25);
-        int accomplished = mRandom.nextInt(total);
+        int total = mRandom.nextInt(25) + 1;
+        int accomplished = mRandom.nextInt(total) + 1;
         Achievement.Type type = getEnum(Achievement.Type.values());
 
         return new AchievementProgress(

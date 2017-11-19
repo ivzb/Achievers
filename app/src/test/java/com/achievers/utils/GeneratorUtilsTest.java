@@ -196,8 +196,8 @@ public class GeneratorUtilsTest {
                 .thenReturn(userId);
 
         when(mRandom.nextInt(anyInt()))
-                .thenReturn(total)
-                .thenReturn(accomplished)
+                .thenReturn(total - 1)
+                .thenReturn(accomplished - 1)
                 .thenReturn(type.ordinal());
 
         AchievementProgress expected = new AchievementProgress(
