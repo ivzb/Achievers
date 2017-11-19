@@ -1,13 +1,13 @@
-package com.achievers.ui.achieveemnts_progress;
+package com.achievers.ui.contributions;
 
 import android.databinding.BaseObservable;
 
 import com.achievers.data.entities.AchievementProgress;
 import com.achievers.ui._base.contracts.adapters.BaseAdapter;
 
-public class AchievementsProgressViewModel
+public class ContributionsViewModel
         extends BaseObservable
-        implements AchievementsProgressContract.ViewModel {
+        implements ContributionsContract.ViewModel {
 
     private int mPage;
     private BaseAdapter<AchievementProgress> mAdapter;

@@ -13,7 +13,7 @@ public class AchievementsActivityMock extends AbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.achievements_act);
+        setContentView(R.layout.home_act);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -1,4 +1,4 @@
-package com.achievers.ui.achieveemnts_progress.adapter;
+package com.achievers.ui.contributions.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,9 +10,9 @@ import com.achievers.databinding.AchievementsProgressRecyclerItemBinding;
 import com.achievers.ui._base.AbstractAdapter;
 import com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler;
 
-public class AchievementsProgressAdapter extends AbstractAdapter<AchievementProgress> {
+public class ContributionsAdapter extends AbstractAdapter<AchievementProgress> {
 
-    public AchievementsProgressAdapter(
+    public ContributionsAdapter(
             Context context,
             BaseAdapterActionHandler<AchievementProgress> actionHandler) {
 
@@ -20,7 +20,7 @@ public class AchievementsProgressAdapter extends AbstractAdapter<AchievementProg
     }
 
     @Override
-    public AchievementsProgressAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ContributionsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);

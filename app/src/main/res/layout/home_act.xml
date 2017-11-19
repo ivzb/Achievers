@@ -6,7 +6,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.achievements.AchievementsActivity"
+    tools:context=".ui.home.HomeActivity"
     tools:openDrawer="start">
 
     <LinearLayout
@@ -40,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/white" />
 
+            <!-- todo: remove fab and add it to menu in achievements fragment -->
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fabAddAchievement"
                 android:layout_width="wrap_content"

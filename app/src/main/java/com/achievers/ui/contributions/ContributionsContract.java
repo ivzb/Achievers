@@ -1,4 +1,4 @@
-package com.achievers.ui.achieveemnts_progress;
+package com.achievers.ui.contributions;
 
 import android.databinding.ViewDataBinding;
 
@@ -10,7 +10,7 @@ import com.achievers.ui._base.contracts.adapters.BaseAdapter;
 
 import java.util.List;
 
-public class AchievementsProgressContract {
+public class ContributionsContract {
 
     public interface View<DB extends ViewDataBinding>
             extends BaseView<Presenter, ViewModel, DB> {

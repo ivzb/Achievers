@@ -1,4 +1,4 @@
-package com.achievers.ui.achieveemnts_progress;
+package com.achievers.ui.contributions;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -13,15 +13,15 @@ import java.util.List;
 import static com.achievers.Config.RECYCLER_INITIAL_PAGE;
 import static com.achievers.utils.Preconditions.checkNotNull;
 
-public class AchievementsProgressPresenter
-        extends AbstractPresenter<AchievementsProgressContract.View>
-        implements AchievementsProgressContract.Presenter {
+public class ContributionsPresenter
+        extends AbstractPresenter<ContributionsContract.View>
+        implements ContributionsContract.Presenter {
 
     private final AchievementsProgressDataSource mDataSource;
 
-    public AchievementsProgressPresenter(
+    public ContributionsPresenter(
             @NonNull Context context,
-            @NonNull AchievementsProgressContract.View view,
+            @NonNull ContributionsContract.View view,
             @NonNull AchievementsProgressDataSource dataSource) {
 
         mContext = checkNotNull(context, "context cannot be null");

@@ -5,7 +5,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.achievers.R;
 import com.achievers.ui._base.AbstractScreenTest;
-import com.achievers.ui.achievements.AchievementsActivity;
+import com.achievers.ui.home.HomeActivity;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,10 +19,10 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class AchievementsScreenTest extends AbstractScreenTest<AchievementsActivity> {
+public class AchievementsScreenTest extends AbstractScreenTest<HomeActivity> {
 
     public AchievementsScreenTest() {
-        super(AchievementsActivity.class);
+        super(HomeActivity.class);
     }
 
     @Test

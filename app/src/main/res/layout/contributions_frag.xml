@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.achievers.ui.achieveemnts_progress.AchievementsProgressContract.ViewModel" />
+            type="com.achievers.ui.contributions.ContributionsContract.ViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -19,7 +19,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Activity"
+            android:text="@string/quests"
             android:padding="@dimen/spacing_medium"
             style="@style/TextAppearance.AppCompat.Title"
             app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,7 @@
             android:id="@+id/contributionsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Contributions this week"
+            android:text="@string/contributions_this_week"
             android:padding="@dimen/spacing_medium"
             style="@style/TextAppearance.AppCompat.Title"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +63,7 @@
             android:id="@+id/levelTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Level"
+            android:text="@string/level"
             android:padding="@dimen/spacing_medium"
             style="@style/TextAppearance.AppCompat.Title"
             app:layout_constraintStart_toStartOf="parent"

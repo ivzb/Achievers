@@ -53,8 +53,8 @@ public class CategoriesPresenter
 //        this.mOpenAchievementCallback = new OpenAchievementCallback() {
 //            @Override
 //            public void onOpen(Integer categoryId) {
-//                Intent intent = new Intent(mContext, AchievementsActivity.class);
-//                intent.putExtra(AchievementsActivity.EXTRA_CATEGORY_ID, categoryId);
+//                Intent intent = new Intent(mContext, HomeActivity.class);
+//                intent.putExtra(HomeActivity.EXTRA_CATEGORY_ID, categoryId);
 //                mContext.startActivity(intent);
 //            }
 //        };
@@ -73,7 +73,7 @@ public class CategoriesPresenter
     @Override
     public void result(int requestCode, int resultCode) {
         // If a Category was successfully added, show snackbar
-//        if (AddEditCategoryActivity.REQUEST_ADD_CATEGORY == requestCode && AchievementsActivity.RESULT_OK == resultCode) {
+//        if (AddEditCategoryActivity.REQUEST_ADD_CATEGORY == requestCode && HomeActivity.RESULT_OK == resultCode) {
 //            mCategoriesView.showSuccessfullySavedMessage();
 //        }
     }

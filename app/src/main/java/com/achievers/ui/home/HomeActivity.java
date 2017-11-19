@@ -1,4 +1,4 @@
-package com.achievers.ui.achievements;
+package com.achievers.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,16 +11,18 @@ import android.view.View;
 
 import com.achievers.R;
 import com.achievers.ui._base.AbstractActivity;
-import com.achievers.ui.achieveemnts_progress.AchievementsProgressFragment;
-import com.achievers.ui.achievements.adapters.AchievementsPagerAdapter;
+import com.achievers.ui.achievements.AchievementsFragment;
 import com.achievers.ui.add_achievement.AddAchievementActivity;
+import com.achievers.ui.contributions.ContributionsFragment;
+import com.achievers.ui.home.adapters.HomeAdapter;
+import com.achievers.ui.quests.QuestsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.achievers.utils.Preconditions.checkNotNull;
 
-public class AchievementsActivity
+public class HomeActivity
         extends AbstractActivity
         implements View.OnClickListener {
 
@@ -28,7 +30,7 @@ public class AchievementsActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.achievements_act);
+        setContentView(R.layout.home_act);
 
         FloatingActionButton fab = findViewById(R.id.fabAddAchievement);
         fab.setOnClickListener(this);
@@ -37,7 +39,7 @@ public class AchievementsActivity
 
         ViewPager viewPager = findViewById(R.id.view_pager);
 
-        AchievementsPagerAdapter adapter = new AchievementsPagerAdapter(
+        HomeAdapter adapter = new HomeAdapter(
                 getSupportFragmentManager(),
                 achievementsMetadata.getFragments());
         viewPager.setAdapter(adapter);
@@ -58,19 +60,19 @@ public class AchievementsActivity
         ViewPagerMetadata achievementsMetadata = new ViewPagerMetadata(3);
 
         achievementsMetadata.add(
+                new QuestsFragment(),
+                "Quests",
+                R.drawable.ic_subscriptions);
+
+        achievementsMetadata.add(
                 new AchievementsFragment(),
                 "Home",
                 R.drawable.ic_home);
 
         achievementsMetadata.add(
-                new AchievementsProgressFragment(),
-                "Trending",
+                new ContributionsFragment(),
+                "Contributions",
                 R.drawable.ic_trending);
-
-        achievementsMetadata.add(
-                new AchievementsFragment(),
-                "Subscriptions",
-                R.drawable.ic_subscriptions);
 
         return achievementsMetadata;
     }

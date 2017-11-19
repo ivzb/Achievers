@@ -1,4 +1,4 @@
-package com.achievers.ui.achieveemnts_progress;
+package com.achievers.ui.contributions;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,34 +14,35 @@ import android.widget.SeekBar;
 import com.achievers.R;
 import com.achievers.data.entities.AchievementProgress;
 import com.achievers.data.source.achievements_progress.AchievementsProgressMockDataSource;
-import com.achievers.databinding.AchievementProgressFragBinding;
+import com.achievers.databinding.ContributionsFragBinding;
 import com.achievers.ui._base.AbstractFragment;
 import com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler;
 import com.achievers.ui._base.contracts.adapters.BaseAdapter;
-import com.achievers.ui.achieveemnts_progress.adapter.AchievementsProgressAdapter;
+import com.achievers.ui.contributions.adapters.ContributionsAdapter;
 import com.achievers.utils.ui.EndlessRecyclerViewScrollListener;
 
 import java.util.List;
 import java.util.Random;
 
-public class AchievementsProgressFragment
-        extends AbstractFragment<AchievementsProgressContract.Presenter, AchievementsProgressContract.ViewModel, AchievementProgressFragBinding>
-        implements AchievementsProgressContract.View<AchievementProgressFragBinding>, BaseAdapterActionHandler<AchievementProgress>,
+public class ContributionsFragment
+        extends AbstractFragment<ContributionsContract.Presenter, ContributionsContract.ViewModel, ContributionsFragBinding>
+        implements ContributionsContract.View<ContributionsFragBinding>, BaseAdapterActionHandler<AchievementProgress>,
             SwipeRefreshLayout.OnRefreshListener {
 
-    public AchievementsProgressFragment() {
+    public ContributionsFragment() {
 
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.achievement_progress_frag, container, false);
+        super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.contributions_frag, container, false);
 
-        mDataBinding = AchievementProgressFragBinding.bind(view);
+        mDataBinding = ContributionsFragBinding.bind(view);
 
-        if (mViewModel == null) mViewModel = new AchievementsProgressViewModel();
-        if (mPresenter == null) mPresenter = new AchievementsProgressPresenter(
+        if (mViewModel == null) mViewModel = new ContributionsViewModel();
+        if (mPresenter == null) mPresenter = new ContributionsPresenter(
             getContext(), 
             this, 
             AchievementsProgressMockDataSource.getInstance());
@@ -131,7 +132,7 @@ public class AchievementsProgressFragment
     }
 
     private void setUpAchievementsProgressRecycler(Context context) {
-        BaseAdapter<AchievementProgress> adapter = new AchievementsProgressAdapter(
+        BaseAdapter<AchievementProgress> adapter = new ContributionsAdapter(
             getContext(), 
             this);
 

@@ -9,6 +9,7 @@ import com.achievers.ui._base.AbstractActivityTest;
 import com.achievers.ui._base._shadows.ResourcesCompatShadow;
 import com.achievers.ui.achievement.AchievementActivity;
 import com.achievers.ui.add_achievement.AddAchievementActivity;
+import com.achievers.ui.home.HomeActivity;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,10 +21,10 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(shadows = { ResourcesCompatShadow.class })
-public class AchievementsActivityTest extends AbstractActivityTest<AchievementsActivity> {
+public class AchievementsActivityTest extends AbstractActivityTest<HomeActivity> {
 
     public AchievementsActivityTest() {
-        super(AchievementsActivity.class);
+        super(HomeActivity.class);
     }
 
     @Test

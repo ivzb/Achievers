@@ -49,4 +49,7 @@
     <string name="save">Save</string>
     <string name="profile_picture">Profile picture</string>
     <string name="failed_loading_evidence">Failed loading evidence.</string>
+    <string name="quests">Quests</string>
+    <string name="level">Level</string>
+    <string name="contributions_this_week">Contributions this week</string>
 </resources>

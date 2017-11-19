@@ -28,7 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.achievements.AchievementsActivity" />
+        <activity android:name=".ui.home.HomeActivity" />
         <activity android:name=".ui.achievement.AchievementActivity" />
         <activity android:name=".ui.add_achievement.AddAchievementActivity" />
         <activity android:name=".ui.evidence.EvidenceActivity" />

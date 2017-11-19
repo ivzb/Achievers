@@ -18,9 +18,13 @@ public class QuestsFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.evidence_frag, container, false);
+        View view = inflater.inflate(R.layout.quests_frag, container, false);
 
         mDataBinding = QuestsFragBinding.bind(view);
+
+        if (mViewModel == null) mViewModel = new QuestsViewModel();
+        if (mPresenter == null) mPresenter = new QuestsPresenter(this);
+
         mDataBinding.setViewModel(mViewModel);
 
         return view;
