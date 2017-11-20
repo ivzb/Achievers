@@ -17,7 +17,6 @@ public abstract class BaseMockDataSourceTest<T extends BaseModel>
         extends ReceiveDataSourceTest<T> {
 
     protected BaseDataSource<T> mDataSource;
-    protected BaseModel mSaveModel;
 
     @Mock protected SaveCallback<Long> mSaveCallback;
 
@@ -52,5 +51,4 @@ public abstract class BaseMockDataSourceTest<T extends BaseModel>
         super.setDataSource(dataSource);
         mDataSource = dataSource;
     }
-
 }

@@ -20,8 +20,8 @@ public class Quest implements BaseModel {
     @SerializedName("achievementIds")
     long[] achievementIds;
 
-    @SerializedName("startedOn")
-    Date startedOn;
+    @SerializedName("createdOn")
+    Date createdOn;
 
     public Quest() {
 
@@ -31,16 +31,21 @@ public class Quest implements BaseModel {
         this.id = id;
     }
 
-    public Quest(long id, String name, long[] achievementIds, Date startedOn) {
+    public Quest(long id, String name, long[] achievementIds, Date createdOn) {
         this(id);
         this.name = name;
         this.achievementIds = achievementIds;
-        this.startedOn = startedOn;
+        this.createdOn = createdOn;
     }
 
     @Override
     public long getId() {
         return id;
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -51,8 +56,19 @@ public class Quest implements BaseModel {
         return achievementIds;
     }
 
-    public Date getStartedOn() {
-        return startedOn;
+    @Override
+    public Date getCreatedOn() {
+        return createdOn;
+    }
+
+    @Override
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    @Override
+    public Long getContainerId() {
+        return null;
     }
 
     @Override
@@ -65,7 +81,7 @@ public class Quest implements BaseModel {
         if (id != quest.id) return false;
         if (!name.equals(quest.name)) return false;
         if (!Arrays.equals(achievementIds, quest.achievementIds)) return false;
-        return startedOn.equals(quest.startedOn);
+        return createdOn.equals(quest.createdOn);
     }
 
     @Override
@@ -73,7 +89,7 @@ public class Quest implements BaseModel {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + name.hashCode();
         result = 31 * result + Arrays.hashCode(achievementIds);
-        result = 31 * result + startedOn.hashCode();
+        result = 31 * result + createdOn.hashCode();
         return result;
     }
 
@@ -83,7 +99,7 @@ public class Quest implements BaseModel {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", achievementIds=" + Arrays.toString(achievementIds) +
-                ", startedOn=" + startedOn +
+                ", startedOn=" + createdOn +
                 '}';
     }
 }

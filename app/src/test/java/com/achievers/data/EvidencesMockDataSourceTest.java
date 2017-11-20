@@ -23,24 +23,6 @@ public class EvidencesMockDataSourceTest extends BaseMockDataSourceTest<Evidence
         super.setDataSource(EvidencesMockDataSource.getInstance());
     }
 
-    @Test
-    public void load_firstPage_assertSuccess() {
-        long achievementId = 5;
-        int page = 0;
-        int expectedSize = 9;
-
-        load_assertSuccess(achievementId, page, expectedSize);
-    }
-
-    @Test
-    public void load_thirdPage_assertSuccess() {
-        long achievementId = 5;
-        int page = 2;
-        int expectedSize = 9;
-
-        load_assertSuccess(achievementId, page, expectedSize);
-    }
-
     @Test(expected = NullPointerException.class)
     public void save_nullCallback_shouldThrow() {
         assertSaveEntityFailure(new Evidence(), null);

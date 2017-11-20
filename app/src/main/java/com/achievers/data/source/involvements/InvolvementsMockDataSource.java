@@ -5,22 +5,26 @@ import com.achievers.data.entities.Involvement;
 
 import java.util.Arrays;
 
-public class InvolvementsLocalDataSource implements InvolvementsDataSource {
+import static com.achievers.utils.Preconditions.checkNotNull;
+
+public class InvolvementsMockDataSource implements InvolvementsDataSource {
 
     private static InvolvementsDataSource INSTANCE;
 
     public static InvolvementsDataSource getInstance() {
-        if (INSTANCE == null) INSTANCE = new InvolvementsLocalDataSource();
+        if (INSTANCE == null) INSTANCE = new InvolvementsMockDataSource();
         return INSTANCE;
     }
 
-    // Prevent direct instantiation.
-    private InvolvementsLocalDataSource() {
+    private InvolvementsMockDataSource() {
 
     }
 
     @Override
     public void loadInvolvements(LoadCallback<Involvement> callback) {
+
+        checkNotNull(callback);
+
         callback.onSuccess(Arrays.asList(Involvement.values()));
     }
 }

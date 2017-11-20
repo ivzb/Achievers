@@ -139,6 +139,11 @@ public class Achievement implements BaseModel {
     }
 
     @Override
+    public Long getContainerId() {
+        return null;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

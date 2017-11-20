@@ -19,12 +19,7 @@ public abstract class ReceiveDataSourceTest<T extends BaseModel> {
 
     protected ReceiveDataSource<T> mDataSource;
 
-    protected void setDataSource(ReceiveDataSource<T> dataSource) {
-        mDataSource = dataSource;
-    }
-
-    @Mock
-    protected GetCallback<T> mGetCallback;
+    @Mock protected GetCallback<T> mGetCallback;
     @Mock protected LoadCallback<T> mLoadCallback;
 
     @Captor protected ArgumentCaptor<T> mSuccessCaptor;
@@ -60,6 +55,24 @@ public abstract class ReceiveDataSourceTest<T extends BaseModel> {
         assertEquals(expected, actual);
     }
 
+    @Test
+    public void load_firstPage_assertSuccess() {
+        long containerId = 5;
+        int page = 0;
+        int expectedSize = 9;
+
+        load_assertSuccess(containerId, page, expectedSize);
+    }
+
+    @Test
+    public void load_thirdPage_assertSuccess() {
+        long containerId = 5;
+        int page = 2;
+        int expectedSize = 9;
+
+        load_assertSuccess(containerId, page, expectedSize);
+    }
+
     protected void assertEntityDoesNotExist(long id) {
         mDataSource.get(id, mGetCallback);
 
@@ -87,5 +100,9 @@ public abstract class ReceiveDataSourceTest<T extends BaseModel> {
 
         List<T> actual = mSuccessListCaptor.getValue();
         assertEquals(expectedSize, actual.size());
+    }
+
+    protected void setDataSource(ReceiveDataSource<T> dataSource) {
+        mDataSource = dataSource;
     }
 }

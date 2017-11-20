@@ -40,6 +40,11 @@ public class AchievementProgress implements BaseModel {
         return mId;
     }
 
+    @Override
+    public void setId(long id) {
+        mId = id;
+    }
+
     public int getProgress() {
         if (mTotal == 0) return 0;
         return (int)((float)mAccomplished / mTotal * 100);
@@ -51,6 +56,21 @@ public class AchievementProgress implements BaseModel {
 
     public int getAccomplished() {
         return mAccomplished;
+    }
+
+    @Override
+    public Date getCreatedOn() {
+        return mCreatedOn;
+    }
+
+    @Override
+    public void setCreatedOn(Date createdOn) {
+        mCreatedOn = createdOn;
+    }
+
+    @Override
+    public Long getContainerId() {
+        return mAchievementId;
     }
 
     @Override
