@@ -291,12 +291,16 @@ public class GeneratorUtilsTest {
             throws NoSuchFieldException, IllegalAccessException {
 
         // arrange
+        int randomIndex = 3;
+
         long id = 5;
         String name = "quest";
+        String previewUrl = String.format(sImagePathFormat, randomIndex);
         long[] achievementIds = new long[] { 4, 8, 13 };
         Date startedOn = getDate();
 
         when(mRandom.nextInt(anyInt()))
+                .thenReturn(randomIndex)
                 .thenReturn(achievementIds.length)
                 .thenReturn(4)
                 .thenReturn(8)
@@ -311,6 +315,7 @@ public class GeneratorUtilsTest {
         Quest expected = new Quest(
                 id,
                 name,
+                Uri.parse(previewUrl),
                 achievementIds,
                 startedOn);
 

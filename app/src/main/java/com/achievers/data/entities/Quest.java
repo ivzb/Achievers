@@ -1,5 +1,7 @@
 package com.achievers.data.entities;
 
+import android.net.Uri;
+
 import com.achievers.data.entities._base.BaseModel;
 import com.google.gson.annotations.SerializedName;
 
@@ -17,6 +19,9 @@ public class Quest implements BaseModel {
     @SerializedName("name")
     String name;
 
+    @SerializedName("pictureUri")
+    Uri pictureUri;
+
     @SerializedName("achievementIds")
     long[] achievementIds;
 
@@ -31,9 +36,16 @@ public class Quest implements BaseModel {
         this.id = id;
     }
 
-    public Quest(long id, String name, long[] achievementIds, Date createdOn) {
+    public Quest(
+            long id,
+            String name,
+            Uri pictureUri,
+            long[] achievementIds,
+            Date createdOn) {
+
         this(id);
         this.name = name;
+        this.pictureUri = pictureUri;
         this.achievementIds = achievementIds;
         this.createdOn = createdOn;
     }
@@ -50,6 +62,10 @@ public class Quest implements BaseModel {
 
     public String getName() {
         return name;
+    }
+
+    public Uri getPictureUri() {
+        return pictureUri;
     }
 
     public long[] getAchievementIds() {

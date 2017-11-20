@@ -9,7 +9,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,6 +23,7 @@ import com.achievers.provider.AppContentProvider;
 import com.achievers.ui._base.AbstractView;
 import com.achievers.utils.CursorUtils;
 import com.achievers.utils.ui.ScrollChildSwipeRefreshLayout;
+import com.achievers.utils.ui.SwipeRefreshLayoutUtils;
 
 public class CategoriesView
         extends AbstractView<CategoriesContract.Presenter, CategoriesContract.ViewModel, CategoriesFragBinding>
@@ -126,15 +126,7 @@ public class CategoriesView
     public void setLoadingIndicator(final boolean active) {
         if (getView() == null) return;
 
-        final SwipeRefreshLayout srl = (SwipeRefreshLayout) getView().findViewById(R.id.refresh_layout);
-
-        // Make sure setRefreshing() is called after the layout is done with everything else.
-        srl.post(new Runnable() {
-            @Override
-            public void run() {
-                srl.setRefreshing(active);
-            }
-        });
+        SwipeRefreshLayoutUtils.setLoading(mDataBinding.refreshLayout, active);
     }
 
     @Override

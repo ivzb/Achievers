@@ -57,11 +57,15 @@ public class GeneratorUtils {
                 mRandom.nextInt(100));
     }
 
+    public Uri getImageUri() {
+        return Uri.parse(getImageUrl());
+    }
+
     public Achievement getAchievement(long id, Date createdOn) {
         String title = mFaker.lorem.word();
         String description = mFaker.lorem.sentence(5);
         Involvement involvement = getEnum(Involvement.values());
-        Uri imageUri = Uri.parse(getImageUrl());
+        Uri imageUri = getImageUri();
 
         return new Achievement(id, title, description, involvement, imageUri, createdOn);
     }
@@ -106,12 +110,13 @@ public class GeneratorUtils {
 
     public Quest getQuest(long id, Date startedOn) {
         String name = mFaker.lorem.word();
+        Uri picture = getImageUri();
         long[] achievementIds = new long[mRandom.nextInt(15)];
 
         for (int i = 0; i < achievementIds.length; i++) {
             achievementIds[i] = mRandom.nextInt(100);
         }
 
-        return new Quest(id, name, achievementIds, startedOn);
+        return new Quest(id, name, picture, achievementIds, startedOn);
     }
 }

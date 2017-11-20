@@ -28,6 +28,7 @@ import com.achievers.ui.achievement.adapters.UploadEvidenceAdapter;
 import com.achievers.ui.add_evidence.AddEvidenceActivity;
 import com.achievers.ui.evidence.EvidenceActivity;
 import com.achievers.utils.ui.EndlessRecyclerViewScrollListener;
+import com.achievers.utils.ui.SwipeRefreshLayoutUtils;
 import com.achievers.utils.ui.multimedia.MultimediaType;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.GridHolder;
@@ -177,14 +178,7 @@ public class AchievementView
     public void setLoadingIndicator(final boolean active) {
         if (!isActive()) return;
 
-        final SwipeRefreshLayout srl = mDataBinding.refreshLayout;
-
-        srl.post(new Runnable() {
-            @Override
-            public void run() {
-                srl.setRefreshing(active);
-            }
-        });
+        SwipeRefreshLayoutUtils.setLoading(mDataBinding.refreshLayout, active);
     }
 
     @Override

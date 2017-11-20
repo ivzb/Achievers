@@ -3,54 +3,48 @@ package com.achievers.ui.achievements;
 import android.app.Activity;
 import android.content.Context;
 
-import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.source.achievements.AchievementsDataSource;
+import com.achievers.ui._base.EndlessAdapterPresenterTest;
 import com.achievers.ui.add_achievement.AddAchievementActivity;
 import com.achievers.utils.GeneratorUtils;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import io.bloco.faker.Faker;
 
-import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.isNull;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
 
-public class AchievementsPresenterTest {
+public class AchievementsPresenterTest
+        extends EndlessAdapterPresenterTest<Achievement, AchievementsContract.Presenter, AchievementsContract.View, AchievementsDataSource> {
 
-    @Mock private Context mContext;
-    @Mock private AchievementsContract.View mView;
-    @Mock private AchievementsDataSource mDataSource;
-
-    @Captor private ArgumentCaptor<List<Achievement>> mLoadCaptor;
-
-    private AchievementsContract.Presenter mPresenter;
-
-    private List<Achievement> mExpectedLoad;
-
-    private static final String sLoadFailure = "Could not load achievements";
+    @Mock protected Context mContext;
+    @Mock protected AchievementsContract.View mView;
+    @Mock protected AchievementsDataSource mDataSource;
 
     private static final int sValidRequestCode = AddAchievementActivity.REQUEST_ADD_ACHIEVEMENT;
     private static final int sValidResultCode = Activity.RESULT_OK;
+
+    @Override
+    public Context getContext() {
+        return mContext;
+    }
+
+    @Override
+    public AchievementsContract.View getView() {
+        return mView;
+    }
+
+    @Override
+    public AchievementsDataSource getDataSource() {
+        return mDataSource;
+    }
 
     @Before
     public void before() {
@@ -58,170 +52,6 @@ public class AchievementsPresenterTest {
         GeneratorUtils.initialize(new Random(), new Faker());
 
         mPresenter = new AchievementsPresenter(mContext, mView, mDataSource);
-    }
-
-    @After
-    public void after() {
-        verifyNoMoreInteractions(mView);
-
-        verifyNoMoreInteractions(mContext);
-        verifyNoMoreInteractions(mView);
-        verifyNoMoreInteractions(mDataSource);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void nullContext_shouldThrow() {
-        new AchievementsPresenter(null, mView, mDataSource);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void nullView_shouldThrow() {
-        new AchievementsPresenter(mContext, null, mDataSource);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void nullDataSource_shouldThrow() {
-        new AchievementsPresenter(mContext, mView, null);
-    }
-
-    @Test
-    public void start_shouldDoNothing() {
-        mPresenter.start();
-        verifyNoMoreInteractions(mView);
-    }
-
-    @Test
-    public void loadAchievements_firstPage_successful() {
-        int page = 0;
-
-        arrangeLoad(
-                true,
-                true,
-                true,
-                page);
-
-        actLoad(page);
-        assertSuccessfulLoad(page);
-    }
-
-    @Test
-    public void loadAchievements_firstPage_failure() {
-        int page = 0;
-
-        arrangeLoad(
-                false,
-                true,
-                true,
-                page);
-
-        actLoad(page);
-        assertFailureLoad(page);
-    }
-
-    @Test
-    public void loadAchievements_thirdPage_successful() {
-        int page = 9;
-
-        arrangeLoad(
-                true,
-                true,
-                true,
-                page);
-
-        actLoad(page);
-        assertSuccessfulLoad(page);
-    }
-
-    @Test
-    public void loadAchievements_thirdPage_failure() {
-        int page = 9;
-
-        arrangeLoad(
-                false,
-                true,
-                true,
-                page);
-
-        actLoad(page);
-        assertFailureLoad(page);
-    }
-
-    @Test
-    public void loadAchievements_initiallyInactiveView() {
-        int page = 0;
-
-        arrangeLoad(
-                null,
-                false,
-                null,
-                page);
-
-        actLoad(page);
-
-        // assert
-        verify(mView).isActive();
-        verifyNoMoreInteractions(mView);
-    }
-
-    @Test
-    public void loadAchievements_callbackInactiveView() {
-        int page = 0;
-
-        arrangeLoad(
-                true,
-                true,
-                false,
-                page);
-
-        actLoad(page);
-
-        // assert
-        verify(mView).setLoadingIndicator(true);
-        verify(mDataSource).load(isNull(Long.class), eq(page), any(LoadCallback.class));
-        verify(mView, times(2)).isActive();
-        verifyNoMoreInteractions(mView);
-    }
-
-    @Test
-    public void clickAchievement_shouldOpenAchievementUi() {
-        // arrange
-        when(mView.isActive()).thenReturn(true);
-        Achievement achievement = new Achievement();
-
-        // act
-        mPresenter.click(achievement);
-
-        // assert
-        verify(mView).isActive();
-        verify(mView).openUi(achievement);
-        verifyNoMoreInteractions(mView);
-    }
-
-    @Test
-    public void clickAchievement_withoutAchievement_shouldShowErrorMessage() {
-        // arrange
-        when(mView.isActive()).thenReturn(true);
-
-        // act
-        mPresenter.click(null);
-
-        // assert
-        verify(mView).isActive();
-        verify(mView).showErrorMessage(any(String.class));
-        verifyNoMoreInteractions(mView);
-    }
-
-    @Test
-    public void clickAchievement_inactiveView_shouldReturn() {
-        // arrange
-        when(mView.isActive()).thenReturn(false);
-
-        // act
-        mPresenter.click(null);
-
-        // assert
-        verify(mView).isActive();
-        verifyNoMoreInteractions(mView);
     }
 
     @Test
@@ -245,73 +75,18 @@ public class AchievementsPresenterTest {
         verify(mView).showSuccessfulMessage(any(String.class));
     }
 
-    private void arrangeLoad(
-            final Boolean isSuccessful,
-            final Boolean initiallyInactiveView,
-            final Boolean callbackInactiveView,
-            final int page) {
-
-        mLoadCaptor = ArgumentCaptor.forClass(List.class);
-
-        when(mView.isActive()).thenReturn(initiallyInactiveView);
-
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                LoadCallback<Achievement> callback =
-                        (LoadCallback<Achievement>) invocation.getArguments()[2];
-
-                when(mView.isActive()).thenReturn(callbackInactiveView);
-
-                if (isSuccessful) {
-                    mExpectedLoad = generate(page);
-                    callback.onSuccess(mExpectedLoad);
-                    return null;
-                }
-
-                callback.onFailure(sLoadFailure);
-                return null;
-            }
-        }).when(mDataSource).load(
-                isNull(Long.class), any(int.class), any(LoadCallback.class));
+    @Override
+    public Achievement instantiateModel(Long id) {
+        if (id == null) return new Achievement();
+        return new Achievement(id);
     }
 
-    private void actLoad(int page) {
-        mPresenter.load(page);
-    }
+    @Override
+    public AchievementsContract.Presenter instantiatePresenter(
+            Context context,
+            AchievementsContract.View view,
+            AchievementsDataSource dataSource) {
 
-    private void assertSuccessfulLoad(int page) {
-        verify(mView).setLoadingIndicator(true);
-
-        verify(mDataSource).load(isNull(Long.class), eq(page), any(LoadCallback.class));
-        verify(mView).show(mLoadCaptor.capture());
-        verify(mView).setLoadingIndicator(false);
-        verify(mView).setPage(any(int.class));
-        verify(mView, times(2)).isActive();
-        verifyNoMoreInteractions(mView);
-
-        List<Achievement> actualLoad = mLoadCaptor.getValue();
-        assertTrue(mExpectedLoad == actualLoad);
-    }
-
-    private void assertFailureLoad(int page) {
-        verify(mView).setLoadingIndicator(true);
-
-        verify(mDataSource).load(isNull(Long.class), eq(page), any(LoadCallback.class));
-        verify(mView).showErrorMessage(any(String.class));
-        verify(mView).setLoadingIndicator(false);
-        verify(mView, times(2)).isActive();
-        verifyNoMoreInteractions(mView);
-    }
-
-    private List<Achievement> generate(int page) {
-        List<Achievement> achievements = new ArrayList<>();
-        int end = 9 * page;
-
-        for (int id = 0; id < end; id++) {
-            achievements.add(new Achievement(id));
-        }
-
-        return achievements;
+        return new AchievementsPresenter(context, view, dataSource);
     }
 }

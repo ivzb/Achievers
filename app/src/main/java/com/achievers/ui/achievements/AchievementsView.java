@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +22,7 @@ import com.achievers.ui._base.views.EndlessAdapterView;
 import com.achievers.ui.achievement.AchievementActivity;
 import com.achievers.ui.achievements.adapters.AchievementsAdapter;
 import com.achievers.utils.ui.EndlessRecyclerViewScrollListener;
+import com.achievers.utils.ui.SwipeRefreshLayoutUtils;
 
 import org.parceler.Parcels;
 
@@ -43,6 +43,7 @@ public class AchievementsView
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.achievements_frag, container, false);
 
         mDataBinding = AchievementsFragBinding.bind(view);
@@ -68,7 +69,12 @@ public class AchievementsView
         }
 
         setUpAchievementsRecycler(getContext());
-        setUpLoadingIndicator();
+
+        SwipeRefreshLayoutUtils.setup(
+                getContext(),
+                mDataBinding.refreshLayout,
+                mDataBinding.rvAchievements,
+                this);
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(ACHIEVEMENTS_STATE)) {
@@ -117,14 +123,7 @@ public class AchievementsView
     public void setLoadingIndicator(final boolean active) {
         if (!isActive()) return;
 
-        final SwipeRefreshLayout srl = mDataBinding.refreshLayout;
-
-        srl.post(new Runnable() {
-            @Override
-            public void run() {
-                srl.setRefreshing(active);
-            }
-        });
+        SwipeRefreshLayoutUtils.setLoading(mDataBinding.refreshLayout, active);
     }
 
     @Override
@@ -151,20 +150,5 @@ public class AchievementsView
                 mPresenter.load(page);
             }
         });
-    }
-
-    private void setUpLoadingIndicator() {
-        mDataBinding.refreshLayout.setColorSchemeColors(
-            getColor(R.color.primary),
-            getColor(R.color.accent),
-            getColor(R.color.dark)
-        );
-
-        mDataBinding.refreshLayout.setScrollUpChild(mDataBinding.rvAchievements);
-        mDataBinding.refreshLayout.setOnRefreshListener(this);
-    }
-
-    private int getColor(int color) {
-        return ContextCompat.getColor(getActivity(), color);
     }
 }
