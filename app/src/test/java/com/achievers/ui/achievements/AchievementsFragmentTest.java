@@ -48,7 +48,7 @@ public class AchievementsFragmentTest {
     private @Mock AchievementsContract.Presenter mPresenter;
     private @Mock AchievementsViewModel mViewModel;
 
-    private AchievementsFragment mFragment;
+    private AchievementsView mFragment;
 
     private static final int sValidRequestCode = AddAchievementActivity.REQUEST_ADD_ACHIEVEMENT;
     private static final int sValidResultCode = Activity.RESULT_OK;
@@ -57,7 +57,7 @@ public class AchievementsFragmentTest {
     public void before() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        mFragment = new AchievementsFragment();
+        mFragment = new AchievementsView();
         mFragment.setPresenter(mPresenter);
         mFragment.setViewModel(mViewModel);
 
@@ -100,7 +100,7 @@ public class AchievementsFragmentTest {
         when(mViewModel.getAdapter()).thenReturn(adapter);
 
         // act
-        mFragment.showAchievements(achievements);
+        mFragment.show(achievements);
 
         // assert
         verify(mViewModel).getAdapter();
@@ -113,7 +113,7 @@ public class AchievementsFragmentTest {
         Achievement achievement = new Achievement(503);
 
         // act
-        mFragment.openAchievementUi(achievement);
+        mFragment.openUi(achievement);
 
         // assert
         Intent intent = ShadowApplication.getInstance().getNextStartedActivity();
@@ -155,7 +155,7 @@ public class AchievementsFragmentTest {
         mFragment.onAdapterEntityClick(achievement);
 
         // assert
-        verify(mPresenter).clickAchievement(eq(achievement));
+        verify(mPresenter).click(eq(achievement));
     }
 
     @Test

@@ -1,10 +1,10 @@
 package com.achievers.ui.quests;
 
-import android.databinding.BaseObservable;
+import com.achievers.data.entities.Quest;
+import com.achievers.ui._base.view_models.EndlessAdapterViewModel;
 
-public class QuestsViewModel
-            extends BaseObservable
-            implements QuestsContract.ViewModel {
-
+class QuestsViewModel
+        extends EndlessAdapterViewModel<Quest>
+        implements QuestsContract.ViewModel {
 
 }

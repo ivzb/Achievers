@@ -189,11 +189,11 @@ public class AchievementsPresenterTest {
         Achievement achievement = new Achievement();
 
         // act
-        mPresenter.clickAchievement(achievement);
+        mPresenter.click(achievement);
 
         // assert
         verify(mView).isActive();
-        verify(mView).openAchievementUi(achievement);
+        verify(mView).openUi(achievement);
         verifyNoMoreInteractions(mView);
     }
 
@@ -203,7 +203,7 @@ public class AchievementsPresenterTest {
         when(mView.isActive()).thenReturn(true);
 
         // act
-        mPresenter.clickAchievement(null);
+        mPresenter.click(null);
 
         // assert
         verify(mView).isActive();
@@ -217,7 +217,7 @@ public class AchievementsPresenterTest {
         when(mView.isActive()).thenReturn(false);
 
         // act
-        mPresenter.clickAchievement(null);
+        mPresenter.click(null);
 
         // assert
         verify(mView).isActive();
@@ -277,14 +277,14 @@ public class AchievementsPresenterTest {
     }
 
     private void actLoad(int page) {
-        mPresenter.loadAchievements(page);
+        mPresenter.load(page);
     }
 
     private void assertSuccessfulLoad(int page) {
         verify(mView).setLoadingIndicator(true);
 
         verify(mDataSource).load(isNull(Long.class), eq(page), any(LoadCallback.class));
-        verify(mView).showAchievements(mLoadCaptor.capture());
+        verify(mView).show(mLoadCaptor.capture());
         verify(mView).setLoadingIndicator(false);
         verify(mView).setPage(any(int.class));
         verify(mView, times(2)).isActive();

@@ -5,8 +5,8 @@ import android.databinding.Bindable;
 import android.databinding.Observable;
 import android.net.Uri;
 
-import com.achievers.ui._base.contracts.action_handlers.BaseActionHandler;
-import com.achievers.ui._base.contracts.action_handlers.BaseMultimediaActionHandler;
+import com.achievers.ui._base._contracts.action_handlers.BaseActionHandler;
+import com.achievers.ui._base._contracts.action_handlers.BaseMultimediaActionHandler;
 import com.achievers.utils.ui.multimedia.MultimediaControllerState;
 import com.achievers.utils.ui.multimedia.MultimediaType;
 

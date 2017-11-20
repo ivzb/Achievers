@@ -23,8 +23,8 @@ import org.parceler.Parcels;
 
 import java.io.IOException;
 
-import static com.achievers.ui.add_evidence.AddEvidenceFragment.MULTIMEDIA_URI_KEY;
-import static com.achievers.ui.add_evidence.AddEvidenceFragment.TITLE_KEY;
+import static com.achievers.ui.add_evidence.AddEvidenceView.MULTIMEDIA_URI_KEY;
+import static com.achievers.ui.add_evidence.AddEvidenceView.TITLE_KEY;
 import static com.achievers.ui.evidence.EvidenceActivity.EXTRA_EVIDENCE;
 
 public class UploadEvidenceIntentService extends IntentService {

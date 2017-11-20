@@ -72,12 +72,12 @@ public class CategoriesActivity extends AbstractActivity {
 
         int fragmentId = R.id.contentFrame;
 
-        CategoriesFragment categoriesFragment =
-                (CategoriesFragment) getSupportFragmentManager().findFragmentById(fragmentId);
+        CategoriesView categoriesFragment =
+                (CategoriesView) getSupportFragmentManager().findFragmentById(fragmentId);
 
         if (categoriesFragment == null) {
             // Create the fragment
-            categoriesFragment = new CategoriesFragment();
+            categoriesFragment = new CategoriesView();
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(), categoriesFragment, fragmentId);
         }

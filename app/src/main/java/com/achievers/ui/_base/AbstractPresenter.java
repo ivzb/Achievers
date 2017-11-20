@@ -2,7 +2,7 @@ package com.achievers.ui._base;
 
 import android.content.Context;
 
-import com.achievers.ui._base.contracts.BaseView;
+import com.achievers.ui._base._contracts.BaseView;
 
 public abstract class AbstractPresenter<V extends BaseView> {
 

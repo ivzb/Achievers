@@ -12,8 +12,8 @@ import com.achievers.AchieversDebugTestApplication;
 import com.achievers.BuildConfig;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Involvement;
+import com.achievers.ui._base._contracts.adapters.BaseSelectableAdapter;
 import com.achievers.ui._base._shadows.IntentShadow;
-import com.achievers.ui._base.contracts.BaseSelectableAdapter;
 
 import org.junit.After;
 import org.junit.Before;
@@ -49,13 +49,13 @@ public class AddAchievementFragmentTest {
     private @Mock AddAchievementContract.Presenter mPresenter;
     private @Mock AddAchievementViewModel mViewModel;
 
-    private AddAchievementFragment mFragment;
+    private AddAchievementView mFragment;
 
     @Before
     public void before() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        mFragment = new AddAchievementFragment();
+        mFragment = new AddAchievementView();
         mFragment.setPresenter(mPresenter);
         mFragment.setViewModel(mViewModel);
 

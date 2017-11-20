@@ -29,11 +29,11 @@ public class AddAchievementActivity extends AbstractActivity {
             actionBar.setTitle(R.string.add_achievement);
         }
 
-        AddAchievementFragment view =
-                (AddAchievementFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        AddAchievementView view =
+                (AddAchievementView) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
 
         if (view == null) {
-            view = new AddAchievementFragment();
+            view = new AddAchievementView();
 
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(),

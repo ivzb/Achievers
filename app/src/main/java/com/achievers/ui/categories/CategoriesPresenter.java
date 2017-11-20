@@ -14,7 +14,7 @@ import java.util.Stack;
 import static com.achievers.utils.Preconditions.checkNotNull;
 
 /**
- * Listens to user actions from the UI ({@link CategoriesFragment}), retrieves the data and updates the
+ * Listens to user actions from the UI ({@link CategoriesView}), retrieves the data and updates the
  * UI as required.
  */
 public class CategoriesPresenter

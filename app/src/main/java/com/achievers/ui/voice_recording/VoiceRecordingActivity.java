@@ -30,11 +30,11 @@ public class VoiceRecordingActivity extends AbstractActivity {
             actionBar.setTitle(R.string.voice_recording);
         }
 
-        VoiceRecordingFragment view =
-                (VoiceRecordingFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        VoiceRecordingView view =
+                (VoiceRecordingView) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
 
         if (view == null) {
-            view = new VoiceRecordingFragment();
+            view = new VoiceRecordingView();
 
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(),

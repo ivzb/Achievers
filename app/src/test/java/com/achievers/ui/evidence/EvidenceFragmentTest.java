@@ -33,7 +33,7 @@ public abstract class EvidenceFragmentTest {
     protected @Mock EvidenceContract.Presenter mPresenter;
     protected @Mock EvidenceViewModel mViewModel;
 
-    protected EvidenceFragment mFragment;
+    protected EvidenceView mFragment;
 
     @Before
     public void before() throws Exception {

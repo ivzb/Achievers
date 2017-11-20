@@ -37,11 +37,11 @@ public class AddEvidenceActivity extends AbstractActivity {
             actionBar.setTitle(R.string.add_evidence);
         }
 
-        AddEvidenceFragment view =
-                (AddEvidenceFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        AddEvidenceView view =
+                (AddEvidenceView) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
 
         if (view == null) {
-            view = new AddEvidenceFragment();
+            view = new AddEvidenceView();
 
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(),

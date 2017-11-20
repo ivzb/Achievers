@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.achievers.BR;
 import com.achievers.data.entities.Involvement;
-import com.achievers.ui._base.contracts.BaseSelectableAdapter;
+import com.achievers.ui._base._contracts.adapters.BaseSelectableAdapter;
 
 public class AddAchievementViewModel
         extends BaseObservable

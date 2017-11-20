@@ -8,11 +8,11 @@ import android.support.v7.widget.RecyclerView;
 
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Involvement;
-import com.achievers.ui._base.contracts.BasePresenter;
-import com.achievers.ui._base.contracts.BaseSelectableAdapter;
-import com.achievers.ui._base.contracts.BaseView;
-import com.achievers.ui._base.contracts.BaseViewModel;
-import com.achievers.ui._base.contracts.action_handlers.BasePictureLoadActionHandler;
+import com.achievers.ui._base._contracts.BasePresenter;
+import com.achievers.ui._base._contracts.BaseView;
+import com.achievers.ui._base._contracts.BaseViewModel;
+import com.achievers.ui._base._contracts.action_handlers.BasePictureLoadActionHandler;
+import com.achievers.ui._base._contracts.adapters.BaseSelectableAdapter;
 
 import java.util.List;
 

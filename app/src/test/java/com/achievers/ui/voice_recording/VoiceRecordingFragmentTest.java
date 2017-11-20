@@ -35,13 +35,13 @@ public class VoiceRecordingFragmentTest {
 
     private @Mock File mFile;
 
-    private VoiceRecordingFragment mFragment;
+    private VoiceRecordingView mFragment;
 
     @Before
     public void before() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        mFragment = new VoiceRecordingFragment();
+        mFragment = new VoiceRecordingView();
         mFragment.setPresenter(mPresenter);
         mFragment.setViewModel(mViewModel);
 

@@ -3,10 +3,9 @@ package com.achievers.ui.contributions;
 import android.databinding.ViewDataBinding;
 
 import com.achievers.data.entities.AchievementProgress;
-import com.achievers.ui._base.contracts.BasePresenter;
-import com.achievers.ui._base.contracts.BaseView;
-import com.achievers.ui._base.contracts.BaseViewModel;
-import com.achievers.ui._base.contracts.adapters.BaseAdapter;
+import com.achievers.ui._base._contracts.BasePresenter;
+import com.achievers.ui._base._contracts.BaseView;
+import com.achievers.ui._base._contracts.view_models.BaseEndlessAdapterViewModel;
 
 import java.util.List;
 
@@ -37,12 +36,7 @@ public class ContributionsContract {
             AchievementProgress achievementProgress);
     }
 
-    public interface ViewModel extends BaseViewModel {
+    public interface ViewModel extends BaseEndlessAdapterViewModel<AchievementProgress> {
 
-        int getPage();
-        void setPage(int page);
-
-        BaseAdapter<AchievementProgress> getAdapter();
-        void setAdapter(BaseAdapter<AchievementProgress> adapter);
     }
 }

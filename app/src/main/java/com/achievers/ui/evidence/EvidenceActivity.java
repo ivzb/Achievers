@@ -8,9 +8,9 @@ import com.achievers.R;
 import com.achievers.data.entities.Evidence;
 import com.achievers.data.source.evidences.EvidencesMockDataSource;
 import com.achievers.ui._base.AbstractActivity;
-import com.achievers.ui.evidence.views.EvidencePhotoFragment;
-import com.achievers.ui.evidence.views.EvidenceVideoFragment;
-import com.achievers.ui.evidence.views.EvidenceVoiceFragment;
+import com.achievers.ui.evidence.views.EvidencePhotoView;
+import com.achievers.ui.evidence.views.EvidenceVideoView;
+import com.achievers.ui.evidence.views.EvidenceVoiceView;
 import com.achievers.utils.ActivityUtils;
 
 import org.parceler.Parcels;
@@ -37,22 +37,22 @@ public class EvidenceActivity extends AbstractActivity {
 
         Evidence evidence = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_EVIDENCE));
 
-        EvidenceFragment view = (EvidenceFragment) getSupportFragmentManager()
+        EvidenceView view = (EvidenceView) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
 
         if (view == null) {
             switch (evidence.getMultimediaType()) {
                 case Photo:
-                    view = new EvidencePhotoFragment();
+                    view = new EvidencePhotoView();
                     break;
                 case Video:
-                    view = new EvidenceVideoFragment();
+                    view = new EvidenceVideoView();
                     break;
                 case Voice:
-                    view = new EvidenceVoiceFragment();
+                    view = new EvidenceVoiceView();
                     break;
                 default:
-                    throw new IllegalArgumentException("View should extend EvidenceFragment");
+                    throw new IllegalArgumentException("View should extend EvidenceView");
             }
 
             ActivityUtils.addFragmentToActivity(

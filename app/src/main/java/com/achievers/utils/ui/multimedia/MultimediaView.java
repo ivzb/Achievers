@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 
 import com.achievers.databinding.MultimediaViewBinding;
-import com.achievers.ui._base.contracts.action_handlers.BaseMultimediaActionHandler;
+import com.achievers.ui._base._contracts.action_handlers.BaseMultimediaActionHandler;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaBuilder;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaView;

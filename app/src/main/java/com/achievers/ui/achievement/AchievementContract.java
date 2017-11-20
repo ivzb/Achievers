@@ -5,10 +5,10 @@ import android.databinding.ViewDataBinding;
 
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
-import com.achievers.ui._base.contracts.BasePresenter;
-import com.achievers.ui._base.contracts.BaseView;
-import com.achievers.ui._base.contracts.BaseViewModel;
-import com.achievers.ui._base.contracts.adapters.BaseMultimediaAdapter;
+import com.achievers.ui._base._contracts.BasePresenter;
+import com.achievers.ui._base._contracts.BaseView;
+import com.achievers.ui._base._contracts.BaseViewModel;
+import com.achievers.ui._base._contracts.adapters.BaseMultimediaAdapter;
 
 import java.util.List;
 

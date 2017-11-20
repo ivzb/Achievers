@@ -3,9 +3,9 @@ package com.achievers.ui.voice_recording;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 
-import com.achievers.ui._base.contracts.BasePresenter;
-import com.achievers.ui._base.contracts.BaseView;
-import com.achievers.ui._base.contracts.BaseViewModel;
+import com.achievers.ui._base._contracts.BasePresenter;
+import com.achievers.ui._base._contracts.BaseView;
+import com.achievers.ui._base._contracts.BaseViewModel;
 
 import java.io.File;
 

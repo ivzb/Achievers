@@ -14,7 +14,7 @@
 
         <variable
             name="actionHandler"
-            type="com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler" />
+            type="com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler" />
     </data>
 
     <android.support.v7.widget.CardView

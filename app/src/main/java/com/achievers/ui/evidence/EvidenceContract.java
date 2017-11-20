@@ -4,9 +4,9 @@ import android.databinding.Bindable;
 import android.databinding.ViewDataBinding;
 
 import com.achievers.data.entities.Evidence;
-import com.achievers.ui._base.contracts.BasePresenter;
-import com.achievers.ui._base.contracts.BaseView;
-import com.achievers.ui._base.contracts.BaseViewModel;
+import com.achievers.ui._base._contracts.BasePresenter;
+import com.achievers.ui._base._contracts.BaseView;
+import com.achievers.ui._base._contracts.BaseViewModel;
 import com.achievers.utils.ui.multimedia.MultimediaType;
 import com.achievers.utils.ui.multimedia.MultimediaView;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;

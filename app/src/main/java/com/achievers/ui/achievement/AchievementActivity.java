@@ -38,11 +38,11 @@ public class AchievementActivity extends AbstractActivity {
 
         initCollapsingToolbar(achievement);
 
-        AchievementFragment view = (AchievementFragment) getSupportFragmentManager()
+        AchievementView view = (AchievementView) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
 
         if (view == null) {
-            view = new AchievementFragment();
+            view = new AchievementView();
 
             ActivityUtils.addFragmentToActivity(
                 getSupportFragmentManager(),

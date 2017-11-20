@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.achievers.data.entities._base.BaseModel;
 import com.achievers.ui._base.AbstractAdapter;
-import com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler;
-import com.achievers.ui._base.contracts.action_handlers.BaseMultimediaActionHandler;
-import com.achievers.ui._base.contracts.adapters.BaseMultimediaAdapter;
+import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
+import com.achievers.ui._base._contracts.action_handlers.BaseMultimediaActionHandler;
+import com.achievers.ui._base._contracts.adapters.BaseMultimediaAdapter;
 import com.achievers.utils.ExoPlayerUtils;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaView;
 import com.google.android.exoplayer2.SimpleExoPlayer;

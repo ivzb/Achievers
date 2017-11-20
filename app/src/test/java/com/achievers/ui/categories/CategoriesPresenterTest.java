@@ -27,7 +27,7 @@ public class CategoriesPresenterTest {
     private CategoriesRepository mDataSource;
 
     @Mock
-    private CategoriesFragment mView;
+    private CategoriesView mView;
 
     @Rule
     public MockitoRule mMockitoRule = MockitoJUnit.rule();

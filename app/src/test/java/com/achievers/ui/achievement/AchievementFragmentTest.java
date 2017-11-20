@@ -41,7 +41,7 @@ public class AchievementFragmentTest {
     private @Mock AchievementViewModel mViewModel;
     private @Mock Achievement mAchievement;
 
-    private AchievementFragment mFragment;
+    private AchievementView mFragment;
 
     private static final long sAchievementId = 5;
 
@@ -49,7 +49,7 @@ public class AchievementFragmentTest {
     public void before() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        mFragment = new AchievementFragment();
+        mFragment = new AchievementView();
         mFragment.setPresenter(mPresenter);
         mFragment.setViewModel(mViewModel);
 

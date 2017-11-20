@@ -8,7 +8,7 @@ import com.achievers.BR;
 import com.achievers.data.entities.AchievementProgress;
 import com.achievers.databinding.AchievementsProgressRecyclerItemBinding;
 import com.achievers.ui._base.AbstractAdapter;
-import com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler;
+import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
 
 public class ContributionsAdapter extends AbstractAdapter<AchievementProgress> {
 

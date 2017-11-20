@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.achievers.R;
-import com.achievers.ui._base.contracts.BaseSelectableAdapter;
+import com.achievers.ui._base._contracts.adapters.BaseSelectableAdapter;
 
 import java.util.List;
 

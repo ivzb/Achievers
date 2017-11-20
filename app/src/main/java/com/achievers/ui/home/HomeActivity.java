@@ -11,11 +11,11 @@ import android.view.View;
 
 import com.achievers.R;
 import com.achievers.ui._base.AbstractActivity;
-import com.achievers.ui.achievements.AchievementsFragment;
+import com.achievers.ui.achievements.AchievementsView;
 import com.achievers.ui.add_achievement.AddAchievementActivity;
-import com.achievers.ui.contributions.ContributionsFragment;
+import com.achievers.ui.contributions.ContributionsView;
 import com.achievers.ui.home.adapters.HomeAdapter;
-import com.achievers.ui.quests.QuestsFragment;
+import com.achievers.ui.quests.QuestsView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,17 +60,17 @@ public class HomeActivity
         ViewPagerMetadata achievementsMetadata = new ViewPagerMetadata(3);
 
         achievementsMetadata.add(
-                new QuestsFragment(),
+                new QuestsView(),
                 "Quests",
                 R.drawable.ic_subscriptions);
 
         achievementsMetadata.add(
-                new AchievementsFragment(),
+                new AchievementsView(),
                 "Home",
                 R.drawable.ic_home);
 
         achievementsMetadata.add(
-                new ContributionsFragment(),
+                new ContributionsView(),
                 "Contributions",
                 R.drawable.ic_trending);
 

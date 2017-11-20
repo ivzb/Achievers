@@ -2,7 +2,7 @@ package com.achievers.utils.multimedia;
 
 import android.net.Uri;
 
-import com.achievers.ui._base.contracts.action_handlers.BaseMultimediaActionHandler;
+import com.achievers.ui._base._contracts.action_handlers.BaseMultimediaActionHandler;
 import com.achievers.utils.multimedia._base.AbstractMultimediaViewTest;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
 

@@ -6,7 +6,7 @@ import android.databinding.Bindable;
 import com.achievers.BR;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
-import com.achievers.ui._base.contracts.adapters.BaseMultimediaAdapter;
+import com.achievers.ui._base._contracts.adapters.BaseMultimediaAdapter;
 
 public class AchievementViewModel
         extends BaseObservable

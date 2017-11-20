@@ -23,10 +23,10 @@ import org.parceler.Parcels;
 
 import java.io.IOException;
 
-import static com.achievers.ui.add_achievement.AddAchievementFragment.DESCRIPTION_KEY;
-import static com.achievers.ui.add_achievement.AddAchievementFragment.INVOLVEMENTS_ADAPTER_SELECTED_POSITION_KEY;
-import static com.achievers.ui.add_achievement.AddAchievementFragment.PICTURE_KEY;
-import static com.achievers.ui.add_achievement.AddAchievementFragment.TITLE_KEY;
+import static com.achievers.ui.add_achievement.AddAchievementView.DESCRIPTION_KEY;
+import static com.achievers.ui.add_achievement.AddAchievementView.INVOLVEMENTS_ADAPTER_SELECTED_POSITION_KEY;
+import static com.achievers.ui.add_achievement.AddAchievementView.PICTURE_KEY;
+import static com.achievers.ui.add_achievement.AddAchievementView.TITLE_KEY;
 
 public class UploadAchievementIntentService extends IntentService {
 

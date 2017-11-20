@@ -6,8 +6,8 @@ import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 
 import com.achievers.data.entities._base.BaseModel;
-import com.achievers.ui._base.contracts.action_handlers.BaseAdapterActionHandler;
-import com.achievers.ui._base.contracts.adapters.BaseAdapter;
+import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
+import com.achievers.ui._base._contracts.adapters.BaseAdapter;
 
 import org.parceler.Parcels;
 
