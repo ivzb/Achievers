@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ivzb/Achievers.svg?branch=master)](https://travis-ci.org/ivzb/Achievers)
+
 # Workflow
 ## Categories
 Each **Category** has single parent. **Categories** could be nested as much as we want. Currently they are implemented as *Agency List Model*. Initial query is built with all **Categories** whose parentId == null. It is not good idea to load whole branch, since it is quite heavy traversing operation. In our case we are loading only certain nodes (e.g. **Categories** whose parentId == 5). When user reaches **Category** leaf (that has no children), its **Achievements** are being loaded. **Category** cannot have both child **Categories** and **Achievements**.
