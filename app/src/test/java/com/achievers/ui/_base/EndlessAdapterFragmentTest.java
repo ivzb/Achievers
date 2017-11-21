@@ -1,5 +1,7 @@
 package com.achievers.ui._base;
 
+import android.app.Activity;
+
 import com.achievers.data.entities._base.BaseModel;
 import com.achievers.ui._base._contracts.BaseAdapterFragmentTest;
 import com.achievers.ui._base._contracts.presenters.BaseEndlessAdapterPresenter;
@@ -14,6 +16,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -41,20 +44,20 @@ public abstract class EndlessAdapterFragmentTest<M extends BaseModel, F extends 
     }
 
     @Test
-    public void showAchievements() {
+    public void show() {
         // arrange
-        List<M> achievements = new ArrayList<>();
-        for (long i = 0; i < 5; i++) achievements.add(instantiateModel(i));
+        List<M> entities = new ArrayList<>();
+        for (long i = 0; i < 5; i++) entities.add(instantiateModel(i));
 
         AbstractAdapter<M> adapter = mock(AbstractAdapter.class);
         when(getViewModel().getAdapter()).thenReturn(adapter);
 
         // act
-        getFragment().show(achievements);
+        getFragment().show(entities);
 
         // assert
         verify(getViewModel()).getAdapter();
-        verify(adapter).add(eq(achievements));
+        verify(adapter).add(eq(entities));
     }
 
     @Test
@@ -76,5 +79,27 @@ public abstract class EndlessAdapterFragmentTest<M extends BaseModel, F extends 
 
         // assert
         verify(getViewModel()).setPage(eq(5));
+    }
+
+    @Test
+    public void onRefresh() {
+        // act
+        getFragment().onRefresh();
+
+        // assert
+        verify(getPresenter(), times(2)).refresh(isNull(Long.class));
+    }
+
+    @Test
+    public void onActivityResult() {
+        // arrange
+        int requestCode = 5;
+        int resultCode = Activity.RESULT_OK;
+
+        // act
+        getFragment().onActivityResult(requestCode, resultCode, null);
+
+        // assert
+        verify(getPresenter()).result(eq(requestCode), eq(resultCode));
     }
 }

@@ -5,36 +5,25 @@ import android.databinding.ViewDataBinding;
 
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
-import com.achievers.ui._base._contracts.BasePresenter;
-import com.achievers.ui._base._contracts.BaseView;
-import com.achievers.ui._base._contracts.BaseViewModel;
+import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
 import com.achievers.ui._base._contracts.adapters.BaseMultimediaAdapter;
+import com.achievers.ui._base._contracts.presenters.BaseEndlessAdapterPresenter;
+import com.achievers.ui._base._contracts.view_models.BaseEndlessAdapterViewModel;
+import com.achievers.ui._base._contracts.views.BaseEndlessAdapterView;
 
-import java.util.List;
+public class AchievementContract {
 
-public interface AchievementContract {
+    public interface View<DB extends ViewDataBinding>
+            extends BaseEndlessAdapterView<Evidence, Presenter, ViewModel, DB>,
+                    BaseAdapterActionHandler<Evidence> {
 
-    interface View<DB extends ViewDataBinding> extends BaseView<Presenter, ViewModel, DB> {
-
-        void setLoadingIndicator(boolean active);
-
-        void showEvidences(List<Evidence> evidences);
-
-        int getPage();
-        void setPage(int page);
     }
 
-    interface Presenter extends BasePresenter {
+    public interface Presenter extends BaseEndlessAdapterPresenter<Evidence> {
 
-        void refresh(long achievementId);
-
-        void loadEvidences(long achievementId, int page);
     }
 
-    interface ViewModel extends BaseViewModel {
-
-        int getPage();
-        void setPage(int page);
+    public interface ViewModel extends BaseEndlessAdapterViewModel<Evidence> {
 
         @Bindable
         Achievement getAchievement();

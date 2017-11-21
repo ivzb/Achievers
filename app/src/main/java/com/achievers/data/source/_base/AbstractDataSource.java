@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities._base.BaseModel;
+import com.achievers.data.source._base.contracts.BaseDataSource;
 import com.achievers.generator._base.BaseGenerator;
 
 import java.util.ArrayList;

@@ -83,7 +83,7 @@ public class QuestsView
                 mDataBinding.rvQuests.getLayoutManager().onRestoreInstanceState(layoutManagerState);
             }
         } else {
-            mPresenter.refresh();
+            mPresenter.refresh(null);
         }
 
         return mDataBinding.getRoot();
@@ -127,12 +127,6 @@ public class QuestsView
         mPresenter.click(quest);
     }
 
-    @Override
-    public void onRefresh() {
-        mPresenter.refresh();
-    }
-
-
     private void setUpQuestsRecycler(Context context) {
         BaseAdapter<Quest> adapter = new QuestsAdapter(getContext(), this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
@@ -144,7 +138,7 @@ public class QuestsView
         mDataBinding.rvQuests.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager, mViewModel.getPage()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                mPresenter.load(page);
+                mPresenter.load(null, page);
             }
         });
     }

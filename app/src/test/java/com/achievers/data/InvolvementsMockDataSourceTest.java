@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -42,7 +43,7 @@ public class InvolvementsMockDataSourceTest {
     public void loadInvolvements_successful() {
         mDataSource.loadInvolvements(mLoadCallback);
 
-        verify(mLoadCallback).onSuccess(mSuccessCaptor.capture());
+        verify(mLoadCallback).onSuccess(mSuccessCaptor.capture(), eq(0));
 
         final List<Involvement> actual = mSuccessCaptor.getValue();
         final List<Involvement> expected = Arrays.asList(Involvement.values());

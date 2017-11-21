@@ -3,7 +3,7 @@ package com.achievers.ui._base._contracts;
 import android.content.Context;
 
 import com.achievers.data.entities._base.BaseModel;
-import com.achievers.data.source._base.ReceiveDataSource;
+import com.achievers.data.source._base.contracts.ReceiveDataSource;
 
 public interface BaseAdapterPresenterTest<M extends BaseModel, P extends BasePresenter, V extends BaseView, DS extends ReceiveDataSource> {
 

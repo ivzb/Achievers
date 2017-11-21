@@ -27,6 +27,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -83,7 +84,7 @@ public class QuestsFragmentTest
         verify(mViewModel).getPage();
 
         verify(mPresenter).start();
-        verify(mPresenter).refresh();
+        verify(mPresenter).refresh(isNull(Long.class));
     }
 
     @Test
@@ -119,7 +120,7 @@ public class QuestsFragmentTest
         mFragment.onRefresh();
 
         // assert
-        verify(mPresenter, times(2)).refresh();
+        verify(mPresenter, times(2)).refresh(isNull(Long.class));
     }
 
     @Test

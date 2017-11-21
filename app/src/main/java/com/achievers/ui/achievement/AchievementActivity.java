@@ -52,6 +52,7 @@ public class AchievementActivity extends AbstractActivity {
 
         view.setViewModel(new AchievementViewModel(achievement));
         view.setPresenter(new AchievementPresenter(
+                this,
                 view,
                 EvidencesMockDataSource.getInstance()));
     }

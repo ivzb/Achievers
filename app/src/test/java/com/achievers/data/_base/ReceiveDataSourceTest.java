@@ -3,7 +3,7 @@ package com.achievers.data._base;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities._base.BaseModel;
-import com.achievers.data.source._base.ReceiveDataSource;
+import com.achievers.data.source._base.contracts.ReceiveDataSource;
 
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 public abstract class ReceiveDataSourceTest<T extends BaseModel> {
@@ -96,7 +97,7 @@ public abstract class ReceiveDataSourceTest<T extends BaseModel> {
 
     protected void load_assertSuccess(Long id, int page, int expectedSize) {
         mDataSource.load(id, page, mLoadCallback);
-        verify(mLoadCallback).onSuccess(mSuccessListCaptor.capture());
+        verify(mLoadCallback).onSuccess(mSuccessListCaptor.capture(), eq(page));
 
         List<T> actual = mSuccessListCaptor.getValue();
         assertEquals(expectedSize, actual.size());

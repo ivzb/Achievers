@@ -3,25 +3,26 @@ package com.achievers.ui.quest;
 import android.databinding.Bindable;
 import android.databinding.ViewDataBinding;
 
+import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Quest;
-import com.achievers.ui._base._contracts.BasePresenter;
-import com.achievers.ui._base._contracts.BaseView;
-import com.achievers.ui._base._contracts.BaseViewModel;
+import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
+import com.achievers.ui._base._contracts.presenters.BaseEndlessAdapterPresenter;
+import com.achievers.ui._base._contracts.view_models.BaseEndlessAdapterViewModel;
+import com.achievers.ui._base._contracts.views.BaseEndlessAdapterView;
 
-public interface QuestContract {
+public class QuestContract {
 
-    interface View<DB extends ViewDataBinding> extends BaseView<QuestContract.Presenter, QuestContract.ViewModel, DB> {
-
-
-        void finish();
-    }
-
-    interface Presenter extends BasePresenter {
-
+    public interface View<DB extends ViewDataBinding>
+            extends BaseEndlessAdapterView<Achievement, QuestContract.Presenter, QuestContract.ViewModel, DB>,
+            BaseAdapterActionHandler<Achievement> {
 
     }
 
-    interface ViewModel extends BaseViewModel {
+    public interface Presenter extends BaseEndlessAdapterPresenter<Achievement> {
+
+    }
+
+    public interface ViewModel extends BaseEndlessAdapterViewModel<Achievement> {
 
         @Bindable
         Quest getQuest();

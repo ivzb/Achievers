@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities._base.BaseModel;
+import com.achievers.data.source._base.contracts.ReceiveDataSource;
 import com.achievers.generator._base.BaseGenerator;
 
 import java.util.ArrayList;
@@ -65,7 +66,9 @@ public abstract class AbstractReceiveDataSource<T extends BaseModel>
         int end = start + sPageSize;
         load(containerId, end);
 
-        callback.onSuccess(mEntities.get(containerId).subList(start, end));
+        List<T> data = mEntities.get(containerId).subList(start, end);
+
+        callback.onSuccess(data, page);
     }
 
     private void load(long id, int to) {

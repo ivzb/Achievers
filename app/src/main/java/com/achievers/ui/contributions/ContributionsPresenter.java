@@ -47,7 +47,7 @@ public class ContributionsPresenter
 
         mDataSource.load(null, page, new LoadCallback<AchievementProgress>() {
             @Override
-            public void onSuccess(List<AchievementProgress> data) {
+            public void onSuccess(List<AchievementProgress> data, int page) {
                 if (!mView.isActive()) return;
 
                 mView.setPage(page);

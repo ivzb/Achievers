@@ -1,5 +1,6 @@
 package com.achievers.data.source.achievements;
 
+import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.source._base.AbstractDataSource;
 import com.achievers.generator.AchievementsGenerator;
@@ -18,5 +19,10 @@ public class AchievementsMockDataSource
 
     private AchievementsMockDataSource() {
         super(new AchievementsGenerator());
+    }
+
+    @Override
+    public void loadByQuestId(Long id, int page, LoadCallback<Achievement> callback) {
+        load(id, page, callback);
     }
 }

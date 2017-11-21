@@ -1,4 +1,4 @@
-package com.achievers.data.source._base;
+package com.achievers.data.source._base.contracts;
 
 import com.achievers.data.callbacks.SaveCallback;
 

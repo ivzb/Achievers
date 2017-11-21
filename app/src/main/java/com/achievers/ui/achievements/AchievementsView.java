@@ -87,7 +87,7 @@ public class AchievementsView
                 mDataBinding.rvAchievements.getLayoutManager().onRestoreInstanceState(layoutManagerState);
             }
         } else {
-            mPresenter.refresh();
+            mPresenter.refresh(null);
         }
 
         return mDataBinding.getRoot();
@@ -131,11 +131,6 @@ public class AchievementsView
         mPresenter.click(achievement);
     }
 
-    @Override
-    public void onRefresh() {
-        mPresenter.refresh();
-    }
-
     private void setUpAchievementsRecycler(Context context) {
         BaseAdapter<Achievement> adapter = new AchievementsAdapter(getContext(), this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
@@ -147,7 +142,7 @@ public class AchievementsView
         mDataBinding.rvAchievements.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager, mViewModel.getPage()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                mPresenter.load(page);
+                mPresenter.load(null, page);
             }
         });
     }

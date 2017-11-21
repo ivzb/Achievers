@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.achievers.ui.achievement.AchievementContract.ViewModel" />
+            type="com.achievers.ui.quest.QuestContract.ViewModel" />
     </data>
 
     <com.achievers.utils.ui.ScrollChildSwipeRefreshLayout
@@ -14,7 +14,7 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvEvidences"
+            android:id="@+id/rvAchievements"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.achievers.utils.ui.ScrollChildSwipeRefreshLayout>

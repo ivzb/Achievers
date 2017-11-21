@@ -25,6 +25,6 @@ public class InvolvementsMockDataSource implements InvolvementsDataSource {
 
         checkNotNull(callback);
 
-        callback.onSuccess(Arrays.asList(Involvement.values()));
+        callback.onSuccess(Arrays.asList(Involvement.values()), 0);
     }
 }

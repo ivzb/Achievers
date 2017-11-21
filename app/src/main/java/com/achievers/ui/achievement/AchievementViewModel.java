@@ -1,33 +1,22 @@
 package com.achievers.ui.achievement;
 
-import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import com.achievers.BR;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
 import com.achievers.ui._base._contracts.adapters.BaseMultimediaAdapter;
+import com.achievers.ui._base.view_models.EndlessAdapterViewModel;
 
-public class AchievementViewModel
-        extends BaseObservable
+class AchievementViewModel
+        extends EndlessAdapterViewModel<Evidence>
         implements AchievementContract.ViewModel {
 
     private Achievement mAchievement;
     private BaseMultimediaAdapter<Evidence> mAdapter;
-    private int mPage;
 
     AchievementViewModel(Achievement achievement) {
         setAchievement(achievement);
-    }
-
-    @Override
-    public int getPage() {
-        return mPage;
-    }
-
-    @Override
-    public void setPage(int page) {
-        mPage = page;
     }
 
     @Bindable

@@ -6,10 +6,11 @@ import com.achievers.AchieversDebugTestApplication;
 import com.achievers.BuildConfig;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
+import com.achievers.ui._base.EndlessAdapterFragmentTest;
+import com.achievers.ui._base._contracts.adapters.BaseMultimediaAdapter;
 import com.achievers.ui._base._mocks.AchievementActivityMock;
 import com.achievers.ui._base.adapters.MultimediaAdapter;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,13 +22,11 @@ import org.robolectric.annotation.Config;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
 
@@ -35,7 +34,8 @@ import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFr
 @Config(sdk = Build.VERSION_CODES.LOLLIPOP,
         constants = BuildConfig.class,
         application = AchieversDebugTestApplication.class)
-public class AchievementFragmentTest {
+public class AchievementFragmentTest
+        extends EndlessAdapterFragmentTest<Evidence, AchievementView, AchievementContract.Presenter, AchievementViewModel> {
 
     private @Mock AchievementContract.Presenter mPresenter;
     private @Mock AchievementViewModel mViewModel;
@@ -44,6 +44,31 @@ public class AchievementFragmentTest {
     private AchievementView mFragment;
 
     private static final long sAchievementId = 5;
+
+    public AchievementFragmentTest() {
+        super(Evidence.class);
+    }
+
+    @Override
+    public AchievementView getFragment() {
+        return mFragment;
+    }
+
+    @Override
+    public AchievementContract.Presenter getPresenter() {
+        return mPresenter;
+    }
+
+    @Override
+    public AchievementViewModel getViewModel() {
+        return mViewModel;
+    }
+
+    @Override
+    public Evidence instantiateModel(Long id) {
+        if (id == null) return new Evidence();
+        return new Evidence(id);
+    }
 
     @Before
     public void before() throws Exception {
@@ -66,52 +91,31 @@ public class AchievementFragmentTest {
         verify(mPresenter).refresh(sAchievementId);
     }
 
-    @After
-    public void after() {
-        verifyNoMoreInteractions(mViewModel);
-        verifyNoMoreInteractions(mPresenter);
-    }
-
     @Test
-    public void shouldNotBeNull() throws Exception {
-        assertNotNull(mFragment);
-    }
-
-    @Test
-    public void showEvidences() {
+    @Override
+    public void show() {
         // arrange
-        List<Evidence> evidences = new ArrayList<>();
-        for (int i = 0; i < 5; i++) evidences.add(new Evidence(i));
+        List<Evidence> entities = new ArrayList<>();
+        for (long i = 0; i < 5; i++) entities.add(instantiateModel(i));
 
-        MultimediaAdapter<Evidence> adapter = mock(MultimediaAdapter.class);
-        when(mViewModel.getAdapter()).thenReturn(adapter);
+        BaseMultimediaAdapter<Evidence> adapter = mock(BaseMultimediaAdapter.class);
+        when(getViewModel().getAdapter()).thenReturn(adapter);
 
         // act
-        mFragment.showEvidences(evidences);
+        getFragment().show(entities);
 
         // assert
-        verify(mViewModel).getAdapter();
-        verify(adapter).add(eq(evidences));
+        verify(getViewModel()).getAdapter();
+        verify(adapter).add(eq(entities));
     }
 
     @Test
-    public void getPage() {
+    public void onRefresh() {
         // act
-        mFragment.getPage();
+        getFragment().onRefresh();
 
         // assert
-        verify(mViewModel, times(2)).getPage();
-    }
-
-    @Test
-    public void setPage() {
-        // arrange
-        int page = 5;
-
-        // act
-        mFragment.setPage(page);
-
-        // assert
-        verify(mViewModel).setPage(eq(5));
+        verify(mViewModel, times(2)).getAchievement();
+        verify(getPresenter(), times(2)).refresh(eq(sAchievementId));
     }
 }

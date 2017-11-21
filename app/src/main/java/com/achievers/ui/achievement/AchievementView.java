@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,8 +19,7 @@ import android.view.ViewGroup;
 import com.achievers.R;
 import com.achievers.data.entities.Evidence;
 import com.achievers.databinding.AchievementFragBinding;
-import com.achievers.ui._base.AbstractView;
-import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
+import com.achievers.ui._base.views.EndlessAdapterView;
 import com.achievers.ui.achievement.adapters.EvidencesAdapter;
 import com.achievers.ui.achievement.adapters.UploadEvidenceAdapter;
 import com.achievers.ui.add_evidence.AddEvidenceActivity;
@@ -38,12 +35,10 @@ import com.orhanobut.dialogplus.OnItemClickListener;
 
 import org.parceler.Parcels;
 
-import java.util.List;
-
 public class AchievementView
-        extends AbstractView<AchievementContract.Presenter, AchievementContract.ViewModel, AchievementFragBinding>
-        implements AchievementContract.View<AchievementFragBinding>, View.OnClickListener,
-        BaseAdapterActionHandler<Evidence>, SwipeRefreshLayout.OnRefreshListener {
+        extends EndlessAdapterView<Evidence, AchievementContract.Presenter, AchievementContract.ViewModel, AchievementFragBinding>
+        implements AchievementContract.View<AchievementFragBinding>,
+                   SwipeRefreshLayout.OnRefreshListener {
 
     private static final String EVIDENCES_STATE = "evidences_state";
     private static final String LAYOUT_MANAGER_STATE = "layout_manager_state";
@@ -66,8 +61,12 @@ public class AchievementView
         }
 
         setUpEvidencesRecycler(getContext());
-        setUpLoadingIndicator();
-        setUpFab();
+
+        SwipeRefreshLayoutUtils.setup(
+                getContext(),
+                mDataBinding.refreshLayout,
+                mDataBinding.rvEvidences,
+                this);
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(EVIDENCES_STATE)) {
@@ -110,13 +109,6 @@ public class AchievementView
     public void onPause() {
         super.onPause();
         mViewModel.getAdapter().releaseMedia();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // todo
     }
 
     @Override
@@ -182,26 +174,6 @@ public class AchievementView
     }
 
     @Override
-    public void showEvidences(List<Evidence> evidence) {
-        mViewModel.getAdapter().add(evidence);
-    }
-
-    @Override
-    public int getPage() {
-        return mViewModel.getPage();
-    }
-
-    @Override
-    public void setPage(int page) {
-        mViewModel.setPage(page);
-    }
-
-    @Override
-    public void onClick(View v) {
-        // todo
-    }
-
-    @Override
     public void onAdapterEntityClick(Evidence entity) {
         Intent intent = new Intent(getContext(), EvidenceActivity.class);
         intent.putExtra(EvidenceActivity.EXTRA_EVIDENCE, Parcels.wrap(entity));
@@ -214,7 +186,7 @@ public class AchievementView
     }
 
     private void setUpEvidencesRecycler(Context context) {
-        final EvidencesAdapter adapter = new EvidencesAdapter(getContext(),this);
+        final EvidencesAdapter adapter = new EvidencesAdapter(getContext(), this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         mViewModel.setAdapter(adapter);
 
@@ -223,28 +195,8 @@ public class AchievementView
         mDataBinding.rvEvidences.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager, mViewModel.getPage()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                mPresenter.loadEvidences(mViewModel.getAchievement().getId(), page);
+                mPresenter.load(mViewModel.getAchievement().getId(), page);
             }
         });
-    }
-
-    private void setUpFab() {
-        FloatingActionButton fab = getActivity().findViewById(R.id.fabAddEvidence);
-        fab.setOnClickListener(this);
-    }
-
-    private void setUpLoadingIndicator() {
-        mDataBinding.refreshLayout.setColorSchemeColors(
-                getColor(R.color.primary),
-                getColor(R.color.accent),
-                getColor(R.color.dark)
-        );
-
-        mDataBinding.refreshLayout.setScrollUpChild(mDataBinding.rvEvidences);
-        mDataBinding.refreshLayout.setOnRefreshListener(this);
-    }
-
-    private int getColor(int color) {
-        return ContextCompat.getColor(getActivity(), color);
     }
 }

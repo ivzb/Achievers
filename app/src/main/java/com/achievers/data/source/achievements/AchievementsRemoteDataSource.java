@@ -91,6 +91,12 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
     }
 
     @Override
+    public void loadByQuestId(Long id, int page, LoadCallback<Achievement> callback) {
+
+        // todo
+    }
+
+    @Override
     public void save(
             @NonNull Achievement achievement,
             @NonNull SaveCallback<Long> callback) {

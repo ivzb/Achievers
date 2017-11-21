@@ -82,7 +82,7 @@ public class EvidencesRemoteDataSource implements EvidencesDataSource {
                     return;
                 }
 
-                callback.onSuccess(response.body());
+                callback.onSuccess(response.body(), page);
             }
 
             @Override

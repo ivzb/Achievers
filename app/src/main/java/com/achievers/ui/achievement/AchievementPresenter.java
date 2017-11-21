@@ -1,64 +1,28 @@
 package com.achievers.ui.achievement;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Evidence;
 import com.achievers.data.source.evidences.EvidencesDataSource;
-import com.achievers.ui._base.AbstractPresenter;
+import com.achievers.ui._base.presenters.EndlessAdapterPresenter;
 
-import java.util.List;
-
-import static com.achievers.Config.RECYCLER_INITIAL_PAGE;
-import static com.achievers.utils.Preconditions.checkNotNull;
-
-public class AchievementPresenter
-        extends AbstractPresenter<AchievementContract.View>
+class AchievementPresenter
+        extends EndlessAdapterPresenter<Evidence, AchievementContract.View, EvidencesDataSource>
         implements AchievementContract.Presenter {
 
-    private final EvidencesDataSource mEvidencesDataSource;
-
     AchievementPresenter(
+           @NonNull Context context,
            @NonNull AchievementContract.View view,
-           EvidencesDataSource evidencesDataSource) {
+           @NonNull EvidencesDataSource dataSource) {
 
-        mView = checkNotNull(view, "view cannot be null");
-        mEvidencesDataSource = checkNotNull(evidencesDataSource, "context cannot be null");
+        super(context, view, dataSource);
     }
 
     @Override
-    public void start() {
+    public void result(int requestCode, int resultCode) {
+        super.result(requestCode, resultCode);
 
-    }
-
-    @Override
-    public void refresh(long achievementId) {
-        loadEvidences(achievementId, RECYCLER_INITIAL_PAGE);
-    }
-
-    @Override
-    public void loadEvidences(final long achievementId, final int page) {
-        if (!mView.isActive()) return;
-
-        mView.setLoadingIndicator(true);
-
-        mEvidencesDataSource.load(achievementId, page, new LoadCallback<Evidence>() {
-            @Override
-            public void onSuccess(List<Evidence> data) {
-                if (!mView.isActive()) return;
-
-                mView.setPage(page);
-                mView.setLoadingIndicator(false);
-                mView.showEvidences(data);
-            }
-
-            @Override
-            public void onFailure(String message) {
-                if (!mView.isActive()) return;
-
-                mView.setLoadingIndicator(false);
-                mView.showErrorMessage(message);
-            }
-        });
+        // todo
     }
 }

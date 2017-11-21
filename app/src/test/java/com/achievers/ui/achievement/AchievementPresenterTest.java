@@ -1,5 +1,7 @@
 package com.achievers.ui.achievement;
 
+import android.content.Context;
+
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Evidence;
 import com.achievers.data.source.evidences.EvidencesDataSource;
@@ -32,6 +34,7 @@ import static org.mockito.Mockito.when;
 
 public class AchievementPresenterTest {
 
+    @Mock private Context mContext;
     @Mock private AchievementContract.View mView;
     @Mock private EvidencesDataSource mDataSource;
 
@@ -50,26 +53,30 @@ public class AchievementPresenterTest {
         MockitoAnnotations.initMocks(this);
         GeneratorUtils.initialize(new Random(), new Faker());
 
-        mPresenter = new AchievementPresenter(mView, mDataSource);
+        mPresenter = new AchievementPresenter(mContext, mView, mDataSource);
         mAchievementId = 5;
     }
 
     @After
     public void after() {
-        verifyNoMoreInteractions(mView);
-
+        verifyNoMoreInteractions(mContext);
         verifyNoMoreInteractions(mView);
         verifyNoMoreInteractions(mDataSource);
     }
 
     @Test(expected = NullPointerException.class)
+    public void nullContext_shouldThrow() {
+        new AchievementPresenter(null, mView, mDataSource);
+    }
+
+    @Test(expected = NullPointerException.class)
     public void nullView_shouldThrow() {
-        new AchievementPresenter(null, mDataSource);
+        new AchievementPresenter(mContext, null, mDataSource);
     }
 
     @Test(expected = NullPointerException.class)
     public void nullDataSource_shouldThrow() {
-        new AchievementPresenter(mView, null);
+        new AchievementPresenter(mContext, mView, null);
     }
 
     @Test
@@ -209,7 +216,7 @@ public class AchievementPresenterTest {
 
                 if (isSuccessful) {
                     mExpectedLoad = generate(page);
-                    callback.onSuccess(mExpectedLoad);
+                    callback.onSuccess(mExpectedLoad, page);
                     return null;
                 }
 
@@ -221,14 +228,14 @@ public class AchievementPresenterTest {
     }
 
     private void actLoad(long achievementId, int page) {
-        mPresenter.loadEvidences(achievementId, page);
+        mPresenter.load(achievementId, page);
     }
 
     private void assertSuccessfulLoad(long achievementId, int page) {
         verify(mView).setLoadingIndicator(true);
 
         verify(mDataSource).load(eq(achievementId), eq(page), any(LoadCallback.class));
-        verify(mView).showEvidences(mLoadCaptor.capture());
+        verify(mView).show(mLoadCaptor.capture());
         verify(mView).setLoadingIndicator(false);
         verify(mView).setPage(any(int.class));
         verify(mView, times(2)).isActive();

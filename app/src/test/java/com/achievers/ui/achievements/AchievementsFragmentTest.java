@@ -1,6 +1,5 @@
 package com.achievers.ui.achievements;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import com.achievers.ui._base.AbstractAdapter;
 import com.achievers.ui._base.EndlessAdapterFragmentTest;
 import com.achievers.ui._base._mocks.AchievementsActivityMock;
 import com.achievers.ui.achievement.AchievementActivity;
-import com.achievers.ui.add_achievement.AddAchievementActivity;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,8 +27,8 @@ import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
 
@@ -45,9 +43,6 @@ public class AchievementsFragmentTest
     private @Mock AchievementsViewModel mViewModel;
 
     private AchievementsView mFragment;
-
-    private static final int sValidRequestCode = AddAchievementActivity.REQUEST_ADD_ACHIEVEMENT;
-    private static final int sValidResultCode = Activity.RESULT_OK;
 
     public AchievementsFragmentTest() {
         super(Achievement.class);
@@ -88,16 +83,7 @@ public class AchievementsFragmentTest
         verify(mViewModel).getPage();
 
         verify(mPresenter).start();
-        verify(mPresenter).refresh();
-    }
-
-    @Test
-    public void onActivityResult() {
-        // act
-        getFragment().onActivityResult(sValidRequestCode, sValidResultCode, null);
-
-        // assert
-        verify(mPresenter).result(eq(sValidRequestCode), eq(sValidResultCode));
+        verify(mPresenter).refresh(isNull(Long.class));
     }
 
     @Test
@@ -116,15 +102,6 @@ public class AchievementsFragmentTest
         assertTrue(extras.containsKey(AchievementActivity.EXTRA_ACHIEVEMENT));
         Achievement actual = Parcels.unwrap(extras.getParcelable(AchievementActivity.EXTRA_ACHIEVEMENT));
         assertEquals(model, actual);
-    }
-
-    @Test
-    public void onRefresh() {
-        // act
-        mFragment.onRefresh();
-
-        // assert
-        verify(mPresenter, times(2)).refresh();
     }
 
     @Test

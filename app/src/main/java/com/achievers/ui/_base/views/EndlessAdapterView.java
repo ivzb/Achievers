@@ -26,6 +26,16 @@ public abstract class EndlessAdapterView<M extends BaseModel, P extends BaseEndl
     }
 
     @Override
+    public void openUi(M entity) {
+
+    }
+
+    @Override
+    public void onRefresh() {
+        mPresenter.refresh(null);
+    }
+
+    @Override
     public int getPage() {
         return mViewModel.getPage();
     }

@@ -407,7 +407,7 @@ public class AddAchievementPresenterTestTest {
                 when(mView.isActive()).thenReturn(callbackInactiveView);
 
                 if (isSuccessful) {
-                    callback.onSuccess(Arrays.asList(Involvement.values()));
+                    callback.onSuccess(Arrays.asList(Involvement.values()), 0);
                     return null;
                 }
 

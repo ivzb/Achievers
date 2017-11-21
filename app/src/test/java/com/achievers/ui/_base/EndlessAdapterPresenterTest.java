@@ -2,7 +2,7 @@ package com.achievers.ui._base;
 
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities._base.BaseModel;
-import com.achievers.data.source._base.ReceiveDataSource;
+import com.achievers.data.source._base.contracts.ReceiveDataSource;
 import com.achievers.ui._base._contracts.BaseAdapterPresenterTest;
 import com.achievers.ui._base._contracts.presenters.BaseEndlessAdapterPresenter;
 import com.achievers.ui._base._contracts.views.BaseEndlessAdapterView;
@@ -221,7 +221,7 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
 
                 if (isSuccessful) {
                     mExpectedLoad = generate(page);
-                    callback.onSuccess(mExpectedLoad);
+                    callback.onSuccess(mExpectedLoad, page);
                     return null;
                 }
 
@@ -233,7 +233,7 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
     }
 
     private void actLoad(int page) {
-        mPresenter.load(page);
+        mPresenter.load(null, page);
     }
 
     private void assertSuccessfulLoad(int page) {
