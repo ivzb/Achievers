@@ -34,5 +34,4 @@ public abstract class EndlessAdapterView<M extends BaseModel, P extends BaseEndl
     public void setPage(int page) {
         mViewModel.setPage(page);
     }
-
 }

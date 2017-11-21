@@ -1,6 +1,7 @@
 package com.achievers.ui.quests;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -18,9 +19,12 @@ import com.achievers.databinding.QuestsFragBinding;
 import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
 import com.achievers.ui._base._contracts.adapters.BaseAdapter;
 import com.achievers.ui._base.views.EndlessAdapterView;
+import com.achievers.ui.quest.QuestActivity;
 import com.achievers.ui.quests.adapters.QuestsAdapter;
 import com.achievers.utils.ui.EndlessRecyclerViewScrollListener;
 import com.achievers.utils.ui.SwipeRefreshLayoutUtils;
+
+import org.parceler.Parcels;
 
 public class QuestsView
         extends EndlessAdapterView<Quest, QuestsContract.Presenter, QuestsContract.ViewModel, QuestsFragBinding>
@@ -106,10 +110,9 @@ public class QuestsView
 
     @Override
     public void openUi(Quest quest) {
-        // todo
-//        Intent intent = new Intent(getContext(), QuestActivity.class);
-//        intent.putExtra(QuestActivity.EXTRA_QUEST, Parcels.wrap(quest));
-//        startActivity(intent);
+        Intent intent = new Intent(getContext(), QuestActivity.class);
+        intent.putExtra(QuestActivity.EXTRA_QUEST, Parcels.wrap(quest));
+        startActivity(intent);
     }
 
     @Override

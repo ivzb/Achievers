@@ -1,18 +1,16 @@
-package com.achievers.ui.achievements;
+package com.achievers.ui.quests;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
 import com.achievers.AchieversDebugTestApplication;
 import com.achievers.BuildConfig;
-import com.achievers.data.entities.Achievement;
+import com.achievers.data.entities.Quest;
 import com.achievers.ui._base.AbstractAdapter;
 import com.achievers.ui._base.EndlessAdapterFragmentTest;
-import com.achievers.ui._base._mocks.AchievementsActivityMock;
-import com.achievers.ui.achievement.AchievementActivity;
-import com.achievers.ui.add_achievement.AddAchievementActivity;
+import com.achievers.ui._base._mocks.QuestsActivityMock;
+import com.achievers.ui.quest.QuestActivity;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,51 +36,48 @@ import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFr
 @Config(sdk = Build.VERSION_CODES.LOLLIPOP,
         constants = BuildConfig.class,
         application = AchieversDebugTestApplication.class)
-public class AchievementsFragmentTest
-        extends EndlessAdapterFragmentTest<Achievement, AchievementsView, AchievementsContract.Presenter, AchievementsViewModel> {
+public class QuestsFragmentTest
+        extends EndlessAdapterFragmentTest<Quest, QuestsView, QuestsContract.Presenter, QuestsViewModel> {
 
-    private @Mock AchievementsContract.Presenter mPresenter;
-    private @Mock AchievementsViewModel mViewModel;
+    private @Mock QuestsContract.Presenter mPresenter;
+    private @Mock QuestsViewModel mViewModel;
 
-    private AchievementsView mFragment;
+    private QuestsView mFragment;
 
-    private static final int sValidRequestCode = AddAchievementActivity.REQUEST_ADD_ACHIEVEMENT;
-    private static final int sValidResultCode = Activity.RESULT_OK;
-
-    public AchievementsFragmentTest() {
-        super(Achievement.class);
+    public QuestsFragmentTest() {
+        super(Quest.class);
     }
 
     @Override
-    public AchievementsView getFragment() {
+    public QuestsView getFragment() {
         return mFragment;
     }
 
     @Override
-    public AchievementsContract.Presenter getPresenter() {
+    public QuestsContract.Presenter getPresenter() {
         return mPresenter;
     }
 
     @Override
-    public AchievementsViewModel getViewModel() {
+    public QuestsViewModel getViewModel() {
         return mViewModel;
     }
 
     @Override
-    public Achievement instantiateModel(Long id) {
-        if (id == null) return new Achievement();
-        return new Achievement(id);
+    public Quest instantiateModel(Long id) {
+        if (id == null) return new Quest();
+        return new Quest(id);
     }
 
     @Before
     public void before() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        mFragment = new AchievementsView();
+        mFragment = new QuestsView();
         mFragment.setPresenter(mPresenter);
         mFragment.setViewModel(mViewModel);
 
-        startFragment(mFragment, AchievementsActivityMock.class);
+        startFragment(mFragment, QuestsActivityMock.class);
 
         verify(mViewModel).setAdapter(isA(AbstractAdapter.class));
         verify(mViewModel).getPage();
@@ -94,16 +89,16 @@ public class AchievementsFragmentTest
     @Test
     public void onActivityResult() {
         // act
-        getFragment().onActivityResult(sValidRequestCode, sValidResultCode, null);
+        getFragment().onActivityResult(-1, -1, null);
 
         // assert
-        verify(mPresenter).result(eq(sValidRequestCode), eq(sValidResultCode));
+        verify(mPresenter).result(eq(-1), eq(-1));
     }
 
     @Test
-    public void openAchievementUi() {
+    public void openQuestUi() {
         // arrange
-        Achievement model = instantiateModel(503L);
+        Quest model = instantiateModel(503L);
 
         // act
         getFragment().openUi(model);
@@ -113,8 +108,8 @@ public class AchievementsFragmentTest
 
         Bundle extras = intent.getExtras();
         assertNotNull(extras);
-        assertTrue(extras.containsKey(AchievementActivity.EXTRA_ACHIEVEMENT));
-        Achievement actual = Parcels.unwrap(extras.getParcelable(AchievementActivity.EXTRA_ACHIEVEMENT));
+        assertTrue(extras.containsKey(QuestActivity.EXTRA_QUEST));
+        Quest actual = Parcels.unwrap(extras.getParcelable(QuestActivity.EXTRA_QUEST));
         assertEquals(model, actual);
     }
 
@@ -128,9 +123,9 @@ public class AchievementsFragmentTest
     }
 
     @Test
-    public void onAchievementClick() {
+    public void onQuestClick() {
         // arrange
-        Achievement model = mock(Achievement.class);
+        Quest model = mock(Quest.class);
 
         // act
         getFragment().onAdapterEntityClick(model);

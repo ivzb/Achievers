@@ -18,9 +18,4 @@ public class QuestsPresenter
 
         super(context, view, dataSource);
     }
-
-    @Override
-    public void result(int requestCode, int resultCode) {
-
-    }
 }

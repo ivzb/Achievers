@@ -37,6 +37,11 @@ public abstract class EndlessAdapterPresenter<M extends BaseModel, V extends Bas
     }
 
     @Override
+    public void result(int requestCode, int resultCode) {
+
+    }
+
+    @Override
     public void refresh() {
         load(RECYCLER_INITIAL_PAGE);
     }
