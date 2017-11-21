@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -43,8 +42,6 @@ android {
     dataBinding {
         enabled = true
     }
-
-    buildToolsVersion '26.0.2'
 }
 
 repositories {
@@ -73,8 +70,6 @@ dependencies {
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile "org.mockito:mockito-core:2.7.19"
     androidTestCompile "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
-//    androidTestCompile 'com.android.support.test:runner:0.5'
-//    androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestUtil 'com.android.support.test:orchestrator:1.0.1'
 
@@ -128,7 +123,6 @@ dependencies {
     annotationProcessor "org.parceler:parceler:${parcelerVersion}"
 
     compile 'com.google.android.exoplayer:exoplayer:r2.2.0'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     // apache commons
     compile 'commons-io:commons-io:2.6'

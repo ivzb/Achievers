@@ -1,16 +1,16 @@
 language: android
 android:
   components:
-    - build-tools-26.0.1
+    - build-tools-27.0.1
 
-    - android-26
+    - android-27
 
-    - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
     - addon-google_apis-google-19
 
-    - sys-img-armeabi-v7a-android-26
+    - sys-img-armeabi-v7a-android-27
+    - sys-img-armeabi-v7a-android-25
     - sys-img-armeabi-v7a-android-22
 
 script:

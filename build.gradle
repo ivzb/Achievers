@@ -1,12 +1,10 @@
 buildscript {
-    ext.kotlin_version = '1.1.51'
     repositories {
         jcenter()
         google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -30,11 +28,11 @@ ext {
     // Sdk and tools
     minSdkVersion = 19
     targetSdkVersion = 25
-    compileSdkVersion = 26
-    buildToolsVersion = '26.0.1'
+    compileSdkVersion = 27
+    buildToolsVersion = '27.0.1'
 
     // App dependencies
-    supportLibraryVersion = '26.1.0'
+    supportLibraryVersion = '27.0.1'
     constraintLayoutVersion = '1.1.0-beta3'
     junitVersion = '4.12'
     mockitoVersion = '1.10.19'
