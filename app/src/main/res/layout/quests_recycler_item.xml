@@ -30,10 +30,10 @@
             android:layout_height="0dp"
             android:adjustViewBounds="true"
             android:layout_marginEnd="@dimen/spacing_medium"
-            app:layout_constraintBottom_toBottomOf="@+id/tvName"
+            app:layout_constraintBottom_toBottomOf="@+id/tvDescription"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvName"
-            app:layout_constraintEnd_toStartOf="@+id/glVertical"
+            app:layout_constraintEnd_toStartOf="@+id/glVerticalStart"
             app:resources="@{ resources }"
             app:roundAsCircle="true"
             app:uri="@{ quest.pictureUri }" />
@@ -50,14 +50,36 @@
             tools:text="@string/achievement_title"
             android:textSize="16sp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/glVertical"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/glVerticalStart"
+            app:layout_constraintEnd_toEndOf="@+id/glVerticalEnd" />
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:text="@{ quest.achievementsCount + ` achievements` }"
+            android:paddingTop="@dimen/spacing_medium"
+            android:paddingBottom="@dimen/spacing_small"
+            tools:text="@string/achievement_title"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/tvName"
+            app:layout_constraintStart_toEndOf="@+id/glVerticalStart"
+            app:layout_constraintEnd_toEndOf="@+id/glVerticalEnd" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/glVertical"
+            android:id="@+id/glVerticalStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="@dimen/guideline_xsmall" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/glVerticalEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/guideline_xlarge" />
     </android.support.constraint.ConstraintLayout>
 </layout>

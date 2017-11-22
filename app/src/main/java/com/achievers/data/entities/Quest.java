@@ -7,7 +7,6 @@ import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
-import java.util.Arrays;
 import java.util.Date;
 
 @Parcel(analyze = { Quest.class })
@@ -22,8 +21,8 @@ public class Quest implements BaseModel {
     @SerializedName("pictureUri")
     Uri pictureUri;
 
-    @SerializedName("achievementIds")
-    long[] achievementIds;
+    @SerializedName("achievementsCount")
+    int achievementsCount;
 
     @SerializedName("createdOn")
     Date createdOn;
@@ -40,13 +39,13 @@ public class Quest implements BaseModel {
             long id,
             String name,
             Uri pictureUri,
-            long[] achievementIds,
+            int achievementsCount,
             Date createdOn) {
 
         this(id);
         this.name = name;
         this.pictureUri = pictureUri;
-        this.achievementIds = achievementIds;
+        this.achievementsCount = achievementsCount;
         this.createdOn = createdOn;
     }
 
@@ -68,8 +67,8 @@ public class Quest implements BaseModel {
         return pictureUri;
     }
 
-    public long[] getAchievementIds() {
-        return achievementIds;
+    public int getAchievementsCount() {
+        return achievementsCount;
     }
 
     @Override
@@ -95,17 +94,20 @@ public class Quest implements BaseModel {
         Quest quest = (Quest) o;
 
         if (id != quest.id) return false;
-        if (!name.equals(quest.name)) return false;
-        if (!Arrays.equals(achievementIds, quest.achievementIds)) return false;
-        return createdOn.equals(quest.createdOn);
+        if (achievementsCount != quest.achievementsCount) return false;
+        if (name != null ? !name.equals(quest.name) : quest.name != null) return false;
+        if (pictureUri != null ? !pictureUri.equals(quest.pictureUri) : quest.pictureUri != null)
+            return false;
+        return createdOn != null ? createdOn.equals(quest.createdOn) : quest.createdOn == null;
     }
 
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + name.hashCode();
-        result = 31 * result + Arrays.hashCode(achievementIds);
-        result = 31 * result + createdOn.hashCode();
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (pictureUri != null ? pictureUri.hashCode() : 0);
+        result = 31 * result + achievementsCount;
+        result = 31 * result + (createdOn != null ? createdOn.hashCode() : 0);
         return result;
     }
 
@@ -114,7 +116,7 @@ public class Quest implements BaseModel {
         return "Quest{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", achievementIds=" + Arrays.toString(achievementIds) +
+                ", achievementsCount=" + achievementsCount +
                 ", startedOn=" + createdOn +
                 '}';
     }

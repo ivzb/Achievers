@@ -1,15 +1,15 @@
-package com.achievers.ui.achievement;
+package com.achievers.ui.quest;
 
 import android.os.Build;
 
 import com.achievers.AchieversDebugTestApplication;
 import com.achievers.BuildConfig;
 import com.achievers.data.entities.Achievement;
-import com.achievers.data.entities.Evidence;
+import com.achievers.data.entities.Quest;
 import com.achievers.ui._base.EndlessAdapterFragmentTest;
+import com.achievers.ui._base._contracts.adapters.BaseAdapter;
 import com.achievers.ui._base._contracts.adapters.BaseMultimediaAdapter;
 import com.achievers.ui._base._mocks.AchievementActivityMock;
-import com.achievers.ui._base.adapters.MultimediaAdapter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,71 +34,71 @@ import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFr
 @Config(sdk = Build.VERSION_CODES.LOLLIPOP,
         constants = BuildConfig.class,
         application = AchieversDebugTestApplication.class)
-public class AchievementFragmentTest
-        extends EndlessAdapterFragmentTest<Evidence, AchievementView, AchievementContract.Presenter, AchievementViewModel> {
+public class QuestFragmentTest
+        extends EndlessAdapterFragmentTest<Achievement, QuestView, QuestContract.Presenter, QuestViewModel> {
 
-    private @Mock AchievementContract.Presenter mPresenter;
-    private @Mock AchievementViewModel mViewModel;
-    private @Mock Achievement mAchievement;
+    private @Mock QuestContract.Presenter mPresenter;
+    private @Mock QuestViewModel mViewModel;
+    private @Mock Quest mQuest;
 
-    private AchievementView mFragment;
+    private QuestView mFragment;
 
-    private static final long sAchievementId = 5;
+    private static final long sQuestId = 5;
 
-    public AchievementFragmentTest() {
-        super(Evidence.class);
+    public QuestFragmentTest() {
+        super(Achievement.class);
     }
 
     @Override
-    public AchievementView getFragment() {
+    public QuestView getFragment() {
         return mFragment;
     }
 
     @Override
-    public AchievementContract.Presenter getPresenter() {
+    public QuestContract.Presenter getPresenter() {
         return mPresenter;
     }
 
     @Override
-    public AchievementViewModel getViewModel() {
+    public QuestViewModel getViewModel() {
         return mViewModel;
     }
 
     @Override
-    public Evidence instantiateModel(Long id) {
-        if (id == null) return new Evidence();
-        return new Evidence(id);
+    public Achievement instantiateModel(Long id) {
+        if (id == null) return new Achievement();
+        return new Achievement(id);
     }
 
     @Before
     public void before() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        mFragment = new AchievementView();
+        mFragment = new QuestView();
         mFragment.setPresenter(mPresenter);
         mFragment.setViewModel(mViewModel);
 
-        when(mAchievement.getId()).thenReturn(sAchievementId);
-        when(mViewModel.getAchievement()).thenReturn(mAchievement);
+        when(mQuest.getId()).thenReturn(sQuestId);
+        when(mViewModel.getQuest()).thenReturn(mQuest);
 
         startFragment(mFragment, AchievementActivityMock.class);
 
-        verify(mViewModel).setAdapter(isA(MultimediaAdapter.class));
+        verify(mViewModel).setAdapter(isA(BaseAdapter.class));
         verify(mViewModel).getPage();
-        verify(mViewModel).getAchievement();
+        verify(mViewModel).getQuest();
 
         verify(mPresenter).start();
-        verify(mPresenter).refresh(sAchievementId);
+        verify(mPresenter).refresh(sQuestId);
     }
 
     @Test
     @Override
     public void show() {
         // arrange
-        List<Evidence> entities = new ArrayList<>();
+        List<Achievement> entities = new ArrayList<>();
         for (long i = 0; i < 5; i++) entities.add(instantiateModel(i));
 
-        BaseMultimediaAdapter<Evidence> adapter = mock(BaseMultimediaAdapter.class);
+        BaseMultimediaAdapter<Achievement> adapter = mock(BaseMultimediaAdapter.class);
         when(getViewModel().getAdapter()).thenReturn(adapter);
 
         // act
@@ -115,7 +115,7 @@ public class AchievementFragmentTest
         getFragment().onRefresh();
 
         // assert
-        verify(mViewModel, times(2)).getAchievement();
-        verify(getPresenter(), times(2)).refresh(eq(sAchievementId));
+        verify(mViewModel, times(2)).getQuest();
+        verify(getPresenter(), times(2)).refresh(eq(sQuestId));
     }
 }

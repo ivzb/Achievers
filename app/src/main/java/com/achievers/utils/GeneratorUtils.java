@@ -111,12 +111,8 @@ public class GeneratorUtils {
     public Quest getQuest(long id, Date startedOn) {
         String name = mFaker.lorem.word();
         Uri picture = getImageUri();
-        long[] achievementIds = new long[mRandom.nextInt(15)];
+        int achievementsCount = mRandom.nextInt(15) + 1;
 
-        for (int i = 0; i < achievementIds.length; i++) {
-            achievementIds[i] = mRandom.nextInt(100);
-        }
-
-        return new Quest(id, name, picture, achievementIds, startedOn);
+        return new Quest(id, name, picture, achievementsCount, startedOn);
     }
 }

@@ -296,12 +296,12 @@ public class GeneratorUtilsTest {
         long id = 5;
         String name = "quest";
         String previewUrl = String.format(sImagePathFormat, randomIndex);
-        long[] achievementIds = new long[] { 4, 8, 13 };
+        int achievementsCount = 13;
         Date startedOn = getDate();
 
         when(mRandom.nextInt(anyInt()))
                 .thenReturn(randomIndex)
-                .thenReturn(achievementIds.length)
+                .thenReturn(achievementsCount)
                 .thenReturn(4)
                 .thenReturn(8)
                 .thenReturn(13);
@@ -316,7 +316,7 @@ public class GeneratorUtilsTest {
                 id,
                 name,
                 Uri.parse(previewUrl),
-                achievementIds,
+                achievementsCount + 1,
                 startedOn);
 
         // act

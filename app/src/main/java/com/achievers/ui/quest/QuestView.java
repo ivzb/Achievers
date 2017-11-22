@@ -36,7 +36,7 @@ public class QuestView
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.achievement_frag, container, false);
+        View view = inflater.inflate(R.layout.quest_frag, container, false);
 
         mDataBinding = QuestFragBinding.bind(view);
         mDataBinding.setViewModel(mViewModel);

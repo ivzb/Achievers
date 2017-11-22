@@ -30,13 +30,15 @@ import static org.mockito.Mockito.when;
 public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends BaseEndlessAdapterPresenter<M>, V extends BaseEndlessAdapterView, DS extends ReceiveDataSource<M>>
         implements BaseAdapterPresenterTest<M, P, V, DS> {
 
-    @Captor private ArgumentCaptor<List<M>> mLoadCaptor;
+    @Captor protected ArgumentCaptor<List<M>> mLoadCaptor;
 
     protected P mPresenter;
 
-    private List<M> mExpectedLoad;
+    protected Long mId;
 
-    private static final String sLoadFailure = "Could not load entities";
+    protected List<M> mExpectedLoad;
+
+    protected static final String sLoadFailure = "Could not load entities";
 
     @After
     public void after() {
@@ -67,17 +69,37 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
     }
 
     @Test
-    public void load_firstPage_successful() {
+    public void refresh() {
+        // arrange
         int page = 0;
 
         arrangeLoad(
+                mId,
                 true,
                 true,
                 true,
                 page);
 
-        actLoad(page);
-        assertSuccessfulLoad(page);
+        // act
+        mPresenter.refresh(mId);
+
+        // assert
+        assertSuccessfulLoad(mId, page);
+    }
+
+    @Test
+    public void load_firstPage_successful() {
+        int page = 0;
+
+        arrangeLoad(
+                mId,
+                true,
+                true,
+                true,
+                page);
+
+        actLoad(mId, page);
+        assertSuccessfulLoad(mId, page);
     }
 
     @Test
@@ -85,13 +107,14 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
         int page = 0;
 
         arrangeLoad(
+                mId,
                 false,
                 true,
                 true,
                 page);
 
-        actLoad(page);
-        assertFailureLoad(page);
+        actLoad(mId, page);
+        assertFailureLoad(mId, page);
     }
 
     @Test
@@ -99,13 +122,14 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
         int page = 9;
 
         arrangeLoad(
+                mId,
                 true,
                 true,
                 true,
                 page);
 
-        actLoad(page);
-        assertSuccessfulLoad(page);
+        actLoad(mId, page);
+        assertSuccessfulLoad(mId, page);
     }
 
     @Test
@@ -113,13 +137,14 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
         int page = 9;
 
         arrangeLoad(
+                mId,
                 false,
                 true,
                 true,
                 page);
 
-        actLoad(page);
-        assertFailureLoad(page);
+        actLoad(mId, page);
+        assertFailureLoad(mId, page);
     }
 
     @Test
@@ -127,12 +152,13 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
         int page = 0;
 
         arrangeLoad(
+                mId,
                 null,
                 false,
                 null,
                 page);
 
-        actLoad(page);
+        actLoad(mId, page);
 
         // assert
         verify(getView()).isActive();
@@ -144,20 +170,20 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
         int page = 0;
 
         arrangeLoad(
+                mId,
                 true,
                 true,
                 false,
                 page);
 
-        actLoad(page);
+        actLoad(mId, page);
 
         // assert
         verify(getView()).setLoadingIndicator(true);
-        verify(getDataSource()).load(isNull(Long.class), eq(page), any(LoadCallback.class));
+        verify(getDataSource()).load(eq(mId), eq(page), any(LoadCallback.class));
         verify(getView(), times(2)).isActive();
         verifyNoMoreInteractions(getView());
     }
-
 
     @Test
     public void click_shouldOpenUi() {
@@ -201,7 +227,8 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
         verifyNoMoreInteractions(getView());
     }
 
-    private void arrangeLoad(
+    protected void arrangeLoad(
+            final Long id,
             final Boolean isSuccessful,
             final Boolean initiallyInactiveView,
             final Boolean callbackInactiveView,
@@ -229,17 +256,17 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
                 return null;
             }
         }).when(getDataSource()).load(
-                isNull(Long.class), any(int.class), any(LoadCallback.class));
+                id == null ? isNull(Long.class) : any(Long.class), any(int.class), any(LoadCallback.class));
     }
 
-    private void actLoad(int page) {
-        mPresenter.load(null, page);
+    protected void actLoad(Long id, int page) {
+        mPresenter.load(id, page);
     }
 
-    private void assertSuccessfulLoad(int page) {
+    protected void assertSuccessfulLoad(Long id, int page) {
         verify(getView()).setLoadingIndicator(true);
 
-        verify(getDataSource()).load(isNull(Long.class), eq(page), any(LoadCallback.class));
+        verify(getDataSource()).load(eq(id), eq(page), any(LoadCallback.class));
         verify(getView()).show(mLoadCaptor.capture());
         verify(getView()).setLoadingIndicator(false);
         verify(getView()).setPage(any(int.class));
@@ -250,17 +277,17 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
         assertTrue(mExpectedLoad == actualLoad);
     }
 
-    private void assertFailureLoad(int page) {
+    protected void assertFailureLoad(Long id, int page) {
         verify(getView()).setLoadingIndicator(true);
 
-        verify(getDataSource()).load(isNull(Long.class), eq(page), any(LoadCallback.class));
+        verify(getDataSource()).load(eq(id), eq(page), any(LoadCallback.class));
         verify(getView()).showErrorMessage(any(String.class));
         verify(getView()).setLoadingIndicator(false);
         verify(getView(), times(2)).isActive();
         verifyNoMoreInteractions(getView());
     }
 
-    private List<M> generate(int page) {
+    protected List<M> generate(int page) {
         List<M> entities = new ArrayList<>();
         int end = 9 * page;
 
