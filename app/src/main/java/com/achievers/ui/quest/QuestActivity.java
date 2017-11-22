@@ -7,12 +7,12 @@ import android.support.v7.widget.Toolbar;
 import com.achievers.R;
 import com.achievers.data.entities.Quest;
 import com.achievers.data.source.achievements.AchievementsMockDataSource;
-import com.achievers.ui._base.AbstractActivity;
+import com.achievers.ui._base.activities.CollapsingToolbarActivity;
 import com.achievers.utils.ActivityUtils;
 
 import org.parceler.Parcels;
 
-public class QuestActivity extends AbstractActivity {
+public class QuestActivity extends CollapsingToolbarActivity {
 
     public static final String EXTRA_QUEST = "quest";
 
@@ -33,6 +33,8 @@ public class QuestActivity extends AbstractActivity {
         }
 
         Quest quest = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_QUEST));
+
+        initCollapsingToolbar(quest.getPictureUri(), quest.getName());
 
         QuestView view = (QuestView) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
