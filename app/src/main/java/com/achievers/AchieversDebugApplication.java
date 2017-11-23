@@ -1,6 +1,6 @@
 package com.achievers;
 
-import com.achievers.utils.GeneratorUtils;
+import com.achievers.data.generators.config.GeneratorConfig;
 import com.facebook.stetho.Stetho;
 
 import java.util.Random;
@@ -22,7 +22,7 @@ public class AchieversDebugApplication extends AchieversApplication {
             );
         }
 
-        GeneratorUtils.initialize(new Random(), new Faker());
+        GeneratorConfig.initialize(new Random(), new Faker());
     }
 
     protected boolean isUnitTesting() {

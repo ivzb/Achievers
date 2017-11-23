@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.entities.Achievement;
-import com.achievers.data.source.achievements.AchievementsDataSource;
+import com.achievers.data.sources.achievements.AchievementsDataSource;
 import com.achievers.ui._base.presenters.EndlessAdapterPresenter;
 
 class QuestPresenter

@@ -13,7 +13,7 @@ import android.widget.SeekBar;
 
 import com.achievers.R;
 import com.achievers.data.entities.AchievementProgress;
-import com.achievers.data.source.achievements_progress.AchievementsProgressMockDataSource;
+import com.achievers.data.sources.achievements_progress.AchievementsProgressMockDataSource;
 import com.achievers.databinding.ContributionsFragBinding;
 import com.achievers.ui._base.AbstractView;
 import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;

@@ -5,7 +5,7 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import com.achievers.data.source.evidences.EvidencesDataSource;
+import com.achievers.data.sources.evidences.EvidencesDataSource;
 import com.achievers.ui._base.AbstractPresenter;
 import com.achievers.utils.ui.multimedia.MultimediaType;
 import com.achievers.utils.ui.multimedia.MultimediaView;

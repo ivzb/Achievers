@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.achievers.R;
 import com.achievers.data.entities.Achievement;
-import com.achievers.data.source.achievements.AchievementsMockDataSource;
+import com.achievers.data.sources.achievements.AchievementsMockDataSource;
 import com.achievers.databinding.AchievementsFragBinding;
 import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
 import com.achievers.ui._base._contracts.adapters.BaseAdapter;

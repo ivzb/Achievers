@@ -2,7 +2,7 @@ package com.achievers.ui.evidence;
 
 import android.Manifest;
 
-import com.achievers.data.source.evidences.EvidencesDataSource;
+import com.achievers.data.sources.evidences.EvidencesDataSource;
 import com.achievers.utils.ui.multimedia.MultimediaType;
 import com.achievers.utils.ui.multimedia.MultimediaView;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaBuilder;

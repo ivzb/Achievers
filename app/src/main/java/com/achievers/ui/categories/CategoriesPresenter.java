@@ -4,8 +4,8 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.entities.Category;
-import com.achievers.data.source.categories.CategoriesDataSource;
-import com.achievers.data.source.categories.CategoriesRepository;
+import com.achievers.data.sources.categories.CategoriesDataSource;
+import com.achievers.data.sources.categories.CategoriesRepository;
 import com.achievers.ui._base.AbstractPresenter;
 
 import java.util.EmptyStackException;

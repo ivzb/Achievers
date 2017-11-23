@@ -3,7 +3,7 @@ package com.achievers.data._base;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities._base.BaseModel;
-import com.achievers.data.source._base.contracts.ReceiveDataSource;
+import com.achievers.data.sources._base.contracts.ReceiveDataSource;
 
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;

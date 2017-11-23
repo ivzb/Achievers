@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
-import com.achievers.data.source.achievements.AchievementsDataSource;
+import com.achievers.data.generators.config.GeneratorConfig;
+import com.achievers.data.sources.achievements.AchievementsDataSource;
 import com.achievers.ui._base.EndlessAdapterPresenterTest;
-import com.achievers.utils.GeneratorUtils;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -57,7 +57,8 @@ public class QuestPresenterTest
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
-        GeneratorUtils.initialize(new Random(), new Faker());
+        GeneratorConfig.destroyInstance();
+        GeneratorConfig.initialize(new Random(), new Faker());
 
         mPresenter = new QuestPresenter(mContext, mView, mDataSource);
         mId = 5L;

@@ -3,9 +3,9 @@ package com.achievers.ui.quests;
 import android.content.Context;
 
 import com.achievers.data.entities.Quest;
-import com.achievers.data.source.quests.QuestsDataSource;
+import com.achievers.data.generators.config.GeneratorConfig;
+import com.achievers.data.sources.quests.QuestsDataSource;
 import com.achievers.ui._base.EndlessAdapterPresenterTest;
-import com.achievers.utils.GeneratorUtils;
 
 import org.junit.Before;
 import org.mockito.Mock;
@@ -18,8 +18,7 @@ import io.bloco.faker.Faker;
 public class QuestsPresenterTest
         extends EndlessAdapterPresenterTest<Quest, QuestsContract.Presenter, QuestsContract.View, QuestsDataSource> {
 
-    @Mock
-    protected Context mContext;
+    @Mock protected Context mContext;
     @Mock protected QuestsContract.View mView;
     @Mock protected QuestsDataSource mDataSource;
 
@@ -41,7 +40,8 @@ public class QuestsPresenterTest
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
-        GeneratorUtils.initialize(new Random(), new Faker());
+        GeneratorConfig.destroyInstance();
+        GeneratorConfig.initialize(new Random(), new Faker());
 
         mPresenter = new QuestsPresenter(mContext, mView, mDataSource);
     }

@@ -12,11 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.achievers.R;
-import com.achievers.data.source.categories.CategoriesDataSource;
-import com.achievers.data.source.categories.CategoriesLoaderProvider;
-import com.achievers.data.source.categories.CategoriesRepository;
-import com.achievers.data.source.categories.local.CategoriesLocalDataSource;
-import com.achievers.data.source.categories.remote.CategoriesMockDataSource;
+import com.achievers.data.sources.categories.CategoriesDataSource;
+import com.achievers.data.sources.categories.CategoriesLoaderProvider;
+import com.achievers.data.sources.categories.CategoriesRepository;
+import com.achievers.data.sources.categories.local.CategoriesLocalDataSource;
+import com.achievers.data.sources.categories.remote.CategoriesMockDataSource;
 import com.achievers.databinding.CategoriesActBinding;
 import com.achievers.ui._base.AbstractActivity;
 import com.achievers.utils.ActivityUtils;

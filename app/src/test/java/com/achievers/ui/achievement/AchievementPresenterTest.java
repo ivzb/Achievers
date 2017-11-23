@@ -3,9 +3,9 @@ package com.achievers.ui.achievement;
 import android.content.Context;
 
 import com.achievers.data.entities.Evidence;
-import com.achievers.data.source.evidences.EvidencesDataSource;
+import com.achievers.data.generators.config.GeneratorConfig;
+import com.achievers.data.sources.evidences.EvidencesDataSource;
 import com.achievers.ui._base.EndlessAdapterPresenterTest;
-import com.achievers.utils.GeneratorUtils;
 
 import org.junit.Before;
 import org.mockito.Mock;
@@ -40,7 +40,8 @@ public class AchievementPresenterTest
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
-        GeneratorUtils.initialize(new Random(), new Faker());
+        GeneratorConfig.destroyInstance();
+        GeneratorConfig.initialize(new Random(), new Faker());
 
         mPresenter = new AchievementPresenter(mContext, mView, mDataSource);
         mId = 5L;

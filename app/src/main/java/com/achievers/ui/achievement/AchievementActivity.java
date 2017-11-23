@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.achievers.R;
 import com.achievers.data.entities.Achievement;
-import com.achievers.data.source.evidences.EvidencesMockDataSource;
+import com.achievers.data.sources.evidences.EvidencesMockDataSource;
 import com.achievers.ui._base.activities.CollapsingToolbarActivity;
 import com.achievers.utils.ActivityUtils;
 

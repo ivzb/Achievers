@@ -8,10 +8,10 @@ import android.net.Uri;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Involvement;
-import com.achievers.data.source.achievements.AchievementsDataSource;
-import com.achievers.data.source.files.FilesDataSource;
-import com.achievers.data.source.involvements.InvolvementsDataSource;
-import com.achievers.utils.GeneratorUtils;
+import com.achievers.data.generators.config.GeneratorConfig;
+import com.achievers.data.sources.achievements.AchievementsDataSource;
+import com.achievers.data.sources.files.FilesDataSource;
+import com.achievers.data.sources.involvements.InvolvementsDataSource;
 
 import org.junit.After;
 import org.junit.Before;
@@ -67,7 +67,8 @@ public class AddAchievementPresenterTestTest {
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
-        GeneratorUtils.initialize(new Random(), new Faker());
+        GeneratorConfig.destroyInstance();
+        GeneratorConfig.initialize(new Random(), new Faker());
 
         mPresenter = new AddAchievementPresenter(
                 mContext,

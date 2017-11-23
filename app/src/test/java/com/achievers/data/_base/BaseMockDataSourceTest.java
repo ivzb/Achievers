@@ -2,7 +2,7 @@ package com.achievers.data._base;
 
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities._base.BaseModel;
-import com.achievers.data.source._base.contracts.BaseDataSource;
+import com.achievers.data.sources._base.contracts.BaseDataSource;
 
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;

@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.achievers.data.entities.Evidence;
-import com.achievers.utils.GeneratorUtils;
+import com.achievers.data.generators.config.GeneratorConfig;
 import com.achievers.utils.files.factory.FileFactory;
 import com.achievers.utils.ui.multimedia.MultimediaType;
 import com.achievers.utils.ui.multimedia._base.BaseMultimediaPlayer;
@@ -62,7 +62,8 @@ public class AddEvidencePresenterTest {
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
-        GeneratorUtils.initialize(new Random(), new Faker());
+        GeneratorConfig.destroyInstance();
+        GeneratorConfig.initialize(new Random(), new Faker());
 
         mPresenter = new AddEvidencePresenter(
                 mContext,

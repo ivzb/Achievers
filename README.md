@@ -11,6 +11,7 @@ Each **Category** has single parent. **Categories** could be nested as much as w
 
 The application is covering every aspect of lifestyle, including world exploration, professions, personal development; from the purely whimsical to the truly epic, there is something for everyone. Some achievements come with in-game rewards such as titles. All of these rewards are purely cosmetic and just for fun, but you’ll certainly stand out when you proudly display them.
 
+### Achievement types
 They come in several varieties:
 1. Single Action - require specific actions to unlock, such as getting a haircut or going to gym 5 days consequently.
 2. Progressive - involve a progress bar and require you to do something several times — such as give out 10 hugs. Once you complete an achievement to collect 10, you might next be asked to collect 25.
@@ -18,7 +19,7 @@ They come in several varieties:
 
 **Achievements** are displayed when **Category** leaf has been reached, through search or in users profiles.
 
-## Evidence
+## Evidences
 **Evidence** could be reviewed inside a specific **Achievement**. An **Evidence** is a proof that user accomplished certain **Achievement**.
 
 User may choose between LinearLayout and CardView layouts.
@@ -28,26 +29,45 @@ User may choose between LinearLayout and CardView layouts.
 * Custom layout has better UX as the user interacts only with one **Evidence** at a time.
 He might react to it, read/write comments or swipe left/right for navigation between Evidences.
 
-## Involvement
+## Involvements
 1. Bronze
 2. Silver
 3. Gold
 4. Platinum
 5. Diamond
 
+## Quests
+// todo
+
+### Quest types
+1. World
+2. Daily
+3. Weekly
+4. Monthly
+
+## Rewards
+// todo
+
+### Reward types
+1. Experience
+2. Item
+3. Title
+
 # TODO
-1. User profile
-   1. Own achievements - define yourself goals and make little steps everyday and observe how you are improving yourself overtime.
+1. Quests
+2. Rewards
+3. User profile
+   1. Own achievements
    2. Own evidence
-   3. Friend people (either by navigating to their profiles or scanning their QR codes)
-2. Quests - essential part
-3. Groups - achieve something with friends/strangers
-4. Privacy
+   3. Friend people
+4. Reputation
+6. Authentication & Authorization
+7. Privacy
    1. Public
    2. Protected
    3. Private
-5. Authentication
-6. Local data source using Room
+8. Groups - achieve with friends/strangers
+9. Local data source (Room)
 
 # Dependencies
 1) GSON - A Java serialization/deserialization library to convert Java Objects into JSON and back. [GitHub](https://github.com/google/gson)
@@ -60,3 +80,4 @@ He might react to it, read/write comments or swipe left/right for navigation bet
 8) Parceler - a code generation library that generates the Android Parcelable boilerplate source code. [GitHub](https://github.com/johncarl81/parceler)
 9) Mockito
 10) Android components (only Room for now)
+11) More...

@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.AchievementProgress;
-import com.achievers.data.source.achievements_progress.AchievementsProgressDataSource;
+import com.achievers.data.sources.achievements_progress.AchievementsProgressDataSource;
 import com.achievers.ui._base.AbstractPresenter;
 
 import java.util.List;

@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import org.parceler.Parcel;
 
 import java.util.Date;
+import java.util.List;
 
 @Parcel(analyze = { Quest.class })
 public class Quest implements BaseModel {
@@ -23,6 +24,18 @@ public class Quest implements BaseModel {
 
     @SerializedName("achievementsCount")
     int achievementsCount;
+
+    @SerializedName("involvement")
+    Involvement involvement;
+
+    @SerializedName("involvement")
+    int requiredLevel;
+
+    @SerializedName("rewards")
+    List<Reward> rewards;
+
+    @SerializedName("type")
+    Quest.Type type;
 
     @SerializedName("createdOn")
     Date createdOn;
@@ -40,12 +53,20 @@ public class Quest implements BaseModel {
             String name,
             Uri pictureUri,
             int achievementsCount,
+            Involvement involvement,
+            int requiredLevel,
+            List<Reward> rewards,
+            Quest.Type type,
             Date createdOn) {
 
         this(id);
         this.name = name;
         this.pictureUri = pictureUri;
         this.achievementsCount = achievementsCount;
+        this.involvement = involvement;
+        this.requiredLevel = requiredLevel;
+        this.rewards = rewards;
+        this.type = type;
         this.createdOn = createdOn;
     }
 
@@ -69,6 +90,22 @@ public class Quest implements BaseModel {
 
     public int getAchievementsCount() {
         return achievementsCount;
+    }
+
+    public Involvement getInvolvement() {
+        return involvement;
+    }
+
+    public int getRequiredLevel() {
+        return requiredLevel;
+    }
+
+    public List<Reward> getRewards() {
+        return rewards;
+    }
+
+    public Type getType() {
+        return type;
     }
 
     @Override
@@ -95,9 +132,13 @@ public class Quest implements BaseModel {
 
         if (id != quest.id) return false;
         if (achievementsCount != quest.achievementsCount) return false;
+        if (requiredLevel != quest.requiredLevel) return false;
         if (name != null ? !name.equals(quest.name) : quest.name != null) return false;
         if (pictureUri != null ? !pictureUri.equals(quest.pictureUri) : quest.pictureUri != null)
             return false;
+        if (involvement != quest.involvement) return false;
+        if (rewards != null ? !rewards.equals(quest.rewards) : quest.rewards != null) return false;
+        if (type != quest.type) return false;
         return createdOn != null ? createdOn.equals(quest.createdOn) : quest.createdOn == null;
     }
 
@@ -107,6 +148,10 @@ public class Quest implements BaseModel {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (pictureUri != null ? pictureUri.hashCode() : 0);
         result = 31 * result + achievementsCount;
+        result = 31 * result + (involvement != null ? involvement.hashCode() : 0);
+        result = 31 * result + requiredLevel;
+        result = 31 * result + (rewards != null ? rewards.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (createdOn != null ? createdOn.hashCode() : 0);
         return result;
     }
@@ -116,8 +161,30 @@ public class Quest implements BaseModel {
         return "Quest{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", pictureUri=" + pictureUri +
                 ", achievementsCount=" + achievementsCount +
-                ", startedOn=" + createdOn +
+                ", involvement=" + involvement +
+                ", requiredLevel=" + requiredLevel +
+                ", rewards=" + rewards +
+                ", type=" + type +
+                ", createdOn=" + createdOn +
                 '}';
+    }
+
+    public enum Type {
+        World(1),
+        Daily(2),
+        Weekly(3),
+        Monthly(4);
+
+        private int mId;
+
+        Type(int id) {
+            mId = id;
+        }
+
+        public int getId() {
+            return mId;
+        }
     }
 }

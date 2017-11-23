@@ -1,6 +1,6 @@
 package com.achievers.ui.categories;
 
-import com.achievers.data.source.categories.CategoriesRepository;
+import com.achievers.data.sources.categories.CategoriesRepository;
 
 import org.junit.Before;
 import org.junit.Rule;
