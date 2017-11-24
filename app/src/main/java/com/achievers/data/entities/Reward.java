@@ -1,5 +1,7 @@
 package com.achievers.data.entities;
 
+import android.net.Uri;
+
 import com.achievers.data.entities._base.BaseModel;
 import com.google.gson.annotations.SerializedName;
 
@@ -15,6 +17,12 @@ public class Reward implements BaseModel {
 
     @SerializedName("name")
     String name;
+
+    @SerializedName("description")
+    String description;
+
+    @SerializedName("pictureUri")
+    Uri pictureUri;
 
     @SerializedName("type")
     Reward.Type type;
@@ -33,11 +41,15 @@ public class Reward implements BaseModel {
     public Reward(
             long id,
             String name,
+            String description,
+            Uri pictureUri,
             Reward.Type type,
             Date createdOn) {
 
         this(id);
         this.name = name;
+        this.description = description;
+        this.pictureUri = pictureUri;
         this.type = type;
         this.createdOn = createdOn;
     }
@@ -54,6 +66,14 @@ public class Reward implements BaseModel {
 
     public String getName() {
         return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Uri getPictureUri() {
+        return pictureUri;
     }
 
     public Reward.Type getType() {
@@ -82,6 +102,10 @@ public class Reward implements BaseModel {
 
         if (id != reward.id) return false;
         if (name != null ? !name.equals(reward.name) : reward.name != null) return false;
+        if (description != null ? !description.equals(reward.description) : reward.description != null)
+            return false;
+        if (pictureUri != null ? !pictureUri.equals(reward.pictureUri) : reward.pictureUri != null)
+            return false;
         if (type != reward.type) return false;
         return createdOn != null ? createdOn.equals(reward.createdOn) : reward.createdOn == null;
     }
@@ -90,6 +114,8 @@ public class Reward implements BaseModel {
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (pictureUri != null ? pictureUri.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (createdOn != null ? createdOn.hashCode() : 0);
         return result;

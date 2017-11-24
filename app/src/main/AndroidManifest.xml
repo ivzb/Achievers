@@ -35,6 +35,7 @@
         <activity android:name=".ui.add_evidence.AddEvidenceActivity" />
         <activity android:name=".ui.voice_recording.VoiceRecordingActivity" />
         <activity android:name=".ui.quest.QuestActivity" />
+        <activity android:name=".ui.rewards.RewardsActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

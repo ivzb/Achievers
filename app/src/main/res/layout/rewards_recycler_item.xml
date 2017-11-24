@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="quest"
-            type="com.achievers.data.entities.Quest" />
+            name="reward"
+            type="com.achievers.data.entities.Reward" />
 
         <variable
             name="resources"
@@ -17,19 +17,12 @@
             type="com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler" />
     </data>
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_medium"
-        android:layout_marginStart="@dimen/spacing_medium"
-        android:layout_marginEnd="@dimen/spacing_medium">
-
     <android.support.constraint.ConstraintLayout
         android:background="?android:attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/spacing_medium"
-        android:onClick="@{ () -> actionHandler.onAdapterEntityClick(quest) }">
+        android:paddingBottom="@dimen/spacing_medium">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdvPicture"
@@ -43,15 +36,7 @@
             app:layout_constraintEnd_toStartOf="@+id/glVerticalStart"
             app:resources="@{ resources }"
             app:roundAsCircle="true"
-            app:uri="@{ quest.pictureUri }" />
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@{ quest.involvement.drawable }"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:roundAsCircle="true" />
+            app:uri="@{ reward.pictureUri }" />
 
         <TextView
             android:id="@+id/tvName"
@@ -59,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:text="@{ quest.name }"
+            android:text="@{ reward.name }"
             android:paddingTop="@dimen/spacing_small"
             android:paddingBottom="@dimen/spacing_small"
             tools:text="@string/achievement_title"
@@ -74,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:text="@{ quest.description }"
+            android:text="@{ reward.description }"
             android:paddingTop="@dimen/spacing_medium"
             android:paddingBottom="@dimen/spacing_small"
             tools:text="@string/achievement_title"
@@ -82,14 +67,6 @@
             app:layout_constraintTop_toBottomOf="@+id/tvName"
             app:layout_constraintStart_toEndOf="@+id/glVerticalStart"
             app:layout_constraintEnd_toEndOf="@+id/glVerticalEnd" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvRewards"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/sdvPicture"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
 
         <android.support.constraint.Guideline
             android:id="@+id/glVerticalStart"
@@ -105,6 +82,4 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="@dimen/guideline_xlarge" />
     </android.support.constraint.ConstraintLayout>
-
-    </android.support.v7.widget.CardView>
 </layout>

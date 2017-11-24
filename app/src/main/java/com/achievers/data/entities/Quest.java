@@ -9,6 +9,7 @@ import org.parceler.Parcel;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Parcel(analyze = { Quest.class })
 public class Quest implements BaseModel {
@@ -28,7 +29,7 @@ public class Quest implements BaseModel {
     @SerializedName("involvement")
     Involvement involvement;
 
-    @SerializedName("involvement")
+    @SerializedName("requiredLevel")
     int requiredLevel;
 
     @SerializedName("rewards")
@@ -123,6 +124,13 @@ public class Quest implements BaseModel {
         return null;
     }
 
+    public String getDescription() {
+        return String.format(Locale.getDefault(), "%d level, %d achievements, %s",
+                requiredLevel,
+                achievementsCount,
+                type.name());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -185,6 +193,10 @@ public class Quest implements BaseModel {
 
         public int getId() {
             return mId;
+        }
+
+        public String getName() {
+            return name();
         }
     }
 }

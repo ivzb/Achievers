@@ -24,6 +24,8 @@ public class RewardsGeneratorTest
         return new Reward(
                 id,
                 sWord,
+                sSentence,
+                sImageUri,
                 sRewardType,
                 sDate);
     }

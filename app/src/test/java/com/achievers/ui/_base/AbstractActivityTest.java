@@ -14,7 +14,9 @@ import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertNotNull;
 
-@Config(sdk = Build.VERSION_CODES.LOLLIPOP, constants = BuildConfig.class, application = AchieversDebugTestApplication.class)
+@Config(sdk = Build.VERSION_CODES.LOLLIPOP,
+        constants = BuildConfig.class,
+        application = AchieversDebugTestApplication.class)
 public abstract class AbstractActivityTest<A extends AppCompatActivity> {
 
     protected A mActivity;

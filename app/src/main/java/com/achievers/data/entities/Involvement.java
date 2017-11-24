@@ -30,4 +30,8 @@ public enum Involvement {
 
         return 0;
     }
+
+    public String getName() {
+        return name();
+    }
 }

@@ -60,14 +60,14 @@ public class HomeActivity
         ViewPagerMetadata achievementsMetadata = new ViewPagerMetadata(3);
 
         achievementsMetadata.add(
-                new AchievementsView(),
-                "Home",
-                R.drawable.ic_home);
-
-        achievementsMetadata.add(
                 new QuestsView(),
                 "Quests",
                 R.drawable.ic_subscriptions);
+
+        achievementsMetadata.add(
+                new AchievementsView(),
+                "Home",
+                R.drawable.ic_home);
 
         achievementsMetadata.add(
                 new ContributionsView(),

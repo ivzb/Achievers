@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import com.achievers.BR;
 import com.achievers.data.entities.Achievement;
 import com.achievers.databinding.AchievementsRecyclerItemBinding;
-import com.achievers.ui._base.AbstractAdapter;
 import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
+import com.achievers.ui._base.adapters.SimpleActionHandlerAdapter;
 
-public class AchievementsAdapter extends AbstractAdapter<Achievement> {
+public class AchievementsAdapter extends SimpleActionHandlerAdapter<Achievement> {
 
     public AchievementsAdapter(Context context, BaseAdapterActionHandler<Achievement> actionHandler) {
         super(context, actionHandler);

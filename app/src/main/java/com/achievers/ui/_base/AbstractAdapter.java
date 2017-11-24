@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 
 import com.achievers.data.entities._base.BaseModel;
-import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
 import com.achievers.ui._base._contracts.adapters.BaseAdapter;
 
 import org.parceler.Parcels;
@@ -20,12 +19,10 @@ public abstract class AbstractAdapter<T extends BaseModel>
 
     protected Context mContext;
     protected List<T> mEntities;
-    protected BaseAdapterActionHandler<T> mActionHandler;
 
-    public AbstractAdapter(Context context, BaseAdapterActionHandler<T> actionHandler) {
+    public AbstractAdapter(Context context) {
         mContext = context;
         mEntities = new ArrayList<>();
-        mActionHandler = actionHandler;
     }
 
     @Override

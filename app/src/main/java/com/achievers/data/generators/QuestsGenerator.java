@@ -30,7 +30,7 @@ public class QuestsGenerator
         Involvement involvement = mConfig.getEnum(Involvement.values());
         int requiredLevel = mConfig.getNumber(20);
 
-        int rewardsSize = mConfig.getNumber(3);
+        int rewardsSize = mConfig.getNumber(7);
         List<Reward> rewards = mRewardsGenerator.multiple(0, rewardsSize);
 
         Quest.Type type = mConfig.getEnum(Quest.Type.values());
