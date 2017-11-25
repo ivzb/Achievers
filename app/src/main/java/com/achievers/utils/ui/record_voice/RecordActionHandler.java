@@ -1,4 +1,4 @@
-package com.achievers.utils.ui.voice_recording;
+package com.achievers.utils.ui.record_voice;
 
 public interface RecordActionHandler {
     void onRecord(boolean start);

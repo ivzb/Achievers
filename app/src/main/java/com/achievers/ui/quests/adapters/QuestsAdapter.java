@@ -1,8 +1,7 @@
 package com.achievers.ui.quests.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -11,24 +10,23 @@ import com.achievers.data.entities.Quest;
 import com.achievers.data.entities.Reward;
 import com.achievers.databinding.QuestsRecyclerItemBinding;
 import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
-import com.achievers.ui._base._contracts.adapters.BaseAdapter;
 import com.achievers.ui._base.adapters.SimpleActionHandlerAdapter;
-import com.achievers.ui.quests.RewardsActionHandler;
+
+import java.util.List;
 
 public class QuestsAdapter
-        extends SimpleActionHandlerAdapter<Quest>
-        implements BaseAdapterActionHandler<Quest> {
+        extends SimpleActionHandlerAdapter<Quest> {
 
-    private RewardsActionHandler mRewardActionHandler;
+//    private RewardsActionHandler mRewardActionHandler;
 
     public QuestsAdapter(
             Context context,
-            BaseAdapterActionHandler<Quest> questActionHandler,
-            RewardsActionHandler rewardActionHandler) {
+            BaseAdapterActionHandler<Quest> questActionHandler) {
+//            RewardsActionHandler rewardActionHandler) {
 
         super(context, questActionHandler);
 
-        mRewardActionHandler = rewardActionHandler;
+//        mRewardActionHandler = rewardActionHandler;
     }
 
     @Override
@@ -41,12 +39,6 @@ public class QuestsAdapter
         return new ViewHolder<>(binding);
     }
 
-    private void setUpQuestsRecycler(
-            Context context,
-            QuestsRecyclerItemBinding binding) {
-
-    }
-
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         Quest quest = mEntities.get(position);
@@ -57,23 +49,18 @@ public class QuestsAdapter
         binding.setVariable(BR.actionHandler, mActionHandler);
         binding.executePendingBindings();
 
-        BaseAdapter<Reward> adapter = new QuestRewardsAdapter(
-                mContext,
-                this,
-                quest.getRewards(),
-                quest);
+        List<Reward> rewards = quest.getRewards();
+        Uri[] rewardsUris = new Uri[rewards.size()];
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(
-                mContext,
-                LinearLayoutManager.HORIZONTAL,
-                false);
+        for (int i = 0; i < rewards.size(); i++) {
+            rewardsUris[i] = rewards.get(i).getPictureUri();
+        }
 
-        binding.rvRewards.setAdapter((RecyclerView.Adapter) adapter);
-        binding.rvRewards.setLayoutManager(layoutManager);
+        binding.mdvRewards.setUris(rewardsUris);
     }
 
-    @Override
-    public void onAdapterEntityClick(Quest quest) {
-        mRewardActionHandler.onRewardsClick(quest);
-    }
+//    @Override
+//    public void onAdapterEntityClick(Quest quest) {
+//        mRewardActionHandler.onRewardsClick(quest);
+//    }
 }

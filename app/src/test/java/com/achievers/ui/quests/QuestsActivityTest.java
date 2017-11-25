@@ -16,7 +16,6 @@ import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowApplication;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(shadows = { ResourcesCompatShadow.class })
@@ -34,8 +33,6 @@ public class QuestsActivityTest extends AbstractActivityTest<HomeActivity> {
         Intent expectedIntent = new Intent(mActivity, QuestActivity.class);
         Intent actual = ShadowApplication.getInstance().getNextStartedActivity();
 
-        assertNotNull(expectedIntent);
-        assertNotNull(actual);
         assertEquals(expectedIntent.getComponent(), actual.getComponent());
     }
 }

@@ -1,4 +1,4 @@
-package com.achievers.utils.ui.voice_recording;
+package com.achievers.utils.ui.record_voice;
 
 import android.content.Context;
 import android.graphics.Canvas;

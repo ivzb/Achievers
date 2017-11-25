@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.achievers.R;
 import com.achievers.databinding.VoiceRecordingFragBinding;
 import com.achievers.ui._base.AbstractView;
-import com.achievers.utils.ui.voice_recording.RecordActionHandler;
+import com.achievers.utils.ui.record_voice.RecordActionHandler;
 
 import java.io.File;
 

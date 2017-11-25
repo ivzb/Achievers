@@ -32,4 +32,8 @@
     <color name="rvbCircleColor">#ccc</color>
     <color name="rvbButtonColor">#f00</color>
     <color name="rvbTextColor">#eeeeee</color>
+
+    <!-- MultiDraweesView -->
+    <color name="mdvSolid">#ccc</color>
+    <color name="mdvStroke">#e53935</color>
 </resources>

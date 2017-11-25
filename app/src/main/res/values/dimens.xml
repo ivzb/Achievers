@@ -19,12 +19,20 @@
     <item name="guideline_xsmall" format="float" type="dimen">0.2</item>
     <item name="guideline_xlarge" format="float" type="dimen">0.9</item>
 
+    <!-- CircleProgressView -->
     <dimen name="cpv_font_size_medium">17sp</dimen>
     <dimen name="cpv_font_size_large">26sp</dimen>
 
+    <!-- WeeklyProgressView -->
     <dimen name="wpv_font_size">26sp</dimen>
 
+    <!-- LevelView -->
     <dimen name="lv_font_size">26sp</dimen>
 
+    <!-- RecordVoiceButton -->
     <dimen name="rvb_font_size">26sp</dimen>
+
+    <!-- MultiDraweesView -->
+    <dimen name="mdv_stroke_size">0dp</dimen>
+    <dimen name="mdv_font_size">30sp</dimen>
 </resources>

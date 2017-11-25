@@ -12,7 +12,7 @@ public class QuestsContract {
 
     public interface View<DB extends ViewDataBinding>
             extends BaseEndlessAdapterView<Quest, Presenter, ViewModel, DB>,
-                    BaseAdapterActionHandler<Quest>, RewardsActionHandler {
+                    BaseAdapterActionHandler<Quest> { //, RewardsActionHandler {
 
         void openRewardsUi(Quest quest);
     }
