@@ -37,7 +37,7 @@ He might react to it, read/write comments or swipe left/right for navigation bet
 5. Diamond
 
 ## Quests
-// todo
+Much of Achievers involves the completion of quests. Quests usually reward the player with some combination of experience points, items, and in-game money. Quests are linked by a common theme, with each consecutive quest triggered by the completion of the previous, forming a quest chain. Quests commonly involve gathering a certain number of resources, finding a difficult to locate object, speaking to various people, visiting specific locations, interacting with objects in the world.
 
 ### Quest types
 1. World
