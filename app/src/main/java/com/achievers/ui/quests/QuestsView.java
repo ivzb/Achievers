@@ -21,7 +21,6 @@ import com.achievers.ui._base._contracts.adapters.BaseAdapter;
 import com.achievers.ui._base.views.EndlessAdapterView;
 import com.achievers.ui.quest.QuestActivity;
 import com.achievers.ui.quests.adapters.QuestsAdapter;
-import com.achievers.ui.rewards.RewardsActivity;
 import com.achievers.utils.ui.EndlessRecyclerViewScrollListener;
 import com.achievers.utils.ui.SwipeRefreshLayoutUtils;
 
@@ -31,7 +30,6 @@ public class QuestsView
         extends EndlessAdapterView<Quest, QuestsContract.Presenter, QuestsContract.ViewModel, QuestsFragBinding>
         implements QuestsContract.View<QuestsFragBinding>,
                    BaseAdapterActionHandler<Quest>,
-                   RewardsActionHandler,
                    SwipeRefreshLayout.OnRefreshListener {
 
     private static final String QUESTS_STATE = "quests_state";
@@ -129,13 +127,8 @@ public class QuestsView
         mPresenter.click(quest);
     }
 
-    @Override
-    public void onRewardsClick(Quest quest) {
-        mPresenter.clickRewards(quest);
-    }
-
     private void setUpQuestsRecycler(Context context) {
-        BaseAdapter<Quest> adapter = new QuestsAdapter(getContext(), this, this);
+        BaseAdapter<Quest> adapter = new QuestsAdapter(getContext(), this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
 
         mViewModel.setAdapter(adapter);
@@ -148,12 +141,5 @@ public class QuestsView
                 mPresenter.load(null, page);
             }
         });
-    }
-
-    @Override
-    public void openRewardsUi(Quest quest) {
-        Intent intent = new Intent(getContext(), RewardsActivity.class);
-        intent.putExtra(RewardsActivity.EXTRA_QUEST, Parcels.wrap(quest));
-        startActivity(intent);
     }
 }

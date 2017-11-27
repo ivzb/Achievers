@@ -11,10 +11,6 @@
         <variable
             name="actionHandler"
             type="com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler" />
-
-        <variable
-            name="rewardsActionHandler"
-            type="com.achievers.ui.quests.RewardsActionHandler" />
     </data>
 
     <android.support.v7.widget.CardView
@@ -83,13 +79,13 @@
                 app:layout_constraintEnd_toEndOf="@+id/glVerticalEnd" />
 
             <com.achievers.utils.ui.multi_drawees.MultiDraweesView
-                android:id="@+id/mdvRewards"
+                android:id="@+id/mdvAchievements"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:onClick="@{ () -> rewardsActionHandler.onRewardsClick(quest) }"
                 app:layout_constraintTop_toBottomOf="@id/sdvPicture"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="@dimen/spacing_medium" />
 
             <android.support.constraint.Guideline
                 android:id="@+id/glVerticalStart"

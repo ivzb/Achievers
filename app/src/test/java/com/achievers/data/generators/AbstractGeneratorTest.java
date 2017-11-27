@@ -32,6 +32,7 @@ public abstract class AbstractGeneratorTest<T extends BaseModel>
     private BaseGenerator<T> mGenerator;
 
     static final long sId = 5L;
+//    static final HashMap<Long, Boolean> mIds;
     static final String sWord = "word";
     static final String sSentence = "sentence";
     static final int sNumber = 42;

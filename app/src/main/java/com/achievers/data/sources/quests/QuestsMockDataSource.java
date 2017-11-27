@@ -1,6 +1,7 @@
 package com.achievers.data.sources.quests;
 
 import com.achievers.data.entities.Quest;
+import com.achievers.data.generators.AchievementsGenerator;
 import com.achievers.data.generators.QuestsGenerator;
 import com.achievers.data.generators.RewardsGenerator;
 import com.achievers.data.generators.config.GeneratorConfig;
@@ -21,6 +22,7 @@ public class QuestsMockDataSource
     private QuestsMockDataSource() {
         super(
             new QuestsGenerator(GeneratorConfig.getInstance(),
+                new AchievementsGenerator(GeneratorConfig.getInstance()),
                 new RewardsGenerator(GeneratorConfig.getInstance())));
     }
 }

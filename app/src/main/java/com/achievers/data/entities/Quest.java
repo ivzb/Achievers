@@ -23,14 +23,20 @@ public class Quest implements BaseModel {
     @SerializedName("pictureUri")
     Uri pictureUri;
 
-    @SerializedName("achievementsCount")
-    int achievementsCount;
-
     @SerializedName("involvement")
     Involvement involvement;
 
+    @SerializedName("experience")
+    int experience;
+
     @SerializedName("requiredLevel")
     int requiredLevel;
+
+    @SerializedName("achievements")
+    List<Achievement> achievements;
+
+    @SerializedName("completedAchievements")
+    List<Long> completedAchievements;
 
     @SerializedName("rewards")
     List<Reward> rewards;
@@ -53,9 +59,11 @@ public class Quest implements BaseModel {
             long id,
             String name,
             Uri pictureUri,
-            int achievementsCount,
             Involvement involvement,
+            int experience,
             int requiredLevel,
+            List<Achievement> achievements,
+//            List<Long> completedAchievements,
             List<Reward> rewards,
             Quest.Type type,
             Date createdOn) {
@@ -63,9 +71,11 @@ public class Quest implements BaseModel {
         this(id);
         this.name = name;
         this.pictureUri = pictureUri;
-        this.achievementsCount = achievementsCount;
         this.involvement = involvement;
+        this.experience = experience;
         this.requiredLevel = requiredLevel;
+        this.achievements = achievements;
+//        this.completedAchievements = completedAchievements;
         this.rewards = rewards;
         this.type = type;
         this.createdOn = createdOn;
@@ -89,16 +99,24 @@ public class Quest implements BaseModel {
         return pictureUri;
     }
 
-    public int getAchievementsCount() {
-        return achievementsCount;
-    }
-
     public Involvement getInvolvement() {
         return involvement;
     }
 
+    public int getExperience() {
+        return experience;
+    }
+
     public int getRequiredLevel() {
         return requiredLevel;
+    }
+
+    public List<Achievement> getAchievements() {
+        return achievements;
+    }
+
+    public List<Long> getCompletedAchievements() {
+        return completedAchievements;
     }
 
     public List<Reward> getRewards() {
@@ -125,9 +143,9 @@ public class Quest implements BaseModel {
     }
 
     public String getDescription() {
-        return String.format(Locale.getDefault(), "%d level, %d achievements, %s",
+        return String.format(Locale.getDefault(), "%d experience, %d level, %s",
+                experience,
                 requiredLevel,
-                achievementsCount,
                 type.name());
     }
 
@@ -139,12 +157,13 @@ public class Quest implements BaseModel {
         Quest quest = (Quest) o;
 
         if (id != quest.id) return false;
-        if (achievementsCount != quest.achievementsCount) return false;
         if (requiredLevel != quest.requiredLevel) return false;
         if (name != null ? !name.equals(quest.name) : quest.name != null) return false;
         if (pictureUri != null ? !pictureUri.equals(quest.pictureUri) : quest.pictureUri != null)
             return false;
         if (involvement != quest.involvement) return false;
+        if (experience != quest.experience) return false;
+        if (achievements != null ? !achievements.equals(quest.achievements) : quest.achievements != null) return false;
         if (rewards != null ? !rewards.equals(quest.rewards) : quest.rewards != null) return false;
         if (type != quest.type) return false;
         return createdOn != null ? createdOn.equals(quest.createdOn) : quest.createdOn == null;
@@ -155,9 +174,10 @@ public class Quest implements BaseModel {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (pictureUri != null ? pictureUri.hashCode() : 0);
-        result = 31 * result + achievementsCount;
         result = 31 * result + (involvement != null ? involvement.hashCode() : 0);
         result = 31 * result + requiredLevel;
+        result = 31 * result + experience;
+        result = 31 * result + (achievements != null ? achievements.hashCode() : 0);
         result = 31 * result + (rewards != null ? rewards.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (createdOn != null ? createdOn.hashCode() : 0);
@@ -170,9 +190,10 @@ public class Quest implements BaseModel {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", pictureUri=" + pictureUri +
-                ", achievementsCount=" + achievementsCount +
                 ", involvement=" + involvement +
                 ", requiredLevel=" + requiredLevel +
+                ", experience=" + experience +
+                ", achievements=" + achievements +
                 ", rewards=" + rewards +
                 ", type=" + type +
                 ", createdOn=" + createdOn +

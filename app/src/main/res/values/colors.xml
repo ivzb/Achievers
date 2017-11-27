@@ -34,6 +34,6 @@
     <color name="rvbTextColor">#eeeeee</color>
 
     <!-- MultiDraweesView -->
-    <color name="mdvSolid">#ccc</color>
-    <color name="mdvStroke">#e53935</color>
+    <color name="mdvSolid">#eee</color>
+    <color name="mdvStroke">#3F51B5</color>
 </resources>

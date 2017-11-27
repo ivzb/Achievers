@@ -2,9 +2,11 @@ package com.achievers.ui.quest;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,19 +16,27 @@ import android.view.ViewGroup;
 
 import com.achievers.R;
 import com.achievers.data.entities.Achievement;
+import com.achievers.data.entities.Quest;
+import com.achievers.data.entities.Reward;
 import com.achievers.databinding.QuestFragBinding;
+import com.achievers.ui._base._contracts.action_handlers.BaseActionHandler;
 import com.achievers.ui._base.views.EndlessAdapterView;
 import com.achievers.ui.achievement.AchievementActivity;
 import com.achievers.ui.achievements.adapters.AchievementsAdapter;
+import com.achievers.ui.rewards.RewardsActivity;
 import com.achievers.utils.ui.EndlessRecyclerViewScrollListener;
 import com.achievers.utils.ui.SwipeRefreshLayoutUtils;
 
 import org.parceler.Parcels;
 
+import java.util.List;
+
 public class QuestView
         extends EndlessAdapterView<Achievement, QuestContract.Presenter, QuestContract.ViewModel, QuestFragBinding>
         implements QuestContract.View<QuestFragBinding>,
-                   SwipeRefreshLayout.OnRefreshListener {
+                   SwipeRefreshLayout.OnRefreshListener,
+                   View.OnClickListener,
+                   BaseActionHandler {
 
     private static final String ACHIEVEMENTS_STATE = "achievements_state";
     private static final String LAYOUT_MANAGER_STATE = "layout_manager_state";
@@ -40,6 +50,7 @@ public class QuestView
 
         mDataBinding = QuestFragBinding.bind(view);
         mDataBinding.setViewModel(mViewModel);
+        mDataBinding.setActionHandler(this);
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(PAGE_STATE)) {
@@ -49,6 +60,7 @@ public class QuestView
         }
 
         setUpAchievementsRecycler(getContext());
+        setUpFab();
 
         SwipeRefreshLayoutUtils.setup(
                 getContext(),
@@ -70,6 +82,15 @@ public class QuestView
             long questId = mViewModel.getQuest().getId();
             mPresenter.refresh(questId);
         }
+
+        List<Reward> rewards = mViewModel.getQuest().getRewards();
+        Uri[] rewardsUris = new Uri[rewards.size()];
+
+        for (int i = 0; i < rewards.size(); i++) {
+            rewardsUris[i] = rewards.get(i).getPictureUri();
+        }
+
+        mDataBinding.mdvRewards.setUris(rewardsUris);
 
         return view;
     }
@@ -125,5 +146,27 @@ public class QuestView
                 mPresenter.load(mViewModel.getQuest().getId(), page);
             }
         });
+    }
+
+    private void setUpFab() {
+        FloatingActionButton fab = getActivity().findViewById(R.id.fabQuest);
+        fab.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick() {
+        mPresenter.clickRewards(mViewModel.getQuest());
+    }
+
+    @Override
+    public void openRewardsUi(Quest quest) {
+        Intent intent = new Intent(getContext(), RewardsActivity.class);
+        intent.putExtra(RewardsActivity.EXTRA_QUEST, Parcels.wrap(quest));
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View view) {
+        // todo
     }
 }

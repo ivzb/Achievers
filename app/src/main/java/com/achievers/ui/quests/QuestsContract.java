@@ -14,12 +14,10 @@ public class QuestsContract {
             extends BaseEndlessAdapterView<Quest, Presenter, ViewModel, DB>,
                     BaseAdapterActionHandler<Quest> { //, RewardsActionHandler {
 
-        void openRewardsUi(Quest quest);
     }
 
     public interface Presenter extends BaseEndlessAdapterPresenter<Quest> {
 
-        void clickRewards(Quest quest);
     }
 
     public interface ViewModel extends BaseEndlessAdapterViewModel<Quest> {

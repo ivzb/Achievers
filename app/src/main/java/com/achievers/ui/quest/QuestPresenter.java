@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.entities.Achievement;
+import com.achievers.data.entities.Quest;
 import com.achievers.data.sources.achievements.AchievementsDataSource;
 import com.achievers.ui._base.presenters.EndlessAdapterPresenter;
 
@@ -33,5 +34,12 @@ class QuestPresenter
         super.result(requestCode, resultCode);
 
         // todo
+    }
+
+    @Override
+    public void clickRewards(Quest quest) {
+        if (!mView.isActive()) return;
+
+        mView.openRewardsUi(quest);
     }
 }

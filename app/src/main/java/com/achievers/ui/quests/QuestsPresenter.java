@@ -18,11 +18,4 @@ public class QuestsPresenter
 
         super(context, view, dataSource);
     }
-
-    @Override
-    public void clickRewards(Quest quest) {
-         if (!mView.isActive()) return;
-
-         mView.openRewardsUi(quest);
-    }
 }

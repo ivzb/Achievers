@@ -2,6 +2,7 @@ package com.achievers.data.generators;
 
 import android.net.Uri;
 
+import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Involvement;
 import com.achievers.data.entities.Quest;
 import com.achievers.data.entities.Reward;
@@ -14,11 +15,17 @@ import java.util.List;
 public class QuestsGenerator
         extends AbstractGenerator<Quest> {
 
+    private BaseGenerator<Achievement> mAchievementsGenerator;
     private BaseGenerator<Reward> mRewardsGenerator;
 
-    public QuestsGenerator(BaseGeneratorConfig config, BaseGenerator<Reward> rewardsGenerator) {
+    public QuestsGenerator(
+            BaseGeneratorConfig config,
+            BaseGenerator<Achievement> achievementsGenerator,
+            BaseGenerator<Reward> rewardsGenerator) {
+
         super(config);
 
+        mAchievementsGenerator = achievementsGenerator;
         mRewardsGenerator = rewardsGenerator;
     }
 
@@ -26,9 +33,12 @@ public class QuestsGenerator
     public Quest instantiate(long id) {
         String name = mConfig.getWord();
         Uri picture = mConfig.getImageUri();
-        int achievementsCount = mConfig.getNumber(15);
         Involvement involvement = mConfig.getEnum(Involvement.values());
         int requiredLevel = mConfig.getNumber(20);
+        int experience = mConfig.getNumber(2000);
+
+        int achievementsSize = mConfig.getNumber(15);
+        List<Achievement> achievements = mAchievementsGenerator.multiple(0, achievementsSize);
 
         int rewardsSize = mConfig.getNumber(7);
         List<Reward> rewards = mRewardsGenerator.multiple(0, rewardsSize);
@@ -40,9 +50,10 @@ public class QuestsGenerator
                 id,
                 name,
                 picture,
-                achievementsCount,
                 involvement,
+                experience,
                 requiredLevel,
+                achievements,
                 rewards,
                 type,
                 createdOn);

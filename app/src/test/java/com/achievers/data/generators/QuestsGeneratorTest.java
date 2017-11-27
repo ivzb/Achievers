@@ -1,5 +1,6 @@
 package com.achievers.data.generators;
 
+import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Quest;
 import com.achievers.data.entities.Reward;
 import com.achievers.data.generators._base.BaseGenerator;
@@ -19,16 +20,23 @@ import static org.mockito.Mockito.when;
 public class QuestsGeneratorTest
         extends AbstractGeneratorTest<Quest> {
 
+    private @Mock BaseGenerator<Achievement> mAchievementsGenerator;
     private @Mock BaseGenerator<Reward> mRewardsGenerator;
+    private @Mock List<Achievement> mAchievements;
     private @Mock List<Reward> mRewards;
 
     @Before
     public void before() {
         super.before();
 
+        when(mAchievementsGenerator.multiple(anyLong(), anyInt())).thenReturn(mAchievements);
         when(mRewardsGenerator.multiple(anyLong(), anyInt())).thenReturn(mRewards);
 
-        BaseGenerator<Quest> generator = new QuestsGenerator(mGeneratorConfig, mRewardsGenerator);
+        BaseGenerator<Quest> generator = new QuestsGenerator(
+                mGeneratorConfig,
+                mAchievementsGenerator,
+                mRewardsGenerator);
+
         setGenerator(generator);
     }
 
@@ -38,9 +46,10 @@ public class QuestsGeneratorTest
                 id,
                 sWord,
                 sImageUri,
-                sNumber,
                 sInvolvement,
                 sNumber,
+                sNumber,
+                mAchievements,
                 mRewards,
                 sQuestType,
                 sDate);

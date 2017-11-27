@@ -6,28 +6,22 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.achievers.BR;
+import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Quest;
-import com.achievers.data.entities.Reward;
 import com.achievers.databinding.QuestsRecyclerItemBinding;
 import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
 import com.achievers.ui._base.adapters.ActionHandlerAdapter;
-import com.achievers.ui.quests.RewardsActionHandler;
 
 import java.util.List;
 
 public class QuestsAdapter
         extends ActionHandlerAdapter<Quest> {
 
-    private RewardsActionHandler mRewardActionHandler;
-
     public QuestsAdapter(
             Context context,
-            BaseAdapterActionHandler<Quest> questActionHandler,
-            RewardsActionHandler rewardActionHandler) {
+            BaseAdapterActionHandler<Quest> questActionHandler) {
 
         super(context, questActionHandler);
-
-        mRewardActionHandler = rewardActionHandler;
     }
 
     @Override
@@ -47,16 +41,15 @@ public class QuestsAdapter
 
         binding.setVariable(BR.quest, quest);
         binding.setVariable(BR.actionHandler, mActionHandler);
-        binding.setVariable(BR.rewardsActionHandler, mRewardActionHandler);
         binding.executePendingBindings();
 
-        List<Reward> rewards = quest.getRewards();
-        Uri[] rewardsUris = new Uri[rewards.size()];
+        List<Achievement> achievements = quest.getAchievements();
+        Uri[] rewardsUris = new Uri[achievements.size()];
 
-        for (int i = 0; i < rewards.size(); i++) {
-            rewardsUris[i] = rewards.get(i).getPictureUri();
+        for (int i = 0; i < achievements.size(); i++) {
+            rewardsUris[i] = achievements.get(i).getPictureUri();
         }
 
-        binding.mdvRewards.setUris(rewardsUris);
+        binding.mdvAchievements.setUris(rewardsUris);
     }
 }

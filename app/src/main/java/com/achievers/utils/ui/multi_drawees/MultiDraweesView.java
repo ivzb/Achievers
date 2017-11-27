@@ -54,6 +54,7 @@ public class MultiDraweesView extends View {
     }
 
     private void init() {
+        mUris = new Uri[0];
         mMultiDraweeHolder = new MultiDraweeHolder<>();
 
         int solidColor = getResources().getColor(R.color.mdvSolid);
@@ -162,9 +163,9 @@ public class MultiDraweesView extends View {
         canvas.drawCircle(circleX, circleY, radius, mSolidPaint);
         canvas.drawCircle(circleX, circleY, radius, mStrokePaint);
 
-        String text = "...";
+        String text = "···";
         float textX = (width * circles) + (width / 2) - (mTextPaint.measureText(text) / 2);
-        float textY = radius - ((mTextPaint.descent() + mTextPaint.ascent()) / 2);
+        float textY = (canvas.getHeight() / 2) - ((mTextPaint.descent() + mTextPaint.ascent()) / 2);
 
         canvas.drawText(text, textX, textY, mTextPaint);
     }

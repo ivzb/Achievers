@@ -9,7 +9,8 @@ import com.achievers.data.entities.Quest;
 import com.achievers.ui._base.EndlessAdapterFragmentTest;
 import com.achievers.ui._base._contracts.adapters.BaseAdapter;
 import com.achievers.ui._base._contracts.adapters.BaseMultimediaAdapter;
-import com.achievers.ui._base._mocks.AchievementActivityMock;
+import com.achievers.ui._base._mocks.QuestActivityMock;
+import com.achievers.ui._base._shadows.ResourcesCompatShadow;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +34,8 @@ import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFr
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.LOLLIPOP,
         constants = BuildConfig.class,
-        application = AchieversDebugTestApplication.class)
+        application = AchieversDebugTestApplication.class,
+        shadows = { ResourcesCompatShadow.class })
 public class QuestFragmentTest
         extends EndlessAdapterFragmentTest<Achievement, QuestView, QuestContract.Presenter, QuestViewModel> {
 
@@ -81,11 +83,11 @@ public class QuestFragmentTest
         when(mQuest.getId()).thenReturn(sQuestId);
         when(mViewModel.getQuest()).thenReturn(mQuest);
 
-        startFragment(mFragment, AchievementActivityMock.class);
+        startFragment(mFragment, QuestActivityMock.class);
 
         verify(mViewModel).setAdapter(isA(BaseAdapter.class));
         verify(mViewModel).getPage();
-        verify(mViewModel).getQuest();
+        verify(mViewModel, times(2)).getQuest();
 
         verify(mPresenter).start();
         verify(mPresenter).refresh(sQuestId);
@@ -115,7 +117,7 @@ public class QuestFragmentTest
         getFragment().onRefresh();
 
         // assert
-        verify(mViewModel, times(2)).getQuest();
+        verify(mViewModel, times(3)).getQuest();
         verify(getPresenter(), times(2)).refresh(eq(sQuestId));
     }
 }

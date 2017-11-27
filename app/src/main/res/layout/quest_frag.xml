@@ -1,21 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View" />
 
         <variable
             name="viewModel"
             type="com.achievers.ui.quest.QuestContract.ViewModel" />
+
+        <variable
+            name="actionHandler"
+            type="com.achievers.ui._base._contracts.action_handlers.BaseActionHandler" />
     </data>
 
-    <com.achievers.utils.ui.ScrollChildSwipeRefreshLayout
-        android:id="@+id/refresh_layout"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvAchievements"
+        <android.support.v7.widget.CardView
+            android:id="@+id/cvRewards"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.achievers.utils.ui.ScrollChildSwipeRefreshLayout>
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvRewards"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Base.TextAppearance.AppCompat.Title"
+                    android:text="@string/rewards"
+                    android:layout_marginStart="@dimen/spacing_medium"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <com.achievers.utils.ui.multi_drawees.MultiDraweesView
+                    android:id="@+id/mdvRewards"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:onClick="@{ () -> actionHandler.onClick() }"
+                    app:layout_constraintTop_toBottomOf="@id/tvRewards"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <com.achievers.utils.ui.ScrollChildSwipeRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/cvRewards"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvAchievements"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.achievers.utils.ui.ScrollChildSwipeRefreshLayout>
+    </android.support.constraint.ConstraintLayout>
 </layout>
