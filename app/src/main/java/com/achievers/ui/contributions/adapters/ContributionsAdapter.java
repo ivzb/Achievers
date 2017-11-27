@@ -8,9 +8,9 @@ import com.achievers.BR;
 import com.achievers.data.entities.AchievementProgress;
 import com.achievers.databinding.AchievementsProgressRecyclerItemBinding;
 import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
-import com.achievers.ui._base.adapters.SimpleActionHandlerAdapter;
+import com.achievers.ui._base.adapters.ActionHandlerAdapter;
 
-public class ContributionsAdapter extends SimpleActionHandlerAdapter<AchievementProgress> {
+public class ContributionsAdapter extends ActionHandlerAdapter<AchievementProgress> {
 
     public ContributionsAdapter(
             Context context,
@@ -36,7 +36,6 @@ public class ContributionsAdapter extends SimpleActionHandlerAdapter<Achievement
         AchievementProgress achievementProgress = mEntities.get(position);
 
         viewHolder.getBinding().setVariable(BR.achievementProgress, achievementProgress);
-        viewHolder.getBinding().setVariable(BR.resources, mContext.getResources());
         viewHolder.getBinding().setVariable(BR.actionHandler, mActionHandler);
         viewHolder.getBinding().executePendingBindings();
     }

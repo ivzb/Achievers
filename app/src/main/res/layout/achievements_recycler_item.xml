@@ -9,10 +9,6 @@
             type="com.achievers.data.entities.Achievement" />
 
         <variable
-            name="resources"
-            type="android.content.res.Resources" />
-
-        <variable
             name="actionHandler"
             type="com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler" />
     </data>
@@ -34,7 +30,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvTitle"
             app:layout_constraintEnd_toStartOf="@+id/glVertical"
-            app:resources="@{ resources }"
             app:roundAsCircle="true"
             app:uri="@{ achievement.pictureUri }" />
 

@@ -10,23 +10,24 @@ import com.achievers.data.entities.Quest;
 import com.achievers.data.entities.Reward;
 import com.achievers.databinding.QuestsRecyclerItemBinding;
 import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
-import com.achievers.ui._base.adapters.SimpleActionHandlerAdapter;
+import com.achievers.ui._base.adapters.ActionHandlerAdapter;
+import com.achievers.ui.quests.RewardsActionHandler;
 
 import java.util.List;
 
 public class QuestsAdapter
-        extends SimpleActionHandlerAdapter<Quest> {
+        extends ActionHandlerAdapter<Quest> {
 
-//    private RewardsActionHandler mRewardActionHandler;
+    private RewardsActionHandler mRewardActionHandler;
 
     public QuestsAdapter(
             Context context,
-            BaseAdapterActionHandler<Quest> questActionHandler) {
-//            RewardsActionHandler rewardActionHandler) {
+            BaseAdapterActionHandler<Quest> questActionHandler,
+            RewardsActionHandler rewardActionHandler) {
 
         super(context, questActionHandler);
 
-//        mRewardActionHandler = rewardActionHandler;
+        mRewardActionHandler = rewardActionHandler;
     }
 
     @Override
@@ -45,8 +46,8 @@ public class QuestsAdapter
         QuestsRecyclerItemBinding binding = (QuestsRecyclerItemBinding) viewHolder.getBinding();
 
         binding.setVariable(BR.quest, quest);
-        binding.setVariable(BR.resources, mContext.getResources());
         binding.setVariable(BR.actionHandler, mActionHandler);
+        binding.setVariable(BR.rewardsActionHandler, mRewardActionHandler);
         binding.executePendingBindings();
 
         List<Reward> rewards = quest.getRewards();
@@ -58,9 +59,4 @@ public class QuestsAdapter
 
         binding.mdvRewards.setUris(rewardsUris);
     }
-
-//    @Override
-//    public void onAdapterEntityClick(Quest quest) {
-//        mRewardActionHandler.onRewardsClick(quest);
-//    }
 }

@@ -1,6 +1,5 @@
 package com.achievers.utils.ui.multimedia._base;
 
-import android.content.res.Resources;
 import android.databinding.Bindable;
 import android.databinding.Observable;
 import android.net.Uri;
@@ -42,10 +41,6 @@ public interface BaseMultimediaViewModel extends Observable {
 
     @Bindable
     boolean isPlayingVideo();
-
-    @Bindable
-    Resources getResources();
-    void setResources(Resources resources);
 
     @Bindable
     BaseMultimediaPlayer getPlayer();

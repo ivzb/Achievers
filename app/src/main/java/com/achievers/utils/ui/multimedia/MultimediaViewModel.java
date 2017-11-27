@@ -130,18 +130,6 @@ public class MultimediaViewModel
 
     @Bindable
     @Override
-    public Resources getResources() {
-        return mResources;
-    }
-
-    @Override
-    public void setResources(Resources resources) {
-        mResources = resources;
-        notifyPropertyChanged(BR.resources);
-    }
-
-    @Bindable
-    @Override
     public BaseMultimediaPlayer getPlayer() {
         return mPlayer;
     }

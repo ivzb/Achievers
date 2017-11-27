@@ -108,7 +108,6 @@ public class MultimediaView
         mBinding.setViewModel(viewModel);
 
         mViewModel = viewModel;
-        mViewModel.setResources(mContext.getResources());
     }
 
     private void togglePlayer(boolean forceStop) {

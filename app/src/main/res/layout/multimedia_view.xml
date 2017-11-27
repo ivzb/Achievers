@@ -22,7 +22,6 @@
             android:adjustViewBounds="true"
             app:url="@{ viewModel.url }"
             app:uri="@{ viewModel.uri }"
-            app:resources="@{ viewModel.resources }"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

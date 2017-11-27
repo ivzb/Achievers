@@ -25,5 +25,7 @@ public class AchieversApplication extends Application {
                 .build();
 
         Fresco.initialize(this, imagePipelineConfig);
+
+        Config.initialize(getResources());
     }
 }

@@ -8,9 +8,9 @@ import com.achievers.BR;
 import com.achievers.data.entities.Achievement;
 import com.achievers.databinding.AchievementsRecyclerItemBinding;
 import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
-import com.achievers.ui._base.adapters.SimpleActionHandlerAdapter;
+import com.achievers.ui._base.adapters.ActionHandlerAdapter;
 
-public class AchievementsAdapter extends SimpleActionHandlerAdapter<Achievement> {
+public class AchievementsAdapter extends ActionHandlerAdapter<Achievement> {
 
     public AchievementsAdapter(Context context, BaseAdapterActionHandler<Achievement> actionHandler) {
         super(context, actionHandler);
@@ -31,7 +31,6 @@ public class AchievementsAdapter extends SimpleActionHandlerAdapter<Achievement>
         Achievement achievement = mEntities.get(position);
 
         viewHolder.getBinding().setVariable(BR.achievement, achievement);
-        viewHolder.getBinding().setVariable(BR.resources, mContext.getResources());
         viewHolder.getBinding().setVariable(BR.actionHandler, mActionHandler);
         viewHolder.getBinding().executePendingBindings();
     }

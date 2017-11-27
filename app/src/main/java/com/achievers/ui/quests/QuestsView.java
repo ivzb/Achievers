@@ -31,7 +31,7 @@ public class QuestsView
         extends EndlessAdapterView<Quest, QuestsContract.Presenter, QuestsContract.ViewModel, QuestsFragBinding>
         implements QuestsContract.View<QuestsFragBinding>,
                    BaseAdapterActionHandler<Quest>,
-//                   RewardsActionHandler,
+                   RewardsActionHandler,
                    SwipeRefreshLayout.OnRefreshListener {
 
     private static final String QUESTS_STATE = "quests_state";
@@ -129,13 +129,13 @@ public class QuestsView
         mPresenter.click(quest);
     }
 
-//    @Override
-//    public void onRewardsClick(Quest quest) {
-//        mPresenter.clickRewards(quest);
-//    }
+    @Override
+    public void onRewardsClick(Quest quest) {
+        mPresenter.clickRewards(quest);
+    }
 
     private void setUpQuestsRecycler(Context context) {
-        BaseAdapter<Quest> adapter = new QuestsAdapter(getContext(), this);
+        BaseAdapter<Quest> adapter = new QuestsAdapter(getContext(), this, this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
 
         mViewModel.setAdapter(adapter);

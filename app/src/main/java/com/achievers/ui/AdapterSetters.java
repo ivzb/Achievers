@@ -1,16 +1,14 @@
 package com.achievers.ui;
 
-import android.content.res.Resources;
 import android.databinding.BindingAdapter;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
-import com.achievers.R;
+import com.achievers.Config;
 import com.achievers.data.entities.Category;
 import com.achievers.data.entities.Involvement;
 import com.achievers.ui._base._contracts.action_handlers.BasePictureLoadActionHandler;
@@ -28,36 +26,24 @@ import com.facebook.imagepipeline.image.ImageInfo;
 public class AdapterSetters {
 
     // Fresco
-    @BindingAdapter({ "bind:url", "bind:resources" })
-    public static void loadImage(SimpleDraweeView view, String imageUrl, Resources resources) {
+    @BindingAdapter({ "bind:url" })
+    public static void loadImage(SimpleDraweeView view, String imageUrl) {
         if (imageUrl != null) {
             Uri uri = Uri.parse(imageUrl);
-            loadImage(view, uri, resources);
+            loadImage(view, uri);
         }
     }
 
-    @BindingAdapter({ "bind:uri", "bind:resources" })
-    public static void loadImage(SimpleDraweeView view, Uri uri, Resources resources) {
+    @BindingAdapter({ "bind:uri" })
+    public static void loadImage(SimpleDraweeView view, Uri uri) {
         if (uri != null) {
             view.setImageURI(uri);
 
             GenericDraweeHierarchy hierarchy = view.getHierarchy();
             hierarchy.setFadeDuration(250);
 
-            Drawable bunny = ResourcesCompat.getDrawable(resources, R.drawable.bunny, null);
-            hierarchy.setPlaceholderImage(bunny);
+            hierarchy.setPlaceholderImage(Config.PlaceholderImage);
             hierarchy.setProgressBarImage(new FreskoCircleProgressBarDrawable());
-        }
-    }
-
-    @BindingAdapter({ "bind:url" })
-    public static void loadImage(SimpleDraweeView view, String imageUrl) {
-        if (imageUrl != null) {
-            Uri uri = Uri.parse(imageUrl);
-            view.setImageURI(uri);
-
-            GenericDraweeHierarchy hierarchy = view.getHierarchy();
-            hierarchy.setFadeDuration(250);
         }
     }
 

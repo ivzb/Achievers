@@ -8,10 +8,10 @@ import com.achievers.BR;
 import com.achievers.data.entities.Reward;
 import com.achievers.databinding.RewardsRecyclerItemBinding;
 import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
-import com.achievers.ui._base.adapters.SimpleActionHandlerAdapter;
+import com.achievers.ui._base.adapters.ActionHandlerAdapter;
 
 public class RewardsAdapter
-        extends SimpleActionHandlerAdapter<Reward> {
+        extends ActionHandlerAdapter<Reward> {
 
     public RewardsAdapter(
             Context context,
@@ -36,7 +36,6 @@ public class RewardsAdapter
         RewardsRecyclerItemBinding binding = (RewardsRecyclerItemBinding) viewHolder.getBinding();
 
         binding.setVariable(BR.reward, reward);
-        binding.setVariable(BR.resources, mContext.getResources());
         binding.setVariable(BR.actionHandler, mActionHandler);
         binding.executePendingBindings();
     }

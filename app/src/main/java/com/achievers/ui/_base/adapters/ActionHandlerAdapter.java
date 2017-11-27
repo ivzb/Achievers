@@ -6,14 +6,14 @@ import com.achievers.data.entities._base.BaseModel;
 import com.achievers.ui._base.AbstractAdapter;
 import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
 
-public abstract class ActionHandlerAdapter<T extends BaseModel, K extends BaseModel>
+public abstract class ActionHandlerAdapter<T extends BaseModel>
         extends AbstractAdapter<T> {
 
-    protected BaseAdapterActionHandler<K> mActionHandler;
+    protected BaseAdapterActionHandler<T> mActionHandler;
 
     public ActionHandlerAdapter(
             Context context,
-            BaseAdapterActionHandler<K> actionHandler) {
+            BaseAdapterActionHandler<T> actionHandler) {
 
         super(context);
         mActionHandler = actionHandler;

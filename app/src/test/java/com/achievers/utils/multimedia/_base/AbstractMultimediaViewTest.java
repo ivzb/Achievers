@@ -1,7 +1,6 @@
 package com.achievers.utils.multimedia._base;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.net.Uri;
 
 import com.achievers.databinding.MultimediaViewBinding;
@@ -25,13 +24,11 @@ import static com.achievers.utils.ui.multimedia.MultimediaType.Photo;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public abstract class AbstractMultimediaViewTest {
 
     @Mock protected Context mContext;
-    @Mock private Resources mResources;
     @Mock protected MultimediaViewBinding mBinding;
 
     @Mock protected BaseMultimediaViewModel mViewModel;
@@ -50,8 +47,6 @@ public abstract class AbstractMultimediaViewTest {
 
     @Before
     public void before() throws Exception {
-        when(mContext.getResources()).thenReturn(mResources);
-
         mView = new MultimediaView(mContext, mBinding, mViewModel);
         mDefaultType = Photo;
         mDefaultUrl = null;
@@ -66,11 +61,7 @@ public abstract class AbstractMultimediaViewTest {
 
     @After
     public void after() {
-        verify(mContext).getResources();
-        verify(mViewModel).setResources(mResources);
-
         verifyNoMoreInteractions(mContext);
-        verifyNoMoreInteractions(mResources);
         verifyNoMoreInteractions(mBinding);
         verifyNoMoreInteractions(mViewModel);
         verifyNoMoreInteractions(mActionHandler);
