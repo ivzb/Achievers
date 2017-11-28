@@ -14,5 +14,5 @@ android:
     - sys-img-armeabi-v7a-android-22
 
 script:
-  - ./gradlew clean assemble --info --stacktrace
-  - ./gradlew test --no-rebuild --continue --info --stacktrace
+  - ./gradlew clean assemble --stacktrace
+  - ./gradlew test --no-rebuild --continue --stacktrace

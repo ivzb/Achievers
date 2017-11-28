@@ -15,7 +15,10 @@ import org.robolectric.annotation.Config;
 import static junit.framework.Assert.assertNotNull;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(sdk = Build.VERSION_CODES.LOLLIPOP, constants = BuildConfig.class, application = AchieversDebugTestApplication.class)
+@Config(
+        sdk = Build.VERSION_CODES.LOLLIPOP,
+        constants = BuildConfig.class,
+        application = AchieversDebugTestApplication.class)
 public class ExoPlayerUtilsTest {
 
     @Test(expected = NullPointerException.class)
