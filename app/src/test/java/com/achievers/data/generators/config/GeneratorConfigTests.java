@@ -130,9 +130,8 @@ public class GeneratorConfigTests {
     @Test
     public void getNumberBound() {
         // arrange
-        int number = 42;
-        when(mRandom.nextInt(anyInt())).thenReturn(number);
-        int expected = number + 1;
+        int expected = 42;
+        when(mRandom.nextInt(anyInt())).thenReturn(expected);
 
         // act
         int actual = mConfig.getNumber(5);
@@ -153,6 +152,7 @@ public class GeneratorConfigTests {
     public void getEnum_involvement() {
         testEnum(Involvement.values());
     }
+
     @Test
     public void getEnum_achievementTypes() {
         testEnum(Achievement.Type.values());

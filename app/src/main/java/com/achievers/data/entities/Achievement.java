@@ -39,7 +39,7 @@ public class Achievement implements BaseModel {
     @SerializedName("createdOn")
     Date createdOn;
 
-    private int mInvolvementPosition;
+    int mInvolvementPosition;
 
     public Achievement() { }
 

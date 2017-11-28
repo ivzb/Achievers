@@ -39,31 +39,38 @@ public class GeneratorConfig implements BaseGeneratorConfig {
         sInstance = null;
     }
 
+    @Override
     public String getWord() {
         return mFaker.lorem.word();
     }
 
+    @Override
     public String getSentence() {
         return mFaker.lorem.sentence(5);
     }
 
+    @Override
     public long getId() {
         return mRandom.nextLong();
     }
 
+    @Override
     public int getNumber() {
         return mRandom.nextInt();
     }
 
+    @Override
     public int getNumber(int bound) {
-        return mRandom.nextInt(bound) + 1;
+        return Math.max(mRandom.nextInt(bound), 1);
     }
 
+    @Override
     public <T extends Enum<T>> T getEnum(T[] types) {
         int selected = mRandom.nextInt(types.length);
         return types[selected];
     }
 
+    @Override
     public String getImageUrl() {
         return String.format(
                 Locale.getDefault(),
@@ -71,6 +78,7 @@ public class GeneratorConfig implements BaseGeneratorConfig {
                 mRandom.nextInt(100));
     }
 
+    @Override
     public Uri getImageUri() {
         return Uri.parse(getImageUrl());
     }
@@ -95,6 +103,7 @@ public class GeneratorConfig implements BaseGeneratorConfig {
         return Uri.parse(getVoiceUrl());
     }
 
+    @Override
     public Date getDate() {
         return new Date();
     }

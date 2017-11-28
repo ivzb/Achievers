@@ -15,6 +15,13 @@ public class AchieversApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        Config.initialize(getResources());
+
+        if (isUnitTesting()) {
+            Fresco.initialize(this);
+            return;
+        }
+
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addNetworkInterceptor(new StethoInterceptor())
                 .build();
@@ -25,7 +32,9 @@ public class AchieversApplication extends Application {
                 .build();
 
         Fresco.initialize(this, imagePipelineConfig);
+    }
 
-        Config.initialize(getResources());
+    protected boolean isUnitTesting() {
+        return false;
     }
 }

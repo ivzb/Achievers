@@ -40,6 +40,8 @@ public class QuestsGenerator
         int achievementsSize = mConfig.getNumber(15);
         List<Achievement> achievements = mAchievementsGenerator.multiple(0, achievementsSize);
 
+        List<Achievement> completedAchievements = mAchievementsGenerator.getAmong(achievements);
+
         int rewardsSize = mConfig.getNumber(7);
         List<Reward> rewards = mRewardsGenerator.multiple(0, rewardsSize);
 
@@ -54,6 +56,7 @@ public class QuestsGenerator
                 experience,
                 requiredLevel,
                 achievements,
+                completedAchievements,
                 rewards,
                 type,
                 createdOn);

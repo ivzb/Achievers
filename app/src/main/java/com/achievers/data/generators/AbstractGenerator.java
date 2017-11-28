@@ -16,10 +16,12 @@ public abstract class AbstractGenerator<T extends BaseModel>
         mConfig = config;
     }
 
+    @Override
     public T single(long id) {
         return instantiate(id);
     }
 
+    @Override
     public List<T> multiple(long id, int size) {
         List<T> data = new ArrayList<>(size);
 
@@ -29,5 +31,18 @@ public abstract class AbstractGenerator<T extends BaseModel>
         }
 
         return data;
+    }
+
+    @Override
+    public List<T> getAmong(List<T> entities) {
+        int resultsSize = mConfig.getNumber(entities.size());
+        int interval = entities.size() / resultsSize;
+        List<T> results = new ArrayList<>(resultsSize);
+
+        for (int i = 0; i < resultsSize; i++) {
+            results.add(entities.get(i * interval));
+        }
+
+        return results;
     }
 }

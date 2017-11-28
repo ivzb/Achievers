@@ -9,7 +9,7 @@ import android.support.annotation.VisibleForTesting;
 import com.achievers.data.entities.Category;
 import com.achievers.data.sources.categories.CategoryDao;
 
-@Database(entities = {Category.class}, version = 1)
+@Database(entities = {Category.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     /**

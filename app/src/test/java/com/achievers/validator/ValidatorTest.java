@@ -28,7 +28,6 @@ public class ValidatorTest {
     @Rule
     public MockitoRule mMockitoRule = MockitoJUnit.rule();
 
-
     @Test(expected = IllegalArgumentException.class)
     public void testBuilder_missingProperty() {
         new Validator().validate();

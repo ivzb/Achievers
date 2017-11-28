@@ -25,7 +25,4 @@ public class AchieversDebugApplication extends AchieversApplication {
         GeneratorConfig.initialize(new Random(), new Faker());
     }
 
-    protected boolean isUnitTesting() {
-        return false;
-    }
 }

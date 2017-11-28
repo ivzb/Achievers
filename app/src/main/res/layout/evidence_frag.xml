@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
         <import type="android.view.View" />
@@ -34,7 +35,7 @@
                 android:id="@+id/ivMultimediaFailed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_sad_face"
+                bind:src="@drawable/ic_sad_face"
                 android:layout_marginBottom="@dimen/spacing_medium"
                 android:visibility="@{ viewModel.multimediaFailed ? View.VISIBLE : View.GONE }"
                 app:layout_constraintRight_toRightOf="parent"

@@ -12,6 +12,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -23,6 +24,7 @@ public class QuestsGeneratorTest
     private @Mock BaseGenerator<Achievement> mAchievementsGenerator;
     private @Mock BaseGenerator<Reward> mRewardsGenerator;
     private @Mock List<Achievement> mAchievements;
+    private @Mock List<Achievement> mCompletedAchievements;
     private @Mock List<Reward> mRewards;
 
     @Before
@@ -30,6 +32,7 @@ public class QuestsGeneratorTest
         super.before();
 
         when(mAchievementsGenerator.multiple(anyLong(), anyInt())).thenReturn(mAchievements);
+        when(mAchievementsGenerator.getAmong(any(List.class))).thenReturn(mCompletedAchievements);
         when(mRewardsGenerator.multiple(anyLong(), anyInt())).thenReturn(mRewards);
 
         BaseGenerator<Quest> generator = new QuestsGenerator(
@@ -50,6 +53,7 @@ public class QuestsGeneratorTest
                 sNumber,
                 sNumber,
                 mAchievements,
+                mCompletedAchievements,
                 mRewards,
                 sQuestType,
                 sDate);

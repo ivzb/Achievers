@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:adapter="http://schemas.android.com/tools">
+    xmlns:adapter="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
         <import type="android.view.View" />
@@ -50,7 +51,7 @@
                     android:layout_height="48dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/no_categories"
-                    android:src="@{ viewModel.noCategoriesIconRes }" />
+                    bind:src="@{ viewModel.noCategoriesIconRes }" />
 
                 <TextView
                     android:id="@+id/noCategoriesMain"

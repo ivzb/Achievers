@@ -26,7 +26,7 @@ import com.facebook.imagepipeline.image.ImageInfo;
 public class AdapterSetters {
 
     // Fresco
-    @BindingAdapter({ "bind:url" })
+    @BindingAdapter({ "url" })
     public static void loadImage(SimpleDraweeView view, String imageUrl) {
         if (imageUrl != null) {
             Uri uri = Uri.parse(imageUrl);
@@ -34,7 +34,7 @@ public class AdapterSetters {
         }
     }
 
-    @BindingAdapter({ "bind:uri" })
+    @BindingAdapter({ "uri" })
     public static void loadImage(SimpleDraweeView view, Uri uri) {
         if (uri != null) {
             view.setImageURI(uri);
@@ -48,17 +48,17 @@ public class AdapterSetters {
     }
 
     // Binding Drawable to ImageView
-    @BindingAdapter("android:src")
+    @BindingAdapter({ "src" })
     public static void setImageDrawable(ImageView view, Drawable drawable) {
         view.setImageDrawable(drawable);
     }
 
-    @BindingAdapter("android:src")
+    @BindingAdapter({ "src" })
     public static void setImageResource(ImageView imageView, int resource){
         imageView.setImageResource(resource);
     }
 
-    @BindingAdapter({ "bind:adapter", "bind:layoutManager" })
+    @BindingAdapter({ "adapter", "layoutManager" })
     public static void setInvolvements(
             RecyclerView view,
             final BaseSelectableAdapter<Involvement> adapter,
@@ -70,7 +70,7 @@ public class AdapterSetters {
         view.setLayoutManager(layoutManager);
     }
 
-    @BindingAdapter({ "bind:uri", "bind:actionHandler" })
+    @BindingAdapter({ "uri", "actionHandler" })
     public static void setPicture(
             SimpleDraweeView view,
             final Uri uri,
@@ -97,7 +97,7 @@ public class AdapterSetters {
      * Creates the {@code android:onRefresh} for a {@link SwipeRefreshLayout}
      * that takes a {@link CategoriesContract.Presenter}.
      */
-    @BindingAdapter({ "adapter:onRefresh", "adapter:category" })
+    @BindingAdapter({ "onRefresh", "category" })
     public static void setSwipeRefreshLayoutOnCategoryRefreshListener(ScrollChildSwipeRefreshLayout view, final CategoriesContract.Presenter presenter, final Category parent) {
         view.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

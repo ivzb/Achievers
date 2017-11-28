@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -43,7 +43,7 @@
             <com.facebook.drawee.view.SimpleDraweeView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@{ quest.involvement.drawable }"
+                bind:src="@{ quest.involvement.drawable }"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:roundAsCircle="true" />
@@ -57,7 +57,7 @@
                 android:text="@{ quest.name }"
                 android:paddingTop="@dimen/spacing_small"
                 android:paddingBottom="@dimen/spacing_small"
-                tools:text="@string/achievement_title"
+                bind:text="@string/achievement_title"
                 android:textSize="16sp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/glVerticalStart"
@@ -72,7 +72,7 @@
                 android:text="@{ quest.description }"
                 android:paddingTop="@dimen/spacing_medium"
                 android:paddingBottom="@dimen/spacing_small"
-                tools:text="@string/achievement_title"
+                bind:text="@string/achievement_title"
                 android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@+id/tvName"
                 app:layout_constraintStart_toEndOf="@+id/glVerticalStart"
