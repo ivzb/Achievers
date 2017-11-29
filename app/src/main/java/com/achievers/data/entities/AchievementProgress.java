@@ -14,6 +14,10 @@ public class AchievementProgress implements BaseModel {
     private int mAccomplished;
     private Date mCreatedOn;
 
+    public AchievementProgress() {
+
+    }
+
     public AchievementProgress(long id) {
         mId = id;
     }

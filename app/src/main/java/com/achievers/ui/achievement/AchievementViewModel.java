@@ -22,7 +22,7 @@ class AchievementViewModel
     @Bindable
     @Override
     public Achievement getAchievement() {
-        return this.mAchievement;
+        return mAchievement;
     }
 
     @Override
@@ -41,5 +41,10 @@ class AchievementViewModel
     public void setAdapter(BaseMultimediaAdapter<Evidence> adapter) {
         this.mAdapter = adapter;
         notifyPropertyChanged(BR.adapter);
+    }
+
+    @Override
+    public Long getContainerId() {
+        return getAchievement().getId();
     }
 }

@@ -28,4 +28,9 @@ class RewardsViewModel
         this.mQuest = quest;
         this.notifyPropertyChanged(BR.quest);
     }
+
+    @Override
+    public Long getContainerId() {
+        return null;
+    }
 }

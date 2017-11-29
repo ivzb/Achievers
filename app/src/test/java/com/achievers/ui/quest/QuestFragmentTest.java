@@ -87,7 +87,7 @@ public class QuestFragmentTest
 
         verify(mViewModel).setAdapter(isA(BaseAdapter.class));
         verify(mViewModel).getPage();
-        verify(mViewModel, times(2)).getQuest();
+        verify(mViewModel, times(3)).getQuest();
 
         verify(mPresenter).start();
         verify(mPresenter).refresh(sQuestId);
@@ -117,7 +117,7 @@ public class QuestFragmentTest
         getFragment().onRefresh();
 
         // assert
-        verify(mViewModel, times(3)).getQuest();
+        verify(mViewModel, times(4)).getQuest();
         verify(getPresenter(), times(2)).refresh(eq(sQuestId));
     }
 }

@@ -10,6 +10,11 @@ public interface BaseEndlessAdapterViewModel<T extends BaseModel>
     int getPage();
     void setPage(int page);
 
+    boolean hasMore();
+    void setNoMore();
+
     BaseAdapter<T> getAdapter();
     void setAdapter(BaseAdapter<T> adapter);
+
+    Long getContainerId();
 }

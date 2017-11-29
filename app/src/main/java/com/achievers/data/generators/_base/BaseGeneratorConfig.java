@@ -2,7 +2,11 @@ package com.achievers.data.generators._base;
 
 import android.net.Uri;
 
+import com.achievers.data.entities._base.BaseModel;
+
 import java.util.Date;
+import java.util.List;
+import java.util.TreeSet;
 
 public interface BaseGeneratorConfig {
 
@@ -26,4 +30,7 @@ public interface BaseGeneratorConfig {
     Uri getVoiceUri();
 
     Date getDate();
+
+    <T extends BaseModel> List<T> getAmong(List<T> entities);
+    <T extends BaseModel> TreeSet<Long> getIdsAmong(List<T> entities);
 }

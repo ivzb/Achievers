@@ -12,7 +12,10 @@ import com.achievers.ui._base.adapters.ActionHandlerAdapter;
 
 public class AchievementsAdapter extends ActionHandlerAdapter<Achievement> {
 
-    public AchievementsAdapter(Context context, BaseAdapterActionHandler<Achievement> actionHandler) {
+    public AchievementsAdapter(
+            Context context,
+            BaseAdapterActionHandler<Achievement> actionHandler) {
+
         super(context, actionHandler);
     }
 

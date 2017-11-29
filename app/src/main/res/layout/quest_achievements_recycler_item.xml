@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="background"
+            type="int" />
+
+        <variable
+            name="achievement"
+            type="com.achievers.data.entities.Achievement" />
+
+        <variable
+            name="actionHandler"
+            type="com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler" />
+    </data>
+
+    <!--android:background="?android:attr/selectableItemBackground"-->
+    <android.support.constraint.ConstraintLayout
+        android:background="@{ background }"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/spacing_medium"
+        android:paddingBottom="@dimen/spacing_medium"
+        android:onClick="@{ () -> actionHandler.onAdapterEntityClick(achievement) }">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            app:layout_constraintBottom_toBottomOf="@+id/tvDescription"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvTitle"
+            app:layout_constraintEnd_toStartOf="@+id/glVertical"
+            app:roundAsCircle="true"
+            app:uri="@{ achievement.pictureUri }" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:text="@{ achievement.title }"
+            android:paddingTop="@dimen/spacing_medium"
+            android:paddingBottom="@dimen/spacing_small"
+            tools:text="@string/achievement_title"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/glVertical"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@{ achievement.description }"
+            tools:text="@string/achievement_description"
+            android:paddingTop="@dimen/spacing_xsmall"
+            android:paddingBottom="@dimen/spacing_xmedium"
+            android:textSize="14sp"
+            style="@style/Ellipsize"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:layout_constraintStart_toEndOf="@+id/glVertical"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/glVertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/guideline_xsmall" />
+    </android.support.constraint.ConstraintLayout>
+</layout>

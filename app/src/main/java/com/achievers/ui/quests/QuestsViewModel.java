@@ -7,4 +7,8 @@ class QuestsViewModel
         extends EndlessAdapterViewModel<Quest>
         implements QuestsContract.ViewModel {
 
+    @Override
+    public Long getContainerId() {
+        return null;
+    }
 }

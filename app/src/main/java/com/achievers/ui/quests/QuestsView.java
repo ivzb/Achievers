@@ -1,13 +1,10 @@
 package com.achievers.ui.quests;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,17 +14,15 @@ import com.achievers.data.entities.Quest;
 import com.achievers.data.sources.quests.QuestsMockDataSource;
 import com.achievers.databinding.QuestsFragBinding;
 import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
-import com.achievers.ui._base._contracts.adapters.BaseAdapter;
-import com.achievers.ui._base.views.EndlessAdapterView;
+import com.achievers.ui._base.views.EndlessScrollView;
 import com.achievers.ui.quest.QuestActivity;
 import com.achievers.ui.quests.adapters.QuestsAdapter;
-import com.achievers.utils.ui.EndlessRecyclerViewScrollListener;
 import com.achievers.utils.ui.SwipeRefreshLayoutUtils;
 
 import org.parceler.Parcels;
 
 public class QuestsView
-        extends EndlessAdapterView<Quest, QuestsContract.Presenter, QuestsContract.ViewModel, QuestsFragBinding>
+        extends EndlessScrollView<Quest, QuestsContract.Presenter, QuestsContract.ViewModel, QuestsFragBinding>
         implements QuestsContract.View<QuestsFragBinding>,
                    BaseAdapterActionHandler<Quest>,
                    SwipeRefreshLayout.OnRefreshListener {
@@ -64,7 +59,10 @@ public class QuestsView
             }
         }
 
-        setUpQuestsRecycler(getContext());
+        super.setUpRecycler(
+                getContext(),
+                new QuestsAdapter(getContext(), this),
+                mDataBinding.rvQuests);
 
         SwipeRefreshLayoutUtils.setup(
                 getContext(),
@@ -125,21 +123,5 @@ public class QuestsView
     @Override
     public void onAdapterEntityClick(Quest quest) {
         mPresenter.click(quest);
-    }
-
-    private void setUpQuestsRecycler(Context context) {
-        BaseAdapter<Quest> adapter = new QuestsAdapter(getContext(), this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-
-        mViewModel.setAdapter(adapter);
-
-        mDataBinding.rvQuests.setAdapter((RecyclerView.Adapter) adapter);
-        mDataBinding.rvQuests.setLayoutManager(layoutManager);
-        mDataBinding.rvQuests.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager, mViewModel.getPage()) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                mPresenter.load(null, page);
-            }
-        });
     }
 }

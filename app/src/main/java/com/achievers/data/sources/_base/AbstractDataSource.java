@@ -34,16 +34,16 @@ public abstract class AbstractDataSource<T extends BaseModel>
             return;
         }
 
-        entity.setId(mEntities.size() + 1);
+        entity.setId(mEntitiesByContainerId.size() + 1);
         entity.setCreatedOn(new Date());
 
         mEntitiesById.put(entity.getId(), entity);
 
-        if (!mEntities.containsKey(entity.getContainerId())) {
-            mEntities.put(entity.getContainerId(), new ArrayList<T>());
+        if (!mEntitiesByContainerId.containsKey(entity.getContainerId())) {
+            mEntitiesByContainerId.put(entity.getContainerId(), new ArrayList<T>());
         }
 
-        mEntities.get(entity.getContainerId()).add(entity);
+        mEntitiesByContainerId.get(entity.getContainerId()).add(entity);
 
         callback.onSuccess(entity.getId());
     }

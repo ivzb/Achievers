@@ -16,7 +16,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -122,56 +121,6 @@ public abstract class AbstractGeneratorTest<T extends BaseModel>
         for (int i = 0; i < size; i++) {
             T expected = instantiate(id + i);
             assertEquals(sFailMessage, expected.getId(), actual.get(i).getId());
-        }
-    }
-
-    @Test
-    public void getAmong_min() {
-        int size = 4;
-        int[] expectedIds = new int[] { 0 };
-
-        getAmong(size, expectedIds);
-    }
-
-    @Test
-    public void getAmong_medium() {
-        int size = 4;
-        int[] expectedIds = new int[] { 0, 2 };
-
-        getAmong(size, expectedIds);
-    }
-
-    @Test
-    public void getAmong_max() {
-        int size = 4;
-        int[] expectedIds = new int[] { 0, 1, 2, 3 };
-
-        getAmong(size, expectedIds);
-    }
-
-    private void getAmong(int size, int[] expectedIds) {
-        ArrayList<T> entities = new ArrayList<>();
-
-        for (int i = 1; i <= size; i++) {
-            entities.add(instantiate(i));
-        }
-
-        ArrayList<T> expected = new ArrayList<>();
-
-        for (int id: expectedIds) {
-            expected.add(entities.get(id));
-        }
-
-        when(mGeneratorConfig.getNumber(anyInt())).thenReturn(expectedIds.length);
-
-        // act
-        ArrayList<BaseModel> actual = (ArrayList<BaseModel>) mGenerator.getAmong(entities);
-
-        // assert
-        assertEquals(expected.size(), actual.size());
-
-        for (int i = 0; i < expected.size(); i++) {
-            assertEquals(expected.get(i), actual.get(i));
         }
     }
 }

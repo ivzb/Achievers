@@ -78,6 +78,11 @@ public abstract class EndlessAdapterPresenter<M extends BaseModel, V extends Bas
         }
 
         @Override
+        public void onNoMore() {
+            mView.setNoMore();
+        }
+
+        @Override
         public void onFailure(String message) {
             if (!mView.isActive()) return;
 

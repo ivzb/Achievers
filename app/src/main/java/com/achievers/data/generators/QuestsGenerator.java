@@ -11,6 +11,7 @@ import com.achievers.data.generators._base.BaseGeneratorConfig;
 
 import java.util.Date;
 import java.util.List;
+import java.util.TreeSet;
 
 public class QuestsGenerator
         extends AbstractGenerator<Quest> {
@@ -34,13 +35,11 @@ public class QuestsGenerator
         String name = mConfig.getWord();
         Uri picture = mConfig.getImageUri();
         Involvement involvement = mConfig.getEnum(Involvement.values());
-        int requiredLevel = mConfig.getNumber(20);
         int experience = mConfig.getNumber(2000);
 
         int achievementsSize = mConfig.getNumber(15);
         List<Achievement> achievements = mAchievementsGenerator.multiple(0, achievementsSize);
-
-        List<Achievement> completedAchievements = mAchievementsGenerator.getAmong(achievements);
+        TreeSet<Long> completed = mConfig.getIdsAmong(achievements);
 
         int rewardsSize = mConfig.getNumber(7);
         List<Reward> rewards = mRewardsGenerator.multiple(0, rewardsSize);
@@ -54,9 +53,8 @@ public class QuestsGenerator
                 picture,
                 involvement,
                 experience,
-                requiredLevel,
                 achievements,
-                completedAchievements,
+                completed,
                 rewards,
                 type,
                 createdOn);

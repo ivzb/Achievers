@@ -68,6 +68,11 @@ public class AddAchievementPresenter
             }
 
             @Override
+            public void onNoMore() {
+                throw new IllegalArgumentException();
+            }
+
+            @Override
             public void onFailure(String message) {
                 if (!mView.isActive()) return;
                 mView.showErrorMessage("Could not load involvements");

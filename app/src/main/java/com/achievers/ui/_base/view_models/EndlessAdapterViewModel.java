@@ -11,7 +11,12 @@ public abstract class EndlessAdapterViewModel<T extends BaseModel>
         implements BaseEndlessAdapterViewModel<T> {
 
     private int mPage;
+    private boolean mHasMore;
     private BaseAdapter<T> mAdapter;
+
+    public EndlessAdapterViewModel() {
+        mHasMore = true;
+    }
 
     @Override
     public int getPage() {
@@ -21,6 +26,16 @@ public abstract class EndlessAdapterViewModel<T extends BaseModel>
     @Override
     public void setPage(int page) {
         mPage = page;
+    }
+
+    @Override
+    public boolean hasMore() {
+        return mHasMore;
+    }
+
+    @Override
+    public void setNoMore() {
+        mHasMore = false;
     }
 
     @Override

@@ -25,15 +25,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvAchievementsProgress"
+        <com.achievers.utils.ui.ScrollChildSwipeRefreshLayout
+            android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/textView">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvAchievementsProgress"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.achievers.utils.ui.ScrollChildSwipeRefreshLayout>
 
         <TextView
             android:id="@+id/contributionsTextView"
@@ -43,7 +49,7 @@
             android:padding="@dimen/spacing_medium"
             style="@style/TextAppearance.AppCompat.Title"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rvAchievementsProgress" />
+            app:layout_constraintTop_toBottomOf="@+id/refresh_layout" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/cvContributions"

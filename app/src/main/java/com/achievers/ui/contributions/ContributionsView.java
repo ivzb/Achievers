@@ -15,17 +15,15 @@ import com.achievers.R;
 import com.achievers.data.entities.AchievementProgress;
 import com.achievers.data.sources.achievements_progress.AchievementsProgressMockDataSource;
 import com.achievers.databinding.ContributionsFragBinding;
-import com.achievers.ui._base.AbstractView;
 import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
-import com.achievers.ui._base._contracts.adapters.BaseAdapter;
+import com.achievers.ui._base.views.EndlessScrollView;
 import com.achievers.ui.contributions.adapters.ContributionsAdapter;
-import com.achievers.utils.ui.EndlessRecyclerViewScrollListener;
+import com.achievers.utils.ui.SwipeRefreshLayoutUtils;
 
-import java.util.List;
 import java.util.Random;
 
 public class ContributionsView
-        extends AbstractView<ContributionsContract.Presenter, ContributionsContract.ViewModel, ContributionsFragBinding>
+        extends EndlessScrollView<AchievementProgress, ContributionsContract.Presenter, ContributionsContract.ViewModel, ContributionsFragBinding>
         implements ContributionsContract.View<ContributionsFragBinding>, BaseAdapterActionHandler<AchievementProgress>,
             SwipeRefreshLayout.OnRefreshListener {
 
@@ -49,9 +47,14 @@ public class ContributionsView
 
         mDataBinding.setViewModel(mViewModel);
 
-        setUpAchievementsProgressRecycler(getContext());
+        super.setUpRecycler(
+                getContext(),
+                new ContributionsAdapter(
+                        getContext(),
+                        this),
+                mDataBinding.rvAchievementsProgress);
 
-        mPresenter.refresh();
+        mPresenter.refresh(mViewModel.getContainerId());
 
         mDataBinding.wpvContributions.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,63 +100,15 @@ public class ContributionsView
     }
 
     @Override
-    public void setLoadingIndicator(boolean active) {
-        // todo
+    public void setLoadingIndicator(final boolean active) {
+        if (!isActive()) return;
+
+        SwipeRefreshLayoutUtils.setLoading(mDataBinding.refreshLayout, active);
     }
 
     @Override
-    public void showAchievementsProgress(
-        List<AchievementProgress> achievementsProgress) {
-
-        mViewModel.getAdapter().add(achievementsProgress);
-    }
-
-    @Override
-    public void openAchievementProgressUi(
-        AchievementProgress achievementProgress) {
-
-        // todo
-    }
-
-    @Override
-    public int getPage() {
-        return mViewModel.getPage();
-    }
-
-    @Override
-    public void setPage(int page) {
-        mViewModel.setPage(page);
-    }
-
-
-    @Override
-    public void onRefresh() {
-        mPresenter.refresh();
-    }
-
-    private void setUpAchievementsProgressRecycler(Context context) {
-        BaseAdapter<AchievementProgress> adapter = new ContributionsAdapter(
-            getContext(), 
-            this);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-
-        mViewModel.setAdapter(adapter);
-
-        mDataBinding.rvAchievementsProgress.setAdapter((RecyclerView.Adapter) adapter);
-        mDataBinding.rvAchievementsProgress.setLayoutManager(layoutManager);
-        mDataBinding.rvAchievementsProgress.addOnScrollListener(
-            new EndlessRecyclerViewScrollListener(layoutManager) {
-
-                @Override
-                public void onLoadMore(
-                    int page, 
-                    int totalItemsCount, 
-                    RecyclerView view) {
-
-                    mPresenter.loadAchievementsProgress(page);
-                }
-        });
+    public RecyclerView.LayoutManager instantiateLayoutManager(Context context) {
+        return new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
     }
 
     @Override

@@ -23,7 +23,7 @@ public class AchievementsMockDataSource
     }
 
     @Override
-    public void loadByQuestId(Long id, int page, LoadCallback<Achievement> callback) {
-        load(id, page, callback);
+    public void loadByQuestId(final Long questId, int page, final LoadCallback<Achievement> callback) {
+        load(questId, page, callback);
     }
 }

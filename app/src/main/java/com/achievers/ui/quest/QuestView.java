@@ -1,6 +1,5 @@
 package com.achievers.ui.quest;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,8 +7,6 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +17,10 @@ import com.achievers.data.entities.Quest;
 import com.achievers.data.entities.Reward;
 import com.achievers.databinding.QuestFragBinding;
 import com.achievers.ui._base._contracts.action_handlers.BaseActionHandler;
-import com.achievers.ui._base.views.EndlessAdapterView;
+import com.achievers.ui._base.views.EndlessScrollView;
 import com.achievers.ui.achievement.AchievementActivity;
-import com.achievers.ui.achievements.adapters.AchievementsAdapter;
+import com.achievers.ui.quest.adapters.QuestAchievementsAdapter;
 import com.achievers.ui.rewards.RewardsActivity;
-import com.achievers.utils.ui.EndlessRecyclerViewScrollListener;
 import com.achievers.utils.ui.SwipeRefreshLayoutUtils;
 
 import org.parceler.Parcels;
@@ -32,7 +28,7 @@ import org.parceler.Parcels;
 import java.util.List;
 
 public class QuestView
-        extends EndlessAdapterView<Achievement, QuestContract.Presenter, QuestContract.ViewModel, QuestFragBinding>
+        extends EndlessScrollView<Achievement, QuestContract.Presenter, QuestContract.ViewModel, QuestFragBinding>
         implements QuestContract.View<QuestFragBinding>,
                    SwipeRefreshLayout.OnRefreshListener,
                    View.OnClickListener,
@@ -59,7 +55,13 @@ public class QuestView
             }
         }
 
-        setUpAchievementsRecycler(getContext());
+        super.setUpRecycler(
+                getContext(),
+                new QuestAchievementsAdapter(
+                        getContext(),
+                        mViewModel.getQuest(),
+                        this),
+                mDataBinding.rvAchievements);
         setUpFab();
 
         SwipeRefreshLayoutUtils.setup(
@@ -131,21 +133,6 @@ public class QuestView
     @Override
     public void onRefresh() {
         mPresenter.refresh(mViewModel.getQuest().getId());
-    }
-
-    private void setUpAchievementsRecycler(Context context) {
-        final AchievementsAdapter adapter = new AchievementsAdapter(getContext(), this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        mViewModel.setAdapter(adapter);
-
-        mDataBinding.rvAchievements.setAdapter(adapter);
-        mDataBinding.rvAchievements.setLayoutManager(layoutManager);
-        mDataBinding.rvAchievements.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager, mViewModel.getPage()) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                mPresenter.load(mViewModel.getQuest().getId(), page);
-            }
-        });
     }
 
     private void setUpFab() {

@@ -24,5 +24,4 @@ public class AchieversDebugApplication extends AchieversApplication {
 
         GeneratorConfig.initialize(new Random(), new Faker());
     }
-
 }

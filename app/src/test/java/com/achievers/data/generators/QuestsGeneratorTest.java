@@ -11,10 +11,11 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
+import java.util.TreeSet;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
@@ -24,15 +25,16 @@ public class QuestsGeneratorTest
     private @Mock BaseGenerator<Achievement> mAchievementsGenerator;
     private @Mock BaseGenerator<Reward> mRewardsGenerator;
     private @Mock List<Achievement> mAchievements;
-    private @Mock List<Achievement> mCompletedAchievements;
+    private @Mock TreeSet<Long> mCompleted;
     private @Mock List<Reward> mRewards;
 
     @Before
     public void before() {
         super.before();
 
+        when(mGeneratorConfig.getIdsAmong(isA(List.class))).thenReturn(mCompleted);
+
         when(mAchievementsGenerator.multiple(anyLong(), anyInt())).thenReturn(mAchievements);
-        when(mAchievementsGenerator.getAmong(any(List.class))).thenReturn(mCompletedAchievements);
         when(mRewardsGenerator.multiple(anyLong(), anyInt())).thenReturn(mRewards);
 
         BaseGenerator<Quest> generator = new QuestsGenerator(
@@ -51,9 +53,8 @@ public class QuestsGeneratorTest
                 sImageUri,
                 sInvolvement,
                 sNumber,
-                sNumber,
                 mAchievements,
-                mCompletedAchievements,
+                mCompleted,
                 mRewards,
                 sQuestType,
                 sDate);

@@ -7,4 +7,8 @@ class AchievementsViewModel
         extends EndlessAdapterViewModel<Achievement>
         implements AchievementsContract.ViewModel {
 
+    @Override
+    public Long getContainerId() {
+        return null;
+    }
 }

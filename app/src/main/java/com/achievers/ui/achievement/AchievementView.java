@@ -1,13 +1,10 @@
 package com.achievers.ui.achievement;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,12 +16,11 @@ import android.view.ViewGroup;
 import com.achievers.R;
 import com.achievers.data.entities.Evidence;
 import com.achievers.databinding.AchievementFragBinding;
-import com.achievers.ui._base.views.EndlessAdapterView;
+import com.achievers.ui._base.views.EndlessScrollView;
 import com.achievers.ui.achievement.adapters.EvidencesAdapter;
 import com.achievers.ui.achievement.adapters.UploadEvidenceAdapter;
 import com.achievers.ui.add_evidence.AddEvidenceActivity;
 import com.achievers.ui.evidence.EvidenceActivity;
-import com.achievers.utils.ui.EndlessRecyclerViewScrollListener;
 import com.achievers.utils.ui.SwipeRefreshLayoutUtils;
 import com.achievers.utils.ui.multimedia.MultimediaType;
 import com.orhanobut.dialogplus.DialogPlus;
@@ -36,7 +32,7 @@ import com.orhanobut.dialogplus.OnItemClickListener;
 import org.parceler.Parcels;
 
 public class AchievementView
-        extends EndlessAdapterView<Evidence, AchievementContract.Presenter, AchievementContract.ViewModel, AchievementFragBinding>
+        extends EndlessScrollView<Evidence, AchievementContract.Presenter, AchievementContract.ViewModel, AchievementFragBinding>
         implements AchievementContract.View<AchievementFragBinding>,
                    SwipeRefreshLayout.OnRefreshListener {
 
@@ -60,7 +56,10 @@ public class AchievementView
             }
         }
 
-        setUpEvidencesRecycler(getContext());
+        super.setUpRecycler(
+                getContext(),
+                new EvidencesAdapter(getContext(), this),
+                mDataBinding.rvEvidences);
 
         SwipeRefreshLayoutUtils.setup(
                 getContext(),
@@ -182,21 +181,6 @@ public class AchievementView
 
     @Override
     public void onRefresh() {
-        mPresenter.refresh(mViewModel.getAchievement().getId());
-    }
-
-    private void setUpEvidencesRecycler(Context context) {
-        final EvidencesAdapter adapter = new EvidencesAdapter(getContext(), this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        mViewModel.setAdapter(adapter);
-
-        mDataBinding.rvEvidences.setAdapter(adapter);
-        mDataBinding.rvEvidences.setLayoutManager(layoutManager);
-        mDataBinding.rvEvidences.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager, mViewModel.getPage()) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                mPresenter.load(mViewModel.getAchievement().getId(), page);
-            }
-        });
+        mPresenter.refresh(mViewModel.getContainerId());
     }
 }

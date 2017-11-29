@@ -8,7 +8,6 @@ public interface BaseGenerator<T extends BaseModel> {
 
     T single(long id);
     List<T> multiple(long id, int size);
-    List<T> getAmong(List<T> entities);
 
     T instantiate(long id);
 }

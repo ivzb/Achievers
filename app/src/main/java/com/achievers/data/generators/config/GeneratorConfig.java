@@ -2,11 +2,15 @@ package com.achievers.data.generators.config;
 
 import android.net.Uri;
 
+import com.achievers.data.entities._base.BaseModel;
 import com.achievers.data.generators._base.BaseGeneratorConfig;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.TreeSet;
 
 import io.bloco.faker.Faker;
 
@@ -106,5 +110,48 @@ public class GeneratorConfig implements BaseGeneratorConfig {
     @Override
     public Date getDate() {
         return new Date();
+    }
+
+    @Override
+    public <T extends BaseModel> List<T> getAmong(List<T> entities) {
+        final List<T> results = new ArrayList<>();
+
+        getAmong(entities, new AmongCallback<T>() {
+            @Override
+            public void add(T entity) {
+                results.add(entity);
+            }
+        });
+
+        return results;
+    }
+
+    @Override
+    public <T extends BaseModel> TreeSet<Long> getIdsAmong(final List<T> entities) {
+        final TreeSet<Long> results = new TreeSet<>();
+
+        getAmong(entities, new AmongCallback<T>() {
+            @Override
+            public void add(T entity) {
+                results.add(entity.getId());
+            }
+        });
+
+        return results;
+    }
+
+    private <T> void getAmong(List<T> entities, AmongCallback<T> callback) {
+        int entitiesSize = entities.size();
+        int resultsSize = getNumber(entitiesSize);
+        int interval = entitiesSize / resultsSize;
+
+        for (int i = 0; i < resultsSize; i++) {
+            T entity = entities.get(i * interval);
+            callback.add(entity);
+        }
+    }
+
+    private interface AmongCallback<T> {
+        void add(T entity);
     }
 }

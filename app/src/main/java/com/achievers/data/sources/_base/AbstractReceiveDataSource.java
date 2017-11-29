@@ -2,6 +2,7 @@ package com.achievers.data.sources._base;
 
 import android.support.annotation.NonNull;
 
+import com.achievers.Config;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities._base.BaseModel;
@@ -21,13 +22,13 @@ public abstract class AbstractReceiveDataSource<T extends BaseModel>
     private static String sDoesNotExistFailMessage = "Entity does not exist.";
     private static String sInvalidPageFailMessage = "Please provide non negative page.";
 
-    HashMap<Long, List<T>> mEntities;
+    HashMap<Long, List<T>> mEntitiesByContainerId;
     HashMap<Long, T> mEntitiesById;
 
     private BaseGenerator<T> mGenerator;
 
     public AbstractReceiveDataSource(BaseGenerator<T> generator) {
-        mEntities = new HashMap<>();
+        mEntitiesByContainerId = new HashMap<>();
         mEntitiesById = new HashMap<>();
         mGenerator = generator;
     }
@@ -55,7 +56,7 @@ public abstract class AbstractReceiveDataSource<T extends BaseModel>
 
         checkNotNull(callback);
 
-        if (containerId == null) containerId = -1L;
+        if (containerId == null) containerId = Config.NO_ID;
 
         if (page < 0) {
             callback.onFailure(sInvalidPageFailMessage);
@@ -63,36 +64,45 @@ public abstract class AbstractReceiveDataSource<T extends BaseModel>
         }
 
         int start = page * sPageSize;
-        int end = start + sPageSize;
-        load(containerId, end);
+        int size = mEntitiesByContainerId.size();
+        boolean noMore = start > size || size == 0;
+        int end = Math.max(start + sPageSize, size);
 
-        List<T> data = mEntities.get(containerId).subList(start, end);
+        if (noMore) {
+            callback.onNoMore();
+            return;
+        }
+
+        List<T> data = mEntitiesByContainerId.get(containerId).subList(start, end);
 
         callback.onSuccess(data, page);
     }
 
-    private void load(long id, int to) {
-        long nextId = mEntitiesById.size() + 1;
+    public void seed(Long containerId, int size) {
+        if (containerId == null) containerId = Config.NO_ID;
 
         int entitiesSize = 0;
 
-        if (mEntities.containsKey(id)) {
-            entitiesSize = mEntities.get(id).size();
+        if (mEntitiesByContainerId.containsKey(containerId)) {
+            entitiesSize = mEntitiesByContainerId.get(containerId).size();
         }
 
-        int size = to - entitiesSize;
+        int generateSize = entitiesSize + size;
 
-        if (size > 0) {
-            List<T> generated = mGenerator.multiple(nextId, size);
+        if (generateSize <= 0) {
+            return;
+        }
 
-            if (!mEntities.containsKey(id)) {
-                mEntities.put(id, new ArrayList<T>());
-            }
+        long nextId = mEntitiesById.size() + 1;
+        List<T> generated = mGenerator.multiple(nextId, generateSize);
 
-            for (T entity: generated) {
-                mEntitiesById.put(entity.getId(), entity);
-                mEntities.get(id).add(entity);
-            }
+        if (!mEntitiesByContainerId.containsKey(containerId)) {
+            mEntitiesByContainerId.put(containerId, new ArrayList<T>());
+        }
+
+        for (T entity: generated) {
+            mEntitiesById.put(entity.getId(), entity);
+            mEntitiesByContainerId.get(containerId).add(entity);
         }
     }
 }

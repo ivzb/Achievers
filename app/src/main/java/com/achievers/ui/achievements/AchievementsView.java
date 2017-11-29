@@ -1,13 +1,10 @@
 package com.achievers.ui.achievements;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,17 +14,15 @@ import com.achievers.data.entities.Achievement;
 import com.achievers.data.sources.achievements.AchievementsMockDataSource;
 import com.achievers.databinding.AchievementsFragBinding;
 import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
-import com.achievers.ui._base._contracts.adapters.BaseAdapter;
-import com.achievers.ui._base.views.EndlessAdapterView;
+import com.achievers.ui._base.views.EndlessScrollView;
 import com.achievers.ui.achievement.AchievementActivity;
 import com.achievers.ui.achievements.adapters.AchievementsAdapter;
-import com.achievers.utils.ui.EndlessRecyclerViewScrollListener;
 import com.achievers.utils.ui.SwipeRefreshLayoutUtils;
 
 import org.parceler.Parcels;
 
 public class AchievementsView
-        extends EndlessAdapterView<Achievement, AchievementsContract.Presenter, AchievementsContract.ViewModel, AchievementsFragBinding>
+        extends EndlessScrollView<Achievement, AchievementsContract.Presenter, AchievementsContract.ViewModel, AchievementsFragBinding>
         implements AchievementsContract.View<AchievementsFragBinding>,
                    BaseAdapterActionHandler<Achievement>,
                    SwipeRefreshLayout.OnRefreshListener {
@@ -68,7 +63,10 @@ public class AchievementsView
             }
         }
 
-        setUpAchievementsRecycler(getContext());
+        super.setUpRecycler(
+                getContext(),
+                new AchievementsAdapter(getContext(), this),
+                mDataBinding.rvAchievements);
 
         SwipeRefreshLayoutUtils.setup(
                 getContext(),
@@ -87,7 +85,7 @@ public class AchievementsView
                 mDataBinding.rvAchievements.getLayoutManager().onRestoreInstanceState(layoutManagerState);
             }
         } else {
-            mPresenter.refresh(null);
+            mPresenter.refresh(mViewModel.getContainerId());
         }
 
         return mDataBinding.getRoot();
@@ -129,21 +127,5 @@ public class AchievementsView
     @Override
     public void onAdapterEntityClick(Achievement achievement) {
         mPresenter.click(achievement);
-    }
-
-    private void setUpAchievementsRecycler(Context context) {
-        BaseAdapter<Achievement> adapter = new AchievementsAdapter(getContext(), this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-
-        mViewModel.setAdapter(adapter);
-
-        mDataBinding.rvAchievements.setAdapter((RecyclerView.Adapter) adapter);
-        mDataBinding.rvAchievements.setLayoutManager(layoutManager);
-        mDataBinding.rvAchievements.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager, mViewModel.getPage()) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                mPresenter.load(null, page);
-            }
-        });
     }
 }

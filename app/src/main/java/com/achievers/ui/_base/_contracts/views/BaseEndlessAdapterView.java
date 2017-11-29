@@ -1,8 +1,10 @@
 package com.achievers.ui._base._contracts.views;
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
 
 import com.achievers.data.entities._base.BaseModel;
 import com.achievers.ui._base._contracts.BasePresenter;
@@ -24,4 +26,8 @@ public interface BaseEndlessAdapterView<M extends BaseModel, P extends BasePrese
 
     int getPage();
     void setPage(int page);
+
+    void setNoMore();
+
+    RecyclerView.LayoutManager instantiateLayoutManager(Context context);
 }

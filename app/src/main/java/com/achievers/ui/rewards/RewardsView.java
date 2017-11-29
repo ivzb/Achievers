@@ -1,12 +1,9 @@
 package com.achievers.ui.rewards;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +11,12 @@ import android.view.ViewGroup;
 import com.achievers.R;
 import com.achievers.data.entities.Reward;
 import com.achievers.databinding.RewardsFragBinding;
-import com.achievers.ui._base._contracts.adapters.BaseAdapter;
-import com.achievers.ui._base.views.EndlessAdapterView;
+import com.achievers.ui._base.views.EndlessScrollView;
 import com.achievers.ui.rewards.adapters.RewardsAdapter;
-import com.achievers.utils.ui.EndlessRecyclerViewScrollListener;
 import com.achievers.utils.ui.SwipeRefreshLayoutUtils;
 
 public class RewardsView
-        extends EndlessAdapterView<Reward, RewardsContract.Presenter, RewardsContract.ViewModel, RewardsFragBinding>
+        extends EndlessScrollView<Reward, RewardsContract.Presenter, RewardsContract.ViewModel, RewardsFragBinding>
         implements RewardsContract.View<RewardsFragBinding>, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String REWARDS_STATE = "rewards_state";
@@ -45,7 +40,10 @@ public class RewardsView
             }
         }
 
-        setUpRewardsRecycler(getContext());
+        super.setUpRecycler(
+                getContext(),
+                new RewardsAdapter(getContext(), null),
+                mDataBinding.rvRewards);
 
         SwipeRefreshLayoutUtils.setup(
                 getContext(),
@@ -94,21 +92,5 @@ public class RewardsView
         if (!isActive()) return;
 
         SwipeRefreshLayoutUtils.setLoading(mDataBinding.refreshLayout, active);
-    }
-
-    private void setUpRewardsRecycler(Context context) {
-        BaseAdapter<Reward> adapter = new RewardsAdapter(getContext(), null);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-
-        mViewModel.setAdapter(adapter);
-
-        mDataBinding.rvRewards.setAdapter((RecyclerView.Adapter) adapter);
-        mDataBinding.rvRewards.setLayoutManager(layoutManager);
-        mDataBinding.rvRewards.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager, mViewModel.getPage()) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                mPresenter.load(null, page);
-            }
-        });
     }
 }
