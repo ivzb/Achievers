@@ -1,4 +1,4 @@
-package com.achievers.data.generators._base;
+package com.achievers.data.generators._base.contracts;
 
 import android.net.Uri;
 
@@ -31,6 +31,6 @@ public interface BaseGeneratorConfig {
 
     Date getDate();
 
-    <T extends BaseModel> List<T> getAmong(List<T> entities);
-    <T extends BaseModel> TreeSet<Long> getIdsAmong(List<T> entities);
+    <T extends BaseModel> List<T> getAmong(List<T> entities, int resultsSize);
+    <T extends BaseModel> TreeSet<Long> getIdsAmong(List<T> entities, int resultsSize);
 }

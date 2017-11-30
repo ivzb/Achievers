@@ -4,12 +4,13 @@ import android.net.Uri;
 
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Involvement;
-import com.achievers.data.generators._base.BaseGeneratorConfig;
+import com.achievers.data.generators._base.Generator;
+import com.achievers.data.generators._base.contracts.BaseGeneratorConfig;
 
 import java.util.Date;
 
 public class AchievementsGenerator
-        extends AbstractGenerator<Achievement> {
+        extends Generator<Achievement> {
 
     public AchievementsGenerator(BaseGeneratorConfig config) {
         super(config);

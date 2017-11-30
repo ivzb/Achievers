@@ -34,7 +34,8 @@ public class FilesMockDataSourceTest {
 
     @Before
     public void before() {
-        mDataSource = FilesMockDataSource.getInstance();
+        FilesMockDataSource.destroyInstance();
+        mDataSource = FilesMockDataSource.createInstance();
     }
 
     @Test(expected = NullPointerException.class)

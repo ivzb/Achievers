@@ -3,18 +3,25 @@ package com.achievers.data.sources.achievements_progress;
 import com.achievers.data.entities.AchievementProgress;
 import com.achievers.data.generators.AchievementsProgressGenerator;
 import com.achievers.data.generators.config.GeneratorConfig;
-import com.achievers.data.sources._base.AbstractDataSource;
+import com.achievers.data.sources._base.mocks.BaseMockDataSource;
 
 public class AchievementsProgressMockDataSource
-        extends AbstractDataSource<AchievementProgress>
+        extends BaseMockDataSource<AchievementProgress>
         implements AchievementsProgressDataSource {
 
-    private static AchievementsProgressDataSource sINSTANCE;
+    private static AchievementsProgressMockDataSource sINSTANCE;
 
-    public static AchievementsProgressDataSource getInstance() {
-        if (sINSTANCE == null) sINSTANCE = new AchievementsProgressMockDataSource();
-
+    public static AchievementsProgressMockDataSource getInstance() {
         return sINSTANCE;
+    }
+
+    public static AchievementsProgressMockDataSource createInstance() {
+        sINSTANCE = new AchievementsProgressMockDataSource();
+        return getInstance();
+    }
+
+    public static void destroyInstance() {
+        sINSTANCE = null;
     }
 
     private AchievementsProgressMockDataSource() {

@@ -31,7 +31,8 @@ public class InvolvementsMockDataSourceTest {
 
     @Before
     public void before() {
-        mDataSource = InvolvementsMockDataSource.getInstance();
+        InvolvementsMockDataSource.destroyInstance();
+        mDataSource = InvolvementsMockDataSource.createInstance();
     }
 
     @Test(expected = NullPointerException.class)

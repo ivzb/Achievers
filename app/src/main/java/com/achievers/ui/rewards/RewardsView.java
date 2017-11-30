@@ -62,7 +62,7 @@ public class RewardsView
                 mDataBinding.rvRewards.getLayoutManager().onRestoreInstanceState(layoutManagerState);
             }
         } else {
-            mPresenter.refresh(null);
+            mPresenter.refresh(mViewModel.getContainerId());
         }
 
         return mDataBinding.getRoot();

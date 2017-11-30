@@ -87,6 +87,7 @@ public abstract class EndlessAdapterFragmentTest<M extends BaseModel, F extends 
         getFragment().onRefresh();
 
         // assert
+        verify(getViewModel(), times(2)).getContainerId();
         verify(getPresenter(), times(2)).refresh(isNull(Long.class));
     }
 

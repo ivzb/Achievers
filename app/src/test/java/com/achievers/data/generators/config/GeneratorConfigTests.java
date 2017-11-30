@@ -6,7 +6,7 @@ import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Involvement;
 import com.achievers.data.entities.Quest;
 import com.achievers.data.entities.Reward;
-import com.achievers.data.generators._base.BaseGeneratorConfig;
+import com.achievers.data.generators._base.contracts.BaseGeneratorConfig;
 import com.achievers.utils.ui.multimedia.MultimediaType;
 
 import org.junit.Before;
@@ -303,7 +303,7 @@ public class GeneratorConfigTests {
         when(mConfig.getNumber(anyInt())).thenReturn(expectedIds.length);
 
         // act
-        ArrayList<Achievement> actual = (ArrayList<Achievement>) mConfig.getAmong(entities);
+        ArrayList<Achievement> actual = (ArrayList<Achievement>) mConfig.getAmong(entities, expectedIds.length);
 
         // assert
         assertEquals(expected.size(), actual.size());

@@ -3,7 +3,7 @@ package com.achievers.data.generators;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Quest;
 import com.achievers.data.entities.Reward;
-import com.achievers.data.generators._base.BaseGenerator;
+import com.achievers.data.generators._base.contracts.BaseGenerator;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.TreeSet;
 
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.when;
 
@@ -22,8 +21,6 @@ import static org.mockito.Mockito.when;
 public class QuestsGeneratorTest
         extends AbstractGeneratorTest<Quest> {
 
-    private @Mock BaseGenerator<Achievement> mAchievementsGenerator;
-    private @Mock BaseGenerator<Reward> mRewardsGenerator;
     private @Mock List<Achievement> mAchievements;
     private @Mock TreeSet<Long> mCompleted;
     private @Mock List<Reward> mRewards;
@@ -32,15 +29,12 @@ public class QuestsGeneratorTest
     public void before() {
         super.before();
 
-        when(mGeneratorConfig.getIdsAmong(isA(List.class))).thenReturn(mCompleted);
-
-        when(mAchievementsGenerator.multiple(anyLong(), anyInt())).thenReturn(mAchievements);
-        when(mRewardsGenerator.multiple(anyLong(), anyInt())).thenReturn(mRewards);
+        when(mGeneratorConfig.getIdsAmong(isA(List.class), anyInt())).thenReturn(mCompleted);
 
         BaseGenerator<Quest> generator = new QuestsGenerator(
                 mGeneratorConfig,
-                mAchievementsGenerator,
-                mRewardsGenerator);
+                mAchievements,
+                mRewards);
 
         setGenerator(generator);
     }

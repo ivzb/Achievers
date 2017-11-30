@@ -3,7 +3,7 @@ package com.achievers.data.generators.config;
 import android.net.Uri;
 
 import com.achievers.data.entities._base.BaseModel;
-import com.achievers.data.generators._base.BaseGeneratorConfig;
+import com.achievers.data.generators._base.contracts.BaseGeneratorConfig;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -113,10 +113,10 @@ public class GeneratorConfig implements BaseGeneratorConfig {
     }
 
     @Override
-    public <T extends BaseModel> List<T> getAmong(List<T> entities) {
+    public <T extends BaseModel> List<T> getAmong(List<T> entities, int resultsSize) {
         final List<T> results = new ArrayList<>();
 
-        getAmong(entities, new AmongCallback<T>() {
+        getAmong(entities, resultsSize, new AmongCallback<T>() {
             @Override
             public void add(T entity) {
                 results.add(entity);
@@ -127,10 +127,10 @@ public class GeneratorConfig implements BaseGeneratorConfig {
     }
 
     @Override
-    public <T extends BaseModel> TreeSet<Long> getIdsAmong(final List<T> entities) {
+    public <T extends BaseModel> TreeSet<Long> getIdsAmong(final List<T> entities, int resultsSize) {
         final TreeSet<Long> results = new TreeSet<>();
 
-        getAmong(entities, new AmongCallback<T>() {
+        getAmong(entities, resultsSize, new AmongCallback<T>() {
             @Override
             public void add(T entity) {
                 results.add(entity.getId());
@@ -140,10 +140,8 @@ public class GeneratorConfig implements BaseGeneratorConfig {
         return results;
     }
 
-    private <T> void getAmong(List<T> entities, AmongCallback<T> callback) {
-        int entitiesSize = entities.size();
-        int resultsSize = getNumber(entitiesSize);
-        int interval = entitiesSize / resultsSize;
+    private <T> void getAmong(List<T> entities, int resultsSize, AmongCallback<T> callback) {
+        int interval = entities.size() / resultsSize;
 
         for (int i = 0; i < resultsSize; i++) {
             T entity = entities.get(i * interval);

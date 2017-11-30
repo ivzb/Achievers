@@ -1,18 +1,18 @@
-package com.achievers.data.generators;
+package com.achievers.data.generators._base;
 
 import com.achievers.data.entities._base.BaseModel;
-import com.achievers.data.generators._base.BaseGenerator;
-import com.achievers.data.generators._base.BaseGeneratorConfig;
+import com.achievers.data.generators._base.contracts.BaseGenerator;
+import com.achievers.data.generators._base.contracts.BaseGeneratorConfig;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractGenerator<T extends BaseModel>
+public abstract class Generator<T extends BaseModel>
         implements BaseGenerator<T> {
 
-    final BaseGeneratorConfig mConfig;
+    protected final BaseGeneratorConfig mConfig;
 
-    AbstractGenerator(BaseGeneratorConfig config) {
+    public Generator(BaseGeneratorConfig config) {
         mConfig = config;
     }
 
@@ -32,6 +32,4 @@ public abstract class AbstractGenerator<T extends BaseModel>
 
         return data;
     }
-
-
 }

@@ -30,6 +30,7 @@ import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
 
 @RunWith(RobolectricTestRunner.class)
@@ -77,10 +78,13 @@ public class AchievementsFragmentTest
         mFragment.setPresenter(mPresenter);
         mFragment.setViewModel(mViewModel);
 
+        when(mViewModel.getContainerId()).thenReturn(null);
+
         startFragment(mFragment, AchievementsActivityMock.class);
 
         verify(mViewModel).setAdapter(isA(AbstractAdapter.class));
         verify(mViewModel).getPage();
+        verify(mViewModel).getContainerId();
 
         verify(mPresenter).start();
         verify(mPresenter).refresh(isNull(Long.class));

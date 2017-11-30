@@ -3,12 +3,13 @@ package com.achievers.data.generators;
 import android.net.Uri;
 
 import com.achievers.data.entities.Reward;
-import com.achievers.data.generators._base.BaseGeneratorConfig;
+import com.achievers.data.generators._base.Generator;
+import com.achievers.data.generators._base.contracts.BaseGeneratorConfig;
 
 import java.util.Date;
 
 public class RewardsGenerator
-        extends AbstractGenerator<Reward> {
+        extends Generator<Reward> {
 
     public RewardsGenerator(BaseGeneratorConfig config) {
         super(config);

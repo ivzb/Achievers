@@ -16,10 +16,21 @@ import io.bloco.faker.Faker;
 @RunWith(MockitoJUnitRunner.class)
 public class AchievementsMockDataSourceTest extends BaseMockDataSourceTest<Achievement> {
 
+    private AchievementsMockDataSource mDataSource;
+
+    @Override
+    public void seed(Long containerId, int size) {
+        mDataSource.seed(containerId, size);
+    }
+
     @Before
     public void before() {
         GeneratorConfig.destroyInstance();
         GeneratorConfig.initialize(new Random(), new Faker());
-        super.setDataSource(AchievementsMockDataSource.getInstance());
+
+        AchievementsMockDataSource.destroyInstance();
+        mDataSource = AchievementsMockDataSource.createInstance();
+
+        super.setDataSource(mDataSource);
     }
 }

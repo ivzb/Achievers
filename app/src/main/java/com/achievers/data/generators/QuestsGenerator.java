@@ -6,28 +6,28 @@ import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Involvement;
 import com.achievers.data.entities.Quest;
 import com.achievers.data.entities.Reward;
-import com.achievers.data.generators._base.BaseGenerator;
-import com.achievers.data.generators._base.BaseGeneratorConfig;
+import com.achievers.data.generators._base.Generator;
+import com.achievers.data.generators._base.contracts.BaseGeneratorConfig;
 
 import java.util.Date;
 import java.util.List;
 import java.util.TreeSet;
 
 public class QuestsGenerator
-        extends AbstractGenerator<Quest> {
+        extends Generator<Quest> {
 
-    private BaseGenerator<Achievement> mAchievementsGenerator;
-    private BaseGenerator<Reward> mRewardsGenerator;
+    private List<Achievement> mAchievements;
+    private List<Reward> mRewards;
 
     public QuestsGenerator(
             BaseGeneratorConfig config,
-            BaseGenerator<Achievement> achievementsGenerator,
-            BaseGenerator<Reward> rewardsGenerator) {
+            List<Achievement> achievements,
+            List<Reward> rewards) {
 
         super(config);
 
-        mAchievementsGenerator = achievementsGenerator;
-        mRewardsGenerator = rewardsGenerator;
+        mAchievements = achievements;
+        mRewards = rewards;
     }
 
     @Override
@@ -38,11 +38,11 @@ public class QuestsGenerator
         int experience = mConfig.getNumber(2000);
 
         int achievementsSize = mConfig.getNumber(15);
-        List<Achievement> achievements = mAchievementsGenerator.multiple(0, achievementsSize);
-        TreeSet<Long> completed = mConfig.getIdsAmong(achievements);
+        List<Achievement> achievements = mConfig.getAmong(mAchievements, achievementsSize);
+        TreeSet<Long> completed = mConfig.getIdsAmong(achievements, achievements.size());
 
         int rewardsSize = mConfig.getNumber(7);
-        List<Reward> rewards = mRewardsGenerator.multiple(0, rewardsSize);
+        List<Reward> rewards = mConfig.getAmong(mRewards, rewardsSize);
 
         Quest.Type type = mConfig.getEnum(Quest.Type.values());
         Date createdOn = mConfig.getDate();

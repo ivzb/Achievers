@@ -22,6 +22,7 @@ import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
 
 @RunWith(RobolectricTestRunner.class)
@@ -69,10 +70,13 @@ public class RewardsFragmentTest
         mFragment.setPresenter(mPresenter);
         mFragment.setViewModel(mViewModel);
 
+        when(mViewModel.getContainerId()).thenReturn(null);
+
         startFragment(mFragment, QuestsActivityMock.class);
 
         verify(mViewModel).setAdapter(isA(AbstractAdapter.class));
         verify(mViewModel).getPage();
+        verify(mViewModel).getContainerId();
 
         verify(mPresenter).start();
         verify(mPresenter).refresh(isNull(Long.class));
@@ -94,5 +98,6 @@ public class RewardsFragmentTest
 
         // assert
         verify(mPresenter, times(2)).refresh(isNull(Long.class));
+        verify(mViewModel, times(2)).getContainerId();
     }
 }

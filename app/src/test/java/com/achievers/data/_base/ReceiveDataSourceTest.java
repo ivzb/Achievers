@@ -1,5 +1,6 @@
 package com.achievers.data._base;
 
+import com.achievers.data._base.contracts.SeedDataSourceTest;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities._base.BaseModel;
@@ -16,7 +17,8 @@ import static junit.framework.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
-public abstract class ReceiveDataSourceTest<T extends BaseModel> {
+public abstract class ReceiveDataSourceTest<T extends BaseModel>
+        implements SeedDataSourceTest {
 
     protected ReceiveDataSource<T> mDataSource;
 
@@ -57,10 +59,20 @@ public abstract class ReceiveDataSourceTest<T extends BaseModel> {
     }
 
     @Test
+    public void load_assertNoMore() {
+        long containerId = 5;
+        int page = 0;
+
+        load_assertNoMore(containerId, page);
+    }
+
+    @Test
     public void load_firstPage_assertSuccess() {
         long containerId = 5;
         int page = 0;
         int expectedSize = 9;
+
+        seed(containerId, (page + 1) * expectedSize);
 
         load_assertSuccess(containerId, page, expectedSize);
     }
@@ -70,6 +82,8 @@ public abstract class ReceiveDataSourceTest<T extends BaseModel> {
         long containerId = 5;
         int page = 2;
         int expectedSize = 9;
+
+        seed(containerId, (page + 1) * expectedSize);
 
         load_assertSuccess(containerId, page, expectedSize);
     }
@@ -101,6 +115,11 @@ public abstract class ReceiveDataSourceTest<T extends BaseModel> {
 
         List<T> actual = mSuccessListCaptor.getValue();
         assertEquals(expectedSize, actual.size());
+    }
+
+    protected void load_assertNoMore(Long id, int page) {
+        mDataSource.load(id, page, mLoadCallback);
+        verify(mLoadCallback).onNoMore();
     }
 
     protected void setDataSource(ReceiveDataSource<T> dataSource) {

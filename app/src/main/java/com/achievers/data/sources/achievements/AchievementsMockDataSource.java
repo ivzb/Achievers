@@ -4,18 +4,25 @@ import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.generators.AchievementsGenerator;
 import com.achievers.data.generators.config.GeneratorConfig;
-import com.achievers.data.sources._base.AbstractDataSource;
+import com.achievers.data.sources._base.mocks.BaseMockDataSource;
 
 public class AchievementsMockDataSource
-        extends AbstractDataSource<Achievement>
+        extends BaseMockDataSource<Achievement>
         implements AchievementsDataSource {
 
-    private static AchievementsDataSource sINSTANCE;
+    private static AchievementsMockDataSource sINSTANCE;
 
-    public static AchievementsDataSource getInstance() {
-        if (sINSTANCE == null) sINSTANCE = new AchievementsMockDataSource();
-
+    public static AchievementsMockDataSource getInstance() {
         return sINSTANCE;
+    }
+
+    public static AchievementsMockDataSource createInstance() {
+        sINSTANCE = new AchievementsMockDataSource();
+        return getInstance();
+    }
+
+    public static void destroyInstance() {
+        sINSTANCE = null;
     }
 
     private AchievementsMockDataSource() {

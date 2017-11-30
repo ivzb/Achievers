@@ -9,11 +9,19 @@ import static com.achievers.utils.Preconditions.checkNotNull;
 
 public class InvolvementsMockDataSource implements InvolvementsDataSource {
 
-    private static InvolvementsDataSource INSTANCE;
+    private static InvolvementsMockDataSource sINSTANCE;
 
-    public static InvolvementsDataSource getInstance() {
-        if (INSTANCE == null) INSTANCE = new InvolvementsMockDataSource();
-        return INSTANCE;
+    public static InvolvementsMockDataSource getInstance() {
+        return sINSTANCE;
+    }
+
+    public static InvolvementsMockDataSource createInstance() {
+        sINSTANCE = new InvolvementsMockDataSource();
+        return getInstance();
+    }
+
+    public static void destroyInstance() {
+        sINSTANCE = null;
     }
 
     private InvolvementsMockDataSource() {
@@ -22,7 +30,6 @@ public class InvolvementsMockDataSource implements InvolvementsDataSource {
 
     @Override
     public void loadInvolvements(LoadCallback<Involvement> callback) {
-
         checkNotNull(callback);
 
         callback.onSuccess(Arrays.asList(Involvement.values()), 0);

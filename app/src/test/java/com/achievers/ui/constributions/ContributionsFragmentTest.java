@@ -84,12 +84,13 @@ public class ContributionsFragmentTest
         mFragment.setPresenter(mPresenter);
         mFragment.setViewModel(mViewModel);
 
-        when(mViewModel).thenReturn(null);
+        when(mViewModel.getContainerId()).thenReturn(null);
 
         startFragment(mFragment, AchievementsActivityMock.class);
 
         verify(mViewModel).setAdapter(isA(AbstractAdapter.class));
         verify(mViewModel).getPage();
+        verify(mViewModel).getContainerId();
 
         verify(mPresenter).start();
         verify(mPresenter).refresh(isNull(Long.class));

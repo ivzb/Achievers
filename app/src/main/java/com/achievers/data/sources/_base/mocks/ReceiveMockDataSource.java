@@ -1,4 +1,4 @@
-package com.achievers.data.sources._base;
+package com.achievers.data.sources._base.mocks;
 
 import android.support.annotation.NonNull;
 
@@ -6,8 +6,9 @@ import com.achievers.Config;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities._base.BaseModel;
-import com.achievers.data.generators._base.BaseGenerator;
+import com.achievers.data.generators._base.contracts.BaseGenerator;
 import com.achievers.data.sources._base.contracts.ReceiveDataSource;
+import com.achievers.data.sources._base.contracts.mocks.SeedDataSource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,19 +16,19 @@ import java.util.List;
 
 import static com.achievers.utils.Preconditions.checkNotNull;
 
-public abstract class AbstractReceiveDataSource<T extends BaseModel>
-        implements ReceiveDataSource<T> {
+public abstract class ReceiveMockDataSource<T extends BaseModel>
+        implements ReceiveDataSource<T>, SeedDataSource<T> {
+
+    private BaseGenerator<T> mGenerator;
+
+    protected HashMap<Long, List<T>> mEntitiesByContainerId;
+    protected HashMap<Long, T> mEntitiesById;
 
     private static int sPageSize = 9;
     private static String sDoesNotExistFailMessage = "Entity does not exist.";
     private static String sInvalidPageFailMessage = "Please provide non negative page.";
 
-    HashMap<Long, List<T>> mEntitiesByContainerId;
-    HashMap<Long, T> mEntitiesById;
-
-    private BaseGenerator<T> mGenerator;
-
-    public AbstractReceiveDataSource(BaseGenerator<T> generator) {
+    public ReceiveMockDataSource(BaseGenerator<T> generator) {
         mEntitiesByContainerId = new HashMap<>();
         mEntitiesById = new HashMap<>();
         mGenerator = generator;
@@ -63,8 +64,15 @@ public abstract class AbstractReceiveDataSource<T extends BaseModel>
             return;
         }
 
+        List<T> entities = mEntitiesByContainerId.get(containerId);
+
+        if (entities == null) {
+            callback.onNoMore();
+            return;
+        }
+
         int start = page * sPageSize;
-        int size = mEntitiesByContainerId.size();
+        int size = entities.size();
         boolean noMore = start > size || size == 0;
         int end = Math.max(start + sPageSize, size);
 
@@ -73,12 +81,13 @@ public abstract class AbstractReceiveDataSource<T extends BaseModel>
             return;
         }
 
-        List<T> data = mEntitiesByContainerId.get(containerId).subList(start, end);
+        List<T> data = entities.subList(start, end);
 
         callback.onSuccess(data, page);
     }
 
-    public void seed(Long containerId, int size) {
+    @Override
+    public List<T> seed(Long containerId, int size) {
         if (containerId == null) containerId = Config.NO_ID;
 
         int entitiesSize = 0;
@@ -90,7 +99,7 @@ public abstract class AbstractReceiveDataSource<T extends BaseModel>
         int generateSize = entitiesSize + size;
 
         if (generateSize <= 0) {
-            return;
+            return null;
         }
 
         long nextId = mEntitiesById.size() + 1;
@@ -104,5 +113,7 @@ public abstract class AbstractReceiveDataSource<T extends BaseModel>
             mEntitiesById.put(entity.getId(), entity);
             mEntitiesByContainerId.get(containerId).add(entity);
         }
+
+        return mEntitiesByContainerId.get(containerId);
     }
 }

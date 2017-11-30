@@ -3,18 +3,25 @@ package com.achievers.data.sources.evidences;
 import com.achievers.data.entities.Evidence;
 import com.achievers.data.generators.EvidencesGenerator;
 import com.achievers.data.generators.config.GeneratorConfig;
-import com.achievers.data.sources._base.AbstractDataSource;
+import com.achievers.data.sources._base.mocks.BaseMockDataSource;
 
 public class EvidencesMockDataSource
-        extends AbstractDataSource<Evidence>
+        extends BaseMockDataSource<Evidence>
         implements EvidencesDataSource {
 
-    private static EvidencesDataSource sINSTANCE;
+    private static EvidencesMockDataSource sINSTANCE;
 
-    public static EvidencesDataSource getInstance() {
-        if (sINSTANCE == null) sINSTANCE = new EvidencesMockDataSource();
-
+    public static EvidencesMockDataSource getInstance() {
         return sINSTANCE;
+    }
+
+    public static EvidencesMockDataSource createInstance() {
+        sINSTANCE = new EvidencesMockDataSource();
+        return getInstance();
+    }
+
+    public static void destroyInstance() {
+        sINSTANCE = null;
     }
 
     private EvidencesMockDataSource() {

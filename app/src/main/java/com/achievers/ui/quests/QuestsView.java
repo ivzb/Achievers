@@ -81,7 +81,7 @@ public class QuestsView
                 mDataBinding.rvQuests.getLayoutManager().onRestoreInstanceState(layoutManagerState);
             }
         } else {
-            mPresenter.refresh(null);
+            mPresenter.refresh(mViewModel.getContainerId());
         }
 
         return mDataBinding.getRoot();

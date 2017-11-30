@@ -1,4 +1,4 @@
-package com.achievers.data.generators._base;
+package com.achievers.data.generators._base.contracts;
 
 import com.achievers.data.entities._base.BaseModel;
 

@@ -1,7 +1,7 @@
 package com.achievers.data.generators;
 
 import com.achievers.data.entities.Evidence;
-import com.achievers.data.generators._base.BaseGenerator;
+import com.achievers.data.generators._base.contracts.BaseGenerator;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;

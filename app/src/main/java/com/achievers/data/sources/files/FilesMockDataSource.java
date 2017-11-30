@@ -21,9 +21,16 @@ public class FilesMockDataSource implements FilesDataSource {
     private HashMap<Long, File> mEntitiesById;
 
     public static FilesMockDataSource getInstance() {
-        if (sINSTANCE == null) sINSTANCE = new FilesMockDataSource();
-
         return sINSTANCE;
+    }
+
+    public static FilesMockDataSource createInstance() {
+        sINSTANCE = new FilesMockDataSource();
+        return getInstance();
+    }
+
+    public static void destroyInstance() {
+        sINSTANCE = null;
     }
 
     private FilesMockDataSource() {

@@ -6,7 +6,6 @@ import com.achievers.data.generators.config.GeneratorConfig;
 import com.achievers.data.sources.achievements_progress.AchievementsProgressMockDataSource;
 
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -18,28 +17,21 @@ import io.bloco.faker.Faker;
 public class AchievementsProgressMockDataSourceTest
         extends ReceiveDataSourceTest<AchievementProgress> {
 
+    private AchievementsProgressMockDataSource mDataSource;
+
+    @Override
+    public void seed(Long containerId, int size) {
+        mDataSource.seed(containerId, size);
+    }
+
     @Before
     public void before() {
         GeneratorConfig.destroyInstance();
         GeneratorConfig.initialize(new Random(), new Faker());
-        super.setDataSource(AchievementsProgressMockDataSource.getInstance());
-    }
 
-    @Test
-    public void load_firstPage_assertSuccess() {
-        long achievementId = 5;
-        int page = 0;
-        int expectedSize = 9;
+        AchievementsProgressMockDataSource.destroyInstance();
+        mDataSource = AchievementsProgressMockDataSource.createInstance();
 
-        load_assertSuccess(achievementId, page, expectedSize);
-    }
-
-    @Test
-    public void load_thirdPage_assertSuccess() {
-        long achievementId = 5;
-        int page = 2;
-        int expectedSize = 9;
-
-        load_assertSuccess(achievementId, page, expectedSize);
+        super.setDataSource(mDataSource);
     }
 }

@@ -3,13 +3,14 @@ package com.achievers.data.generators;
 import android.net.Uri;
 
 import com.achievers.data.entities.Evidence;
-import com.achievers.data.generators._base.BaseGeneratorConfig;
+import com.achievers.data.generators._base.Generator;
+import com.achievers.data.generators._base.contracts.BaseGeneratorConfig;
 import com.achievers.utils.ui.multimedia.MultimediaType;
 
 import java.util.Date;
 
 public class EvidencesGenerator
-        extends AbstractGenerator<Evidence> {
+        extends Generator<Evidence> {
 
     public EvidencesGenerator(BaseGeneratorConfig config) {
         super(config);

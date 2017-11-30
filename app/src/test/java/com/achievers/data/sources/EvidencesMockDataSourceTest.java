@@ -17,11 +17,22 @@ import io.bloco.faker.Faker;
 @RunWith(MockitoJUnitRunner.class)
 public class EvidencesMockDataSourceTest extends BaseMockDataSourceTest<Evidence> {
 
+    private EvidencesMockDataSource mDataSource;
+
+    @Override
+    public void seed(Long containerId, int size) {
+        mDataSource.seed(containerId, size);
+    }
+
     @Before
     public void before() {
         GeneratorConfig.destroyInstance();
         GeneratorConfig.initialize(new Random(), new Faker());
-        super.setDataSource(EvidencesMockDataSource.getInstance());
+
+        EvidencesMockDataSource.destroyInstance();
+        mDataSource = EvidencesMockDataSource.createInstance();
+
+        super.setDataSource(mDataSource);
     }
 
     @Test(expected = NullPointerException.class)

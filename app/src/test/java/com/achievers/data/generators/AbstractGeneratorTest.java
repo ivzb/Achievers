@@ -7,9 +7,9 @@ import com.achievers.data.entities.Involvement;
 import com.achievers.data.entities.Quest;
 import com.achievers.data.entities.Reward;
 import com.achievers.data.entities._base.BaseModel;
-import com.achievers.data.generators._base.BaseGenerator;
-import com.achievers.data.generators._base.BaseGeneratorConfig;
 import com.achievers.data.generators._base.BaseGeneratorTest;
+import com.achievers.data.generators._base.contracts.BaseGenerator;
+import com.achievers.data.generators._base.contracts.BaseGeneratorConfig;
 import com.achievers.utils.ui.multimedia.MultimediaType;
 
 import org.junit.Before;
