@@ -37,11 +37,11 @@ public class QuestsGenerator
         Involvement involvement = mConfig.getEnum(Involvement.values());
         int experience = mConfig.getNumber(2000);
 
-        int achievementsSize = mConfig.getNumber(15);
+        int achievementsSize = mConfig.getNumber(mAchievements.size());
         List<Achievement> achievements = mConfig.getAmong(mAchievements, achievementsSize);
-        TreeSet<Long> completed = mConfig.getIdsAmong(achievements, achievements.size());
+        TreeSet<Long> completed = mConfig.getIdsAmong(achievements, mConfig.getNumber(achievements.size()));
 
-        int rewardsSize = mConfig.getNumber(7);
+        int rewardsSize = mConfig.getNumber(mRewards.size());
         List<Reward> rewards = mConfig.getAmong(mRewards, rewardsSize);
 
         Quest.Type type = mConfig.getEnum(Quest.Type.values());

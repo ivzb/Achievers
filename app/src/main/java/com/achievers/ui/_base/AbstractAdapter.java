@@ -35,6 +35,12 @@ public abstract class AbstractAdapter<T extends BaseModel>
     }
 
     @Override
+    public void clear() {
+        mEntities = new ArrayList<>();
+        notifyDataSetChanged();
+    }
+
+    @Override
     public Parcelable onSaveInstanceState() {
         return Parcels.wrap(mEntities);
     }

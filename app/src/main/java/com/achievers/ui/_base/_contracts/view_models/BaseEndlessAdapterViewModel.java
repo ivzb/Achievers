@@ -11,7 +11,7 @@ public interface BaseEndlessAdapterViewModel<T extends BaseModel>
     void setPage(int page);
 
     boolean hasMore();
-    void setNoMore();
+    void setMore(boolean more);
 
     BaseAdapter<T> getAdapter();
     void setAdapter(BaseAdapter<T> adapter);

@@ -19,6 +19,7 @@ import java.util.List;
 
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doAnswer;
@@ -84,6 +85,8 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
         mPresenter.refresh(mId);
 
         // assert
+        verify(getView()).clear();
+        verify(getView(), times(2)).setMore(anyBoolean());
         assertSuccessfulLoad(mId, page);
     }
 
@@ -99,6 +102,8 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
                 page);
 
         actLoad(mId, page);
+
+        verify(getView()).setMore(anyBoolean());
         assertSuccessfulLoad(mId, page);
     }
 
@@ -114,6 +119,7 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
                 page);
 
         actLoad(mId, page);
+
         assertFailureLoad(mId, page);
     }
 
@@ -129,6 +135,8 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
                 page);
 
         actLoad(mId, page);
+
+        verify(getView()).setMore(anyBoolean());
         assertSuccessfulLoad(mId, page);
     }
 
@@ -144,6 +152,7 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
                 page);
 
         actLoad(mId, page);
+
         assertFailureLoad(mId, page);
     }
 
@@ -181,6 +190,7 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
         // assert
         verify(getView()).setLoadingIndicator(true);
         verify(getDataSource()).load(eq(mId), eq(page), any(LoadCallback.class));
+        verify(getView()).setMore(anyBoolean());
         verify(getView(), times(2)).isActive();
         verifyNoMoreInteractions(getView());
     }
@@ -268,7 +278,7 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
 
         verify(getDataSource()).load(eq(id), eq(page), any(LoadCallback.class));
         verify(getView()).show(mLoadCaptor.capture());
-        verify(getView()).setLoadingIndicator(false);
+        verify(getView()).setLoadingIndicator(eq(false));
         verify(getView()).setPage(any(int.class));
         verify(getView(), times(2)).isActive();
         verifyNoMoreInteractions(getView());
@@ -283,6 +293,7 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
         verify(getDataSource()).load(eq(id), eq(page), any(LoadCallback.class));
         verify(getView()).showErrorMessage(any(String.class));
         verify(getView()).setLoadingIndicator(false);
+        verify(getView(), times(2)).setMore(anyBoolean());
         verify(getView(), times(2)).isActive();
         verifyNoMoreInteractions(getView());
     }

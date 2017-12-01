@@ -78,8 +78,7 @@ public class AchievementView
                 mDataBinding.rvEvidences.getLayoutManager().onRestoreInstanceState(layoutManagerState);
             }
         } else {
-            long achievementId = mViewModel.getAchievement().getId();
-            mPresenter.refresh(achievementId);
+            mPresenter.refresh(mViewModel.getContainerId());
         }
 
         return view;

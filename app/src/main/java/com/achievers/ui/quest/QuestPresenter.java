@@ -25,6 +25,7 @@ class QuestPresenter
         if (!mView.isActive()) return;
 
         mView.setLoadingIndicator(true);
+        mView.setMore(true);
 
         mDataSource.loadByQuestId(id, page, mLoadCallback);
     }

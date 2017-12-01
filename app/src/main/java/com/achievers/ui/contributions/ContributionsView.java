@@ -87,6 +87,7 @@ public class ContributionsView
         return mDataBinding.getRoot();
     }
 
+    @Deprecated // extract in generator
     private void initContributions() {
         Random random = new Random();
 

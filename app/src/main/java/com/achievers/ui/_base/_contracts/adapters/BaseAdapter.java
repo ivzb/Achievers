@@ -9,6 +9,7 @@ import java.util.List;
 public interface BaseAdapter<T extends BaseModel> {
 
     void add(List<T> entities);
+    void clear();
 
     Parcelable onSaveInstanceState();
     void onRestoreInstanceState(Parcelable parcelable);

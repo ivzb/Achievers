@@ -7,9 +7,9 @@ import android.os.Bundle;
 import com.achievers.AchieversDebugTestApplication;
 import com.achievers.BuildConfig;
 import com.achievers.data.entities.Achievement;
-import com.achievers.ui._base.AbstractAdapter;
 import com.achievers.ui._base.EndlessAdapterFragmentTest;
 import com.achievers.ui._base._mocks.AchievementsActivityMock;
+import com.achievers.ui._base.adapters.ActionHandlerAdapter;
 import com.achievers.ui.achievement.AchievementActivity;
 
 import org.junit.Before;
@@ -82,7 +82,7 @@ public class AchievementsFragmentTest
 
         startFragment(mFragment, AchievementsActivityMock.class);
 
-        verify(mViewModel).setAdapter(isA(AbstractAdapter.class));
+        verify(mViewModel).setAdapter(isA(ActionHandlerAdapter.class));
         verify(mViewModel).getPage();
         verify(mViewModel).getContainerId();
 

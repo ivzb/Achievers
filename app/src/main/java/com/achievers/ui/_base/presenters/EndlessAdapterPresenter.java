@@ -43,6 +43,8 @@ public abstract class EndlessAdapterPresenter<M extends BaseModel, V extends Bas
 
     @Override
     public void refresh(Long id) {
+        mView.clear();
+        mView.setMore(true);
         load(id, RECYCLER_INITIAL_PAGE);
     }
 
@@ -51,6 +53,7 @@ public abstract class EndlessAdapterPresenter<M extends BaseModel, V extends Bas
         if (!mView.isActive()) return;
 
         mView.setLoadingIndicator(true);
+        mView.setMore(true);
 
         mDataSource.load(id, page, mLoadCallback);
     }
@@ -79,7 +82,10 @@ public abstract class EndlessAdapterPresenter<M extends BaseModel, V extends Bas
 
         @Override
         public void onNoMore() {
-            mView.setNoMore();
+            if (!mView.isActive()) return;
+
+            mView.setLoadingIndicator(false);
+            mView.setMore(false);
         }
 
         @Override
@@ -87,6 +93,7 @@ public abstract class EndlessAdapterPresenter<M extends BaseModel, V extends Bas
             if (!mView.isActive()) return;
 
             mView.setLoadingIndicator(false);
+            mView.setMore(false);
             mView.showErrorMessage(message);
         }
     };

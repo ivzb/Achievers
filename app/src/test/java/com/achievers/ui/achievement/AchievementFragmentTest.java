@@ -9,7 +9,7 @@ import com.achievers.data.entities.Evidence;
 import com.achievers.ui._base.EndlessAdapterFragmentTest;
 import com.achievers.ui._base._contracts.adapters.BaseMultimediaAdapter;
 import com.achievers.ui._base._mocks.AchievementActivityMock;
-import com.achievers.ui._base.adapters.MultimediaAdapter;
+import com.achievers.ui._base.adapters.ActionHandlerAdapter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -80,12 +80,13 @@ public class AchievementFragmentTest
 
         when(mAchievement.getId()).thenReturn(sAchievementId);
         when(mViewModel.getAchievement()).thenReturn(mAchievement);
+        when(mViewModel.getContainerId()).thenReturn(sAchievementId);
 
         startFragment(mFragment, AchievementActivityMock.class);
 
-        verify(mViewModel).setAdapter(isA(MultimediaAdapter.class));
+        verify(mViewModel).setAdapter(isA(ActionHandlerAdapter.class));
         verify(mViewModel).getPage();
-        verify(mViewModel).getAchievement();
+        verify(mViewModel).getContainerId();
 
         verify(mPresenter).start();
         verify(mPresenter).refresh(sAchievementId);
@@ -115,7 +116,7 @@ public class AchievementFragmentTest
         getFragment().onRefresh();
 
         // assert
-        verify(mViewModel, times(2)).getAchievement();
+        verify(mViewModel, times(2)).getContainerId();
         verify(getPresenter(), times(2)).refresh(eq(sAchievementId));
     }
 }

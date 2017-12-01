@@ -16,7 +16,7 @@ public abstract class BaseMockDataSource<T extends BaseModel>
         extends ReceiveMockDataSource<T>
         implements BaseDataSource<T> {
 
-    private static String sNoEntityFailMessage = "No entity to save.";
+    protected static String sNoEntityFailMessage = "No entity to save.";
 
     public BaseMockDataSource(BaseGenerator<T> generator) {
         super(generator);

@@ -29,6 +29,10 @@ public class QuestsGeneratorTest
     public void before() {
         super.before();
 
+        when(mGeneratorConfig.getAmong(isA(List.class), anyInt()))
+                .thenReturn(mAchievements)
+                .thenReturn(mRewards);
+
         when(mGeneratorConfig.getIdsAmong(isA(List.class), anyInt())).thenReturn(mCompleted);
 
         BaseGenerator<Quest> generator = new QuestsGenerator(

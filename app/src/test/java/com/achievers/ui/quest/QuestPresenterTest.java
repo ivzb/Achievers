@@ -23,6 +23,7 @@ import io.bloco.faker.Faker;
 
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doAnswer;
@@ -97,6 +98,7 @@ public class QuestPresenterTest
         verify(getView()).setLoadingIndicator(true);
         verify(getDataSource()).loadByQuestId(eq(mId), eq(page), any(LoadCallback.class));
         verify(getView(), times(2)).isActive();
+        verify(getView()).setMore(anyBoolean());
         verifyNoMoreInteractions(getView());
     }
 
@@ -155,6 +157,7 @@ public class QuestPresenterTest
         verify(getDataSource()).loadByQuestId(eq(id), eq(page), any(LoadCallback.class));
         verify(getView()).showErrorMessage(any(String.class));
         verify(getView()).setLoadingIndicator(false);
+        verify(getView(), times(2)).setMore(anyBoolean());
         verify(getView(), times(2)).isActive();
         verifyNoMoreInteractions(getView());
     }

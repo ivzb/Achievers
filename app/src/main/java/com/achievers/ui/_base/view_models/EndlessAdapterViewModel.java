@@ -34,8 +34,8 @@ public abstract class EndlessAdapterViewModel<T extends BaseModel>
     }
 
     @Override
-    public void setNoMore() {
-        mHasMore = false;
+    public void setMore(boolean more) {
+        mHasMore = more;
     }
 
     @Override

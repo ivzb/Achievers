@@ -20,6 +20,8 @@ public abstract class EndlessScrollView<M extends BaseModel, P extends BaseEndle
         extends AbstractView<P, VM, DB>
         implements BaseEndlessAdapterView<M, P, VM, DB> {
 
+    private EndlessRecyclerViewScrollListener mScrollListener;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         mPresenter.result(requestCode, resultCode);
@@ -28,6 +30,12 @@ public abstract class EndlessScrollView<M extends BaseModel, P extends BaseEndle
     @Override
     public void show(List<M> entities) {
         mViewModel.getAdapter().add(entities);
+    }
+
+    @Override
+    public void clear() {
+        mViewModel.getAdapter().clear();
+        mScrollListener.resetState();
     }
 
     @Override
@@ -51,8 +59,8 @@ public abstract class EndlessScrollView<M extends BaseModel, P extends BaseEndle
     }
 
     @Override
-    public void setNoMore() {
-        mViewModel.setNoMore();
+    public void setMore(boolean more) {
+        mViewModel.setMore(more);
     }
 
     @Override
@@ -63,21 +71,28 @@ public abstract class EndlessScrollView<M extends BaseModel, P extends BaseEndle
     protected void setUpRecycler(
             Context context,
             ActionHandlerAdapter<M> adapter,
-            RecyclerView recyclerView) {
+            final RecyclerView recyclerView) {
 
         mViewModel.setAdapter(adapter);
         LinearLayoutManager layoutManager = (LinearLayoutManager) instantiateLayoutManager(context);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(
+
+        mScrollListener = new EndlessRecyclerViewScrollListener(
                 layoutManager,
                 mViewModel.getPage()) {
 
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                if (!mViewModel.hasMore()) {
+                    return;
+                }
+
                 mPresenter.load(mViewModel.getContainerId(), page);
             }
-        });
+        };
+
+        recyclerView.addOnScrollListener(mScrollListener);
     }
 }

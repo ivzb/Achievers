@@ -24,9 +24,9 @@ public abstract class ReceiveMockDataSource<T extends BaseModel>
     protected HashMap<Long, List<T>> mEntitiesByContainerId;
     protected HashMap<Long, T> mEntitiesById;
 
-    private static int sPageSize = 9;
-    private static String sDoesNotExistFailMessage = "Entity does not exist.";
-    private static String sInvalidPageFailMessage = "Please provide non negative page.";
+    protected static int sPageSize = 9;
+    protected static String sDoesNotExistFailMessage = "Entity does not exist.";
+    protected static String sInvalidPageFailMessage = "Please provide non negative page.";
 
     public ReceiveMockDataSource(BaseGenerator<T> generator) {
         mEntitiesByContainerId = new HashMap<>();
@@ -74,7 +74,7 @@ public abstract class ReceiveMockDataSource<T extends BaseModel>
         int start = page * sPageSize;
         int size = entities.size();
         boolean noMore = start > size || size == 0;
-        int end = Math.max(start + sPageSize, size);
+        int end = Math.min(start + sPageSize, size);
 
         if (noMore) {
             callback.onNoMore();

@@ -10,6 +10,7 @@ import com.achievers.data.sources.achievements.AchievementsMockDataSource;
 import com.achievers.data.sources.achievements_progress.AchievementsProgressMockDataSource;
 import com.achievers.data.sources.evidences.EvidencesMockDataSource;
 import com.achievers.data.sources.files.FilesMockDataSource;
+import com.achievers.data.sources.involvements.InvolvementsMockDataSource;
 import com.achievers.data.sources.quests.QuestsMockDataSource;
 import com.achievers.data.sources.rewards.RewardsMockDataSource;
 
@@ -33,7 +34,10 @@ public class Seed {
         List<Quest> quests = seedQuests(achievements, rewards);
         List<AchievementProgress> achievementProgresses = seedAchievementProgresses();
 
+        seedAchievementsByQuests(quests);
+
         FilesMockDataSource.createInstance();
+        InvolvementsMockDataSource.createInstance();
     }
 
     private List<Reward> seedRewards() {
@@ -75,5 +79,13 @@ public class Seed {
     private List<AchievementProgress> seedAchievementProgresses() {
         int size = mConfig.getNumber(30);
         return AchievementsProgressMockDataSource.createInstance().seed(null, size);
+    }
+
+    private void seedAchievementsByQuests(List<Quest> quests) {
+        AchievementsMockDataSource dataSource = AchievementsMockDataSource.getInstance();
+
+        for (Quest quest: quests) {
+            dataSource.seedAchievementsByQuest(quest.getId(), quest.getAchievements());
+        }
     }
 }

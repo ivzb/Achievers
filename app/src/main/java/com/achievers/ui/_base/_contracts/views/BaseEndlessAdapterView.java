@@ -21,13 +21,14 @@ public interface BaseEndlessAdapterView<M extends BaseModel, P extends BasePrese
     void setLoadingIndicator(boolean active);
 
     void show(List<M> entities);
+    void clear();
 
     void openUi(M entity);
 
     int getPage();
     void setPage(int page);
 
-    void setNoMore();
+    void setMore(boolean more);
 
     RecyclerView.LayoutManager instantiateLayoutManager(Context context);
 }
