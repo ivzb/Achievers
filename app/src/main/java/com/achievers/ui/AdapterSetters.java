@@ -54,8 +54,8 @@ public class AdapterSetters {
     }
 
     @BindingAdapter({ "src" })
-    public static void setImageResource(ImageView imageView, int resource){
-        imageView.setImageResource(resource);
+    public static void setImageResource(ImageView view, int resource){
+        view.setImageResource(resource);
     }
 
     @BindingAdapter({ "adapter", "layoutManager" })

@@ -27,8 +27,8 @@
 
         <com.achievers.utils.ui.ScrollChildSwipeRefreshLayout
             android:id="@+id/refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="180dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             app:layout_constraintEnd_toEndOf="parent"

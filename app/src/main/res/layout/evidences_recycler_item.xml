@@ -24,7 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:adjustViewBounds="true"
-            bind:src="@drawable/bunny"
+            android:src="@drawable/bunny"
             android:contentDescription="@string/profile_picture"
             android:layout_margin="@dimen/spacing_medium"
             app:layout_constraintStart_toStartOf="parent"

@@ -13,7 +13,6 @@ class AchievementViewModel
         implements AchievementContract.ViewModel {
 
     private Achievement mAchievement;
-    private BaseMultimediaAdapter<Evidence> mAdapter;
 
     AchievementViewModel(Achievement achievement) {
         setAchievement(achievement);
@@ -34,12 +33,12 @@ class AchievementViewModel
     @Bindable
     @Override
     public BaseMultimediaAdapter<Evidence> getAdapter() {
-        return this.mAdapter;
+        return (BaseMultimediaAdapter<Evidence>) super.getAdapter();
     }
 
     @Override
     public void setAdapter(BaseMultimediaAdapter<Evidence> adapter) {
-        this.mAdapter = adapter;
+        super.setAdapter(adapter);
         notifyPropertyChanged(BR.adapter);
     }
 
