@@ -14,6 +14,7 @@ import com.achievers.ui.achievements.adapters.AchievementsAdapter;
 
 public class QuestAchievementsAdapter extends AchievementsAdapter {
 
+    private Context mContext;
     private Quest mQuest;
 
     public QuestAchievementsAdapter(
@@ -22,6 +23,8 @@ public class QuestAchievementsAdapter extends AchievementsAdapter {
             BaseAdapterActionHandler<Achievement> actionHandler) {
 
         super(context, actionHandler);
+
+        mContext = context;
         mQuest = quest;
     }
 
@@ -40,8 +43,13 @@ public class QuestAchievementsAdapter extends AchievementsAdapter {
         long achievementId = mEntities.get(position).getId();
         boolean completed = mQuest.getCompleted().contains(achievementId);
 
-        int background = completed ? R.color.completedAchievement : 0;
+        int background = 0;
 
+        if (completed) {
+            background = mContext.getResources().getColor(R.color.completedAchievement);
+        }
+
+        viewHolder.getBinding().setVariable(BR.completed, completed);
         viewHolder.getBinding().setVariable(BR.background, background);
 
         super.onBindViewHolder(viewHolder, position);
