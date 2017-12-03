@@ -54,20 +54,18 @@ Much of Achievers involves the completion of quests. Quests usually reward the p
 3. Title
 
 # TODO
-1. Quests
-2. Rewards
-3. User profile
+1. User profile
    1. Own achievements
    2. Own evidence
    3. Friend people
-4. Reputation
-6. Authentication & Authorization
-7. Privacy
+2. Reputation (achievement) 
+3. Authentication & Authorization
+4. Privacy
    1. Public
    2. Protected
    3. Private
-8. Groups - achieve with friends/strangers
-9. Local data source (Room)
+5. Groups - achieve with friends/strangers
+6. Local data source (Room)
 
 # Dependencies
 1) GSON - A Java serialization/deserialization library to convert Java Objects into JSON and back. [GitHub](https://github.com/google/gson)

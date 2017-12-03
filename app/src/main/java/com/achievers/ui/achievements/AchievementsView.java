@@ -19,8 +19,6 @@ import com.achievers.ui.achievement.AchievementActivity;
 import com.achievers.ui.achievements.adapters.AchievementsAdapter;
 import com.achievers.utils.ui.SwipeRefreshLayoutUtils;
 
-import org.parceler.Parcels;
-
 public class AchievementsView
         extends EndlessScrollView<Achievement, AchievementsContract.Presenter, AchievementsContract.ViewModel, AchievementsFragBinding>
         implements AchievementsContract.View<AchievementsFragBinding>,
@@ -113,7 +111,7 @@ public class AchievementsView
     @Override
     public void openUi(Achievement achievement) {
         Intent intent = new Intent(getContext(), AchievementActivity.class);
-        intent.putExtra(AchievementActivity.EXTRA_ACHIEVEMENT, Parcels.wrap(achievement));
+        intent.putExtra(AchievementActivity.EXTRA_ACHIEVEMENT_ID, achievement.getId());
         startActivity(intent);
     }
 

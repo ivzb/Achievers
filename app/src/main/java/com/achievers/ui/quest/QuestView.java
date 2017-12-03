@@ -126,7 +126,7 @@ public class QuestView
     @Override
     public void onAdapterEntityClick(Achievement achievement) {
         Intent intent = new Intent(getContext(), AchievementActivity.class);
-        intent.putExtra(AchievementActivity.EXTRA_ACHIEVEMENT, Parcels.wrap(achievement));
+        intent.putExtra(AchievementActivity.EXTRA_ACHIEVEMENT_ID, achievement.getId());
         startActivity(intent);
     }
 

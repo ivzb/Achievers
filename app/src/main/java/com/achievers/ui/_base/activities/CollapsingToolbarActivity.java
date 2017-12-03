@@ -9,13 +9,26 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 public abstract class CollapsingToolbarActivity extends AbstractActivity {
 
-    protected void initCollapsingToolbar(Uri imageUri, String title) {
-        // todo: add default image while loading
+    private CollapsingToolbarLayout mCollapsingToolbarLayout;
+    private SimpleDraweeView mSimpleDraweeView;
 
-        SimpleDraweeView image = findViewById(R.id.image);
-        image.setImageURI(imageUri);
+    protected void initCollapsingToolbar(int imageResource, String title) {
+        mCollapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
+        mSimpleDraweeView = findViewById(R.id.image);
 
-        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
-        collapsingToolbarLayout.setTitle(title);
+        setCollapsingToolbarImage(imageResource);
+        setCollapsingToolbarTitle(title);
+    }
+
+    protected void setCollapsingToolbarImage(int imageResource) {
+        mSimpleDraweeView.setImageResource(imageResource);
+    }
+
+    protected void setCollapsingToolbarImage(Uri imageUri) {
+        mSimpleDraweeView.setImageURI(imageUri);
+    }
+
+    protected void setCollapsingToolbarTitle(String title) {
+        mCollapsingToolbarLayout.setTitle(title);
     }
 }

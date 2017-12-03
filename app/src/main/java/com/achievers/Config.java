@@ -10,8 +10,10 @@ public final class Config {
     public static final String DATE_FORMAT = "yyyyMMdd_HHmmss";
     public static final long NO_ID = -1L;
 
-    private static final int PlaceholderImageResource = R.drawable.bunny;
+    public static final int PlaceholderImageResource = R.drawable.bunny;
     public static Drawable PlaceholderImage;
+
+    public static final String PlaceholderText = "Achievers";
 
     private Config() {
 

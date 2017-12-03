@@ -106,7 +106,7 @@ public class UploadAchievementIntentService extends IntentService {
 
     private PendingIntent getSuccessIntent(Context context, Achievement achievement) {
         Intent startActivityIntent = new Intent(context, AchievementActivity.class);
-        startActivityIntent.putExtra(AchievementActivity.EXTRA_ACHIEVEMENT, Parcels.wrap(achievement));
+        startActivityIntent.putExtra(AchievementActivity.EXTRA_ACHIEVEMENT_ID, achievement.getId());
 
         return PendingIntent.getActivity(
                 context,

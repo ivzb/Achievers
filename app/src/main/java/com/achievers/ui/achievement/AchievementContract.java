@@ -3,7 +3,6 @@ package com.achievers.ui.achievement;
 import android.databinding.Bindable;
 import android.databinding.ViewDataBinding;
 
-import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
 import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
 import com.achievers.ui._base._contracts.adapters.BaseMultimediaAdapter;
@@ -24,10 +23,6 @@ public class AchievementContract {
     }
 
     public interface ViewModel extends BaseEndlessAdapterViewModel<Evidence> {
-
-        @Bindable
-        Achievement getAchievement();
-        void setAchievement(Achievement achievement);
 
         @Bindable
         BaseMultimediaAdapter<Evidence> getAdapter();

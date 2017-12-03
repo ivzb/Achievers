@@ -3,7 +3,6 @@ package com.achievers.ui.achievement;
 import android.databinding.Bindable;
 
 import com.achievers.BR;
-import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Evidence;
 import com.achievers.ui._base._contracts.adapters.BaseMultimediaAdapter;
 import com.achievers.ui._base.view_models.EndlessAdapterViewModel;
@@ -12,22 +11,10 @@ class AchievementViewModel
         extends EndlessAdapterViewModel<Evidence>
         implements AchievementContract.ViewModel {
 
-    private Achievement mAchievement;
+    private long mId;
 
-    AchievementViewModel(Achievement achievement) {
-        setAchievement(achievement);
-    }
-
-    @Bindable
-    @Override
-    public Achievement getAchievement() {
-        return mAchievement;
-    }
-
-    @Override
-    public void setAchievement(Achievement achievement) {
-        this.mAchievement = achievement;
-        this.notifyPropertyChanged(BR.achievement);
+    AchievementViewModel(long id) {
+        mId = id;
     }
 
     @Bindable
@@ -44,6 +31,6 @@ class AchievementViewModel
 
     @Override
     public Long getContainerId() {
-        return getAchievement().getId();
+        return mId;
     }
 }

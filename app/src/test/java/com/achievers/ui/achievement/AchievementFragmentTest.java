@@ -79,7 +79,6 @@ public class AchievementFragmentTest
         mFragment.setViewModel(mViewModel);
 
         when(mAchievement.getId()).thenReturn(sAchievementId);
-        when(mViewModel.getAchievement()).thenReturn(mAchievement);
         when(mViewModel.getContainerId()).thenReturn(sAchievementId);
 
         startFragment(mFragment, AchievementActivityMock.class);

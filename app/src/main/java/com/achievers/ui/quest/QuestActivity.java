@@ -34,7 +34,8 @@ public class QuestActivity extends CollapsingToolbarActivity {
 
         Quest quest = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_QUEST));
 
-        initCollapsingToolbar(quest.getPictureUri(), quest.getName());
+        // todo
+//        initCollapsingToolbar(quest.getPictureUri(), quest.getName());
 
         QuestView view = (QuestView) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);

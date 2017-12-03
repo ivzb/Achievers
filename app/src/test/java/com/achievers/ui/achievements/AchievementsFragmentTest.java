@@ -17,7 +17,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.parceler.Parcels;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowApplication;
@@ -103,9 +102,9 @@ public class AchievementsFragmentTest
 
         Bundle extras = intent.getExtras();
         assertNotNull(extras);
-        assertTrue(extras.containsKey(AchievementActivity.EXTRA_ACHIEVEMENT));
-        Achievement actual = Parcels.unwrap(extras.getParcelable(AchievementActivity.EXTRA_ACHIEVEMENT));
-        assertEquals(model, actual);
+        assertTrue(extras.containsKey(AchievementActivity.EXTRA_ACHIEVEMENT_ID));
+        long actual = extras.getLong(AchievementActivity.EXTRA_ACHIEVEMENT_ID);
+        assertEquals(model.getId(), actual);
     }
 
     @Test
