@@ -17,7 +17,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.parceler.Parcels;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowApplication;
@@ -113,9 +112,9 @@ public class QuestsFragmentTest
 
         Bundle extras = intent.getExtras();
         assertNotNull(extras);
-        assertTrue(extras.containsKey(QuestActivity.EXTRA_QUEST));
-        Quest actual = Parcels.unwrap(extras.getParcelable(QuestActivity.EXTRA_QUEST));
-        assertEquals(model, actual);
+        assertTrue(extras.containsKey(QuestActivity.EXTRA_QUEST_ID));
+        long actual = extras.getLong(QuestActivity.EXTRA_QUEST_ID);
+        assertEquals(model.getId(), actual);
     }
 
     @Test

@@ -4,17 +4,20 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
+import com.achievers.Config;
 import com.achievers.R;
+import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.entities.Quest;
 import com.achievers.data.sources.achievements.AchievementsMockDataSource;
+import com.achievers.data.sources.quests.QuestsMockDataSource;
 import com.achievers.ui._base.activities.CollapsingToolbarActivity;
 import com.achievers.utils.ActivityUtils;
 
-import org.parceler.Parcels;
+import static com.achievers.Config.NO_ID;
 
 public class QuestActivity extends CollapsingToolbarActivity {
 
-    public static final String EXTRA_QUEST = "quest";
+    public static final String EXTRA_QUEST_ID = "quest_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +35,38 @@ public class QuestActivity extends CollapsingToolbarActivity {
             ab.setDisplayShowHomeEnabled(true);
         }
 
-        Quest quest = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_QUEST));
+        long questId = getIntent().getLongExtra(EXTRA_QUEST_ID, NO_ID);
 
-        // todo
-//        initCollapsingToolbar(quest.getPictureUri(), quest.getName());
+        if (questId == NO_ID) {
+            // todo: redirect to friendly error activity
+            throw new IllegalArgumentException();
+        }
 
+        initCollapsingToolbar(
+                Config.PlaceholderImageResource,
+                Config.PlaceholderText);
+
+        QuestsMockDataSource.getInstance().get(questId, new GetCallback<Quest>() {
+            @Override
+            public void onSuccess(Quest quest) {
+                if (QuestActivity.this.isFinishing()) return;
+
+                setCollapsingToolbarImage(quest.getPictureUri());
+                setCollapsingToolbarTitle(quest.getName());
+
+                initView(quest);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                // todo: show message
+            }
+        });
+
+
+    }
+
+    private void initView(Quest quest) {
         QuestView view = (QuestView) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
 

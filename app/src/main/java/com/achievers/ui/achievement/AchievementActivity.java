@@ -46,7 +46,7 @@ public class AchievementActivity extends CollapsingToolbarActivity {
                 Config.PlaceholderImageResource,
                 Config.PlaceholderText);
 
-        AchievementsMockDataSource.getInstance().get(-1L, new GetCallback<Achievement>() {
+        AchievementsMockDataSource.getInstance().get(achievementId, new GetCallback<Achievement>() {
             @Override
             public void onSuccess(Achievement achievement) {
                 if (AchievementActivity.this.isFinishing()) return;

@@ -19,8 +19,6 @@ import com.achievers.ui.quest.QuestActivity;
 import com.achievers.ui.quests.adapters.QuestsAdapter;
 import com.achievers.utils.ui.SwipeRefreshLayoutUtils;
 
-import org.parceler.Parcels;
-
 public class QuestsView
         extends EndlessScrollView<Quest, QuestsContract.Presenter, QuestsContract.ViewModel, QuestsFragBinding>
         implements QuestsContract.View<QuestsFragBinding>,
@@ -109,7 +107,7 @@ public class QuestsView
     @Override
     public void openUi(Quest quest) {
         Intent intent = new Intent(getContext(), QuestActivity.class);
-        intent.putExtra(QuestActivity.EXTRA_QUEST, Parcels.wrap(quest));
+        intent.putExtra(QuestActivity.EXTRA_QUEST_ID, quest.getId());
         startActivity(intent);
     }
 
