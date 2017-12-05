@@ -29,8 +29,6 @@ import com.orhanobut.dialogplus.OnCancelListener;
 import com.orhanobut.dialogplus.OnDismissListener;
 import com.orhanobut.dialogplus.OnItemClickListener;
 
-import org.parceler.Parcels;
-
 public class AchievementView
         extends EndlessScrollView<Evidence, AchievementContract.Presenter, AchievementContract.ViewModel, AchievementFragBinding>
         implements AchievementContract.View<AchievementFragBinding>,
@@ -174,7 +172,7 @@ public class AchievementView
     @Override
     public void onAdapterEntityClick(Evidence entity) {
         Intent intent = new Intent(getContext(), EvidenceActivity.class);
-        intent.putExtra(EvidenceActivity.EXTRA_EVIDENCE, Parcels.wrap(entity));
+        intent.putExtra(EvidenceActivity.EXTRA_EVIDENCE_ID, entity.getId());
         startActivity(intent);
     }
 

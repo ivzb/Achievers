@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
 import com.achievers.R;
+import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.entities.Evidence;
 import com.achievers.data.sources.evidences.EvidencesMockDataSource;
 import com.achievers.ui._base.AbstractActivity;
@@ -13,11 +14,11 @@ import com.achievers.ui.evidence.views.EvidenceVideoView;
 import com.achievers.ui.evidence.views.EvidenceVoiceView;
 import com.achievers.utils.ActivityUtils;
 
-import org.parceler.Parcels;
+import static com.achievers.Config.NO_ID;
 
 public class EvidenceActivity extends AbstractActivity {
 
-    public static final String EXTRA_EVIDENCE = "evidence";
+    public static final String EXTRA_EVIDENCE_ID = "evidence_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +36,29 @@ public class EvidenceActivity extends AbstractActivity {
             ab.setDisplayShowHomeEnabled(true);
         }
 
-        Evidence evidence = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_EVIDENCE));
+        long evidenceId = getIntent().getLongExtra(EXTRA_EVIDENCE_ID, NO_ID);
 
+        if (evidenceId == NO_ID) {
+            // todo: redirect to friendly error activity
+            throw new IllegalArgumentException();
+        }
+
+        EvidencesMockDataSource.getInstance().get(evidenceId, new GetCallback<Evidence>() {
+            @Override
+            public void onSuccess(Evidence evidence) {
+                if (EvidenceActivity.this.isFinishing()) return;
+
+                initView(evidence);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                // todo: show message
+            }
+        });
+    }
+
+    private void initView(Evidence evidence) {
         EvidenceView view = (EvidenceView) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
 

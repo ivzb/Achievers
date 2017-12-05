@@ -25,7 +25,7 @@ import java.io.IOException;
 
 import static com.achievers.ui.add_evidence.AddEvidenceView.MULTIMEDIA_URI_KEY;
 import static com.achievers.ui.add_evidence.AddEvidenceView.TITLE_KEY;
-import static com.achievers.ui.evidence.EvidenceActivity.EXTRA_EVIDENCE;
+import static com.achievers.ui.evidence.EvidenceActivity.EXTRA_EVIDENCE_ID;
 
 public class UploadEvidenceIntentService extends IntentService {
 
@@ -105,7 +105,7 @@ public class UploadEvidenceIntentService extends IntentService {
 
     private PendingIntent getSuccessIntent(Context context, Evidence evidence) {
         Intent startActivityIntent = new Intent(context, EvidenceActivity.class);
-        startActivityIntent.putExtra(EXTRA_EVIDENCE, Parcels.wrap(evidence));
+        startActivityIntent.putExtra(EXTRA_EVIDENCE_ID, evidence.getId());
 
         return PendingIntent.getActivity(
                 context,
