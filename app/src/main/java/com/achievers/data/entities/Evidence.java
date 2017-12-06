@@ -30,6 +30,9 @@ public class Evidence implements BaseModel {
     @SerializedName("achievementId")
     long achievementId;
 
+//    @SerializedName("ownerId")
+//    long ownerId;
+
     @SerializedName("previewUrl")
     @NonNull
     String previewUrl;
@@ -53,11 +56,13 @@ public class Evidence implements BaseModel {
     public Evidence(
             String comment,
             long achievementId,
+//            long ownerId,
             MultimediaType multimediaType,
             Uri multimediaUri) {
 
         this.comment = comment;
         this.achievementId = achievementId;
+//        this.ownerId = ownerId;
         this.multimediaType = multimediaType;
         this.uri = multimediaUri;
     }

@@ -32,7 +32,6 @@ public class QuestsMockDataSourceTest extends ReceiveDataSourceTest<Quest> {
         GeneratorConfig.destroyInstance();
         GeneratorConfig.initialize(new Random(), new Faker());
 
-
         List<Achievement> achievements = new ArrayList<>();
 
         for (int i = 0; i < 15; i++) {

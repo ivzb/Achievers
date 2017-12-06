@@ -54,16 +54,16 @@ Much of Achievers involves the completion of quests. Quests usually reward the p
 3. Title
 
 # TODO
-1. User profile
+1. User - Authentication & Authorization
+2. User profile
    1. Own achievements
    2. Own evidence
    3. Friend people
-2. Reputation (achievement) 
-3. Authentication & Authorization
-4. Privacy
+3. Privacy
    1. Public
    2. Protected
    3. Private
+4. Reputation (achievement) 
 5. Groups - achieve with friends/strangers
 6. Local data source (Room)
 
