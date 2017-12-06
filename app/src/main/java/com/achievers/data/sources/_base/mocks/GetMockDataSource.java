@@ -2,7 +2,7 @@ package com.achievers.data.sources._base.mocks;
 
 import android.support.annotation.NonNull;
 
-import com.achievers.Config;
+import com.achievers.DefaultConfig;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.entities._base.BaseModel;
 import com.achievers.data.generators._base.contracts.BaseGenerator;
@@ -48,7 +48,7 @@ public abstract class GetMockDataSource<T extends BaseModel>
 
     @Override
     public List<T> seed(Long containerId, int size) {
-        if (containerId == null) containerId = Config.NO_ID;
+        if (containerId == null) containerId = DefaultConfig.ID;
 
         int entitiesSize = 0;
 

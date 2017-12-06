@@ -15,18 +15,31 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.achievers.utils.Preconditions.checkNotNull;
+
 /**
  * Implementation of remote network data source.
  */
 public class EvidencesRemoteDataSource implements EvidencesDataSource {
 
-    private static EvidencesRemoteDataSource INSTANCE;
+    private static EvidencesRemoteDataSource sINSTANCE;
 
     private EvidenceAPI apiService;
 
     public static EvidencesRemoteDataSource getInstance() {
-        if (INSTANCE == null) INSTANCE = new EvidencesRemoteDataSource();
-        return INSTANCE;
+        checkNotNull(sINSTANCE);
+
+        return sINSTANCE;
+    }
+
+    public static EvidencesRemoteDataSource createInstance() {
+        sINSTANCE = new EvidencesRemoteDataSource();
+
+        return getInstance();
+    }
+
+    public static void destroyInstance() {
+        sINSTANCE = null;
     }
 
     // Prevent direct instantiation.

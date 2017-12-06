@@ -4,6 +4,8 @@
     <string name="app_name">Achievers</string>
     <string name="navigation_view_header_title">Achievers</string>
 
+    <string name="auth_token">AuthToken</string>
+
     <string name="refresh">Refresh</string>
     <string name="menu_upload">Upload</string>
     <string name="label_all_categories">All Categories</string>

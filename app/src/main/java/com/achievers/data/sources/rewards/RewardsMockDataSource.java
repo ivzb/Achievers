@@ -5,6 +5,8 @@ import com.achievers.data.generators.RewardsGenerator;
 import com.achievers.data.generators.config.GeneratorConfig;
 import com.achievers.data.sources._base.mocks.ReceiveMockDataSource;
 
+import static com.achievers.utils.Preconditions.checkNotNull;
+
 public class RewardsMockDataSource
         extends ReceiveMockDataSource<Reward>
         implements RewardsDataSource {
@@ -12,6 +14,8 @@ public class RewardsMockDataSource
     private static RewardsMockDataSource sINSTANCE;
 
     public static RewardsMockDataSource getInstance() {
+        checkNotNull(sINSTANCE);
+
         return sINSTANCE;
     }
 

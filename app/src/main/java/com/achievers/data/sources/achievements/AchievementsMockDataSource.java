@@ -23,11 +23,14 @@ public class AchievementsMockDataSource
     protected HashMap<Long, List<Achievement>> mEntitiesByQuestId;
 
     public static AchievementsMockDataSource getInstance() {
+        checkNotNull(sINSTANCE);
+
         return sINSTANCE;
     }
 
     public static AchievementsMockDataSource createInstance() {
         sINSTANCE = new AchievementsMockDataSource();
+
         return getInstance();
     }
 

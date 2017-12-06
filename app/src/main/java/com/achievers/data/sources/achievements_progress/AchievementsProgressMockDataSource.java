@@ -5,6 +5,8 @@ import com.achievers.data.generators.AchievementsProgressGenerator;
 import com.achievers.data.generators.config.GeneratorConfig;
 import com.achievers.data.sources._base.mocks.BaseMockDataSource;
 
+import static com.achievers.utils.Preconditions.checkNotNull;
+
 public class AchievementsProgressMockDataSource
         extends BaseMockDataSource<AchievementProgress>
         implements AchievementsProgressDataSource {
@@ -12,6 +14,8 @@ public class AchievementsProgressMockDataSource
     private static AchievementsProgressMockDataSource sINSTANCE;
 
     public static AchievementsProgressMockDataSource getInstance() {
+        checkNotNull(sINSTANCE);
+
         return sINSTANCE;
     }
 

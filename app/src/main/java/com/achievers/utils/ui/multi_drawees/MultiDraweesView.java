@@ -12,7 +12,7 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.achievers.Config;
+import com.achievers.DefaultConfig;
 import com.achievers.R;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.drawable.ScalingUtils;
@@ -91,7 +91,7 @@ public class MultiDraweesView extends View {
             GenericDraweeHierarchy hierarchy = new GenericDraweeHierarchyBuilder(getResources())
                     .setRoundingParams(mRoundingParams)
                     .setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER)
-                    .setPlaceholderImage(Config.PlaceholderImage)
+                    .setPlaceholderImage(DefaultConfig.PlaceholderImage)
                     .build();
 
             DraweeHolder<GenericDraweeHierarchy> draweeHolder = new DraweeHolder<>(hierarchy);

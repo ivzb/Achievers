@@ -2,6 +2,7 @@ package com.achievers;
 
 import android.app.Application;
 
+import com.achievers.utils.SharedPreferencesUtils;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
@@ -15,7 +16,8 @@ public class AchieversApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        Config.initialize(getResources());
+        DefaultConfig.initialize(getResources());
+        SharedPreferencesUtils.initialize(this);
 
         if (isUnitTesting()) {
             Fresco.initialize(this);

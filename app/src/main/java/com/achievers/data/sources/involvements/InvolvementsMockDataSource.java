@@ -12,11 +12,14 @@ public class InvolvementsMockDataSource implements InvolvementsDataSource {
     private static InvolvementsMockDataSource sINSTANCE;
 
     public static InvolvementsMockDataSource getInstance() {
+        checkNotNull(sINSTANCE);
+
         return sINSTANCE;
     }
 
     public static InvolvementsMockDataSource createInstance() {
         sINSTANCE = new InvolvementsMockDataSource();
+
         return getInstance();
     }
 

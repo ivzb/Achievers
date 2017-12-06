@@ -14,7 +14,7 @@ import com.achievers.ui.evidence.views.EvidenceVideoView;
 import com.achievers.ui.evidence.views.EvidenceVoiceView;
 import com.achievers.utils.ActivityUtils;
 
-import static com.achievers.Config.NO_ID;
+import static com.achievers.DefaultConfig.ID;
 
 public class EvidenceActivity extends AbstractActivity {
 
@@ -36,9 +36,9 @@ public class EvidenceActivity extends AbstractActivity {
             ab.setDisplayShowHomeEnabled(true);
         }
 
-        long evidenceId = getIntent().getLongExtra(EXTRA_EVIDENCE_ID, NO_ID);
+        long evidenceId = getIntent().getLongExtra(EXTRA_EVIDENCE_ID, ID);
 
-        if (evidenceId == NO_ID) {
+        if (evidenceId == ID) {
             // todo: redirect to friendly error activity
             throw new IllegalArgumentException();
         }

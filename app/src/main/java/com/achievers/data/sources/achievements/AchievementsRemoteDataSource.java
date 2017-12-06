@@ -13,18 +13,31 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.achievers.utils.Preconditions.checkNotNull;
+
 /**
  * Implementation of remote network data source.
  */
 public class AchievementsRemoteDataSource implements AchievementsDataSource {
 
-    private static AchievementsRemoteDataSource INSTANCE;
+    private static AchievementsRemoteDataSource sINSTANCE;
 
     private AchievementsAPI apiService;
 
     public static AchievementsRemoteDataSource getInstance() {
-        if (INSTANCE == null) INSTANCE = new AchievementsRemoteDataSource();
-        return INSTANCE;
+        checkNotNull(sINSTANCE);
+
+        return sINSTANCE;
+    }
+
+    public static AchievementsRemoteDataSource createInstance() {
+        sINSTANCE = new AchievementsRemoteDataSource();
+
+        return new AchievementsRemoteDataSource();
+    }
+
+    public static void destroyInstance() {
+        sINSTANCE = null;
     }
 
     // Prevent direct instantiation.

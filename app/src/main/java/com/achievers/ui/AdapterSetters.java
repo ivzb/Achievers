@@ -8,7 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
-import com.achievers.Config;
+import com.achievers.DefaultConfig;
 import com.achievers.data.entities.Category;
 import com.achievers.data.entities.Involvement;
 import com.achievers.ui._base._contracts.action_handlers.BasePictureLoadActionHandler;
@@ -42,7 +42,7 @@ public class AdapterSetters {
             GenericDraweeHierarchy hierarchy = view.getHierarchy();
             hierarchy.setFadeDuration(250);
 
-            hierarchy.setPlaceholderImage(Config.PlaceholderImage);
+            hierarchy.setPlaceholderImage(DefaultConfig.PlaceholderImage);
             hierarchy.setProgressBarImage(new FreskoCircleProgressBarDrawable());
         }
     }

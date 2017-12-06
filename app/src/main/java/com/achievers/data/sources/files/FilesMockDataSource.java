@@ -21,11 +21,14 @@ public class FilesMockDataSource implements FilesDataSource {
     private HashMap<Long, File> mEntitiesById;
 
     public static FilesMockDataSource getInstance() {
+        checkNotNull(sINSTANCE);
+
         return sINSTANCE;
     }
 
     public static FilesMockDataSource createInstance() {
         sINSTANCE = new FilesMockDataSource();
+
         return getInstance();
     }
 

@@ -12,7 +12,7 @@ import com.achievers.ui._base._contracts.views.BaseEndlessAdapterView;
 
 import java.util.List;
 
-import static com.achievers.Config.RECYCLER_INITIAL_PAGE;
+import static com.achievers.DefaultConfig.PAGE;
 import static com.achievers.utils.Preconditions.checkNotNull;
 
 public abstract class EndlessAdapterPresenter<M extends BaseModel, V extends BaseEndlessAdapterView, DS extends ReceiveDataSource<M>>
@@ -45,7 +45,7 @@ public abstract class EndlessAdapterPresenter<M extends BaseModel, V extends Bas
     public void refresh(Long id) {
         mView.clear();
         mView.setMore(true);
-        load(id, RECYCLER_INITIAL_PAGE);
+        load(id, PAGE);
     }
 
     @Override

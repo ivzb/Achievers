@@ -5,6 +5,8 @@ import com.achievers.data.generators.EvidencesGenerator;
 import com.achievers.data.generators.config.GeneratorConfig;
 import com.achievers.data.sources._base.mocks.BaseMockDataSource;
 
+import static com.achievers.utils.Preconditions.checkNotNull;
+
 public class EvidencesMockDataSource
         extends BaseMockDataSource<Evidence>
         implements EvidencesDataSource {
@@ -12,6 +14,8 @@ public class EvidencesMockDataSource
     private static EvidencesMockDataSource sINSTANCE;
 
     public static EvidencesMockDataSource getInstance() {
+        checkNotNull(sINSTANCE);
+
         return sINSTANCE;
     }
 

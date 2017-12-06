@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
-import com.achievers.Config;
+import com.achievers.DefaultConfig;
 import com.achievers.R;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.entities.Quest;
@@ -13,7 +13,7 @@ import com.achievers.data.sources.quests.QuestsMockDataSource;
 import com.achievers.ui._base.activities.CollapsingToolbarActivity;
 import com.achievers.utils.ActivityUtils;
 
-import static com.achievers.Config.NO_ID;
+import static com.achievers.DefaultConfig.ID;
 
 public class QuestActivity extends CollapsingToolbarActivity {
 
@@ -35,16 +35,16 @@ public class QuestActivity extends CollapsingToolbarActivity {
             ab.setDisplayShowHomeEnabled(true);
         }
 
-        long questId = getIntent().getLongExtra(EXTRA_QUEST_ID, NO_ID);
+        long questId = getIntent().getLongExtra(EXTRA_QUEST_ID, ID);
 
-        if (questId == NO_ID) {
+        if (questId == ID) {
             // todo: redirect to friendly error activity
             throw new IllegalArgumentException();
         }
 
         initCollapsingToolbar(
-                Config.PlaceholderImageResource,
-                Config.PlaceholderText);
+                DefaultConfig.PlaceholderImageResource,
+                DefaultConfig.PlaceholderText);
 
         QuestsMockDataSource.getInstance().get(questId, new GetCallback<Quest>() {
             @Override

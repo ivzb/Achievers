@@ -5,7 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
 
-import com.achievers.Config;
+import com.achievers.DefaultConfig;
 import com.achievers.data.entities.File;
 
 import org.apache.commons.io.IOUtils;
@@ -29,7 +29,7 @@ public class FileUtils {
         checkNotNull(date);
         checkNotNull(fileType);
 
-        String timeStamp = new SimpleDateFormat(Config.DATE_FORMAT, Locale.US).format(date);
+        String timeStamp = new SimpleDateFormat(DefaultConfig.DATE_FORMAT, Locale.US).format(date);
         String prefix = String.format("%s_%s_", fileType.getPrefix(), timeStamp);
         String suffix = fileType.getExtension();
         java.io.File storageDirectory = context.getExternalFilesDir(fileType.getDirectory());

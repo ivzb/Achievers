@@ -3,7 +3,7 @@ package com.achievers.ui.evidence.views;
 // Should be commented until Robolectric next release
 
 //@RunWith(RobolectricTestRunner.class)
-//@Config(sdk = Build.VERSION_CODES.LOLLIPOP,
+//@DefaultConfig(sdk = Build.VERSION_CODES.LOLLIPOP,
 //        constants = BuildConfig.class,
 //        application = AchieversDebugTestApplication.class)
 //public class EvidenceVoiceFragmentTest extends EvidenceFragmentTest {
