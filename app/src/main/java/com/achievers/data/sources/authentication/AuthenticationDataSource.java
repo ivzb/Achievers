@@ -5,5 +5,8 @@ import com.achievers.data.entities.Authentication;
 
 public interface AuthenticationDataSource {
 
-    void auth(String email, String password, final GetCallback<Authentication> callback);
+    void auth(
+            String email,
+            String password,
+            final GetCallback<Authentication> callback);
 }

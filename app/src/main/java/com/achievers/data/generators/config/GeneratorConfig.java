@@ -2,6 +2,7 @@ package com.achievers.data.generators.config;
 
 import android.net.Uri;
 
+import com.achievers.DefaultConfig;
 import com.achievers.data.entities._base.BaseModel;
 import com.achievers.data.generators._base.contracts.BaseGeneratorConfig;
 
@@ -19,6 +20,7 @@ import static com.achievers.utils.Preconditions.checkNotNull;
 public class GeneratorConfig implements BaseGeneratorConfig {
 
     private static GeneratorConfig sInstance;
+
     private static final String sImagePathFormat = "https://unsplash.it/500/500/?random&a=%d";
     public static final String sVideoPath = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
     public static final String sVoicePath = "https://archive.org/download/testmp3testfile/mpthreetest.mp3";
@@ -44,6 +46,26 @@ public class GeneratorConfig implements BaseGeneratorConfig {
     }
 
     @Override
+    public long getId() {
+        return mRandom.nextLong();
+    }
+
+    @Override
+    public String getEmail() {
+        return DefaultConfig.Mocks.sEmail;
+    }
+
+    @Override
+    public String getPassword() {
+        return DefaultConfig.Mocks.sPassword;
+    }
+
+    @Override
+    public String getAuthenticationToken() {
+        return DefaultConfig.Mocks.sAuthenticationToken;
+    }
+
+    @Override
     public String getWord() {
         return mFaker.lorem.word();
     }
@@ -51,11 +73,6 @@ public class GeneratorConfig implements BaseGeneratorConfig {
     @Override
     public String getSentence() {
         return mFaker.lorem.sentence(5);
-    }
-
-    @Override
-    public long getId() {
-        return mRandom.nextLong();
     }
 
     @Override

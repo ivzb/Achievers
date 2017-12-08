@@ -2,6 +2,7 @@ package com.achievers.data.generators.config;
 
 import android.net.Uri;
 
+import com.achievers.DefaultConfig;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Involvement;
 import com.achievers.data.entities.Quest;
@@ -72,6 +73,55 @@ public class GeneratorConfigTests {
     }
 
     @Test
+    public void getId() {
+        // arrange
+        long expected = 5L;
+        when(mRandom.nextLong()).thenReturn(expected);
+
+        // act
+        long actual = mConfig.getId();
+
+        // assert
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void getEmail() {
+        // arrange
+        String expected = DefaultConfig.Mocks.sEmail;
+
+        // act
+        String actual = mConfig.getEmail();
+
+        // assert
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void getPassword() {
+        // arrange
+        String expected = DefaultConfig.Mocks.sPassword;
+
+        // act
+        String actual = mConfig.getPassword();
+
+        // assert
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void getAuthenticationToken() {
+        // arrange
+        String expected = DefaultConfig.Mocks.sAuthenticationToken;
+
+        // act
+        String actual = mConfig.getAuthenticationToken();
+
+        // assert
+        assertEquals(expected, actual);
+    }
+
+    @Test
     public void getWord()
             throws NoSuchFieldException, IllegalAccessException {
 
@@ -97,19 +147,6 @@ public class GeneratorConfigTests {
 
         // act
         String actual = mConfig.getSentence();
-
-        // assert
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void getId() {
-        // arrange
-        long expected = 5L;
-        when(mRandom.nextLong()).thenReturn(expected);
-
-        // act
-        long actual = mConfig.getId();
 
         // assert
         assertEquals(expected, actual);

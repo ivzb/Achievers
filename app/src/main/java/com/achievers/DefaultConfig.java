@@ -6,6 +6,17 @@ import android.support.v4.content.res.ResourcesCompat;
 
 public final class DefaultConfig {
 
+    public class Mocks {
+
+        public static final String sEmail = "test@gmail.com";
+        public static final String sPassword = "123";
+        public static final String sAuthenticationToken = "--token--";
+
+        private Mocks() {
+
+        }
+    }
+
     public static final int PAGE = 0;
     public static final String DATE_FORMAT = "yyyyMMdd_HHmmss";
     public static final long ID = -1L;

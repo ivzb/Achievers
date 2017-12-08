@@ -11,6 +11,9 @@ import java.util.TreeSet;
 public interface BaseGeneratorConfig {
 
     long getId();
+    String getEmail();
+    String getPassword();
+    String getAuthenticationToken();
 
     String getWord();
     String getSentence();
