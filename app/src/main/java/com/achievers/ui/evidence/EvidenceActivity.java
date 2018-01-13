@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 import com.achievers.R;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.entities.Evidence;
-import com.achievers.data.sources.evidences.EvidencesMockDataSource;
+import com.achievers.data.sources.DataSources;
 import com.achievers.ui._base.AbstractActivity;
 import com.achievers.ui.evidence.views.EvidencePhotoView;
 import com.achievers.ui.evidence.views.EvidenceVideoView;
@@ -43,7 +43,7 @@ public class EvidenceActivity extends AbstractActivity {
             throw new IllegalArgumentException();
         }
 
-        EvidencesMockDataSource.getInstance().get(evidenceId, new GetCallback<Evidence>() {
+        DataSources.getInstance().getEvidences().get(evidenceId, new GetCallback<Evidence>() {
             @Override
             public void onSuccess(Evidence evidence) {
                 if (EvidenceActivity.this.isFinishing()) return;
@@ -86,6 +86,6 @@ public class EvidenceActivity extends AbstractActivity {
         view.setViewModel(new EvidenceViewModel(evidence));
         view.setPresenter(new EvidencePresenter(
                 view,
-                EvidencesMockDataSource.getInstance()));
+                DataSources.getInstance().getEvidences()));
     }
 }

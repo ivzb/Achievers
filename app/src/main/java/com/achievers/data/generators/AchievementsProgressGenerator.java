@@ -1,21 +1,21 @@
 package com.achievers.data.generators;
 
 import com.achievers.data.entities.Achievement;
-import com.achievers.data.entities.AchievementProgress;
+import com.achievers.data.entities.Contribution;
 import com.achievers.data.generators._base.Generator;
 import com.achievers.data.generators._base.contracts.BaseGeneratorConfig;
 
 import java.util.Date;
 
 public class AchievementsProgressGenerator
-        extends Generator<AchievementProgress> {
+        extends Generator<Contribution> {
 
     public AchievementsProgressGenerator(BaseGeneratorConfig config) {
         super(config);
     }
 
     @Override
-    public AchievementProgress instantiate(long id) {
+    public Contribution instantiate(long id) {
         long achievementId = mConfig.getId();
         long userId = mConfig.getId();
         Achievement.Type type = mConfig.getEnum(Achievement.Type.values());
@@ -23,7 +23,7 @@ public class AchievementsProgressGenerator
         int accomplished = mConfig.getNumber(total);
         Date createdOn = mConfig.getDate();
 
-        return new AchievementProgress(
+        return new Contribution(
                 id,
                 achievementId,
                 userId,

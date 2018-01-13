@@ -19,14 +19,18 @@ public class FilesRemoteDataSource implements FilesDataSource {
 
     private FilesAPI apiService;
 
-    private static FilesDataSource INSTANCE;
+    private static FilesDataSource sINSTANCE;
 
     public static FilesDataSource getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new FilesRemoteDataSource();
+        if (sINSTANCE == null) {
+            sINSTANCE = new FilesRemoteDataSource();
         }
 
-        return INSTANCE;
+        return sINSTANCE;
+    }
+
+    public static void destroyInstance() {
+        sINSTANCE = null;
     }
 
     // Prevent direct instantiation.

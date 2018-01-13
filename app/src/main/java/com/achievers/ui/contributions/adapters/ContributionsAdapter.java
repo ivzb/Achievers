@@ -5,16 +5,16 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.achievers.BR;
-import com.achievers.data.entities.AchievementProgress;
+import com.achievers.data.entities.Contribution;
 import com.achievers.databinding.AchievementsProgressRecyclerItemBinding;
 import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
 import com.achievers.ui._base.adapters.ActionHandlerAdapter;
 
-public class ContributionsAdapter extends ActionHandlerAdapter<AchievementProgress> {
+public class ContributionsAdapter extends ActionHandlerAdapter<Contribution> {
 
     public ContributionsAdapter(
             Context context,
-            BaseAdapterActionHandler<AchievementProgress> actionHandler) {
+            BaseAdapterActionHandler<Contribution> actionHandler) {
 
         super(context, actionHandler);
     }
@@ -33,7 +33,7 @@ public class ContributionsAdapter extends ActionHandlerAdapter<AchievementProgre
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        AchievementProgress achievementProgress = mEntities.get(position);
+        Contribution achievementProgress = mEntities.get(position);
 
         viewHolder.getBinding().setVariable(BR.achievementProgress, achievementProgress);
         viewHolder.getBinding().setVariable(BR.actionHandler, mActionHandler);

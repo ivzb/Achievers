@@ -11,24 +11,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.achievers.utils.Preconditions.checkNotNull;
-
 public class AuthenticationRemoteDataSource implements AuthenticationDataSource {
 
-    private static AuthenticationRemoteDataSource sINSTANCE;
+    private static AuthenticationDataSource sINSTANCE;
 
     private AuthenticationAPI apiService;
 
-    public static AuthenticationRemoteDataSource getInstance() {
-        checkNotNull(sINSTANCE);
+    public static AuthenticationDataSource getInstance() {
+        if (sINSTANCE == null) {
+            sINSTANCE = new AuthenticationRemoteDataSource();
+        }
 
         return sINSTANCE;
-    }
-
-    public static AuthenticationRemoteDataSource createInstance() {
-        sINSTANCE = new AuthenticationRemoteDataSource();
-
-        return getInstance();
     }
 
     public static void destroyInstance() {

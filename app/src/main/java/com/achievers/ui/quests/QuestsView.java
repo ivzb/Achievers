@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.achievers.R;
 import com.achievers.data.entities.Quest;
-import com.achievers.data.sources.quests.QuestsMockDataSource;
+import com.achievers.data.sources.DataSources;
 import com.achievers.databinding.QuestsFragBinding;
 import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
 import com.achievers.ui._base.views.EndlessScrollView;
@@ -45,7 +45,7 @@ public class QuestsView
             mPresenter = new QuestsPresenter(
                     getContext(),
                     this,
-                    QuestsMockDataSource.getInstance());
+                    DataSources.getInstance().getQuests());
         }
 
         mDataBinding.setViewModel(mViewModel);

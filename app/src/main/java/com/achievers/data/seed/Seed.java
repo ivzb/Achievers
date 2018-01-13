@@ -1,16 +1,18 @@
 package com.achievers.data.seed;
 
 import com.achievers.data.entities.Achievement;
-import com.achievers.data.entities.AchievementProgress;
+import com.achievers.data.entities.Contribution;
 import com.achievers.data.entities.Evidence;
 import com.achievers.data.entities.Quest;
 import com.achievers.data.entities.Reward;
 import com.achievers.data.generators._base.contracts.BaseGeneratorConfig;
 import com.achievers.data.sources.achievements.AchievementsMockDataSource;
-import com.achievers.data.sources.achievements_progress.AchievementsProgressMockDataSource;
+import com.achievers.data.sources.authentication.AuthenticationMockDataSource;
+import com.achievers.data.sources.contributions.ContributionsMockDataSource;
 import com.achievers.data.sources.evidences.EvidencesMockDataSource;
 import com.achievers.data.sources.files.FilesMockDataSource;
 import com.achievers.data.sources.involvements.InvolvementsMockDataSource;
+import com.achievers.data.sources.profiles.ProfilesMockDataSource;
 import com.achievers.data.sources.quests.QuestsMockDataSource;
 import com.achievers.data.sources.rewards.RewardsMockDataSource;
 
@@ -32,10 +34,12 @@ public class Seed {
         List<Evidence> evidences = seedEvidence(achievements);
         List<Reward> rewards = seedRewards();
         List<Quest> quests = seedQuests(achievements, rewards);
-        List<AchievementProgress> achievementProgresses = seedAchievementProgresses();
+        List<Contribution> achievementProgresses = seedAchievementProgresses();
 
         seedAchievementsByQuests(quests);
 
+        AuthenticationMockDataSource.createInstance();
+        ProfilesMockDataSource.createInstance();
         FilesMockDataSource.createInstance();
         InvolvementsMockDataSource.createInstance();
     }
@@ -76,9 +80,9 @@ public class Seed {
         return dataSource.seed(null, size);
     }
 
-    private List<AchievementProgress> seedAchievementProgresses() {
+    private List<Contribution> seedAchievementProgresses() {
         int size = mConfig.getNumber(30);
-        return AchievementsProgressMockDataSource.createInstance().seed(null, size);
+        return ContributionsMockDataSource.createInstance().seed(null, size);
     }
 
     private void seedAchievementsByQuests(List<Quest> quests) {

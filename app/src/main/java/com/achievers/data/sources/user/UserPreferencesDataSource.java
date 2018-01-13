@@ -4,28 +4,21 @@ import com.achievers.DefaultConfig;
 import com.achievers.R;
 import com.achievers.utils.SharedPreferencesUtils;
 
-import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
-
 public class UserPreferencesDataSource implements UserDataSource {
 
     private static UserPreferencesDataSource sINSTANCE;
 
-    public static UserPreferencesDataSource getInstance() {
-        checkNotNull(sINSTANCE);
+    public static UserDataSource getInstance() {
+        if (sINSTANCE == null) {
+            sINSTANCE = new UserPreferencesDataSource();
+        }
 
         return sINSTANCE;
-    }
-
-    public static UserPreferencesDataSource createInstance() {
-        sINSTANCE = new UserPreferencesDataSource();
-
-        return getInstance();
     }
 
     public static void destroyInstance() {
         sINSTANCE = null;
     }
-
 
     private UserPreferencesDataSource() {
 

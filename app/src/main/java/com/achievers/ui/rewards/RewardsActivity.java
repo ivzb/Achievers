@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.achievers.R;
 import com.achievers.data.entities.Quest;
-import com.achievers.data.sources.rewards.RewardsMockDataSource;
+import com.achievers.data.sources.DataSources;
 import com.achievers.ui._base.AbstractActivity;
 import com.achievers.utils.ActivityUtils;
 
@@ -50,6 +50,6 @@ public class RewardsActivity extends AbstractActivity {
         view.setPresenter(new RewardsPresenter(
                 this,
                 view,
-                RewardsMockDataSource.getInstance()));
+                DataSources.getInstance().getRewards()));
     }
 }

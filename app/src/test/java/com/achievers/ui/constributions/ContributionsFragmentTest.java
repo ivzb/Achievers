@@ -4,7 +4,7 @@ import android.os.Build;
 
 import com.achievers.AchieversDebugTestApplication;
 import com.achievers.BuildConfig;
-import com.achievers.data.entities.AchievementProgress;
+import com.achievers.data.entities.Contribution;
 import com.achievers.ui._base.AbstractAdapter;
 import com.achievers.ui._base.EndlessAdapterFragmentTest;
 import com.achievers.ui._base._mocks.AchievementsActivityMock;
@@ -32,7 +32,7 @@ import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFr
         shadows = { ResourcesCompatShadow.class },
         application = AchieversDebugTestApplication.class)
 public class ContributionsFragmentTest
-        extends EndlessAdapterFragmentTest<AchievementProgress, ContributionsView, ContributionsContract.Presenter, ContributionsViewModel> {
+        extends EndlessAdapterFragmentTest<Contribution, ContributionsView, ContributionsContract.Presenter, ContributionsViewModel> {
 
     private @Mock ContributionsContract.Presenter mPresenter;
     private @Mock ContributionsViewModel mViewModel;
@@ -40,7 +40,7 @@ public class ContributionsFragmentTest
     private ContributionsView mFragment;
 
     public ContributionsFragmentTest() {
-        super(AchievementProgress.class);
+        super(Contribution.class);
     }
 
     @Override
@@ -59,9 +59,9 @@ public class ContributionsFragmentTest
     }
 
     @Override
-    public AchievementProgress instantiateModel(Long id) {
-        if (id == null) return new AchievementProgress();
-        return new AchievementProgress(id);
+    public Contribution instantiateModel(Long id) {
+        if (id == null) return new Contribution();
+        return new Contribution(id);
     }
 
     @Before

@@ -8,8 +8,7 @@ import com.achievers.DefaultConfig;
 import com.achievers.R;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.entities.Achievement;
-import com.achievers.data.sources.achievements.AchievementsMockDataSource;
-import com.achievers.data.sources.evidences.EvidencesMockDataSource;
+import com.achievers.data.sources.DataSources;
 import com.achievers.ui._base.activities.CollapsingToolbarActivity;
 import com.achievers.utils.ActivityUtils;
 
@@ -46,7 +45,7 @@ public class AchievementActivity extends CollapsingToolbarActivity {
                 DefaultConfig.PlaceholderImageResource,
                 DefaultConfig.PlaceholderText);
 
-        AchievementsMockDataSource.getInstance().get(achievementId, new GetCallback<Achievement>() {
+        DataSources.getInstance().getAchievements().get(achievementId, new GetCallback<Achievement>() {
             @Override
             public void onSuccess(Achievement achievement) {
                 if (AchievementActivity.this.isFinishing()) return;
@@ -77,6 +76,6 @@ public class AchievementActivity extends CollapsingToolbarActivity {
         view.setPresenter(new AchievementPresenter(
                 this,
                 view,
-                EvidencesMockDataSource.getInstance()));
+                DataSources.getInstance().getEvidences()));
     }
 }

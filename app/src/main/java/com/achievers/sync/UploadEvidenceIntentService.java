@@ -12,8 +12,7 @@ import com.achievers.R;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities.Evidence;
 import com.achievers.data.entities.File;
-import com.achievers.data.sources.evidences.EvidencesMockDataSource;
-import com.achievers.data.sources.files.FilesMockDataSource;
+import com.achievers.data.sources.DataSources;
 import com.achievers.ui.add_evidence.AddEvidenceActivity;
 import com.achievers.ui.evidence.EvidenceActivity;
 import com.achievers.utils.NotificationUtils;
@@ -60,7 +59,7 @@ public class UploadEvidenceIntentService extends IntentService {
     }
 
     private void saveMultimedia(final File multimedia, final Evidence evidence) {
-        FilesMockDataSource.getInstance().storeFile(multimedia, new SaveCallback<Uri>() {
+        DataSources.getInstance().getFiles().storeFile(multimedia, new SaveCallback<Uri>() {
             @Override
             public void onSuccess(Uri multimediaUri) {
                 evidence.setUri(multimediaUri);
@@ -75,7 +74,7 @@ public class UploadEvidenceIntentService extends IntentService {
     }
 
     private void saveEvidence(final Evidence evidence) {
-        EvidencesMockDataSource.getInstance().save(evidence, new SaveCallback<Long>() {
+        DataSources.getInstance().getEvidences().save(evidence, new SaveCallback<Long>() {
             @Override
             public void onSuccess(Long id) {
                 evidence.setId(id);

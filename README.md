@@ -54,6 +54,8 @@ Much of Achievers involves the completion of quests. Quests usually reward the p
 3. Title
 
 # TODO
+-1. Create missing remote data sources
+0. Remove all singleton create methods, make them lazy
 1. User - Authentication & Authorization
 2. User profile
    1. Own achievements

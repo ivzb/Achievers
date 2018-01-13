@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.entities.Category;
-import com.achievers.data.sources.BaseRepository;
+import com.achievers.data.sources._base.BaseRepository;
 
 import java.util.List;
 

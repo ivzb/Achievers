@@ -1,6 +1,6 @@
 package com.achievers.data.generators;
 
-import com.achievers.data.entities.AchievementProgress;
+import com.achievers.data.entities.Contribution;
 import com.achievers.data.generators._base.contracts.BaseGenerator;
 
 import org.junit.Before;
@@ -9,19 +9,19 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class AchievementsProgressGeneratorTest
-        extends AbstractGeneratorTest<AchievementProgress> {
+        extends AbstractGeneratorTest<Contribution> {
 
     @Before
     public void before() {
         super.before();
 
-        BaseGenerator<AchievementProgress> generator = new AchievementsProgressGenerator(mGeneratorConfig);
+        BaseGenerator<Contribution> generator = new AchievementsProgressGenerator(mGeneratorConfig);
         setGenerator(generator);
     }
 
     @Override
-    public AchievementProgress instantiate(long id) {
-        return new AchievementProgress(
+    public Contribution instantiate(long id) {
+        return new Contribution(
                 id,
                 sId,
                 sId,

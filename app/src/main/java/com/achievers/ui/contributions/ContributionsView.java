@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 
 import com.achievers.R;
-import com.achievers.data.entities.AchievementProgress;
-import com.achievers.data.sources.achievements_progress.AchievementsProgressMockDataSource;
+import com.achievers.data.entities.Contribution;
+import com.achievers.data.sources.DataSources;
 import com.achievers.databinding.ContributionsFragBinding;
 import com.achievers.ui._base._contracts.action_handlers.BaseAdapterActionHandler;
 import com.achievers.ui._base.views.EndlessScrollView;
@@ -23,8 +23,8 @@ import com.achievers.utils.ui.SwipeRefreshLayoutUtils;
 import java.util.Random;
 
 public class ContributionsView
-        extends EndlessScrollView<AchievementProgress, ContributionsContract.Presenter, ContributionsContract.ViewModel, ContributionsFragBinding>
-        implements ContributionsContract.View<ContributionsFragBinding>, BaseAdapterActionHandler<AchievementProgress>,
+        extends EndlessScrollView<Contribution, ContributionsContract.Presenter, ContributionsContract.ViewModel, ContributionsFragBinding>
+        implements ContributionsContract.View<ContributionsFragBinding>, BaseAdapterActionHandler<Contribution>,
             SwipeRefreshLayout.OnRefreshListener {
 
     public ContributionsView() {
@@ -43,7 +43,7 @@ public class ContributionsView
         if (mPresenter == null) mPresenter = new ContributionsPresenter(
             getContext(), 
             this, 
-            AchievementsProgressMockDataSource.getInstance());
+            DataSources.getInstance().getContributions());
 
         mDataBinding.setViewModel(mViewModel);
 
@@ -113,7 +113,7 @@ public class ContributionsView
     }
 
     @Override
-    public void onAdapterEntityClick(AchievementProgress entity) {
+    public void onAdapterEntityClick(Contribution entity) {
         // todo
     }
 }

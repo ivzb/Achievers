@@ -4,7 +4,7 @@ import com.achievers.data.entities._base.BaseModel;
 
 import java.util.Date;
 
-public class AchievementProgress implements BaseModel {
+public class Contribution implements BaseModel {
 
     private long mId;
     private long mAchievementId;
@@ -14,15 +14,15 @@ public class AchievementProgress implements BaseModel {
     private int mAccomplished;
     private Date mCreatedOn;
 
-    public AchievementProgress() {
+    public Contribution() {
 
     }
 
-    public AchievementProgress(long id) {
+    public Contribution(long id) {
         mId = id;
     }
 
-    public AchievementProgress(
+    public Contribution(
         long id,
         long achievementId,
         long userId,
@@ -82,7 +82,7 @@ public class AchievementProgress implements BaseModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AchievementProgress that = (AchievementProgress) o;
+        Contribution that = (Contribution) o;
 
         if (mId != that.mId) return false;
         if (mAchievementId != that.mAchievementId) return false;
@@ -107,7 +107,7 @@ public class AchievementProgress implements BaseModel {
 
     @Override
     public String toString() {
-        return "AchievementProgress{" +
+        return "Contribution{" +
                 "mId=" + mId +
                 ", mAchievementId=" + mAchievementId +
                 ", mUserId=" + mUserId +

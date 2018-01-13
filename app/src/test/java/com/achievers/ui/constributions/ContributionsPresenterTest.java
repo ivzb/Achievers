@@ -2,9 +2,9 @@ package com.achievers.ui.constributions;
 
 import android.content.Context;
 
-import com.achievers.data.entities.AchievementProgress;
+import com.achievers.data.entities.Contribution;
 import com.achievers.data.generators.config.GeneratorConfig;
-import com.achievers.data.sources.achievements_progress.AchievementsProgressDataSource;
+import com.achievers.data.sources.contributions.ContributionsDataSource;
 import com.achievers.ui._base.EndlessAdapterPresenterTest;
 import com.achievers.ui.contributions.ContributionsContract;
 import com.achievers.ui.contributions.ContributionsPresenter;
@@ -18,11 +18,11 @@ import java.util.Random;
 import io.bloco.faker.Faker;
 
 public class ContributionsPresenterTest
-        extends EndlessAdapterPresenterTest<AchievementProgress, ContributionsContract.Presenter, ContributionsContract.View, AchievementsProgressDataSource> {
+        extends EndlessAdapterPresenterTest<Contribution, ContributionsContract.Presenter, ContributionsContract.View, ContributionsDataSource> {
 
     @Mock protected Context mContext;
     @Mock protected ContributionsContract.View mView;
-    @Mock protected AchievementsProgressDataSource mDataSource;
+    @Mock protected ContributionsDataSource mDataSource;
 
     @Override
     public Context getContext() {
@@ -35,7 +35,7 @@ public class ContributionsPresenterTest
     }
 
     @Override
-    public AchievementsProgressDataSource getDataSource() {
+    public ContributionsDataSource getDataSource() {
         return mDataSource;
     }
 
@@ -49,16 +49,16 @@ public class ContributionsPresenterTest
     }
 
     @Override
-    public AchievementProgress instantiateModel(Long id) {
-        if (id == null) return new AchievementProgress();
-        return new AchievementProgress(id);
+    public Contribution instantiateModel(Long id) {
+        if (id == null) return new Contribution();
+        return new Contribution(id);
     }
 
     @Override
     public ContributionsContract.Presenter instantiatePresenter(
             Context context,
             ContributionsContract.View view,
-            AchievementsProgressDataSource dataSource) {
+            ContributionsDataSource dataSource) {
 
         return new ContributionsPresenter(context, view, dataSource);
     }

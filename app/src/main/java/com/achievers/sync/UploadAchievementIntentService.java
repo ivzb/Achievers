@@ -12,8 +12,7 @@ import com.achievers.R;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.File;
-import com.achievers.data.sources.achievements.AchievementsMockDataSource;
-import com.achievers.data.sources.files.FilesMockDataSource;
+import com.achievers.data.sources.DataSources;
 import com.achievers.ui.achievement.AchievementActivity;
 import com.achievers.ui.add_achievement.AddAchievementActivity;
 import com.achievers.utils.NotificationUtils;
@@ -61,7 +60,7 @@ public class UploadAchievementIntentService extends IntentService {
     }
 
     private void savePicture(final File picture, final Achievement achievement) {
-        FilesMockDataSource.getInstance().storeFile(picture, new SaveCallback<Uri>() {
+        DataSources.getInstance().getFiles().storeFile(picture, new SaveCallback<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 achievement.setPictureUri(uri);
@@ -76,7 +75,7 @@ public class UploadAchievementIntentService extends IntentService {
     }
 
     private void saveAchievement(final Achievement achievement) {
-        AchievementsMockDataSource.getInstance().save(achievement, new SaveCallback<Long>() {
+        DataSources.getInstance().getAchievements().save(achievement, new SaveCallback<Long>() {
             @Override
             public void onSuccess(Long id) {
                 achievement.setId(id);
