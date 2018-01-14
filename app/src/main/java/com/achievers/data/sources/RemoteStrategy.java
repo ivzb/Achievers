@@ -3,7 +3,6 @@ package com.achievers.data.sources;
 import com.achievers.data.sources.achievements.AchievementsDataSource;
 import com.achievers.data.sources.achievements.AchievementsRemoteDataSource;
 import com.achievers.data.sources.authentication.AuthenticationDataSource;
-import com.achievers.data.sources.authentication.AuthenticationRemoteDataSource;
 import com.achievers.data.sources.contributions.ContributionsDataSource;
 import com.achievers.data.sources.evidences.EvidencesDataSource;
 import com.achievers.data.sources.evidences.EvidencesRemoteDataSource;
@@ -14,6 +13,7 @@ import com.achievers.data.sources.profiles.ProfilesDataSource;
 import com.achievers.data.sources.quests.QuestsDataSource;
 import com.achievers.data.sources.rewards.RewardsDataSource;
 import com.achievers.data.sources.user.UserDataSource;
+import com.achievers.data.sources.user.UserRemoteDataSource;
 
 public class RemoteStrategy implements DataSourcesStrategy {
 
@@ -24,7 +24,7 @@ public class RemoteStrategy implements DataSourcesStrategy {
 
     @Override
     public AuthenticationDataSource getAuthentication() {
-        return AuthenticationRemoteDataSource.getInstance();
+        return null;
     }
 
     @Override
@@ -64,6 +64,6 @@ public class RemoteStrategy implements DataSourcesStrategy {
 
     @Override
     public UserDataSource getUser() {
-        return null;
+        return UserRemoteDataSource.getInstance();
     }
 }

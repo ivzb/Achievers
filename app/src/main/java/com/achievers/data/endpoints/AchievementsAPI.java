@@ -5,18 +5,25 @@ import com.achievers.data.entities.Achievement;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface AchievementsAPI {
 
-    @GET("Achievements/ByCategory/{id}")
-    Call<List<Achievement>> loadByCategory(
-            @Path("id") String id
+    @GET("achievements?page={page}")
+    Call<List<Achievement>> load(@Path("page") int page);
+
+    @GET("achievements/quest?id={id}&page={page}")
+    Call<List<Achievement>> loadByQuest(
+            @Path("id") String id,
+            @Path("page") int page
     );
 
-    @GET("Achievements/Details/{id}")
-    Call<Achievement> getAchievement(
-            @Path("id") String id
-    );
+    @GET("achievement/{id}")
+    Call<Achievement> get(@Path("id") String id);
+
+    @POST("achievement/create")
+    Call<String> create(@Body Achievement achievement);
 }

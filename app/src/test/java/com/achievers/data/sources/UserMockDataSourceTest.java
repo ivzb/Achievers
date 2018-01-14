@@ -1,10 +1,10 @@
 package com.achievers.data.sources;
 
 import com.achievers.DefaultConfig;
-import com.achievers.data.callbacks.GetCallback;
-import com.achievers.data.entities.Authentication;
+import com.achievers.data.callbacks.SaveCallback;
+import com.achievers.data.entities.Auth;
 import com.achievers.data.generators.config.GeneratorConfig;
-import com.achievers.data.sources.authentication.AuthenticationMockDataSource;
+import com.achievers.data.sources.user.UserMockDataSource;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,9 +23,9 @@ import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AuthenticationMockDataSourceTest {
+public class UserMockDataSourceTest {
 
-    private AuthenticationMockDataSource mDataSource;
+    private UserMockDataSource mDataSource;
 
     private static final String sCorrectEmail = DefaultConfig.Mocks.sEmail;
     private static final String sCorrectPassword = DefaultConfig.Mocks.sPassword;
@@ -34,9 +34,9 @@ public class AuthenticationMockDataSourceTest {
     private static final String sIncorrectEmail = "incorrect_email";
     private static final String sIncorrectPassword = "incorrect_password";
 
-    @Mock private GetCallback<Authentication> mGetCallback;
+    @Mock private SaveCallback<String> mSaveCallback;
 
-    @Captor private ArgumentCaptor<Authentication> mSuccessCaptor;
+    @Captor private ArgumentCaptor<String> mSuccessCaptor;
     @Captor private ArgumentCaptor<String> mFailureCaptor;
 
     @Before
@@ -44,19 +44,21 @@ public class AuthenticationMockDataSourceTest {
         GeneratorConfig.destroyInstance();
         GeneratorConfig.initialize(new Random(), new Faker());
 
-        AuthenticationMockDataSource.destroyInstance();
-        mDataSource = AuthenticationMockDataSource.createInstance();
+        UserMockDataSource.destroyInstance();
+        mDataSource = UserMockDataSource.createInstance();
     }
 
     @Test(expected = NullPointerException.class)
     public void get_nullCallback_shouldThrow() {
-        mDataSource.auth(sCorrectEmail, sCorrectPassword, null);
+        Auth auth = new Auth(sCorrectEmail, sCorrectPassword);
+        mDataSource.auth(auth, null);
     }
 
     @Test
     public void auth_invalidEmail_shouldReturnFailure() {
-        mDataSource.auth(sIncorrectEmail, sCorrectPassword, mGetCallback);
-        verify(mGetCallback).onFailure(mFailureCaptor.capture());
+        Auth auth = new Auth(sIncorrectEmail, sCorrectPassword);
+        mDataSource.auth(auth, mSaveCallback);
+        verify(mSaveCallback).onFailure(mFailureCaptor.capture());
 
         String actual = mFailureCaptor.getValue();
         assertNotNull(actual);
@@ -64,8 +66,9 @@ public class AuthenticationMockDataSourceTest {
 
     @Test
     public void auth_invalidPassword_shouldReturnFailure() {
-        mDataSource.auth(sCorrectEmail, sIncorrectPassword, mGetCallback);
-        verify(mGetCallback).onFailure(mFailureCaptor.capture());
+        Auth auth = new Auth(sCorrectEmail, sIncorrectPassword);
+        mDataSource.auth(auth, mSaveCallback);
+        verify(mSaveCallback).onFailure(mFailureCaptor.capture());
 
         String actual = mFailureCaptor.getValue();
         assertNotNull(actual);
@@ -73,11 +76,12 @@ public class AuthenticationMockDataSourceTest {
 
     @Test
     public void auth_validCredentials_shouldReturnCorrectToken() {
-        mDataSource.auth(sCorrectEmail, sCorrectPassword, mGetCallback);
-        verify(mGetCallback).onSuccess(mSuccessCaptor.capture());
+        Auth auth = new Auth(sCorrectEmail, sCorrectPassword);
+        mDataSource.auth(auth, mSaveCallback);
+        verify(mSaveCallback).onSuccess(mSuccessCaptor.capture());
 
-        Authentication actual = mSuccessCaptor.getValue();
+        String actual = mSuccessCaptor.getValue();
         assertNotNull(actual);
-        assertEquals(sCorrectAuthenticationToken, actual.getToken());
+        assertEquals(sCorrectAuthenticationToken, actual);
     }
 }

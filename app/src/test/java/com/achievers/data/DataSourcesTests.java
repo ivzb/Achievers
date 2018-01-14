@@ -5,8 +5,7 @@ import com.achievers.data.sources.MockStrategy;
 import com.achievers.data.sources.RemoteStrategy;
 import com.achievers.data.sources.achievements.AchievementsMockDataSource;
 import com.achievers.data.sources.achievements.AchievementsRemoteDataSource;
-import com.achievers.data.sources.authentication.AuthenticationMockDataSource;
-import com.achievers.data.sources.authentication.AuthenticationRemoteDataSource;
+import com.achievers.data.sources.authentication.AuthenticationPreferencesDataSource;
 import com.achievers.data.sources.contributions.ContributionsMockDataSource;
 import com.achievers.data.sources.evidences.EvidencesMockDataSource;
 import com.achievers.data.sources.evidences.EvidencesRemoteDataSource;
@@ -16,7 +15,8 @@ import com.achievers.data.sources.involvements.InvolvementsMockDataSource;
 import com.achievers.data.sources.profiles.ProfilesMockDataSource;
 import com.achievers.data.sources.quests.QuestsMockDataSource;
 import com.achievers.data.sources.rewards.RewardsMockDataSource;
-import com.achievers.data.sources.user.UserPreferencesDataSource;
+import com.achievers.data.sources.user.UserMockDataSource;
+import com.achievers.data.sources.user.UserRemoteDataSource;
 
 import org.junit.After;
 import org.junit.Test;
@@ -40,7 +40,7 @@ public class DataSourcesTests {
         // arrange
         DataSources.createInstance(new MockStrategy());
         Class expectedAchievements = AchievementsMockDataSource.class;
-        Class expectedAuthentication = AuthenticationMockDataSource.class;
+        Class expectedAuthentication = AuthenticationPreferencesDataSource.class;
         Class expectedContributions = ContributionsMockDataSource.class;
         Class expectedEvidences = EvidencesMockDataSource.class;
         Class expectedFiles = FilesMockDataSource.class;
@@ -48,7 +48,7 @@ public class DataSourcesTests {
         Class expectedProfiles = ProfilesMockDataSource.class;
         Class expectedQuests = QuestsMockDataSource.class;
         Class expectedRewards = RewardsMockDataSource.class;
-        Class expectedUser = UserPreferencesDataSource.class;
+        Class expectedUser = UserMockDataSource.class;
 
         // act
         Class actualAchievements = DataSources.getInstance().getAchievements().getClass();
@@ -80,7 +80,7 @@ public class DataSourcesTests {
         // arrange
         DataSources.createInstance(new RemoteStrategy());
         Class expectedAchievements = AchievementsRemoteDataSource.class;
-        Class expectedAuthentication = AuthenticationRemoteDataSource.class;
+        Class expectedAuthentication = AuthenticationPreferencesDataSource.class;
         // todo: add contributions
         Class expectedEvidences = EvidencesRemoteDataSource.class;
         Class expectedFiles = FilesRemoteDataSource.class;
@@ -88,7 +88,7 @@ public class DataSourcesTests {
         // todo: add profiles
         // todo: add quests
         // todo: add rewards
-        Class expectedUser = UserPreferencesDataSource.class;
+        Class expectedUser = UserRemoteDataSource.class;
 
         // act
         Class actualAchievements = DataSources.getInstance().getAchievements().getClass();

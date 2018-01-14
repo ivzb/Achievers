@@ -35,8 +35,8 @@ public class Achievement implements BaseModel {
     @SerializedName("involvement")
     Involvement involvement;
 
-    @SerializedName("createdOn")
-    Date createdOn;
+    @SerializedName("created_at")
+    Date createdAt;
 
     int mInvolvementPosition;
 
@@ -52,9 +52,9 @@ public class Achievement implements BaseModel {
             @NonNull String description,
             @NonNull Involvement involvement,
             @NonNull Uri pictureUri,
-            @NonNull Date createdOn) {
+            @NonNull Date createdAt) {
 
-        this(title, description, involvement, pictureUri, createdOn);
+        this(title, description, involvement, pictureUri, createdAt);
 
         this.id = id;
     }
@@ -73,13 +73,13 @@ public class Achievement implements BaseModel {
             @NonNull String description,
             @NonNull Involvement involvement,
             @NonNull Uri pictureUri,
-            Date createdOn) {
+            Date createdAt) {
 
         this.title = title;
         this.description = description;
         this.involvement = involvement;
         this.pictureUri = pictureUri;
-        this.createdOn = createdOn;
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -121,12 +121,12 @@ public class Achievement implements BaseModel {
     }
 
     @Nullable
-    public Date getCreatedOn() {
-        return createdOn;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public int getInvolvementPosition() {
@@ -157,7 +157,7 @@ public class Achievement implements BaseModel {
         if (pictureUri != null ? !pictureUri.equals(that.pictureUri) : that.pictureUri != null)
             return false;
         if (involvement != that.involvement) return false;
-        return createdOn != null ? createdOn.equals(that.createdOn) : that.createdOn == null;
+        return createdAt != null ? createdAt.equals(that.createdAt) : that.createdAt == null;
     }
 
     @Override
@@ -167,7 +167,7 @@ public class Achievement implements BaseModel {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (pictureUri != null ? pictureUri.hashCode() : 0);
         result = 31 * result + (involvement != null ? involvement.hashCode() : 0);
-        result = 31 * result + (createdOn != null ? createdOn.hashCode() : 0);
+        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + mInvolvementPosition;
         return result;
     }

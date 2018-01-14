@@ -21,8 +21,8 @@ public class Profile implements BaseModel {
     @SerializedName("pictureUri")
     Uri pictureUri;
 
-    @SerializedName("createdOn")
-    Date createdOn;
+    @SerializedName("created_at")
+    Date createdAt;
 
     public Profile() {
 
@@ -36,12 +36,12 @@ public class Profile implements BaseModel {
             String id,
             String name,
             Uri pictureUri,
-            Date createdOn) {
+            Date createdAt) {
 
         this(id);
         this.name = name;
         this.pictureUri = pictureUri;
-        this.createdOn = createdOn;
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -63,13 +63,13 @@ public class Profile implements BaseModel {
     }
 
     @Override
-    public Date getCreatedOn() {
-        return createdOn;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
     @Override
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -88,7 +88,7 @@ public class Profile implements BaseModel {
         if (name != null ? !name.equals(profile.name) : profile.name != null) return false;
         if (pictureUri != null ? !pictureUri.equals(profile.pictureUri) : profile.pictureUri != null)
             return false;
-        return createdOn != null ? createdOn.equals(profile.createdOn) : profile.createdOn == null;
+        return createdAt != null ? createdAt.equals(profile.createdAt) : profile.createdAt == null;
     }
 
     @Override
@@ -96,7 +96,7 @@ public class Profile implements BaseModel {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (pictureUri != null ? pictureUri.hashCode() : 0);
-        result = 31 * result + (createdOn != null ? createdOn.hashCode() : 0);
+        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         return result;
     }
 
@@ -106,7 +106,7 @@ public class Profile implements BaseModel {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", pictureUri=" + pictureUri +
-                ", createdOn=" + createdOn +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }

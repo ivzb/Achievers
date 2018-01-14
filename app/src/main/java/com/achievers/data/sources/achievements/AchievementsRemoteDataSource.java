@@ -8,19 +8,22 @@ import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.endpoints.AchievementsAPI;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.sources.RESTClient;
+import com.achievers.data.sources._base.BaseRemoteDataSource;
+
+import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Implementation of remote network data source.
  */
-public class AchievementsRemoteDataSource implements AchievementsDataSource {
+public class AchievementsRemoteDataSource
+        extends BaseRemoteDataSource<Achievement>
+        implements AchievementsDataSource {
 
     private static AchievementsDataSource sINSTANCE;
 
-    private AchievementsAPI apiService;
+    private AchievementsAPI mApiService;
 
     public static AchievementsDataSource getInstance() {
         if (sINSTANCE == null) {
@@ -36,7 +39,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
 
     // Prevent direct instantiation.
     private AchievementsRemoteDataSource() {
-        this.apiService = RESTClient
+        mApiService = RESTClient
                 .getClient()
                 .create(AchievementsAPI.class);
     }
@@ -46,27 +49,8 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
             final String id,
             final @NonNull GetCallback<Achievement> callback) {
 
-        final Call<Achievement> call = this.apiService.getAchievement(id);
-
-        call.enqueue(new Callback<Achievement>() {
-            @Override
-            public void onResponse(Call<Achievement> call, Response<Achievement> response) {
-                int statusCode = response.code();
-
-                if (statusCode != 200) {
-                    callback.onFailure("Error occurred. Please try again.");
-                    return;
-                }
-
-                Achievement achievement = response.body();
-                callback.onSuccess(achievement);
-            }
-
-            @Override
-            public void onFailure(Call<Achievement> call, Throwable t) {
-                callback.onFailure("Server could not be reached. Please try again.");
-            }
-        });
+        final Call<Achievement> call = mApiService.get(id);
+        call.enqueue(getCallback(callback));
     }
 
     @Override
@@ -75,32 +59,18 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
             final int page,
             final @NonNull LoadCallback<Achievement> callback) {
 
-//        final Call<List<Achievement>> call = this.apiService.loadByCategory(/*categoryId, pageSize, page * pageSize*/);
-//
-//        call.enqueue(new Callback<List<Achievement>>() {
-//            @Override
-//            public void onResponse(Call<List<Achievement>> call, Response<List<Achievement>> response) {
-//                int statusCode = response.code();
-//
-//                if (statusCode != 200) {
-//                    callback.onFailure("Error occurred. Please try again.");
-//                    return;
-//                }
-//
-//                callback.onSuccess(response.body());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Achievement>> call, Throwable t) {
-//                callback.onFailure("Server could not be reached. Please try again.");
-//            }
-//        });
+        final Call<List<Achievement>> call = mApiService.load(page);
+        call.enqueue(loadCallback(page, callback));
     }
 
     @Override
-    public void loadByQuestId(String id, int page, LoadCallback<Achievement> callback) {
+    public void loadByQuestId(
+            String questId,
+            int page,
+            LoadCallback<Achievement> callback) {
 
-        // todo
+        final Call<List<Achievement>> call = mApiService.loadByQuest(questId, page);
+        call.enqueue(loadCallback(page, callback));
     }
 
     @Override
@@ -108,6 +78,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
             @NonNull Achievement achievement,
             @NonNull SaveCallback<String> callback) {
 
-        // todo
+        final Call<String> call = mApiService.create(achievement);
+        call.enqueue(saveCallback(callback));
     }
 }
