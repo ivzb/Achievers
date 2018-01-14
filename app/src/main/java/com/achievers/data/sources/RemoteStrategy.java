@@ -3,17 +3,21 @@ package com.achievers.data.sources;
 import com.achievers.data.sources.achievements.AchievementsDataSource;
 import com.achievers.data.sources.achievements.AchievementsRemoteDataSource;
 import com.achievers.data.sources.authentication.AuthenticationDataSource;
-import com.achievers.data.sources.authentication.AuthenticationRemoteDataSource;
 import com.achievers.data.sources.contributions.ContributionsDataSource;
+import com.achievers.data.sources.contributions.ContributionsRemoteDataSource;
 import com.achievers.data.sources.evidences.EvidencesDataSource;
 import com.achievers.data.sources.evidences.EvidencesRemoteDataSource;
 import com.achievers.data.sources.files.FilesDataSource;
 import com.achievers.data.sources.files.FilesRemoteDataSource;
 import com.achievers.data.sources.involvements.InvolvementsDataSource;
 import com.achievers.data.sources.profiles.ProfilesDataSource;
+import com.achievers.data.sources.profiles.ProfilesRemoteDataSource;
 import com.achievers.data.sources.quests.QuestsDataSource;
+import com.achievers.data.sources.quests.QuestsRemoteDataSource;
 import com.achievers.data.sources.rewards.RewardsDataSource;
+import com.achievers.data.sources.rewards.RewardsRemoteDataSource;
 import com.achievers.data.sources.user.UserDataSource;
+import com.achievers.data.sources.user.UserRemoteDataSource;
 
 public class RemoteStrategy implements DataSourcesStrategy {
 
@@ -24,12 +28,12 @@ public class RemoteStrategy implements DataSourcesStrategy {
 
     @Override
     public AuthenticationDataSource getAuthentication() {
-        return AuthenticationRemoteDataSource.getInstance();
+        return null;
     }
 
     @Override
     public ContributionsDataSource getContributions() {
-        return null;
+        return ContributionsRemoteDataSource.getInstance();
     }
 
     @Override
@@ -49,21 +53,21 @@ public class RemoteStrategy implements DataSourcesStrategy {
 
     @Override
     public ProfilesDataSource getProfiles() {
-        return null;
+        return ProfilesRemoteDataSource.getInstance();
     }
 
     @Override
     public QuestsDataSource getQuests() {
-        return null;
+        return QuestsRemoteDataSource.getInstance();
     }
 
     @Override
     public RewardsDataSource getRewards() {
-        return null;
+        return RewardsRemoteDataSource.getInstance();
     }
 
     @Override
     public UserDataSource getUser() {
-        return null;
+        return UserRemoteDataSource.getInstance();
     }
 }

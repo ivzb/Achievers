@@ -1,16 +1,17 @@
-package com.achievers.data.sources.user;
+package com.achievers.data.sources.authentication;
 
 import com.achievers.DefaultConfig;
 import com.achievers.R;
 import com.achievers.utils.SharedPreferencesUtils;
 
-public class UserPreferencesDataSource implements UserDataSource {
+public class AuthenticationPreferencesDataSource
+        implements AuthenticationDataSource {
 
-    private static UserPreferencesDataSource sINSTANCE;
+    private static AuthenticationDataSource sINSTANCE;
 
-    public static UserDataSource getInstance() {
+    public static AuthenticationDataSource getInstance() {
         if (sINSTANCE == null) {
-            sINSTANCE = new UserPreferencesDataSource();
+            sINSTANCE = new AuthenticationPreferencesDataSource();
         }
 
         return sINSTANCE;
@@ -20,7 +21,7 @@ public class UserPreferencesDataSource implements UserDataSource {
         sINSTANCE = null;
     }
 
-    private UserPreferencesDataSource() {
+    private AuthenticationPreferencesDataSource() {
 
     }
 

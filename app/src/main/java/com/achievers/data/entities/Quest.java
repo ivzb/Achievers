@@ -45,8 +45,8 @@ public class Quest implements BaseModel {
     @SerializedName("type")
     Quest.Type type;
 
-    @SerializedName("createdOn")
-    Date createdOn;
+    @SerializedName("created_at")
+    Date createdAt;
 
     public Quest() {
 
@@ -66,7 +66,7 @@ public class Quest implements BaseModel {
             TreeSet<String> completed,
             List<Reward> rewards,
             Quest.Type type,
-            Date createdOn) {
+            Date createdAt) {
 
         this(id);
         this.name = name;
@@ -77,7 +77,7 @@ public class Quest implements BaseModel {
         this.completed = completed;
         this.rewards = rewards;
         this.type = type;
-        this.createdOn = createdOn;
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -123,13 +123,13 @@ public class Quest implements BaseModel {
     }
 
     @Override
-    public Date getCreatedOn() {
-        return createdOn;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
     @Override
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -162,7 +162,7 @@ public class Quest implements BaseModel {
             return false;
         if (rewards != null ? !rewards.equals(quest.rewards) : quest.rewards != null) return false;
         if (type != quest.type) return false;
-        return createdOn != null ? createdOn.equals(quest.createdOn) : quest.createdOn == null;
+        return createdAt != null ? createdAt.equals(quest.createdAt) : quest.createdAt == null;
     }
 
     @Override
@@ -176,7 +176,7 @@ public class Quest implements BaseModel {
         result = 31 * result + (completed != null ? completed.hashCode() : 0);
         result = 31 * result + (rewards != null ? rewards.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (createdOn != null ? createdOn.hashCode() : 0);
+        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         return result;
     }
 
@@ -192,7 +192,7 @@ public class Quest implements BaseModel {
                 ", completedAchievements=" + completed +
                 ", rewards=" + rewards +
                 ", type=" + type +
-                ", createdOn=" + createdOn +
+                ", createdAt=" + createdAt +
                 '}';
     }
 

@@ -2,6 +2,7 @@ package com.achievers.data.sources;
 
 import com.achievers.data.sources.achievements.AchievementsDataSource;
 import com.achievers.data.sources.authentication.AuthenticationDataSource;
+import com.achievers.data.sources.authentication.AuthenticationPreferencesDataSource;
 import com.achievers.data.sources.contributions.ContributionsDataSource;
 import com.achievers.data.sources.evidences.EvidencesDataSource;
 import com.achievers.data.sources.files.FilesDataSource;
@@ -10,7 +11,6 @@ import com.achievers.data.sources.profiles.ProfilesDataSource;
 import com.achievers.data.sources.quests.QuestsDataSource;
 import com.achievers.data.sources.rewards.RewardsDataSource;
 import com.achievers.data.sources.user.UserDataSource;
-import com.achievers.data.sources.user.UserPreferencesDataSource;
 
 import static com.achievers.utils.Preconditions.checkNotNull;
 
@@ -48,7 +48,7 @@ public class DataSources implements DataSourcesStrategy {
 
     @Override
     public AuthenticationDataSource getAuthentication() {
-        return mStrategy.getAuthentication();
+        return AuthenticationPreferencesDataSource.getInstance();
     }
 
     @Override
@@ -88,6 +88,6 @@ public class DataSources implements DataSourcesStrategy {
 
     @Override
     public UserDataSource getUser() {
-        return UserPreferencesDataSource.getInstance();
+        return mStrategy.getUser();
     }
 }

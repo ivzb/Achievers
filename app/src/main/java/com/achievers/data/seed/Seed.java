@@ -7,7 +7,6 @@ import com.achievers.data.entities.Quest;
 import com.achievers.data.entities.Reward;
 import com.achievers.data.generators._base.contracts.BaseGeneratorConfig;
 import com.achievers.data.sources.achievements.AchievementsMockDataSource;
-import com.achievers.data.sources.authentication.AuthenticationMockDataSource;
 import com.achievers.data.sources.contributions.ContributionsMockDataSource;
 import com.achievers.data.sources.evidences.EvidencesMockDataSource;
 import com.achievers.data.sources.files.FilesMockDataSource;
@@ -15,6 +14,7 @@ import com.achievers.data.sources.involvements.InvolvementsMockDataSource;
 import com.achievers.data.sources.profiles.ProfilesMockDataSource;
 import com.achievers.data.sources.quests.QuestsMockDataSource;
 import com.achievers.data.sources.rewards.RewardsMockDataSource;
+import com.achievers.data.sources.user.UserMockDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public class Seed {
 
         seedAchievementsByQuests(quests);
 
-        AuthenticationMockDataSource.createInstance();
+        UserMockDataSource.createInstance();
         ProfilesMockDataSource.createInstance();
         FilesMockDataSource.createInstance();
         InvolvementsMockDataSource.createInstance();

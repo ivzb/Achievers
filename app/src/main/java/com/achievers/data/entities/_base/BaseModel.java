@@ -7,8 +7,8 @@ public interface BaseModel {
     String getId();
     void setId(String id);
 
-    Date getCreatedOn();
-    void setCreatedOn(Date createdOn);
+    Date getCreatedAt();
+    void setCreatedAt(Date createdAt);
 
     String getContainerId();
 }

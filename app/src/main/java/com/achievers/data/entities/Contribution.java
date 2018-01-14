@@ -12,7 +12,7 @@ public class Contribution implements BaseModel {
     private Achievement.Type mType;
     private int mTotal;
     private int mAccomplished;
-    private Date mCreatedOn;
+    private Date mCreatedAt;
 
     public Contribution() {
 
@@ -29,7 +29,7 @@ public class Contribution implements BaseModel {
         Achievement.Type type,
         int total,
         int accomplished,
-        Date createdOn) {
+        Date createdAt) {
 
         this(id);
         mAchievementId = achievementId;
@@ -37,7 +37,7 @@ public class Contribution implements BaseModel {
         mType = type;
         mTotal = total;
         mAccomplished = accomplished;
-        mCreatedOn = createdOn;
+        mCreatedAt = createdAt;
     }
 
     public String getId() {
@@ -63,13 +63,13 @@ public class Contribution implements BaseModel {
     }
 
     @Override
-    public Date getCreatedOn() {
-        return mCreatedOn;
+    public Date getCreatedAt() {
+        return mCreatedAt;
     }
 
     @Override
-    public void setCreatedOn(Date createdOn) {
-        mCreatedOn = createdOn;
+    public void setCreatedAt(Date createdAt) {
+        mCreatedAt = createdAt;
     }
 
     @Override
@@ -91,7 +91,7 @@ public class Contribution implements BaseModel {
             return false;
         if (mUserId != null ? !mUserId.equals(that.mUserId) : that.mUserId != null) return false;
         if (mType != that.mType) return false;
-        return mCreatedOn != null ? mCreatedOn.equals(that.mCreatedOn) : that.mCreatedOn == null;
+        return mCreatedAt != null ? mCreatedAt.equals(that.mCreatedAt) : that.mCreatedAt == null;
     }
 
     @Override
@@ -102,7 +102,7 @@ public class Contribution implements BaseModel {
         result = 31 * result + (mType != null ? mType.hashCode() : 0);
         result = 31 * result + mTotal;
         result = 31 * result + mAccomplished;
-        result = 31 * result + (mCreatedOn != null ? mCreatedOn.hashCode() : 0);
+        result = 31 * result + (mCreatedAt != null ? mCreatedAt.hashCode() : 0);
         return result;
     }
 
@@ -115,7 +115,7 @@ public class Contribution implements BaseModel {
                 ", mType=" + mType +
                 ", mTotal=" + mTotal +
                 ", mAccomplished=" + mAccomplished +
-                ", mCreatedOn=" + mCreatedOn +
+                ", mCreatedAt=" + mCreatedAt +
                 '}';
     }
 }

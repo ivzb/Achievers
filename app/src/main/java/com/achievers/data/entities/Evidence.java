@@ -33,7 +33,7 @@ public class Evidence implements BaseModel {
 //    @SerializedName("ownerId")
 //    long ownerId;
 
-    @SerializedName("previewUrl")
+    @SerializedName("preview_url")
     @NonNull
     String previewUrl;
 
@@ -41,9 +41,9 @@ public class Evidence implements BaseModel {
     @NonNull
     Uri uri;
 
-    @SerializedName("createdOn")
+    @SerializedName("created_at")
     @Nullable
-    Date createdOn;
+    Date createdAt;
 
     public Evidence() {
 
@@ -73,7 +73,7 @@ public class Evidence implements BaseModel {
             @NonNull MultimediaType multimediaType,
             @NonNull String previewUrl,
             @NonNull Uri uri,
-            @Nullable Date createdOn) {
+            @Nullable Date createdAt) {
 
         this(id);
 
@@ -81,7 +81,7 @@ public class Evidence implements BaseModel {
         this.multimediaType = multimediaType;
         this.previewUrl = previewUrl;
         this.uri = uri;
-        this.createdOn = createdOn;
+        this.createdAt = createdAt;
     }
 
     @NonNull
@@ -122,12 +122,12 @@ public class Evidence implements BaseModel {
     }
 
     @NonNull
-    public Date getCreatedOn() {
-        return createdOn;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreatedOn(@NonNull Date createdOn) {
-        this.createdOn = createdOn;
+    public void setCreatedAt(@NonNull Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public boolean isNew() {
@@ -157,7 +157,7 @@ public class Evidence implements BaseModel {
             return false;
         if (!previewUrl.equals(evidence.previewUrl)) return false;
         if (uri != null ? !uri.equals(evidence.uri) : evidence.uri != null) return false;
-        return createdOn != null ? createdOn.equals(evidence.createdOn) : evidence.createdOn == null;
+        return createdAt != null ? createdAt.equals(evidence.createdAt) : evidence.createdAt == null;
     }
 
     @Override
@@ -168,7 +168,7 @@ public class Evidence implements BaseModel {
         result = 31 * result + (achievementId != null ? achievementId.hashCode() : 0);
         result = 31 * result + previewUrl.hashCode();
         result = 31 * result + (uri != null ? uri.hashCode() : 0);
-        result = 31 * result + (createdOn != null ? createdOn.hashCode() : 0);
+        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         return result;
     }
 

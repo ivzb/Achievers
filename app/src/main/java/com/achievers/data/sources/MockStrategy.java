@@ -5,7 +5,6 @@ import com.achievers.data.seed.Seed;
 import com.achievers.data.sources.achievements.AchievementsDataSource;
 import com.achievers.data.sources.achievements.AchievementsMockDataSource;
 import com.achievers.data.sources.authentication.AuthenticationDataSource;
-import com.achievers.data.sources.authentication.AuthenticationMockDataSource;
 import com.achievers.data.sources.contributions.ContributionsDataSource;
 import com.achievers.data.sources.contributions.ContributionsMockDataSource;
 import com.achievers.data.sources.evidences.EvidencesDataSource;
@@ -21,6 +20,7 @@ import com.achievers.data.sources.quests.QuestsMockDataSource;
 import com.achievers.data.sources.rewards.RewardsDataSource;
 import com.achievers.data.sources.rewards.RewardsMockDataSource;
 import com.achievers.data.sources.user.UserDataSource;
+import com.achievers.data.sources.user.UserMockDataSource;
 
 import java.util.Random;
 
@@ -40,7 +40,7 @@ public class MockStrategy implements DataSourcesStrategy {
 
     @Override
     public AuthenticationDataSource getAuthentication() {
-        return AuthenticationMockDataSource.getInstance();
+        return null;
     }
 
     @Override
@@ -80,6 +80,6 @@ public class MockStrategy implements DataSourcesStrategy {
 
     @Override
     public UserDataSource getUser() {
-        return null;
+        return UserMockDataSource.getInstance();
     }
 }

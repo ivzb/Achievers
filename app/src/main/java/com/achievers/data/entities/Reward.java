@@ -27,8 +27,8 @@ public class Reward implements BaseModel {
     @SerializedName("type")
     Reward.Type type;
 
-    @SerializedName("createdOn")
-    Date createdOn;
+    @SerializedName("created_at")
+    Date createdAt;
 
     public Reward() {
 
@@ -44,14 +44,14 @@ public class Reward implements BaseModel {
             String description,
             Uri pictureUri,
             Reward.Type type,
-            Date createdOn) {
+            Date createdAt) {
 
         this(id);
         this.name = name;
         this.description = description;
         this.pictureUri = pictureUri;
         this.type = type;
-        this.createdOn = createdOn;
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -80,12 +80,12 @@ public class Reward implements BaseModel {
         return type;
     }
 
-    public Date getCreatedOn() {
-        return createdOn;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -107,7 +107,7 @@ public class Reward implements BaseModel {
         if (pictureUri != null ? !pictureUri.equals(reward.pictureUri) : reward.pictureUri != null)
             return false;
         if (type != reward.type) return false;
-        return createdOn != null ? createdOn.equals(reward.createdOn) : reward.createdOn == null;
+        return createdAt != null ? createdAt.equals(reward.createdAt) : reward.createdAt == null;
     }
 
     @Override
@@ -117,7 +117,7 @@ public class Reward implements BaseModel {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (pictureUri != null ? pictureUri.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (createdOn != null ? createdOn.hashCode() : 0);
+        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         return result;
     }
 

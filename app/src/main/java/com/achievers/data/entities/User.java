@@ -1,7 +1,5 @@
 package com.achievers.data.entities;
 
-import android.net.Uri;
-
 import com.achievers.data.entities._base.BaseModel;
 import com.google.gson.annotations.SerializedName;
 
@@ -9,38 +7,38 @@ import org.parceler.Parcel;
 
 import java.util.Date;
 
-@Parcel(analyze = { Profile.class })
-public class Profile implements BaseModel {
+@Parcel(analyze = { User.class })
+public class User implements BaseModel {
 
     @SerializedName("id")
     String id;
 
-    @SerializedName("name")
-    String name;
+    @SerializedName("email")
+    String email;
 
-    @SerializedName("pictureUri")
-    Uri pictureUri;
+    @SerializedName("password")
+    String password;
 
     @SerializedName("created_at")
     Date createdAt;
 
-    public Profile() {
+    public User() {
 
     }
 
-    public Profile(String id) {
+    public User(String id) {
         this.id = id;
     }
 
-    public Profile(
+    public User(
             String id,
-            String name,
-            Uri pictureUri,
+            String email,
+            String password,
             Date createdAt) {
 
         this(id);
-        this.name = name;
-        this.pictureUri = pictureUri;
+        this.email = email;
+        this.password = password;
         this.createdAt = createdAt;
     }
 
@@ -54,12 +52,12 @@ public class Profile implements BaseModel {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public Uri getPictureUri() {
-        return pictureUri;
+    public String getPassword() {
+        return password;
     }
 
     @Override
@@ -82,30 +80,30 @@ public class Profile implements BaseModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Profile profile = (Profile) o;
+        User user = (User) o;
 
-        if (id != null ? !id.equals(profile.id) : profile.id != null) return false;
-        if (name != null ? !name.equals(profile.name) : profile.name != null) return false;
-        if (pictureUri != null ? !pictureUri.equals(profile.pictureUri) : profile.pictureUri != null)
+        if (id != null ? !id.equals(user.id) : user.id != null) return false;
+        if (email != null ? !email.equals(user.email) : user.email != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null)
             return false;
-        return createdAt != null ? createdAt.equals(profile.createdAt) : profile.createdAt == null;
+        return createdAt != null ? createdAt.equals(user.createdAt) : user.createdAt == null;
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (pictureUri != null ? pictureUri.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "Profile{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", pictureUri=" + pictureUri +
+        return "User{" +
+                "id='" + id + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 ", createdAt=" + createdAt +
                 '}';
     }
