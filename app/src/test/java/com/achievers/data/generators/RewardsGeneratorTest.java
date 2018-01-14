@@ -20,7 +20,7 @@ public class RewardsGeneratorTest
     }
 
     @Override
-    public Reward instantiate(long id) {
+    public Reward instantiate(String id) {
         return new Reward(
                 id,
                 sWord,

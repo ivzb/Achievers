@@ -47,7 +47,7 @@ public class QuestsPresenterTest
     }
 
     @Override
-    public Quest instantiateModel(Long id) {
+    public Quest instantiateModel(String id) {
         if (id == null) return new Quest();
         return new Quest(id);
     }

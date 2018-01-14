@@ -45,7 +45,7 @@ public class QuestFragmentTest
 
     private QuestView mFragment;
 
-    private static final long sQuestId = 5;
+    private static final String sQuestId = "some_id";
 
     public QuestFragmentTest() {
         super(Achievement.class);
@@ -67,7 +67,7 @@ public class QuestFragmentTest
     }
 
     @Override
-    public Achievement instantiateModel(Long id) {
+    public Achievement instantiateModel(String id) {
         if (id == null) return new Achievement();
         return new Achievement(id);
     }
@@ -98,7 +98,7 @@ public class QuestFragmentTest
     public void show() {
         // arrange
         List<Achievement> entities = new ArrayList<>();
-        for (long i = 0; i < 5; i++) entities.add(instantiateModel(i));
+        for (long i = 0; i < 5; i++) entities.add(instantiateModel(String.valueOf(i)));
 
         BaseMultimediaAdapter<Achievement> adapter = mock(BaseMultimediaAdapter.class);
         when(getViewModel().getAdapter()).thenReturn(adapter);

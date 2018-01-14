@@ -20,7 +20,7 @@ public class ProfilesGeneratorTest
     }
 
     @Override
-    public Profile instantiate(long id) {
+    public Profile instantiate(String id) {
         return new Profile(
                 id,
                 sWord,

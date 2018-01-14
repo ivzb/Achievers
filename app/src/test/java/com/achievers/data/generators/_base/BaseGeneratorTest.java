@@ -8,5 +8,5 @@ public interface BaseGeneratorTest<T extends BaseModel> {
     BaseGenerator<T> getGenerator();
     void setGenerator(BaseGenerator<T> generator);
 
-    T instantiate(long id);
+    T instantiate(String id);
 }

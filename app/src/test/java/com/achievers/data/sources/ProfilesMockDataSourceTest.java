@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.List;
 import java.util.Random;
 
 import io.bloco.faker.Faker;
@@ -19,8 +20,8 @@ public class ProfilesMockDataSourceTest extends GetDataSourceTest<Profile> {
     private ProfilesMockDataSource mDataSource;
 
     @Override
-    public void seed(Long containerId, int size) {
-        mDataSource.seed(containerId, size);
+    public List<Profile> seed(String containerId, int size) {
+        return mDataSource.seed(containerId, size);
     }
 
     @Before

@@ -156,7 +156,7 @@ public class Evidence implements BaseModel {
         if (achievementId != null ? !achievementId.equals(evidence.achievementId) : evidence.achievementId != null)
             return false;
         if (!previewUrl.equals(evidence.previewUrl)) return false;
-        if (!uri.equals(evidence.uri)) return false;
+        if (uri != null ? !uri.equals(evidence.uri) : evidence.uri != null) return false;
         return createdOn != null ? createdOn.equals(evidence.createdOn) : evidence.createdOn == null;
     }
 
@@ -167,7 +167,7 @@ public class Evidence implements BaseModel {
         result = 31 * result + multimediaType.hashCode();
         result = 31 * result + (achievementId != null ? achievementId.hashCode() : 0);
         result = 31 * result + previewUrl.hashCode();
-        result = 31 * result + uri.hashCode();
+        result = 31 * result + (uri != null ? uri.hashCode() : 0);
         result = 31 * result + (createdOn != null ? createdOn.hashCode() : 0);
         return result;
     }

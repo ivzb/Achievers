@@ -49,7 +49,7 @@ public class ContributionsPresenterTest
     }
 
     @Override
-    public Contribution instantiateModel(Long id) {
+    public Contribution instantiateModel(String id) {
         if (id == null) return new Contribution();
         return new Contribution(id);
     }

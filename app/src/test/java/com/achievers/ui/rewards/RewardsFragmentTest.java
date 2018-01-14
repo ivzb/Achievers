@@ -57,7 +57,7 @@ public class RewardsFragmentTest
     }
 
     @Override
-    public Reward instantiateModel(Long id) {
+    public Reward instantiateModel(String id) {
         if (id == null) return new Reward();
         return new Reward(id);
     }
@@ -79,7 +79,7 @@ public class RewardsFragmentTest
         verify(mViewModel).getContainerId();
 
         verify(mPresenter).start();
-        verify(mPresenter).refresh(isNull(Long.class));
+        verify(mPresenter).refresh(isNull(String.class));
     }
 
     @Test
@@ -97,7 +97,7 @@ public class RewardsFragmentTest
         mFragment.onRefresh();
 
         // assert
-        verify(mPresenter, times(2)).refresh(isNull(Long.class));
+        verify(mPresenter, times(2)).refresh(isNull(String.class));
         verify(mViewModel, times(2)).getContainerId();
     }
 }

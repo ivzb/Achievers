@@ -47,7 +47,7 @@ public class RewardsPresenterTest
     }
 
     @Override
-    public Reward instantiateModel(Long id) {
+    public Reward instantiateModel(String id) {
         if (id == null) return new Reward();
         return new Reward(id);
     }

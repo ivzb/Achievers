@@ -64,7 +64,7 @@ public class AchievementsFragmentTest
     }
 
     @Override
-    public Achievement instantiateModel(Long id) {
+    public Achievement instantiateModel(String id) {
         if (id == null) return new Achievement();
         return new Achievement(id);
     }
@@ -86,13 +86,13 @@ public class AchievementsFragmentTest
         verify(mViewModel).getContainerId();
 
         verify(mPresenter).start();
-        verify(mPresenter).refresh(isNull(Long.class));
+        verify(mPresenter).refresh(isNull(String.class));
     }
 
     @Test
     public void openAchievementUi() {
         // arrange
-        Achievement model = instantiateModel(503L);
+        Achievement model = instantiateModel("some_id");
 
         // act
         getFragment().openUi(model);
@@ -103,7 +103,7 @@ public class AchievementsFragmentTest
         Bundle extras = intent.getExtras();
         assertNotNull(extras);
         assertTrue(extras.containsKey(AchievementActivity.EXTRA_ACHIEVEMENT_ID));
-        long actual = extras.getLong(AchievementActivity.EXTRA_ACHIEVEMENT_ID);
+        String actual = extras.getString(AchievementActivity.EXTRA_ACHIEVEMENT_ID);
         assertEquals(model.getId(), actual);
     }
 

@@ -23,8 +23,8 @@ public class QuestsMockDataSourceTest extends ReceiveDataSourceTest<Quest> {
     private QuestsMockDataSource mDataSource;
 
     @Override
-    public void seed(Long containerId, int size) {
-        mDataSource.seed(containerId, size);
+    public List<Quest> seed(String containerId, int size) {
+        return mDataSource.seed(containerId, size);
     }
 
     @Before
@@ -35,13 +35,13 @@ public class QuestsMockDataSourceTest extends ReceiveDataSourceTest<Quest> {
         List<Achievement> achievements = new ArrayList<>();
 
         for (int i = 0; i < 15; i++) {
-            achievements.add(new Achievement(1));
+            achievements.add(new Achievement(String.valueOf(i)));
         }
 
         List<Reward> rewards = new ArrayList<>();
 
         for (int i = 0; i < 15; i++) {
-            rewards.add(new Reward(1));
+            rewards.add(new Reward(String.valueOf(i)));
         }
 
         QuestsMockDataSource.destroyInstance();

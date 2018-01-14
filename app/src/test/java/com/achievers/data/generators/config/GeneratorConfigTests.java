@@ -75,11 +75,11 @@ public class GeneratorConfigTests {
     @Test
     public void getId() {
         // arrange
-        long expected = 5L;
-        when(mRandom.nextLong()).thenReturn(expected);
+        String expected = "5-5-5";
+        when(mRandom.nextLong()).thenReturn(5L);
 
         // act
-        long actual = mConfig.getId();
+        String actual = mConfig.getId();
 
         // assert
         assertEquals(expected, actual);
@@ -328,7 +328,7 @@ public class GeneratorConfigTests {
         ArrayList<Achievement> entities = new ArrayList<>();
 
         for (int i = 1; i <= size; i++) {
-            entities.add(new Achievement(i));
+            entities.add(new Achievement(String.valueOf(i)));
         }
 
         ArrayList<Achievement> expected = new ArrayList<>();

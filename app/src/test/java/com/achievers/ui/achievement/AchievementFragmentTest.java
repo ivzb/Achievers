@@ -43,7 +43,7 @@ public class AchievementFragmentTest
 
     private AchievementView mFragment;
 
-    private static final long sAchievementId = 5;
+    private static final String sAchievementId = "some_id";
 
     public AchievementFragmentTest() {
         super(Evidence.class);
@@ -65,7 +65,7 @@ public class AchievementFragmentTest
     }
 
     @Override
-    public Evidence instantiateModel(Long id) {
+    public Evidence instantiateModel(String id) {
         if (id == null) return new Evidence();
         return new Evidence(id);
     }
@@ -96,7 +96,7 @@ public class AchievementFragmentTest
     public void show() {
         // arrange
         List<Evidence> entities = new ArrayList<>();
-        for (long i = 0; i < 5; i++) entities.add(instantiateModel(i));
+        for (long i = 0; i < 5; i++) entities.add(instantiateModel(String.valueOf(i)));
 
         BaseMultimediaAdapter<Evidence> adapter = mock(BaseMultimediaAdapter.class);
         when(getViewModel().getAdapter()).thenReturn(adapter);

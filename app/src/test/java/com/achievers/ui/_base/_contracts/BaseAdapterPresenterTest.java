@@ -11,6 +11,6 @@ public interface BaseAdapterPresenterTest<M extends BaseModel, P extends BasePre
     V getView();
     DS getDataSource();
 
-    M instantiateModel(Long id);
+    M instantiateModel(String id);
     P instantiatePresenter(Context context, V view, DS dataSource);
 }

@@ -20,7 +20,7 @@ public class AchievementsGeneratorTest
     }
 
     @Override
-    public Achievement instantiate(long id) {
+    public Achievement instantiate(String id) {
         return new Achievement(
                 id,
                 sWord,

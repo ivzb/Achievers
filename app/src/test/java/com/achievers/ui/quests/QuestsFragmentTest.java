@@ -65,7 +65,7 @@ public class QuestsFragmentTest
     }
 
     @Override
-    public Quest instantiateModel(Long id) {
+    public Quest instantiateModel(String id) {
         if (id == null) return new Quest();
         return new Quest(id);
     }
@@ -87,7 +87,7 @@ public class QuestsFragmentTest
         verify(mViewModel).getContainerId();
 
         verify(mPresenter).start();
-        verify(mPresenter).refresh(isNull(Long.class));
+        verify(mPresenter).refresh(isNull(String.class));
     }
 
     @Test
@@ -102,7 +102,7 @@ public class QuestsFragmentTest
     @Test
     public void openQuestUi() {
         // arrange
-        Quest model = instantiateModel(503L);
+        Quest model = instantiateModel("some_id");
 
         // act
         getFragment().openUi(model);
@@ -113,7 +113,7 @@ public class QuestsFragmentTest
         Bundle extras = intent.getExtras();
         assertNotNull(extras);
         assertTrue(extras.containsKey(QuestActivity.EXTRA_QUEST_ID));
-        long actual = extras.getLong(QuestActivity.EXTRA_QUEST_ID);
+        String actual = extras.getString(QuestActivity.EXTRA_QUEST_ID);
         assertEquals(model.getId(), actual);
     }
 
@@ -124,7 +124,7 @@ public class QuestsFragmentTest
 
         // assert
         verify(mViewModel, times(2)).getContainerId();
-        verify(mPresenter, times(2)).refresh(isNull(Long.class));
+        verify(mPresenter, times(2)).refresh(isNull(String.class));
     }
 
     @Test

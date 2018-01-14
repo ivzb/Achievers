@@ -44,11 +44,11 @@ public class AchievementPresenterTest
         GeneratorConfig.initialize(new Random(), new Faker());
 
         mPresenter = new AchievementPresenter(mContext, mView, mDataSource);
-        mId = 5L;
+        mId = "some_id";
     }
 
     @Override
-    public Evidence instantiateModel(Long id) {
+    public Evidence instantiateModel(String id) {
         if (id == null) return new Evidence();
         return new Evidence(id);
     }

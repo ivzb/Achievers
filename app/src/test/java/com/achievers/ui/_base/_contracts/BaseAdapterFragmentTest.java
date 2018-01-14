@@ -12,5 +12,5 @@ public interface BaseAdapterFragmentTest<M extends BaseModel, F extends BaseEndl
     P getPresenter();
     VM getViewModel();
 
-    M instantiateModel(Long id);
+    M instantiateModel(String id);
 }

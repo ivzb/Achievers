@@ -78,7 +78,7 @@ public class UploadEvidenceIntentServiceTest
         Parcelable evidence = Parcels.wrap(
                 new Evidence(
                         "title",
-                        1,
+                        "some_id",
                         MultimediaType.Video,
                         Uri.parse("fake-uri")));
 

@@ -18,9 +18,9 @@ public abstract class BaseMockDataSourceTest<T extends BaseModel>
 
     protected BaseDataSource<T> mDataSource;
 
-    @Mock protected SaveCallback<Long> mSaveCallback;
+    @Mock protected SaveCallback<String> mSaveCallback;
 
-    @Captor protected ArgumentCaptor<Long> mSuccessSaveCaptor;
+    @Captor protected ArgumentCaptor<String> mSuccessSaveCaptor;
 
     @Test
     public void save_null_shouldReturnFailure() {
@@ -31,13 +31,13 @@ public abstract class BaseMockDataSourceTest<T extends BaseModel>
         mDataSource.save(entity, mSaveCallback);
         verify(mSaveCallback).onSuccess(mSuccessSaveCaptor.capture());
 
-        final Long actual = mSuccessSaveCaptor.getValue();
+        final String actual = mSuccessSaveCaptor.getValue();
         assertNotNull(actual);
 
         assertEntityExists(actual);
     }
 
-    protected void assertSaveEntityFailure(T entity, SaveCallback<Long> callback) {
+    protected void assertSaveEntityFailure(T entity, SaveCallback<String> callback) {
         mDataSource.save(entity, callback);
         verify(mSaveCallback).onFailure(mFailureCaptor.capture());
 

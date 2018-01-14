@@ -5,11 +5,11 @@ import com.achievers.validator.contracts.BaseRule;
 
 import java.util.Locale;
 
-public class ValidIdRule implements BaseRule<Long> {
+public class ValidIdRule implements BaseRule<String> {
 
     @Override
-    public boolean validate(BaseProperty<Long> property) {
-        return property != null && property.getValue() != null && property.getValue() > 0;
+    public boolean validate(BaseProperty<String> property) {
+        return property != null && property.getValue() != null && !property.getValue().equals("");
     }
 
     @Override

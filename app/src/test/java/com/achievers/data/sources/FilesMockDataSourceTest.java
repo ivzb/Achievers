@@ -16,7 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static junit.framework.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -61,7 +61,7 @@ public class FilesMockDataSourceTest {
 
         mDataSource.storeFile(mFile, mSaveCallback);
 
-        verify(mFile).setId(anyLong());
+        verify(mFile).setId(anyString());
         verify(mSaveCallback).onSuccess(mSuccessCaptor.capture());
 
         final Uri actual = mSuccessCaptor.getValue();

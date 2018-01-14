@@ -10,12 +10,14 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
+import java.util.List;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Mockito.verify;
 
 public abstract class GetDataSourceTest<T extends BaseModel>
-        implements SeedDataSourceTest {
+        implements SeedDataSourceTest<T> {
 
     protected GetDataSource<T> mDataSource;
 
@@ -26,18 +28,18 @@ public abstract class GetDataSourceTest<T extends BaseModel>
 
     @Test(expected = NullPointerException.class)
     public void get_nullCallback_shouldThrow() {
-        mDataSource.get(-1, null);
+        mDataSource.get("some_id", null);
     }
 
     @Test
     public void get_nonExisting_shouldReturnFailure() {
-        assertEntityDoesNotExist(-1);
+        assertEntityDoesNotExist("not_existing_id");
     }
 
     @Test
     public void get_existing_shouldReturnCorrect() {
-        seed(null, 10);
-        long expectedId = 5L;
+        List<T> existing = seed(null, 10);
+        String expectedId = existing.get(0).getId();
 
         mDataSource.get(expectedId, mGetCallback);
         verify(mGetCallback).onSuccess(mSuccessCaptor.capture());
@@ -47,7 +49,7 @@ public abstract class GetDataSourceTest<T extends BaseModel>
         assertEquals(expectedId, actual.getId());
     }
 
-    protected void assertEntityDoesNotExist(long id) {
+    protected void assertEntityDoesNotExist(String id) {
         mDataSource.get(id, mGetCallback);
 
         verify(mGetCallback).onFailure(mFailureCaptor.capture());
@@ -58,7 +60,7 @@ public abstract class GetDataSourceTest<T extends BaseModel>
         assertEquals(expected, actual);
     }
 
-    protected void assertEntityExists(long id) {
+    protected void assertEntityExists(String id) {
         mDataSource.get(id, mGetCallback);
 
         verify(mGetCallback).onSuccess(mSuccessCaptor.capture());

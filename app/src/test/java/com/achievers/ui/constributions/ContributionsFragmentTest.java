@@ -59,7 +59,7 @@ public class ContributionsFragmentTest
     }
 
     @Override
-    public Contribution instantiateModel(Long id) {
+    public Contribution instantiateModel(String id) {
         if (id == null) return new Contribution();
         return new Contribution(id);
     }
@@ -81,6 +81,6 @@ public class ContributionsFragmentTest
         verify(mViewModel).getContainerId();
 
         verify(mPresenter).start();
-        verify(mPresenter).refresh(isNull(Long.class));
+        verify(mPresenter).refresh(isNull(String.class));
     }
 }

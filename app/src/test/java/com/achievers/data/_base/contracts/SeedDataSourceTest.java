@@ -1,6 +1,8 @@
 package com.achievers.data._base.contracts;
 
-public interface SeedDataSourceTest {
+import java.util.List;
 
-    void seed(Long containerId, int size);
+public interface SeedDataSourceTest<T> {
+
+    List<T> seed(String containerId, int size);
 }

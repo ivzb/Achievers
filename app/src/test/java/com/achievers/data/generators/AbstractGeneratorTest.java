@@ -31,7 +31,7 @@ public abstract class AbstractGeneratorTest<T extends BaseModel>
 
     private BaseGenerator<T> mGenerator;
 
-    static final long sId = 5L;
+    static final String sId = "some_id";
     static final String sWord = "word";
     static final String sSentence = "sentence";
     static final int sNumber = 42;
@@ -89,7 +89,7 @@ public abstract class AbstractGeneratorTest<T extends BaseModel>
         T expected = instantiate(sId);
 
         // act
-        T actual = getGenerator().instantiate(sId);
+        T actual = getGenerator().instantiate();
 
         // assert
         assertEquals(sFailMessage, expected, actual);
@@ -98,11 +98,11 @@ public abstract class AbstractGeneratorTest<T extends BaseModel>
     @Test
     public void single() {
         // arrange
-        long id = 5;
+        String id = "some_id";
         T expected = instantiate(id);
 
         // act
-        T actual = mGenerator.single(id);
+        T actual = mGenerator.single();
 
         // assert
         assertEquals(sFailMessage, expected.getId(), actual.getId());
@@ -111,15 +111,15 @@ public abstract class AbstractGeneratorTest<T extends BaseModel>
     @Test
     public void multiple() {
         // arrange
-        long id = 5;
         int size = 5;
+        String id = "some_id";
 
         // act
-        List<T> actual = mGenerator.multiple(id, size);
+        List<T> actual = mGenerator.multiple(size);
 
         // assert
         for (int i = 0; i < size; i++) {
-            T expected = instantiate(id + i);
+            T expected = instantiate(id);
             assertEquals(sFailMessage, expected.getId(), actual.get(i).getId());
         }
     }

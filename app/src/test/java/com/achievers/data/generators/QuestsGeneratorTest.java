@@ -22,7 +22,7 @@ public class QuestsGeneratorTest
         extends AbstractGeneratorTest<Quest> {
 
     private @Mock List<Achievement> mAchievements;
-    private @Mock TreeSet<Long> mCompleted;
+    private @Mock TreeSet<String> mCompleted;
     private @Mock List<Reward> mRewards;
 
     @Before
@@ -44,7 +44,7 @@ public class QuestsGeneratorTest
     }
 
     @Override
-    public Quest instantiate(long id) {
+    public Quest instantiate(String id) {
         return new Quest(
                 id,
                 sWord,

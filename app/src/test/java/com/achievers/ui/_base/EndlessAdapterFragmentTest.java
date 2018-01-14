@@ -47,7 +47,7 @@ public abstract class EndlessAdapterFragmentTest<M extends BaseModel, F extends 
     public void show() {
         // arrange
         List<M> entities = new ArrayList<>();
-        for (long i = 0; i < 5; i++) entities.add(instantiateModel(i));
+        for (long i = 0; i < 5; i++) entities.add(instantiateModel(String.valueOf(i)));
 
         AbstractAdapter<M> adapter = mock(AbstractAdapter.class);
         when(getViewModel().getAdapter()).thenReturn(adapter);
@@ -88,7 +88,7 @@ public abstract class EndlessAdapterFragmentTest<M extends BaseModel, F extends 
 
         // assert
         verify(getViewModel(), times(2)).getContainerId();
-        verify(getPresenter(), times(2)).refresh(isNull(Long.class));
+        verify(getPresenter(), times(2)).refresh(isNull(String.class));
     }
 
     @Test

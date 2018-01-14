@@ -53,7 +53,7 @@ public class AddEvidencePresenterTest {
     @Mock private BaseMultimediaViewActionHandler mActionHandler;
 
     private String mTitle;
-    private long mAchievementId;
+    private String mAchievementId;
     @Mock private MultimediaType mMultimediaType;
     @Mock private Uri mUri;
 
@@ -72,7 +72,7 @@ public class AddEvidencePresenterTest {
                 mSimpleExoPlayer);
 
         mTitle = "title";
-        mAchievementId = 5;
+        mAchievementId = "some_id";
     }
 
     @After
@@ -341,7 +341,7 @@ public class AddEvidencePresenterTest {
         when(mView.isActive()).thenReturn(true);
 
         // act
-        mPresenter.saveEvidence(mTitle, -1, mMultimediaType, mUri);
+        mPresenter.saveEvidence(mTitle, "", mMultimediaType, mUri);
 
         // assert
         verify(mView).isActive();

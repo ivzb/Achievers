@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 
 public abstract class ReceiveDataSourceTest<T extends BaseModel>
         extends GetDataSourceTest<T>
-        implements SeedDataSourceTest {
+        implements SeedDataSourceTest<T> {
 
     protected ReceiveDataSource<T> mDataSource;
 
@@ -33,7 +33,7 @@ public abstract class ReceiveDataSourceTest<T extends BaseModel>
 
     @Test
     public void load_invalidPage_shouldReturnFailure() {
-        Long id = 5L;
+        String id = "some_id";
         int page = -1;
 
         mDataSource.load(id, page, mLoadCallback);
@@ -47,7 +47,7 @@ public abstract class ReceiveDataSourceTest<T extends BaseModel>
 
     @Test
     public void load_assertNoMore() {
-        long containerId = 5;
+        String containerId = "some_id";
         int page = 0;
 
         load_assertNoMore(containerId, page);
@@ -55,7 +55,7 @@ public abstract class ReceiveDataSourceTest<T extends BaseModel>
 
     @Test
     public void load_firstPage_assertSuccess() {
-        long containerId = 5;
+        String containerId = "some_id";
         int page = 0;
         int expectedSize = 9;
 
@@ -66,7 +66,7 @@ public abstract class ReceiveDataSourceTest<T extends BaseModel>
 
     @Test
     public void load_thirdPage_assertSuccess() {
-        long containerId = 5;
+        String containerId = "some_id";
         int page = 2;
         int expectedSize = 9;
 
@@ -75,7 +75,7 @@ public abstract class ReceiveDataSourceTest<T extends BaseModel>
         load_assertSuccess(containerId, page, expectedSize);
     }
 
-    protected void load_assertSuccess(Long id, int page, int expectedSize) {
+    protected void load_assertSuccess(String id, int page, int expectedSize) {
         mDataSource.load(id, page, mLoadCallback);
         verify(mLoadCallback).onSuccess(mSuccessListCaptor.capture(), eq(page));
 
@@ -83,7 +83,7 @@ public abstract class ReceiveDataSourceTest<T extends BaseModel>
         assertEquals(expectedSize, actual.size());
     }
 
-    protected void load_assertNoMore(Long id, int page) {
+    protected void load_assertNoMore(String id, int page) {
         mDataSource.load(id, page, mLoadCallback);
         verify(mLoadCallback).onNoMore();
     }

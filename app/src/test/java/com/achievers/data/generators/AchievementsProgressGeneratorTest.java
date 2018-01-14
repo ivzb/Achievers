@@ -20,7 +20,7 @@ public class AchievementsProgressGeneratorTest
     }
 
     @Override
-    public Contribution instantiate(long id) {
+    public Contribution instantiate(String id) {
         return new Contribution(
                 id,
                 sId,

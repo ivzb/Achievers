@@ -20,7 +20,7 @@ public class EvidencesGeneratorTest
     }
 
     @Override
-    public Evidence instantiate(long id) {
+    public Evidence instantiate(String id) {
         return new Evidence(
                 id,
                 sSentence,

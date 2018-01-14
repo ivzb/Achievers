@@ -35,7 +35,7 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
 
     protected P mPresenter;
 
-    protected Long mId;
+    protected String mId;
 
     protected List<M> mExpectedLoad;
 
@@ -238,7 +238,7 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
     }
 
     protected void arrangeLoad(
-            final Long id,
+            final String id,
             final Boolean isSuccessful,
             final Boolean initiallyInactiveView,
             final Boolean callbackInactiveView,
@@ -266,14 +266,14 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
                 return null;
             }
         }).when(getDataSource()).load(
-                id == null ? isNull(Long.class) : any(Long.class), any(int.class), any(LoadCallback.class));
+                id == null ? isNull(String.class) : any(String.class), any(int.class), any(LoadCallback.class));
     }
 
-    protected void actLoad(Long id, int page) {
+    protected void actLoad(String id, int page) {
         mPresenter.load(id, page);
     }
 
-    protected void assertSuccessfulLoad(Long id, int page) {
+    protected void assertSuccessfulLoad(String id, int page) {
         verify(getView()).setLoadingIndicator(true);
 
         verify(getDataSource()).load(eq(id), eq(page), any(LoadCallback.class));
@@ -287,7 +287,7 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
         assertTrue(mExpectedLoad == actualLoad);
     }
 
-    protected void assertFailureLoad(Long id, int page) {
+    protected void assertFailureLoad(String id, int page) {
         verify(getView()).setLoadingIndicator(true);
 
         verify(getDataSource()).load(eq(id), eq(page), any(LoadCallback.class));
@@ -303,7 +303,7 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
         int end = 9 * page;
 
         for (long id = 0; id < end; id++) {
-            M entity = instantiateModel(id);
+            M entity = instantiateModel(String.valueOf(id));
             entities.add(entity);
         }
 

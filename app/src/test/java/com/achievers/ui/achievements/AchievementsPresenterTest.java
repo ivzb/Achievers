@@ -77,7 +77,7 @@ public class AchievementsPresenterTest
     }
 
     @Override
-    public Achievement instantiateModel(Long id) {
+    public Achievement instantiateModel(String id) {
         if (id == null) return new Achievement();
         return new Achievement(id);
     }

@@ -62,11 +62,11 @@ public class QuestPresenterTest
         GeneratorConfig.initialize(new Random(), new Faker());
 
         mPresenter = new QuestPresenter(mContext, mView, mDataSource);
-        mId = 5L;
+        mId = "some_id";
     }
 
     @Override
-    public Achievement instantiateModel(Long id) {
+    public Achievement instantiateModel(String id) {
         if (id == null) return new Achievement();
         return new Achievement(id);
     }
@@ -104,7 +104,7 @@ public class QuestPresenterTest
 
     @Override
     protected void arrangeLoad(
-            final Long id,
+            final String id,
             final Boolean isSuccessful,
             final Boolean initiallyInactiveView,
             final Boolean callbackInactiveView,
@@ -132,11 +132,11 @@ public class QuestPresenterTest
                 return null;
             }
         }).when(getDataSource()).loadByQuestId(
-                id == null ? isNull(Long.class) : any(Long.class), any(int.class), any(LoadCallback.class));
+                id == null ? isNull(String.class) : any(String.class), any(int.class), any(LoadCallback.class));
     }
 
     @Override
-    protected void assertSuccessfulLoad(Long id, int page) {
+    protected void assertSuccessfulLoad(String id, int page) {
         verify(getView()).setLoadingIndicator(true);
 
         verify(getDataSource()).loadByQuestId(eq(id), eq(page), any(LoadCallback.class));
@@ -151,7 +151,7 @@ public class QuestPresenterTest
     }
 
     @Override
-    protected void assertFailureLoad(Long id, int page) {
+    protected void assertFailureLoad(String id, int page) {
         verify(getView()).setLoadingIndicator(true);
 
         verify(getDataSource()).loadByQuestId(eq(id), eq(page), any(LoadCallback.class));
