@@ -43,7 +43,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
 
     @Override
     public void get(
-            final long id,
+            final String id,
             final @NonNull GetCallback<Achievement> callback) {
 
         final Call<Achievement> call = this.apiService.getAchievement(id);
@@ -71,7 +71,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
 
     @Override
     public void load(
-            final Long categoryId,
+            final String categoryId,
             final int page,
             final @NonNull LoadCallback<Achievement> callback) {
 
@@ -98,7 +98,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
     }
 
     @Override
-    public void loadByQuestId(Long id, int page, LoadCallback<Achievement> callback) {
+    public void loadByQuestId(String id, int page, LoadCallback<Achievement> callback) {
 
         // todo
     }
@@ -106,7 +106,7 @@ public class AchievementsRemoteDataSource implements AchievementsDataSource {
     @Override
     public void save(
             @NonNull Achievement achievement,
-            @NonNull SaveCallback<Long> callback) {
+            @NonNull SaveCallback<String> callback) {
 
         // todo
     }

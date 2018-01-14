@@ -17,7 +17,8 @@ public class EvidencesGenerator
     }
 
     @Override
-    public Evidence instantiate(long id) {
+    public Evidence instantiate() {
+        String id = mConfig.getId();
         String comment = mConfig.getSentence();
         MultimediaType multimediaType = mConfig.getEnum(MultimediaType.values());
         String previewUrl = mConfig.getImageUrl();

@@ -174,7 +174,7 @@ public class AddEvidencePresenter
     @Override
     public void saveEvidence(
             String title,
-            long achievementId,
+            String achievementId,
             MultimediaType multimediaType,
             Uri multimediaUri) {
 

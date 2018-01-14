@@ -18,7 +18,7 @@ public class FilesMockDataSource implements FilesDataSource {
     private static String sNoFileFailMessage = "No file to save.";
 
     private List<File> mEntities;
-    private HashMap<Long, File> mEntitiesById;
+    private HashMap<String, File> mEntitiesById;
 
     public static FilesMockDataSource getInstance() {
         checkNotNull(sINSTANCE);
@@ -43,7 +43,6 @@ public class FilesMockDataSource implements FilesDataSource {
 
     @Override
     public void storeFile(@NonNull File file, @NonNull SaveCallback<Uri> callback) {
-
         checkNotNull(callback);
 
         if (file == null) {
@@ -51,7 +50,7 @@ public class FilesMockDataSource implements FilesDataSource {
             return;
         }
 
-        file.setId(mEntities.size() + 1);
+        file.setId(String.valueOf(mEntities.size() + 1));
 
         mEntitiesById.put(file.getId(), file);
         mEntities.add(file);

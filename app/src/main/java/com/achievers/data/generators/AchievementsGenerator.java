@@ -17,7 +17,8 @@ public class AchievementsGenerator
     }
 
     @Override
-    public Achievement instantiate(long id) {
+    public Achievement instantiate() {
+        String id = mConfig.getId();
         String title = mConfig.getWord();
         String description = mConfig.getSentence();
         Involvement involvement = mConfig.getEnum(Involvement.values());

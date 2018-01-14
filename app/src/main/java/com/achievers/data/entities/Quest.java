@@ -16,7 +16,7 @@ import java.util.TreeSet;
 public class Quest implements BaseModel {
 
     @SerializedName("id")
-    long id;
+    String id;
 
     @SerializedName("name")
     String name;
@@ -37,7 +37,7 @@ public class Quest implements BaseModel {
     List<Achievement> achievements;
 
     @SerializedName("completed")
-    TreeSet<Long> completed;
+    TreeSet<String> completed;
 
     @SerializedName("rewards")
     List<Reward> rewards;
@@ -52,18 +52,18 @@ public class Quest implements BaseModel {
 
     }
 
-    public Quest(long id) {
+    public Quest(String id) {
         this.id = id;
     }
 
     public Quest(
-            long id,
+            String id,
             String name,
             Uri pictureUri,
             Involvement involvement,
             int experience,
             List<Achievement> achievements,
-            TreeSet<Long> completed,
+            TreeSet<String> completed,
             List<Reward> rewards,
             Quest.Type type,
             Date createdOn) {
@@ -81,12 +81,12 @@ public class Quest implements BaseModel {
     }
 
     @Override
-    public long getId() {
+    public String getId() {
         return id;
     }
 
     @Override
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -110,7 +110,7 @@ public class Quest implements BaseModel {
         return achievements;
     }
 
-    public TreeSet<Long> getCompleted() {
+    public TreeSet<String> getCompleted() {
         return completed;
     }
 
@@ -133,7 +133,7 @@ public class Quest implements BaseModel {
     }
 
     @Override
-    public Long getContainerId() {
+    public String getContainerId() {
         return null;
     }
 
@@ -150,8 +150,8 @@ public class Quest implements BaseModel {
 
         Quest quest = (Quest) o;
 
-        if (id != quest.id) return false;
         if (experience != quest.experience) return false;
+        if (id != null ? !id.equals(quest.id) : quest.id != null) return false;
         if (name != null ? !name.equals(quest.name) : quest.name != null) return false;
         if (pictureUri != null ? !pictureUri.equals(quest.pictureUri) : quest.pictureUri != null)
             return false;
@@ -167,7 +167,7 @@ public class Quest implements BaseModel {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (pictureUri != null ? pictureUri.hashCode() : 0);
         result = 31 * result + experience;

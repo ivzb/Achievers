@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface BaseGenerator<T extends BaseModel> {
 
-    T single(long id);
-    List<T> multiple(long id, int size);
+    T single();
+    List<T> multiple(int size);
 
-    T instantiate(long id);
+    T instantiate();
 }

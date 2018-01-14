@@ -11,9 +11,9 @@ class AchievementViewModel
         extends EndlessAdapterViewModel<Evidence>
         implements AchievementContract.ViewModel {
 
-    private long mId;
+    private String mId;
 
-    AchievementViewModel(long id) {
+    AchievementViewModel(String id) {
         mId = id;
     }
 
@@ -30,7 +30,7 @@ class AchievementViewModel
     }
 
     @Override
-    public Long getContainerId() {
+    public String getContainerId() {
         return mId;
     }
 }

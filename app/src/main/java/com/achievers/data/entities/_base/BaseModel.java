@@ -4,11 +4,11 @@ import java.util.Date;
 
 public interface BaseModel {
 
-    long getId();
-    void setId(long id);
+    String getId();
+    void setId(String id);
 
     Date getCreatedOn();
     void setCreatedOn(Date createdOn);
 
-    Long getContainerId();
+    String getContainerId();
 }

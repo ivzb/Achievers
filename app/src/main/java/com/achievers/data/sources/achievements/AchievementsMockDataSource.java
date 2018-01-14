@@ -20,7 +20,7 @@ public class AchievementsMockDataSource
 
     private static AchievementsMockDataSource sINSTANCE;
 
-    protected HashMap<Long, List<Achievement>> mEntitiesByQuestId;
+    protected HashMap<String, List<Achievement>> mEntitiesByQuestId;
 
     public static AchievementsMockDataSource getInstance() {
         checkNotNull(sINSTANCE);
@@ -46,7 +46,7 @@ public class AchievementsMockDataSource
 
     @Override
     public void loadByQuestId(
-            Long questId,
+            String questId,
             int page,
             @NonNull LoadCallback<Achievement> callback) {
 
@@ -81,7 +81,7 @@ public class AchievementsMockDataSource
     }
 
     public void seedAchievementsByQuest(
-            long questId,
+            String questId,
             List<Achievement> achievements) {
 
         checkNotNull(questId);

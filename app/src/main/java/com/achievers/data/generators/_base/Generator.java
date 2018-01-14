@@ -17,17 +17,16 @@ public abstract class Generator<T extends BaseModel>
     }
 
     @Override
-    public T single(long id) {
-        return instantiate(id);
+    public T single() {
+        return instantiate();
     }
 
     @Override
-    public List<T> multiple(long id, int size) {
+    public List<T> multiple(int size) {
         List<T> data = new ArrayList<>(size);
 
         for (int i = 0; i < size; i++) {
-            T generated = single(id + i);
-            data.add(generated);
+            data.add(single());
         }
 
         return data;

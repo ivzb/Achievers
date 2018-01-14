@@ -15,9 +15,10 @@ public class AchievementsProgressGenerator
     }
 
     @Override
-    public Contribution instantiate(long id) {
-        long achievementId = mConfig.getId();
-        long userId = mConfig.getId();
+    public Contribution instantiate() {
+        String id = mConfig.getId();
+        String achievementId = mConfig.getId();
+        String userId = mConfig.getId();
         Achievement.Type type = mConfig.getEnum(Achievement.Type.values());
         int total = mConfig.getNumber(25);
         int accomplished = mConfig.getNumber(total);

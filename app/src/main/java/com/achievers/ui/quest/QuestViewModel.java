@@ -30,7 +30,7 @@ class QuestViewModel
     }
 
     @Override
-    public Long getContainerId() {
+    public String getContainerId() {
         return mQuest.getId();
     }
 }

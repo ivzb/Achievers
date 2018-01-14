@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
+import com.achievers.DefaultConfig;
 import com.achievers.R;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.entities.Evidence;
@@ -13,8 +14,6 @@ import com.achievers.ui.evidence.views.EvidencePhotoView;
 import com.achievers.ui.evidence.views.EvidenceVideoView;
 import com.achievers.ui.evidence.views.EvidenceVoiceView;
 import com.achievers.utils.ActivityUtils;
-
-import static com.achievers.DefaultConfig.ID;
 
 public class EvidenceActivity extends AbstractActivity {
 
@@ -36,9 +35,9 @@ public class EvidenceActivity extends AbstractActivity {
             ab.setDisplayShowHomeEnabled(true);
         }
 
-        long evidenceId = getIntent().getLongExtra(EXTRA_EVIDENCE_ID, ID);
+        String evidenceId = getIntent().getStringExtra(EXTRA_EVIDENCE_ID);
 
-        if (evidenceId == ID) {
+        if (evidenceId.equals(DefaultConfig.String)) {
             // todo: redirect to friendly error activity
             throw new IllegalArgumentException();
         }

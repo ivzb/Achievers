@@ -30,7 +30,7 @@ class RewardsViewModel
     }
 
     @Override
-    public Long getContainerId() {
+    public String getContainerId() {
         return null;
     }
 }

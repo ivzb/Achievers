@@ -8,7 +8,7 @@ public class ContributionsViewModel
         implements ContributionsContract.ViewModel {
 
     @Override
-    public Long getContainerId() {
+    public String getContainerId() {
         return null;
     }
 }

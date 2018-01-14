@@ -74,9 +74,9 @@ public class UploadEvidenceIntentService extends IntentService {
     }
 
     private void saveEvidence(final Evidence evidence) {
-        DataSources.getInstance().getEvidences().save(evidence, new SaveCallback<Long>() {
+        DataSources.getInstance().getEvidences().save(evidence, new SaveCallback<String>() {
             @Override
-            public void onSuccess(Long id) {
+            public void onSuccess(String id) {
                 evidence.setId(id);
                 showSuccess(evidence);
             }
@@ -123,7 +123,7 @@ public class UploadEvidenceIntentService extends IntentService {
 
             evidenceExtras.putParcelable(MULTIMEDIA_URI_KEY, evidence.getUri());
 
-            evidenceExtras.putLong(AddEvidenceActivity.AchievementIdExtra,
+            evidenceExtras.putString(AddEvidenceActivity.AchievementIdExtra,
                     evidence.getAchievementId());
 
             evidenceExtras.putSerializable(

@@ -42,14 +42,14 @@ public abstract class EndlessAdapterPresenter<M extends BaseModel, V extends Bas
     }
 
     @Override
-    public void refresh(Long id) {
+    public void refresh(String id) {
         mView.clear();
         mView.setMore(true);
         load(id, PAGE);
     }
 
     @Override
-    public void load(Long id, final int page) {
+    public void load(String id, final int page) {
         if (!mView.isActive()) return;
 
         mView.setLoadingIndicator(true);

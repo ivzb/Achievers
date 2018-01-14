@@ -10,7 +10,7 @@ import java.util.TreeSet;
 
 public interface BaseGeneratorConfig {
 
-    long getId();
+    String getId();
     String getEmail();
     String getPassword();
     String getAuthenticationToken();
@@ -35,5 +35,5 @@ public interface BaseGeneratorConfig {
     Date getDate();
 
     <T extends BaseModel> List<T> getAmong(List<T> entities, int resultsSize);
-    <T extends BaseModel> TreeSet<Long> getIdsAmong(List<T> entities, int resultsSize);
+    <T extends BaseModel> TreeSet<String> getIdsAmong(List<T> entities, int resultsSize);
 }

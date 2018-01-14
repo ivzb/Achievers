@@ -16,5 +16,5 @@ public interface BaseEndlessAdapterViewModel<T extends BaseModel>
     BaseAdapter<T> getAdapter();
     void setAdapter(BaseAdapter<T> adapter);
 
-    Long getContainerId();
+    String getContainerId();
 }

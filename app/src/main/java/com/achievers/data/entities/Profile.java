@@ -13,7 +13,7 @@ import java.util.Date;
 public class Profile implements BaseModel {
 
     @SerializedName("id")
-    long id;
+    String id;
 
     @SerializedName("name")
     String name;
@@ -28,12 +28,12 @@ public class Profile implements BaseModel {
 
     }
 
-    public Profile(long id) {
+    public Profile(String id) {
         this.id = id;
     }
 
     public Profile(
-            long id,
+            String id,
             String name,
             Uri pictureUri,
             Date createdOn) {
@@ -45,12 +45,12 @@ public class Profile implements BaseModel {
     }
 
     @Override
-    public long getId() {
+    public String getId() {
         return id;
     }
 
     @Override
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -73,7 +73,7 @@ public class Profile implements BaseModel {
     }
 
     @Override
-    public Long getContainerId() {
+    public String getContainerId() {
         return null;
     }
 
@@ -84,7 +84,7 @@ public class Profile implements BaseModel {
 
         Profile profile = (Profile) o;
 
-        if (id != profile.id) return false;
+        if (id != null ? !id.equals(profile.id) : profile.id != null) return false;
         if (name != null ? !name.equals(profile.name) : profile.name != null) return false;
         if (pictureUri != null ? !pictureUri.equals(profile.pictureUri) : profile.pictureUri != null)
             return false;
@@ -93,7 +93,7 @@ public class Profile implements BaseModel {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (pictureUri != null ? pictureUri.hashCode() : 0);
         result = 31 * result + (createdOn != null ? createdOn.hashCode() : 0);

@@ -20,8 +20,8 @@ public abstract class GetMockDataSource<T extends BaseModel>
 
     private BaseGenerator<T> mGenerator;
 
-    protected HashMap<Long, List<T>> mEntitiesByContainerId;
-    protected HashMap<Long, T> mEntitiesById;
+    protected HashMap<String, List<T>> mEntitiesByContainerId;
+    protected HashMap<String, T> mEntitiesById;
 
     protected static String sDoesNotExistFailMessage = "Entity does not exist.";
 
@@ -33,7 +33,7 @@ public abstract class GetMockDataSource<T extends BaseModel>
 
     @Override
     public void get(
-            long id,
+            String id,
             @NonNull GetCallback<T> callback) {
 
         checkNotNull(callback);
@@ -47,8 +47,8 @@ public abstract class GetMockDataSource<T extends BaseModel>
     }
 
     @Override
-    public List<T> seed(Long containerId, int size) {
-        if (containerId == null) containerId = DefaultConfig.ID;
+    public List<T> seed(String containerId, int size) {
+        if (containerId == null) containerId = DefaultConfig.String;
 
         int entitiesSize = 0;
 
@@ -62,8 +62,7 @@ public abstract class GetMockDataSource<T extends BaseModel>
             return null;
         }
 
-        long nextId = mEntitiesById.size() + 1;
-        List<T> generated = mGenerator.multiple(nextId, generateSize);
+        List<T> generated = mGenerator.multiple(generateSize);
 
         if (!mEntitiesByContainerId.containsKey(containerId)) {
             mEntitiesByContainerId.put(containerId, new ArrayList<T>());

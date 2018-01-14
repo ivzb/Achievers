@@ -17,7 +17,7 @@ public class Evidence implements BaseModel {
 
     @SerializedName("id")
     @NonNull
-    long id;
+    String id;
 
     @SerializedName("comment")
     @NonNull
@@ -28,7 +28,7 @@ public class Evidence implements BaseModel {
     MultimediaType multimediaType;
 
     @SerializedName("achievementId")
-    long achievementId;
+    String achievementId;
 
 //    @SerializedName("ownerId")
 //    long ownerId;
@@ -49,13 +49,13 @@ public class Evidence implements BaseModel {
 
     }
 
-    public Evidence(long id) {
+    public Evidence(String id) {
         this.id = id;
     }
 
     public Evidence(
             String comment,
-            long achievementId,
+            String achievementId,
 //            long ownerId,
             MultimediaType multimediaType,
             Uri multimediaUri) {
@@ -68,7 +68,7 @@ public class Evidence implements BaseModel {
     }
 
     public Evidence(
-            long id,
+            String id,
             @NonNull String comment,
             @NonNull MultimediaType multimediaType,
             @NonNull String previewUrl,
@@ -85,11 +85,11 @@ public class Evidence implements BaseModel {
     }
 
     @NonNull
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -103,11 +103,11 @@ public class Evidence implements BaseModel {
         return multimediaType;
     }
 
-    public long getAchievementId() {
+    public String getAchievementId() {
         return achievementId;
     }
 
-    public void setAchievementId(long achievementId) {
+    public void setAchievementId(String achievementId) {
         this.achievementId = achievementId;
     }
 
@@ -131,7 +131,7 @@ public class Evidence implements BaseModel {
     }
 
     public boolean isNew() {
-        return this.getId() == 0;
+        return this.getId() == null || this.getId().equals("");
     }
 
     public void setUri(Uri uri) {
@@ -139,7 +139,7 @@ public class Evidence implements BaseModel {
     }
 
     @Override
-    public Long getContainerId() {
+    public String getContainerId() {
         return achievementId;
     }
 
@@ -148,19 +148,26 @@ public class Evidence implements BaseModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Evidence other = (Evidence) o;
+        Evidence evidence = (Evidence) o;
 
-        return this.getId() == other.getId() && this.getComment().equals(other.getComment());
+        if (!id.equals(evidence.id)) return false;
+        if (!comment.equals(evidence.comment)) return false;
+        if (multimediaType != evidence.multimediaType) return false;
+        if (achievementId != null ? !achievementId.equals(evidence.achievementId) : evidence.achievementId != null)
+            return false;
+        if (!previewUrl.equals(evidence.previewUrl)) return false;
+        if (!uri.equals(evidence.uri)) return false;
+        return createdOn != null ? createdOn.equals(evidence.createdOn) : evidence.createdOn == null;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id.hashCode();
         result = 31 * result + comment.hashCode();
         result = 31 * result + multimediaType.hashCode();
-        result = 31 * result + (int) (achievementId ^ (achievementId >>> 32));
-        result = 31 * result + uri.hashCode();
+        result = 31 * result + (achievementId != null ? achievementId.hashCode() : 0);
         result = 31 * result + previewUrl.hashCode();
+        result = 31 * result + uri.hashCode();
         result = 31 * result + (createdOn != null ? createdOn.hashCode() : 0);
         return result;
     }

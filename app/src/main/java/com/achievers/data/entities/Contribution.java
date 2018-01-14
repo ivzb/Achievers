@@ -6,9 +6,9 @@ import java.util.Date;
 
 public class Contribution implements BaseModel {
 
-    private long mId;
-    private long mAchievementId;
-    private long mUserId;
+    private String mId;
+    private String mAchievementId;
+    private String mUserId;
     private Achievement.Type mType;
     private int mTotal;
     private int mAccomplished;
@@ -18,14 +18,14 @@ public class Contribution implements BaseModel {
 
     }
 
-    public Contribution(long id) {
+    public Contribution(String id) {
         mId = id;
     }
 
     public Contribution(
-        long id,
-        long achievementId,
-        long userId,
+        String id,
+        String achievementId,
+        String userId,
         Achievement.Type type,
         int total,
         int accomplished,
@@ -40,12 +40,12 @@ public class Contribution implements BaseModel {
         mCreatedOn = createdOn;
     }
 
-    public long getId() {
+    public String getId() {
         return mId;
     }
 
     @Override
-    public void setId(long id) {
+    public void setId(String id) {
         mId = id;
     }
 
@@ -73,7 +73,7 @@ public class Contribution implements BaseModel {
     }
 
     @Override
-    public Long getContainerId() {
+    public String getContainerId() {
         return mAchievementId;
     }
 
@@ -84,20 +84,21 @@ public class Contribution implements BaseModel {
 
         Contribution that = (Contribution) o;
 
-        if (mId != that.mId) return false;
-        if (mAchievementId != that.mAchievementId) return false;
-        if (mUserId != that.mUserId) return false;
         if (mTotal != that.mTotal) return false;
         if (mAccomplished != that.mAccomplished) return false;
+        if (mId != null ? !mId.equals(that.mId) : that.mId != null) return false;
+        if (mAchievementId != null ? !mAchievementId.equals(that.mAchievementId) : that.mAchievementId != null)
+            return false;
+        if (mUserId != null ? !mUserId.equals(that.mUserId) : that.mUserId != null) return false;
         if (mType != that.mType) return false;
         return mCreatedOn != null ? mCreatedOn.equals(that.mCreatedOn) : that.mCreatedOn == null;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (mId ^ (mId >>> 32));
-        result = 31 * result + (int) (mAchievementId ^ (mAchievementId >>> 32));
-        result = 31 * result + (int) (mUserId ^ (mUserId >>> 32));
+        int result = mId != null ? mId.hashCode() : 0;
+        result = 31 * result + (mAchievementId != null ? mAchievementId.hashCode() : 0);
+        result = 31 * result + (mUserId != null ? mUserId.hashCode() : 0);
         result = 31 * result + (mType != null ? mType.hashCode() : 0);
         result = 31 * result + mTotal;
         result = 31 * result + mAccomplished;

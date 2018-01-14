@@ -8,7 +8,7 @@ class AchievementsViewModel
         implements AchievementsContract.ViewModel {
 
     @Override
-    public Long getContainerId() {
+    public String getContainerId() {
         return null;
     }
 }

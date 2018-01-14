@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface SeedDataSource<T> {
 
-    List<T> seed(Long containerId, int size);
+    List<T> seed(String containerId, int size);
 }

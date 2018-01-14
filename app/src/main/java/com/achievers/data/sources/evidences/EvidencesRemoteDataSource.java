@@ -45,7 +45,7 @@ public class EvidencesRemoteDataSource implements EvidencesDataSource {
 
     @Override
     public void get(
-            final long id,
+            final String id,
             final @NonNull GetCallback<Evidence> callback) {
 
         final Call<Evidence> call = this.apiService.getEvidence(id);
@@ -73,7 +73,7 @@ public class EvidencesRemoteDataSource implements EvidencesDataSource {
 
     @Override
     public void load(
-            final Long achievementId,
+            final String achievementId,
             final int page,
             final @NonNull LoadCallback<Evidence> callback) {
 
@@ -102,7 +102,7 @@ public class EvidencesRemoteDataSource implements EvidencesDataSource {
     @Override
     public void save(
             @NonNull Evidence evidence,
-            @NonNull final SaveCallback<Long> callback) {
+            @NonNull final SaveCallback<String> callback) {
 
         // not implemented yet
     }

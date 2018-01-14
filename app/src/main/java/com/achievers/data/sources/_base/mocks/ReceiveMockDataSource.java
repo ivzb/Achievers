@@ -26,13 +26,13 @@ public abstract class ReceiveMockDataSource<T extends BaseModel>
 
     @Override
     public void load(
-            Long containerId,
+            String containerId,
             int page,
             @NonNull LoadCallback<T> callback) {
 
         checkNotNull(callback);
 
-        if (containerId == null) containerId = DefaultConfig.ID;
+        if (containerId == null) containerId = DefaultConfig.String;
 
         if (page < 0) {
             callback.onFailure(sInvalidPageFailMessage);

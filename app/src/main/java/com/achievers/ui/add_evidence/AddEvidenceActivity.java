@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
+import com.achievers.DefaultConfig;
 import com.achievers.R;
 import com.achievers.ui._base.AbstractActivity;
 import com.achievers.utils.ActivityUtils;
@@ -51,12 +52,12 @@ public class AddEvidenceActivity extends AbstractActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        long achievementId = -1;
+        String achievementId = DefaultConfig.String;
         MultimediaType multimediaType = MultimediaType.Photo;
 
         if (extras != null) {
             if (extras.containsKey(AchievementIdExtra)) {
-                achievementId = extras.getLong(AchievementIdExtra);
+                achievementId = extras.getString(AchievementIdExtra);
             }
 
             if (extras.containsKey(MultimediaTypeExtra)) {

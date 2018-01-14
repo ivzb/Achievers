@@ -12,8 +12,6 @@ import com.achievers.data.sources.DataSources;
 import com.achievers.ui._base.activities.CollapsingToolbarActivity;
 import com.achievers.utils.ActivityUtils;
 
-import static com.achievers.DefaultConfig.ID;
-
 public class QuestActivity extends CollapsingToolbarActivity {
 
     public static final String EXTRA_QUEST_ID = "quest_id";
@@ -34,9 +32,9 @@ public class QuestActivity extends CollapsingToolbarActivity {
             ab.setDisplayShowHomeEnabled(true);
         }
 
-        long questId = getIntent().getLongExtra(EXTRA_QUEST_ID, ID);
+        String questId = getIntent().getStringExtra(EXTRA_QUEST_ID);
 
-        if (questId == ID) {
+        if (questId.equals(DefaultConfig.String)) {
             // todo: redirect to friendly error activity
             throw new IllegalArgumentException();
         }

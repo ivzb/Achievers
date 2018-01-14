@@ -10,13 +10,12 @@ import com.google.gson.annotations.SerializedName;
 import org.parceler.Parcel;
 
 import java.util.Date;
-import java.util.Objects;
 
 @Parcel(analyze = { Achievement.class })
 public class Achievement implements BaseModel {
 
     @SerializedName("id")
-    long id;
+    String id;
 
     @SerializedName("title")
     String title;
@@ -43,12 +42,12 @@ public class Achievement implements BaseModel {
 
     public Achievement() { }
 
-    public Achievement(long id) {
+    public Achievement(String id) {
         this.id = id;
     }
 
     public Achievement(
-            long id,
+            String id,
             @NonNull String title,
             @NonNull String description,
             @NonNull Involvement involvement,
@@ -84,11 +83,11 @@ public class Achievement implements BaseModel {
     }
 
     @Override
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -139,7 +138,7 @@ public class Achievement implements BaseModel {
     }
 
     @Override
-    public Long getContainerId() {
+    public String getContainerId() {
         return null;
     }
 
@@ -150,22 +149,26 @@ public class Achievement implements BaseModel {
 
         Achievement that = (Achievement) o;
 
-        if (id != that.id) return false;
-        if (!title.equals(that.title)) return false;
-        if (!description.equals(that.description)) return false;
-        if (!Objects.equals(pictureUri, that.pictureUri)) return false;
+        if (mInvolvementPosition != that.mInvolvementPosition) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (title != null ? !title.equals(that.title) : that.title != null) return false;
+        if (description != null ? !description.equals(that.description) : that.description != null)
+            return false;
+        if (pictureUri != null ? !pictureUri.equals(that.pictureUri) : that.pictureUri != null)
+            return false;
         if (involvement != that.involvement) return false;
-        return true;//createdOn.equals(that.createdOn);
+        return createdOn != null ? createdOn.equals(that.createdOn) : that.createdOn == null;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + title.hashCode();
-        result = 31 * result + description.hashCode();
-        result = 31 * result + pictureUri.hashCode();
-        result = 31 * result + involvement.hashCode();
-        result = 31 * result + createdOn.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (pictureUri != null ? pictureUri.hashCode() : 0);
+        result = 31 * result + (involvement != null ? involvement.hashCode() : 0);
+        result = 31 * result + (createdOn != null ? createdOn.hashCode() : 0);
+        result = 31 * result + mInvolvementPosition;
         return result;
     }
 

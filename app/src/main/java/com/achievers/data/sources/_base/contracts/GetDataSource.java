@@ -4,5 +4,5 @@ import com.achievers.data.callbacks.GetCallback;
 
 public interface GetDataSource<T> {
 
-    void get(long id, GetCallback<T> callback);
+    void get(String id, GetCallback<T> callback);
 }

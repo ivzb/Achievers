@@ -9,7 +9,7 @@ public class File {
 
     @SerializedName("Id")
     @NonNull
-    long id;
+    String id;
 
     @SerializedName("Name")
     @NonNull
@@ -32,11 +32,11 @@ public class File {
         this.mUri = uri;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

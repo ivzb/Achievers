@@ -47,14 +47,14 @@ public class AddEvidenceContract {
 
         void saveEvidence(
                 String title,
-                long achievementId,
+                String achievementId,
                 MultimediaType multimediaType,
                 Uri multimediaUri);
     }
 
     public interface ViewModel extends BaseViewModel {
 
-        long getAchievementId();
+        String getAchievementId();
         MultimediaType getMultimediaType();
 
         @Bindable

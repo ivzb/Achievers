@@ -6,9 +6,9 @@ import com.achievers.ui._base._contracts.BasePresenter;
 public interface BaseEndlessAdapterPresenter<M extends BaseModel>
         extends BasePresenter {
 
-    void refresh(Long id);
+    void refresh(String id);
 
-    void load(Long id, int page);
+    void load(String id, int page);
 
     void click(M entity);
 

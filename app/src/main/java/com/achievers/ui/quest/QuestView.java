@@ -81,7 +81,7 @@ public class QuestView
                 mDataBinding.rvAchievements.getLayoutManager().onRestoreInstanceState(layoutManagerState);
             }
         } else {
-            long questId = mViewModel.getQuest().getId();
+            String questId = mViewModel.getQuest().getId();
             mPresenter.refresh(questId);
         }
 

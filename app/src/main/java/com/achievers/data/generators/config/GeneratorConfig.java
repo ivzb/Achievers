@@ -46,8 +46,12 @@ public class GeneratorConfig implements BaseGeneratorConfig {
     }
 
     @Override
-    public long getId() {
-        return mRandom.nextLong();
+    public String getId() {
+        return String.format(Locale.getDefault(),
+                "%d-%d-%d",
+                mRandom.nextLong(),
+                mRandom.nextLong(),
+                mRandom.nextLong());
     }
 
     @Override
@@ -144,8 +148,8 @@ public class GeneratorConfig implements BaseGeneratorConfig {
     }
 
     @Override
-    public <T extends BaseModel> TreeSet<Long> getIdsAmong(final List<T> entities, int resultsSize) {
-        final TreeSet<Long> results = new TreeSet<>();
+    public <T extends BaseModel> TreeSet<String> getIdsAmong(final List<T> entities, int resultsSize) {
+        final TreeSet<String> results = new TreeSet<>();
 
         getAmong(entities, resultsSize, new AmongCallback<T>() {
             @Override

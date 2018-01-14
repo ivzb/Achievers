@@ -6,5 +6,5 @@ import com.achievers.data.sources._base.contracts.BaseDataSource;
 
 public interface AchievementsDataSource extends BaseDataSource<Achievement> {
 
-    void loadByQuestId(Long id, int page, LoadCallback<Achievement> callback);
+    void loadByQuestId(String id, int page, LoadCallback<Achievement> callback);
 }

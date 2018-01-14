@@ -4,5 +4,5 @@ import com.achievers.data.callbacks.SaveCallback;
 
 public interface SaveDataSource<T> {
 
-    void save(T entity, final SaveCallback<Long> callback);
+    void save(T entity, final SaveCallback<String> callback);
 }

@@ -16,7 +16,8 @@ public class RewardsGenerator
     }
 
     @Override
-    public Reward instantiate(long id) {
+    public Reward instantiate() {
+        String id = mConfig.getId();
         String name = mConfig.getWord();
         String description = mConfig.getSentence();
         Uri pictureUri = mConfig.getImageUri();

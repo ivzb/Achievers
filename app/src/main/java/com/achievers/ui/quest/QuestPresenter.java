@@ -21,7 +21,7 @@ class QuestPresenter
     }
 
     @Override
-    public void load(Long id, final int page) {
+    public void load(String id, final int page) {
         if (!mView.isActive()) return;
 
         mView.setLoadingIndicator(true);

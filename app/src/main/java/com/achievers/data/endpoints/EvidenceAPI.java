@@ -12,11 +12,11 @@ public interface EvidenceAPI {
 
     @GET("Evidence/Details/{id}")
     Call<Evidence> getEvidence(
-            @Path("id") long id
+            @Path("id") String id
     );
 
     @GET("Evidence/LoadByAchievement/{id}")
     Call<List<Evidence>> loadByAchievement(
-            @Path("id") long id
+            @Path("id") String id
     );
 }

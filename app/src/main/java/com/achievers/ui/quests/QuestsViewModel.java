@@ -8,7 +8,7 @@ class QuestsViewModel
         implements QuestsContract.ViewModel {
 
     @Override
-    public Long getContainerId() {
+    public String getContainerId() {
         return null;
     }
 }

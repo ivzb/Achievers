@@ -25,7 +25,7 @@ public abstract class BaseMockDataSource<T extends BaseModel>
     @Override
     public void save(
             @NonNull T entity,
-            @NonNull SaveCallback<Long> callback) {
+            @NonNull SaveCallback<String> callback) {
 
         checkNotNull(callback);
 
@@ -34,7 +34,7 @@ public abstract class BaseMockDataSource<T extends BaseModel>
             return;
         }
 
-        entity.setId(mEntitiesByContainerId.size() + 1);
+        entity.setId(String.valueOf(mEntitiesByContainerId.size() + 1));
         entity.setCreatedOn(new Date());
 
         mEntitiesById.put(entity.getId(), entity);

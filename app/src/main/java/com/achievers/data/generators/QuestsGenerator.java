@@ -31,7 +31,8 @@ public class QuestsGenerator
     }
 
     @Override
-    public Quest instantiate(long id) {
+    public Quest instantiate() {
+        String id = mConfig.getId();
         String name = mConfig.getWord();
         Uri picture = mConfig.getImageUri();
         Involvement involvement = mConfig.getEnum(Involvement.values());
@@ -39,7 +40,7 @@ public class QuestsGenerator
 
         int achievementsSize = mConfig.getNumber(mAchievements.size());
         List<Achievement> achievements = mConfig.getAmong(mAchievements, achievementsSize);
-        TreeSet<Long> completed = mConfig.getIdsAmong(achievements, mConfig.getNumber(achievements.size()));
+        TreeSet<String> completed = mConfig.getIdsAmong(achievements, mConfig.getNumber(achievements.size()));
 
         int rewardsSize = mConfig.getNumber(mRewards.size());
         List<Reward> rewards = mConfig.getAmong(mRewards, rewardsSize);

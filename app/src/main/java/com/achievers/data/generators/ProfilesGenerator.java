@@ -16,7 +16,8 @@ public class ProfilesGenerator
     }
 
     @Override
-    public Profile instantiate(long id) {
+    public Profile instantiate() {
+        String id = mConfig.getId();
         String name = mConfig.getWord();
         Uri picture = mConfig.getImageUri();
         Date createdOn = mConfig.getDate();

@@ -4,5 +4,5 @@ import com.achievers.data.callbacks.LoadCallback;
 
 public interface LoadDataSource<T> {
 
-    void load(Long id, int page, LoadCallback<T> callback);
+    void load(String id, int page, LoadCallback<T> callback);
 }

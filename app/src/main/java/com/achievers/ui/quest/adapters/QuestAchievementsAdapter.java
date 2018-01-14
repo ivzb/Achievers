@@ -40,7 +40,7 @@ public class QuestAchievementsAdapter extends AchievementsAdapter {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        long achievementId = mEntities.get(position).getId();
+        String achievementId = mEntities.get(position).getId();
         boolean completed = mQuest.getCompleted().contains(achievementId);
 
         int background = 0;

@@ -13,7 +13,7 @@ import java.util.Date;
 public class Reward implements BaseModel {
 
     @SerializedName("id")
-    long id;
+    String id;
 
     @SerializedName("name")
     String name;
@@ -34,12 +34,12 @@ public class Reward implements BaseModel {
 
     }
 
-    public Reward(long id) {
+    public Reward(String id) {
         this.id = id;
     }
 
     public Reward(
-            long id,
+            String id,
             String name,
             String description,
             Uri pictureUri,
@@ -55,12 +55,12 @@ public class Reward implements BaseModel {
     }
 
     @Override
-    public long getId() {
+    public String getId() {
         return id;
     }
 
     @Override
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -89,7 +89,7 @@ public class Reward implements BaseModel {
     }
 
     @Override
-    public Long getContainerId() {
+    public String getContainerId() {
         return null;
     }
 
@@ -100,7 +100,7 @@ public class Reward implements BaseModel {
 
         Reward reward = (Reward) o;
 
-        if (id != reward.id) return false;
+        if (id != null ? !id.equals(reward.id) : reward.id != null) return false;
         if (name != null ? !name.equals(reward.name) : reward.name != null) return false;
         if (description != null ? !description.equals(reward.description) : reward.description != null)
             return false;
@@ -112,7 +112,7 @@ public class Reward implements BaseModel {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (pictureUri != null ? pictureUri.hashCode() : 0);
