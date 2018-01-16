@@ -17,14 +17,16 @@ android {
         debug {
             debuggable true
 
-            buildConfigField("String", "BASE_URL", "\"http://95.87.234.253/\"")
+            buildConfigField("String", "BASE_URL", '"http://ip_here"')
+            buildConfigField("String", "API_VERSION", '"v1"')
         }
 
         release {
             minifyEnabled true
             useProguard true
 
-            buildConfigField("String", "BASE_URL", "\"http://95.87.234.253/\"")
+            buildConfigField("String", "BASE_URL", '"http://ip_here"')
+            buildConfigField("String", "API_VERSION", '"v1"')
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-fresco.pro'
             testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguardTest-rules.pro'
@@ -83,6 +85,8 @@ dependencies {
 
     testImplementation "org.robolectric:robolectric:3.5.1"
     testImplementation "org.robolectric:shadows-supportv4:3.5.1"
+
+    testCompile 'com.github.gmazzo:okhttp-mock:1.0.3'
 
     // Room
     implementation "android.arch.persistence.room:runtime:1.0.0"

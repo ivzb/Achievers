@@ -4,7 +4,6 @@ import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 
@@ -60,10 +59,10 @@ public class UploadAchievementIntentService extends IntentService {
     }
 
     private void savePicture(final File picture, final Achievement achievement) {
-        DataSources.getInstance().getFiles().storeFile(picture, new SaveCallback<Uri>() {
+        DataSources.getInstance().getFiles().storeFile(picture, new SaveCallback<String>() {
             @Override
-            public void onSuccess(Uri uri) {
-                achievement.setPictureUri(uri);
+            public void onSuccess(String url) {
+                achievement.setPictureUrl(url);
                 saveAchievement(achievement);
             }
 

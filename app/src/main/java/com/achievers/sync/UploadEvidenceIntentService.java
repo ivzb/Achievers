@@ -4,7 +4,6 @@ import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 
@@ -59,10 +58,10 @@ public class UploadEvidenceIntentService extends IntentService {
     }
 
     private void saveMultimedia(final File multimedia, final Evidence evidence) {
-        DataSources.getInstance().getFiles().storeFile(multimedia, new SaveCallback<Uri>() {
+        DataSources.getInstance().getFiles().storeFile(multimedia, new SaveCallback<String>() {
             @Override
-            public void onSuccess(Uri multimediaUri) {
-                evidence.setUri(multimediaUri);
+            public void onSuccess(String multimediaUrl) {
+                evidence.setUrl(multimediaUrl);
                 saveEvidence(evidence);
             }
 

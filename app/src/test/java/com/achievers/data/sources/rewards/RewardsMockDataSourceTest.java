@@ -1,9 +1,8 @@
-package com.achievers.data.sources;
+package com.achievers.data.sources.rewards;
 
 import com.achievers.data._base.ReceiveDataSourceTest;
-import com.achievers.data.entities.Contribution;
+import com.achievers.data.entities.Reward;
 import com.achievers.data.generators.config.GeneratorConfig;
-import com.achievers.data.sources.contributions.ContributionsMockDataSource;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -15,13 +14,12 @@ import java.util.Random;
 import io.bloco.faker.Faker;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AchievementsProgressMockDataSourceTest
-        extends ReceiveDataSourceTest<Contribution> {
+public class RewardsMockDataSourceTest extends ReceiveDataSourceTest<Reward> {
 
-    private ContributionsMockDataSource mDataSource;
+    private RewardsMockDataSource mDataSource;
 
     @Override
-    public List<Contribution> seed(String containerId, int size) {
+    public List<Reward> seed(String containerId, int size) {
         return mDataSource.seed(containerId, size);
     }
 
@@ -30,8 +28,8 @@ public class AchievementsProgressMockDataSourceTest
         GeneratorConfig.destroyInstance();
         GeneratorConfig.initialize(new Random(), new Faker());
 
-        ContributionsMockDataSource.destroyInstance();
-        mDataSource = ContributionsMockDataSource.createInstance();
+        RewardsMockDataSource.destroyInstance();
+        mDataSource = RewardsMockDataSource.createInstance();
 
         super.setDataSource(mDataSource);
     }

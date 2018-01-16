@@ -1,5 +1,6 @@
 package com.achievers.data.endpoints;
 
+import com.achievers.BuildConfig;
 import com.achievers.data.entities.Reward;
 
 import java.util.List;
@@ -10,9 +11,9 @@ import retrofit2.http.Path;
 
 public interface RewardsAPI {
 
-    @GET("rewards?page={page}")
+    @GET(BuildConfig.API_VERSION + "/rewards?page={page}")
     Call<List<Reward>> load(@Path("page") int page);
 
-    @GET("rewards/{id}")
+    @GET(BuildConfig.API_VERSION + "/rewards/{id}")
     Call<Reward> get(@Path("id") String id);
 }

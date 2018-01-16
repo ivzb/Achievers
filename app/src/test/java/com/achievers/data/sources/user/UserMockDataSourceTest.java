@@ -1,10 +1,9 @@
-package com.achievers.data.sources;
+package com.achievers.data.sources.user;
 
 import com.achievers.DefaultConfig;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities.Auth;
 import com.achievers.data.generators.config.GeneratorConfig;
-import com.achievers.data.sources.user.UserMockDataSource;
 
 import org.junit.Before;
 import org.junit.Test;

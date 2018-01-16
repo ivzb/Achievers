@@ -25,7 +25,7 @@ public class AchievementsGeneratorTest
                 id,
                 sWord,
                 sSentence,
-                sInvolvement,
+                sInvolvement.getId(),
                 sImageUri,
                 sDate);
     }

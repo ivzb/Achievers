@@ -1,6 +1,5 @@
 package com.achievers.data.sources.files;
 
-import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.callbacks.SaveCallback;
@@ -8,5 +7,5 @@ import com.achievers.data.entities.File;
 
 public interface FilesDataSource {
 
-    void storeFile(@NonNull File file, @NonNull SaveCallback<Uri> callback);
+    void storeFile(@NonNull File file, @NonNull SaveCallback<String> callback);
 }

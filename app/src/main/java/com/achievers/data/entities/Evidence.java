@@ -39,7 +39,11 @@ public class Evidence implements BaseModel {
 
     @SerializedName("uri")
     @NonNull
+    @Deprecated
     Uri uri;
+
+    @SerializedName("url")
+    String url;
 
     @SerializedName("created_at")
     @Nullable
@@ -119,6 +123,14 @@ public class Evidence implements BaseModel {
     @NonNull
     public Uri getUri() {
         return uri;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @NonNull

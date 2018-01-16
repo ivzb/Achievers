@@ -1,9 +1,8 @@
-package com.achievers.data.sources;
+package com.achievers.data.sources.profiles;
 
 import com.achievers.data._base.GetDataSourceTest;
 import com.achievers.data.entities.Profile;
 import com.achievers.data.generators.config.GeneratorConfig;
-import com.achievers.data.sources.profiles.ProfilesMockDataSource;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;

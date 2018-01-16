@@ -1,9 +1,8 @@
-package com.achievers.data.sources;
+package com.achievers.data.sources.evidences;
 
 import com.achievers.data._base.BaseMockDataSourceTest;
 import com.achievers.data.entities.Evidence;
 import com.achievers.data.generators.config.GeneratorConfig;
-import com.achievers.data.sources.evidences.EvidencesMockDataSource;
 
 import org.junit.Before;
 import org.junit.Test;

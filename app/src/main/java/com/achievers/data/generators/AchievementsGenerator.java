@@ -21,7 +21,7 @@ public class AchievementsGenerator
         String id = mConfig.getId();
         String title = mConfig.getWord();
         String description = mConfig.getSentence();
-        Involvement involvement = mConfig.getEnum(Involvement.values());
+        int involvement_id = mConfig.getEnum(Involvement.values()).getId();
         Uri imageUri = mConfig.getImageUri();
         Date createdOn = mConfig.getDate();
 
@@ -29,7 +29,7 @@ public class AchievementsGenerator
                 id,
                 title,
                 description,
-                involvement,
+                involvement_id,
                 imageUri,
                 createdOn);
     }
