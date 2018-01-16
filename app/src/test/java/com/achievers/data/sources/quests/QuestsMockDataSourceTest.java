@@ -1,11 +1,10 @@
-package com.achievers.data.sources;
+package com.achievers.data.sources.quests;
 
 import com.achievers.data._base.ReceiveDataSourceTest;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Quest;
 import com.achievers.data.entities.Reward;
 import com.achievers.data.generators.config.GeneratorConfig;
-import com.achievers.data.sources.quests.QuestsMockDataSource;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;

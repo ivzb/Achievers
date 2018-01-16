@@ -1,5 +1,7 @@
 package com.achievers.data.sources;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.achievers.BuildConfig;
 import com.achievers.utils.SimpleIdlingResource;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
@@ -12,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RESTClient {
 
-    private static Retrofit RETROFIT;
+    private static Retrofit sRETROFIT;
     private final static String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
 
     private RESTClient() {
@@ -20,18 +22,23 @@ public class RESTClient {
     }
 
     public static Retrofit getClient() {
-        if (RETROFIT == null) {
-            initClient();
+        if (sRETROFIT == null) {
+            createClient(initClient());
         }
 
-        return RETROFIT;
+        return sRETROFIT;
+    }
+
+    @VisibleForTesting
+    public static void createClient(Retrofit retrofit) {
+        sRETROFIT = retrofit;
     }
 
     public static void destroyClient() {
-        RETROFIT = null;
+        sRETROFIT = null;
     }
 
-    private static void initClient() {
+    private static Retrofit initClient() {
         Gson gson = new GsonBuilder()
                 .setDateFormat(DATE_FORMAT)
                 .create();
@@ -40,12 +47,14 @@ public class RESTClient {
                 .addNetworkInterceptor(new StethoInterceptor())
                 .build();
 
-        RETROFIT = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
                 .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
         SimpleIdlingResource.createInstance(okHttpClient);
+
+        return retrofit;
     }
 }

@@ -79,7 +79,7 @@ public class UploadAchievementIntentServiceTest
                 new Achievement(
                         "title",
                         "descrioption",
-                        Involvement.Gold,
+                        Involvement.Gold.getId(),
                         Uri.parse("fake-uri")));
 
         when(mIntent.getParcelableExtra(ACHIEVEMENT_EXTRA)).thenReturn(achievement);

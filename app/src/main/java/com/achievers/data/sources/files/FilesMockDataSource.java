@@ -1,6 +1,5 @@
 package com.achievers.data.sources.files;
 
-import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.achievers.data.callbacks.SaveCallback;
@@ -42,7 +41,7 @@ public class FilesMockDataSource implements FilesDataSource {
     }
 
     @Override
-    public void storeFile(@NonNull File file, @NonNull SaveCallback<Uri> callback) {
+    public void storeFile(@NonNull File file, @NonNull SaveCallback<String> callback) {
         checkNotNull(callback);
 
         if (file == null) {
@@ -55,6 +54,6 @@ public class FilesMockDataSource implements FilesDataSource {
         mEntitiesById.put(file.getId(), file);
         mEntities.add(file);
 
-        callback.onSuccess(file.getUri());
+        callback.onSuccess("mock_url");
     }
 }

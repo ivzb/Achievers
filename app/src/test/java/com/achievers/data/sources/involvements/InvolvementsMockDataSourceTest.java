@@ -1,9 +1,7 @@
-package com.achievers.data.sources;
+package com.achievers.data.sources.involvements;
 
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Involvement;
-import com.achievers.data.sources.involvements.InvolvementsDataSource;
-import com.achievers.data.sources.involvements.InvolvementsMockDataSource;
 
 import org.junit.Before;
 import org.junit.Test;

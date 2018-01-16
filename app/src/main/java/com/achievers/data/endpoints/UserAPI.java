@@ -1,5 +1,6 @@
 package com.achievers.data.endpoints;
 
+import com.achievers.BuildConfig;
 import com.achievers.data.entities.Auth;
 import com.achievers.data.entities.User;
 
@@ -9,9 +10,9 @@ import retrofit2.http.POST;
 
 public interface UserAPI {
 
-    @POST("user/auth")
+    @POST(BuildConfig.API_VERSION + "/user/auth")
     Call<String> auth(@Body Auth auth);
 
-    @POST("user/create")
+    @POST(BuildConfig.API_VERSION + "/user/create")
     Call<String> create(@Body User user);
 }

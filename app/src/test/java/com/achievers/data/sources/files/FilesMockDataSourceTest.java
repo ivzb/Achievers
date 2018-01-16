@@ -1,11 +1,7 @@
-package com.achievers.data.sources;
-
-import android.net.Uri;
+package com.achievers.data.sources.files;
 
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities.File;
-import com.achievers.data.sources.files.FilesDataSource;
-import com.achievers.data.sources.files.FilesMockDataSource;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +14,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FilesMockDataSourceTest {
@@ -26,10 +21,9 @@ public class FilesMockDataSourceTest {
     private FilesDataSource mDataSource;
 
     @Mock private File mFile;
-    @Mock private SaveCallback<Uri> mSaveCallback;
-    @Mock private Uri mUri;
+    @Mock private SaveCallback<String> mSaveCallback;
 
-    @Captor private ArgumentCaptor<Uri> mSuccessCaptor;
+    @Captor private ArgumentCaptor<String> mSuccessCaptor;
     @Captor private ArgumentCaptor<String> mFailureCaptor;
 
     @Before
@@ -57,15 +51,13 @@ public class FilesMockDataSourceTest {
 
     @Test
     public void storeFile_successfulCallback() {
-        when(mFile.getUri()).thenReturn(mUri);
-
         mDataSource.storeFile(mFile, mSaveCallback);
 
         verify(mFile).setId(anyString());
         verify(mSaveCallback).onSuccess(mSuccessCaptor.capture());
 
-        final Uri actual = mSuccessCaptor.getValue();
-        final Uri expected = mUri;
+        final String actual = mSuccessCaptor.getValue();
+        final String expected = "mock_url";
 
         assertEquals(expected, actual);
     }

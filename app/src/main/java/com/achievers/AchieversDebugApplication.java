@@ -19,8 +19,6 @@ public class AchieversDebugApplication extends AchieversApplication {
             );
         }
 
-//        GeneratorConfig.initialize(new Random(), new Faker());
-//        Seed.initialize(GeneratorConfig.getInstance());
         DataSources.createInstance(new MockStrategy());
     }
 }

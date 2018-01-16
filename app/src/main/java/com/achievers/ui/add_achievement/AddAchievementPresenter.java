@@ -185,7 +185,7 @@ public class AddAchievementPresenter
         Achievement achievement = new Achievement(
                 title,
                 description,
-                involvement,
+                involvement.getId(),
                 pictureUri);
 
         achievement.setInvolvementPosition(involvementSelectedPosition);
