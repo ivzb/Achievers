@@ -118,7 +118,7 @@ public class AchievementsRemoteDataSourceTest {
 
         dataSource.get(MOCK_ID, callback);
 
-        //lock.await();
+//        lock.await();
 
         if (assertionError.get() != null) {
             throw assertionError.get();
