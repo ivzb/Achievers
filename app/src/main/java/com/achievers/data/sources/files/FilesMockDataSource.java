@@ -2,6 +2,8 @@ package com.achievers.data.sources.files;
 
 import android.support.annotation.NonNull;
 
+import com.achievers.MockConfig;
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities.File;
 
@@ -54,6 +56,7 @@ public class FilesMockDataSource implements FilesDataSource {
         mEntitiesById.put(file.getId(), file);
         mEntities.add(file);
 
-        callback.onSuccess("mock_url");
+        Result<String> result = new Result<>(MockConfig.Url);
+        callback.onSuccess(result);
     }
 }

@@ -1,9 +1,11 @@
 package com.achievers.data.sources._base;
 
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.sources.RESTClient;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -24,14 +26,18 @@ public class BaseRemoteDataSource<M, API> {
                 .create(service);
     }
 
-    protected Callback<M> getCallback(final GetCallback<M> callback) {
-        return new Callback<M>() {
+    protected Callback<Result<M>> getCallback(final GetCallback<M> callback) {
+        return new Callback<Result<M>>() {
             @Override
-            public void onResponse(Call<M> call, Response<M> response) {
+            public void onResponse(Call<Result<M>> call, Response<Result<M>> response) {
                 int statusCode = response.code();
 
                 if (statusCode != 200) {
-                    callback.onFailure(response.message());
+                    Result result = new Gson().fromJson(
+                            response.errorBody().charStream(),
+                            Result.class);
+
+                    callback.onFailure(result.getMessage());
                     return;
                 }
 
@@ -39,19 +45,19 @@ public class BaseRemoteDataSource<M, API> {
             }
 
             @Override
-            public void onFailure(Call<M> call, Throwable t) {
+            public void onFailure(Call<Result<M>> call, Throwable t) {
                 callback.onFailure(sNetworkError);
             }
         };
     }
 
-    protected Callback<List<M>> loadCallback(
+    protected Callback<Result<List<M>>> loadCallback(
             final int page,
             final LoadCallback<M> callback) {
 
-        return new Callback<List<M>>() {
+        return new Callback<Result<List<M>>>() {
             @Override
-            public void onResponse(Call<List<M>> call, Response<List<M>> response) {
+            public void onResponse(Call<Result<List<M>>> call, Response<Result<List<M>>> response) {
                 int statusCode = response.code();
 
                 if (statusCode != 200) {
@@ -63,18 +69,18 @@ public class BaseRemoteDataSource<M, API> {
             }
 
             @Override
-            public void onFailure(Call<List<M>> call, Throwable t) {
+            public void onFailure(Call<Result<List<M>>> call, Throwable t) {
                 callback.onFailure(sNetworkError);
             }
         };
     }
 
-    protected Callback<String> saveCallback(
+    protected Callback<Result<String>> saveCallback(
             final SaveCallback<String> callback) {
 
-        return new Callback<String>() {
+        return new Callback<Result<String>>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<Result<String>> call, Response<Result<String>> response) {
                 int statusCode = response.code();
 
                 if (statusCode != 200) {
@@ -86,7 +92,7 @@ public class BaseRemoteDataSource<M, API> {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<Result<String>> call, Throwable t) {
                 callback.onFailure(sNetworkError);
             }
         };

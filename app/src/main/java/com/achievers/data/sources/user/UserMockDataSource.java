@@ -1,5 +1,6 @@
 package com.achievers.data.sources.user;
 
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities.Auth;
 import com.achievers.data.entities.User;
@@ -46,7 +47,8 @@ public class UserMockDataSource
 
         if (emailMatches && passwordMatches) {
             String token = mConfig.getAuthenticationToken();
-            callback.onSuccess(token);
+            Result<String> result = new Result<>(token);
+            callback.onSuccess(result);
             return;
         }
 

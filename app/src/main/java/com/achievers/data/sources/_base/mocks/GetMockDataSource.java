@@ -3,6 +3,7 @@ package com.achievers.data.sources._base.mocks;
 import android.support.annotation.NonNull;
 
 import com.achievers.DefaultConfig;
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.entities._base.BaseModel;
 import com.achievers.data.generators._base.contracts.BaseGenerator;
@@ -43,12 +44,13 @@ public abstract class GetMockDataSource<T extends BaseModel>
             return;
         }
 
-        callback.onSuccess(mEntitiesById.get(id));
+        Result<T> result = new Result<>(mEntitiesById.get(id));
+        callback.onSuccess(result);
     }
 
     @Override
     public List<T> seed(String containerId, int size) {
-        if (containerId == null) containerId = DefaultConfig.String;
+        if (containerId == null) containerId = DefaultConfig.NO_ID;
 
         int entitiesSize = 0;
 

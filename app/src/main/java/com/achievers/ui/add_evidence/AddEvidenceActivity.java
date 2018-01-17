@@ -52,7 +52,7 @@ public class AddEvidenceActivity extends AbstractActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        String achievementId = DefaultConfig.String;
+        String achievementId = DefaultConfig.NO_ID;
         MultimediaType multimediaType = MultimediaType.Photo;
 
         if (extras != null) {

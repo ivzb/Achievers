@@ -1,5 +1,6 @@
 package com.achievers.data.sources.profiles;
 
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.endpoints.ProfilesAPI;
 import com.achievers.data.entities.Profile;
@@ -35,7 +36,7 @@ public class ProfilesRemoteDataSource
     public void me(
             GetCallback<Profile> callback) {
 
-        final Call<Profile> call = mApiService.me();
+        final Call<Result<Profile>> call = mApiService.me();
         call.enqueue(getCallback(callback));
     }
 
@@ -44,7 +45,7 @@ public class ProfilesRemoteDataSource
             String id,
             GetCallback<Profile> callback) {
 
-        final Call<Profile> call = mApiService.get(id);
+        final Call<Result<Profile>> call = mApiService.get(id);
         call.enqueue(getCallback(callback));
     }
 }

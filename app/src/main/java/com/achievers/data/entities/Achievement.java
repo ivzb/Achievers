@@ -23,6 +23,12 @@ public class Achievement implements BaseModel {
     @SerializedName("description")
     String description;
 
+    @SerializedName("involvement_id")
+    int involvementId;
+
+//    @SerializedName("involvement")
+//    Involvement involvement;
+
     @SerializedName("pictureUri")
     @Deprecated
     Uri pictureUri;
@@ -30,17 +36,14 @@ public class Achievement implements BaseModel {
     @SerializedName("picture_url")
     String pictureUrl;
 
+    @SerializedName("user_id")
+    String userId;
+
 //    @SerializedName("category")
 //    private Category category;
 
 //    @SerializedName("categoryId")
 //    private Integer categoryId;
-
-//    @SerializedName("involvement")
-//    Involvement involvement;
-
-    @SerializedName("involvement_id")
-    int involvementId;
 
     @SerializedName("created_at")
     Date createdAt;
@@ -70,6 +73,25 @@ public class Achievement implements BaseModel {
         this(title, description, involvementId, pictureUrl, createdAt);
 
         this.id = id;
+    }
+
+    public Achievement(
+            String id,
+            @NonNull String title,
+            @NonNull String description,
+            @NonNull int involvementId,
+            @NonNull String pictureUrl,
+            @NonNull String userId,
+            @NonNull Date createdAt,
+            @NonNull Date updatedAt,
+            @NonNull Date deletedAt) {
+
+        this(title, description, involvementId, pictureUrl, createdAt);
+
+        this.id = id;
+        this.userId = userId;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
     }
 
     public Achievement(
@@ -175,13 +197,13 @@ public class Achievement implements BaseModel {
         Achievement that = (Achievement) o;
 
         if (involvementId != that.involvementId) return false;
-        if (mInvolvementPosition != that.mInvolvementPosition) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null)
             return false;
         if (pictureUrl != null ? !pictureUrl.equals(that.pictureUrl) : that.pictureUrl != null)
             return false;
+        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
         if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null)
             return false;
         if (updatedAt != null ? !updatedAt.equals(that.updatedAt) : that.updatedAt != null)
@@ -194,18 +216,28 @@ public class Achievement implements BaseModel {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (pictureUrl != null ? pictureUrl.hashCode() : 0);
         result = 31 * result + involvementId;
+        result = 31 * result + (pictureUrl != null ? pictureUrl.hashCode() : 0);
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         result = 31 * result + (deletedAt != null ? deletedAt.hashCode() : 0);
-        result = 31 * result + mInvolvementPosition;
         return result;
     }
 
     @Override
     public String toString() {
-        return "Achievement #" + this.getId() + " with title: " + this.getTitle() + " and description: " + this.getDescription();
+        return "Achievement{" +
+                "id='" + id + '\'' + "\n" +
+                ", title='" + title + '\'' + "\n" +
+                ", description='" + description + '\'' + "\n" +
+                ", involvementId=" + involvementId + "\n" +
+                ", pictureUrl='" + pictureUrl + '\'' + "\n" +
+                ", userId='" + userId + '\'' + "\n" +
+                ", createdAt=" + createdAt + "\n" +
+                ", updatedAt=" + updatedAt + "\n" +
+                ", deletedAt=" + deletedAt + "\n" +
+                '}';
     }
 
     public enum Type {

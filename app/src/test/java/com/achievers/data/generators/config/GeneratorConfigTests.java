@@ -2,7 +2,7 @@ package com.achievers.data.generators.config;
 
 import android.net.Uri;
 
-import com.achievers.DefaultConfig;
+import com.achievers.MockConfig;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Involvement;
 import com.achievers.data.entities.Quest;
@@ -88,7 +88,7 @@ public class GeneratorConfigTests {
     @Test
     public void getEmail() {
         // arrange
-        String expected = DefaultConfig.Mocks.sEmail;
+        String expected = MockConfig.Email;
 
         // act
         String actual = mConfig.getEmail();
@@ -100,7 +100,7 @@ public class GeneratorConfigTests {
     @Test
     public void getPassword() {
         // arrange
-        String expected = DefaultConfig.Mocks.sPassword;
+        String expected = MockConfig.Password;
 
         // act
         String actual = mConfig.getPassword();
@@ -112,7 +112,7 @@ public class GeneratorConfigTests {
     @Test
     public void getAuthenticationToken() {
         // arrange
-        String expected = DefaultConfig.Mocks.sAuthenticationToken;
+        String expected = MockConfig.Token;
 
         // act
         String actual = mConfig.getAuthenticationToken();

@@ -1,5 +1,6 @@
 package com.achievers.data.sources.contributions;
 
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.endpoints.ContributionsAPI;
@@ -36,14 +37,14 @@ public class ContributionsRemoteDataSource
     @Override
     public void get(String id, GetCallback<Contribution> callback) {
 
-        final Call<Contribution> call = mApiService.get(id);
+        final Call<Result<Contribution>> call = mApiService.get(id);
         call.enqueue(getCallback(callback));
     }
 
     @Override
     public void load(String id, int page, LoadCallback<Contribution> callback) {
 
-        final Call<List<Contribution>> call = mApiService.load(page);
+        final Call<Result<List<Contribution>>> call = mApiService.load(page);
         call.enqueue(loadCallback(page, callback));
     }
 }

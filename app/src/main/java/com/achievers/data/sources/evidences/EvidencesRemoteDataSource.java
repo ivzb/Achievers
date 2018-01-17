@@ -2,6 +2,7 @@ package com.achievers.data.sources.evidences;
 
 import android.support.annotation.NonNull;
 
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.callbacks.SaveCallback;
@@ -44,7 +45,7 @@ public class EvidencesRemoteDataSource
             final String id,
             final @NonNull GetCallback<Evidence> callback) {
 
-        final Call<Evidence> call = mApiService.get(id);
+        final Call<Result<Evidence>> call = mApiService.get(id);
         call.enqueue(getCallback(callback));
     }
 
@@ -54,7 +55,7 @@ public class EvidencesRemoteDataSource
             final int page,
             final @NonNull LoadCallback<Evidence> callback) {
 
-        final Call<List<Evidence>> call = mApiService.load(page);
+        final Call<Result<List<Evidence>>> call = mApiService.load(page);
         call.enqueue(loadCallback(page, callback));
     }
 
@@ -63,7 +64,7 @@ public class EvidencesRemoteDataSource
             @NonNull Evidence achievement,
             @NonNull SaveCallback<String> callback) {
 
-        final Call<String> call = mApiService.create(achievement);
+        final Call<Result<String>> call = mApiService.create(achievement);
         call.enqueue(saveCallback(callback));
     }
 }

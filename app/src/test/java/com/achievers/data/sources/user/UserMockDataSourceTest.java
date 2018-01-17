@@ -1,6 +1,7 @@
 package com.achievers.data.sources.user;
 
-import com.achievers.DefaultConfig;
+import com.achievers.MockConfig;
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities.Auth;
 import com.achievers.data.generators.config.GeneratorConfig;
@@ -26,16 +27,16 @@ public class UserMockDataSourceTest {
 
     private UserMockDataSource mDataSource;
 
-    private static final String sCorrectEmail = DefaultConfig.Mocks.sEmail;
-    private static final String sCorrectPassword = DefaultConfig.Mocks.sPassword;
-    private static final String sCorrectAuthenticationToken = DefaultConfig.Mocks.sAuthenticationToken;
+    private static final String sCorrectEmail = MockConfig.Email;
+    private static final String sCorrectPassword = MockConfig.Password;
+    private static final String sCorrectAuthenticationToken = MockConfig.Token;
 
     private static final String sIncorrectEmail = "incorrect_email";
     private static final String sIncorrectPassword = "incorrect_password";
 
     @Mock private SaveCallback<String> mSaveCallback;
 
-    @Captor private ArgumentCaptor<String> mSuccessCaptor;
+    @Captor private ArgumentCaptor<Result<String>> mSuccessCaptor;
     @Captor private ArgumentCaptor<String> mFailureCaptor;
 
     @Before
@@ -79,7 +80,8 @@ public class UserMockDataSourceTest {
         mDataSource.auth(auth, mSaveCallback);
         verify(mSaveCallback).onSuccess(mSuccessCaptor.capture());
 
-        String actual = mSuccessCaptor.getValue();
+        Result<String> data = mSuccessCaptor.getValue();
+        String actual = data.getResults();
         assertNotNull(actual);
         assertEquals(sCorrectAuthenticationToken, actual);
     }

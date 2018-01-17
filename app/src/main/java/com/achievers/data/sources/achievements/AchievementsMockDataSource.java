@@ -2,6 +2,7 @@ package com.achievers.data.sources.achievements;
 
 import android.support.annotation.NonNull;
 
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.generators.AchievementsGenerator;
@@ -76,8 +77,9 @@ public class AchievementsMockDataSource
         }
 
         List<Achievement> data = entities.subList(start, end);
+        Result<List<Achievement>> result = new Result<>(data);
 
-        callback.onSuccess(data, page);
+        callback.onSuccess(result, page);
     }
 
     public void seedAchievementsByQuest(

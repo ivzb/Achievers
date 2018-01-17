@@ -1,9 +1,11 @@
 package com.achievers.data.sources.involvements;
 
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Involvement;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static com.achievers.utils.Preconditions.checkNotNull;
 
@@ -35,6 +37,8 @@ public class InvolvementsMockDataSource implements InvolvementsDataSource {
     public void loadInvolvements(LoadCallback<Involvement> callback) {
         checkNotNull(callback);
 
-        callback.onSuccess(Arrays.asList(Involvement.values()), 0);
+        List<Involvement> involvements = Arrays.asList(Involvement.values());
+        Result<List<Involvement>> result = new Result<>(involvements);
+        callback.onSuccess(result, 0);
     }
 }

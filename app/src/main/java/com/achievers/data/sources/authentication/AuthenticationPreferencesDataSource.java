@@ -29,7 +29,7 @@ public class AuthenticationPreferencesDataSource
     public String getAuthToken() {
         return SharedPreferencesUtils.getValue(
                 R.string.auth_token,
-                DefaultConfig.String);
+                DefaultConfig.NO_ID);
     }
 
     @Override

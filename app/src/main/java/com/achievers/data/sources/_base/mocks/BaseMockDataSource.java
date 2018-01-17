@@ -2,6 +2,7 @@ package com.achievers.data.sources._base.mocks;
 
 import android.support.annotation.NonNull;
 
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities._base.BaseModel;
 import com.achievers.data.generators._base.contracts.BaseGenerator;
@@ -45,6 +46,7 @@ public abstract class BaseMockDataSource<T extends BaseModel>
 
         mEntitiesByContainerId.get(entity.getContainerId()).add(entity);
 
-        callback.onSuccess(entity.getId());
+        Result<String> result = new Result<>(entity.getId());
+        callback.onSuccess(result);
     }
 }

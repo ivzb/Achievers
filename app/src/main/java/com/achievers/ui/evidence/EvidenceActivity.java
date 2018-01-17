@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.achievers.DefaultConfig;
 import com.achievers.R;
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.entities.Evidence;
 import com.achievers.data.sources.DataSources;
@@ -37,15 +38,17 @@ public class EvidenceActivity extends AbstractActivity {
 
         String evidenceId = getIntent().getStringExtra(EXTRA_EVIDENCE_ID);
 
-        if (evidenceId.equals(DefaultConfig.String)) {
+        if (evidenceId.equals(DefaultConfig.NO_ID)) {
             // todo: redirect to friendly error activity
             throw new IllegalArgumentException();
         }
 
         DataSources.getInstance().getEvidences().get(evidenceId, new GetCallback<Evidence>() {
             @Override
-            public void onSuccess(Evidence evidence) {
+            public void onSuccess(Result<Evidence> response) {
                 if (EvidenceActivity.this.isFinishing()) return;
+
+                Evidence evidence = response.getResults();
 
                 initView(evidence);
             }

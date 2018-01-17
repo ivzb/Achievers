@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 
 import com.achievers.R;
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.File;
@@ -61,8 +62,8 @@ public class UploadAchievementIntentService extends IntentService {
     private void savePicture(final File picture, final Achievement achievement) {
         DataSources.getInstance().getFiles().storeFile(picture, new SaveCallback<String>() {
             @Override
-            public void onSuccess(String url) {
-                achievement.setPictureUrl(url);
+            public void onSuccess(Result<String> result) {
+                achievement.setPictureUrl(result.getResults());
                 saveAchievement(achievement);
             }
 
@@ -76,8 +77,8 @@ public class UploadAchievementIntentService extends IntentService {
     private void saveAchievement(final Achievement achievement) {
         DataSources.getInstance().getAchievements().save(achievement, new SaveCallback<String>() {
             @Override
-            public void onSuccess(String id) {
-                achievement.setId(id);
+            public void onSuccess(Result<String> result) {
+                achievement.setId(result.getResults());
                 showSuccess(achievement);
             }
 

@@ -6,21 +6,9 @@ import android.support.v4.content.res.ResourcesCompat;
 
 public final class DefaultConfig {
 
-    public class Mocks {
-
-        public static final String sEmail = "test@gmail.com";
-        public static final String sPassword = "123";
-        public static final String sAuthenticationToken = "--token--";
-
-        private Mocks() {
-
-        }
-    }
-
     public static final int PAGE = 0;
     public static final String DATE_FORMAT = "yyyyMMdd_HHmmss";
-    public static final long ID = -1L;
-    public static final String String = "";
+    public static final String NO_ID = "";
 
     public static final int PlaceholderImageResource = R.drawable.bunny;
     public static Drawable PlaceholderImage;

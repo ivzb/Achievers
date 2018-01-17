@@ -1,127 +1,111 @@
 package com.achievers.data.sources.achievements;
 
 import com.achievers.BuildConfig;
-import com.achievers.data.callbacks.GetCallback;
+import com.achievers.MockConfig;
+import com.achievers.data._base.BaseRemoteDataSourceTest;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.sources.RESTClient;
-import com.achievers.utils.SimpleIdlingResource;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.ArrayList;
+import java.util.List;
 
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
 import okhttp3.mock.MockInterceptor;
 import okhttp3.mock.Rule;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.achievers.DefaultConfig.DATE_FORMAT;
-import static junit.framework.Assert.assertNotNull;
 import static okhttp3.mock.ClasspathResources.resource;
+import static okhttp3.mock.HttpCodes.HTTP_404_NOT_FOUND;
 import static okhttp3.mock.MediaTypes.MEDIATYPE_JSON;
 
-public class AchievementsRemoteDataSourceTest {
-
-    private static final String MOCK_URL = "http://mock_url/";
-    private static final String MOCK_ID = "mock_id";
-
-    private static final int DATA_LIMIT = 5;
-
-    private Interceptor buildInterceptor() {
-        MockInterceptor interceptor = new MockInterceptor();
-
-//        interceptor.addRule(new Rule.Builder()
-//                .get().or().post().or().put()
-//                .url("https://testserver/api/login")
-//                .respond(HTTP_401_UNAUTHORIZED))
-//                .header("WWW-Authenticate", "Basic");
-//
-//        interceptor.addRule(new Rule.Builder()
-//                .get()
-//                .url("https://testserver/api/json")
-//                .respond(MEDIATYPE_JSON, "{succeed:true}"));
-//
-        interceptor.addRule(new Rule.Builder()
-                .get()
-                .url(MOCK_URL + BuildConfig.API_VERSION + "/achievement/" + MOCK_ID)
-                .respond(resource("achievement_get.json"), MEDIATYPE_JSON));
-
-        return interceptor;
-    }
-
-    private Retrofit buildRetrofitClient() {
-        Gson gson = new GsonBuilder()
-                .setDateFormat(DATE_FORMAT)
-                .create();
-
-        Interceptor interceptor = buildInterceptor();
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .client(okHttpClient)
-                .baseUrl(MOCK_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        SimpleIdlingResource.createInstance(okHttpClient);
-
-        return retrofit;
-    }
+public class AchievementsRemoteDataSourceTest extends BaseRemoteDataSourceTest {
 
     @Before
     public void before() {
+        AchievementsRemoteDataSource.destroyInstance();
         RESTClient.destroyClient();
-
-        Retrofit retrofit = buildRetrofitClient();
-        RESTClient.createClient(retrofit);
     }
 
     @Test
-    public void test() throws InterruptedException {
-        final CountDownLatch lock = new CountDownLatch(1);
-        final AtomicReference<AssertionError> assertionError = new AtomicReference<>();
+    public void getSuccess() throws InterruptedException {
+        MockInterceptor interceptor = new MockInterceptor();
+
+        interceptor.addRule(new Rule.Builder()
+                .get()
+                .url(MockConfig.Url + BuildConfig.API_VERSION + "/achievement/" + MockConfig.Id)
+                .respond(resource("http_responses/achievements/get_200.json"), MEDIATYPE_JSON));
+
+        Retrofit retrofit = super.buildRetrofitClient(interceptor);
+        RESTClient.createClient(retrofit);
 
         AchievementsDataSource dataSource = AchievementsRemoteDataSource.getInstance();
 
-        GetCallback<Achievement> callback = new GetCallback<Achievement>() {
-            @Override
-            public void onSuccess(Achievement data) {
-                try {
-                    assertNotNull(null);
-                } catch (AssertionError e) {
-                    assertionError.set(e);
-                }
+        Achievement expected = new Achievement(
+                MockConfig.Id,
+                MockConfig.Title,
+                MockConfig.Description,
+                MockConfig.InvolvementId,
+                MockConfig.Url,
+                MockConfig.Id,
+                MockConfig.Date,
+                MockConfig.Date,
+                MockConfig.Date);
 
-                lock.countDown();
-            }
+        super.getCallback(ExpectedCallback.Success, dataSource, expected);
+    }
 
-            @Override
-            public void onFailure(String message) {
-                try {
-                    assertNotNull(null);
-                } catch (AssertionError e) {
-                    assertionError.set(e);
-                }
+    @Test
+    public void getError_404() throws InterruptedException {
+        MockInterceptor interceptor = new MockInterceptor();
 
-                lock.countDown();
-            }
-        };
+        interceptor.addRule(new Rule.Builder()
+                .get()
+                .url(MockConfig.Url + BuildConfig.API_VERSION + "/achievement/" + MockConfig.Id)
+                .respond(resource("http_responses/achievements/get_404.json"), MEDIATYPE_JSON)
+                .code(HTTP_404_NOT_FOUND)
+        );
 
-        dataSource.get(MOCK_ID, callback);
+        Retrofit retrofit = super.buildRetrofitClient(interceptor);
+        RESTClient.createClient(retrofit);
 
-//        lock.await();
+        AchievementsDataSource dataSource = AchievementsRemoteDataSource.getInstance();
 
-        if (assertionError.get() != null) {
-            throw assertionError.get();
+        String expected = "achievement not found";
+
+        super.getCallback(ExpectedCallback.Failure, dataSource, expected);
+    }
+
+    @Test
+    public void loadSuccess() throws InterruptedException {
+        MockInterceptor interceptor = new MockInterceptor();
+
+        interceptor.addRule(new Rule.Builder()
+                .get()
+                .url(MockConfig.Url + BuildConfig.API_VERSION + "/achievements?page=0")
+                .respond(resource("http_responses/achievements/load_200_full_page.json"), MEDIATYPE_JSON));
+
+        Retrofit retrofit = super.buildRetrofitClient(interceptor);
+        RESTClient.createClient(retrofit);
+
+        AchievementsDataSource dataSource = AchievementsRemoteDataSource.getInstance();
+
+        List<Achievement> expected = new ArrayList<>();
+
+        for (int i = 0; i < 9; i++) {
+            expected.add(new Achievement(
+                    MockConfig.Id,
+                    MockConfig.Title,
+                    MockConfig.Description,
+                    MockConfig.InvolvementId,
+                    MockConfig.Url,
+                    MockConfig.Id,
+                    MockConfig.Date,
+                    MockConfig.Date,
+                    MockConfig.Date));
         }
+
+        super.loadCallback(ExpectedCallback.Success, dataSource, expected);
     }
 }

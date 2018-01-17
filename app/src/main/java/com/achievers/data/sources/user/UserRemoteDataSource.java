@@ -2,6 +2,7 @@ package com.achievers.data.sources.user;
 
 import android.support.annotation.NonNull;
 
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.endpoints.UserAPI;
 import com.achievers.data.entities.Auth;
@@ -38,7 +39,7 @@ public class UserRemoteDataSource
             final @NonNull Auth auth,
             final @NonNull SaveCallback<String> callback) {
 
-        final Call<String> call = mApiService.auth(auth);
+        final Call<Result<String>> call = mApiService.auth(auth);
         call.enqueue(saveCallback(callback));
     }
 
@@ -47,7 +48,7 @@ public class UserRemoteDataSource
             final @NonNull User user,
             final @NonNull SaveCallback<String> callback) {
 
-        final Call<String> call = mApiService.create(user);
+        final Call<Result<String>> call = mApiService.create(user);
         call.enqueue(saveCallback(callback));
     }
 }

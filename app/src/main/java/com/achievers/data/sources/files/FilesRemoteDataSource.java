@@ -2,6 +2,7 @@ package com.achievers.data.sources.files;
 
 import android.support.annotation.NonNull;
 
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.endpoints.FilesAPI;
 import com.achievers.data.entities.File;
@@ -44,11 +45,11 @@ public class FilesRemoteDataSource implements FilesDataSource {
         RequestBody requestBody = RequestBody.create(MediaType.parse(file.getContentType()), file.getContent());
         MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getContentType(), requestBody);
 
-        final Call<String> call = apiService.storeFile(part);
+        final Call<Result<String>> call = apiService.storeFile(part);
 
-        call.enqueue(new Callback<String>() {
+        call.enqueue(new Callback<Result<String>>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<Result<String>> call, Response<Result<String>> response) {
                 int statusCode = response.code();
 
                 if (statusCode != 201) {
@@ -64,7 +65,7 @@ public class FilesRemoteDataSource implements FilesDataSource {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<Result<String>> call, Throwable t) {
                 String message = "Could not store file. Please try again.";
                 callback.onFailure(message);
             }

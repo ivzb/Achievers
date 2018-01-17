@@ -3,6 +3,7 @@ package com.achievers.ui._base.presenters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities._base.BaseModel;
 import com.achievers.data.sources._base.contracts.ReceiveDataSource;
@@ -72,11 +73,13 @@ public abstract class EndlessAdapterPresenter<M extends BaseModel, V extends Bas
 
     protected LoadCallback<M> mLoadCallback = new LoadCallback<M>() {
         @Override
-        public void onSuccess(List<M> entities, int page) {
+        public void onSuccess(Result<List<M>> result, int page) {
             if (!mView.isActive()) return;
 
             mView.setPage(page);
             mView.setLoadingIndicator(false);
+
+            List<M> entities = result.getResults();
             mView.show(entities);
         }
 

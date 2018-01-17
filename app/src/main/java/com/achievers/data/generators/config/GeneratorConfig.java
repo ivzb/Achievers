@@ -2,7 +2,7 @@ package com.achievers.data.generators.config;
 
 import android.net.Uri;
 
-import com.achievers.DefaultConfig;
+import com.achievers.MockConfig;
 import com.achievers.data.entities._base.BaseModel;
 import com.achievers.data.generators._base.contracts.BaseGeneratorConfig;
 
@@ -56,17 +56,17 @@ public class GeneratorConfig implements BaseGeneratorConfig {
 
     @Override
     public String getEmail() {
-        return DefaultConfig.Mocks.sEmail;
+        return MockConfig.Email;
     }
 
     @Override
     public String getPassword() {
-        return DefaultConfig.Mocks.sPassword;
+        return MockConfig.Password;
     }
 
     @Override
     public String getAuthenticationToken() {
-        return DefaultConfig.Mocks.sAuthenticationToken;
+        return MockConfig.Token;
     }
 
     @Override

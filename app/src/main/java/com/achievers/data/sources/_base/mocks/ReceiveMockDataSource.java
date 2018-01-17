@@ -3,6 +3,7 @@ package com.achievers.data.sources._base.mocks;
 import android.support.annotation.NonNull;
 
 import com.achievers.DefaultConfig;
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities._base.BaseModel;
 import com.achievers.data.generators._base.contracts.BaseGenerator;
@@ -32,7 +33,7 @@ public abstract class ReceiveMockDataSource<T extends BaseModel>
 
         checkNotNull(callback);
 
-        if (containerId == null) containerId = DefaultConfig.String;
+        if (containerId == null) containerId = DefaultConfig.NO_ID;
 
         if (page < 0) {
             callback.onFailure(sInvalidPageFailMessage);
@@ -57,7 +58,8 @@ public abstract class ReceiveMockDataSource<T extends BaseModel>
         }
 
         List<T> data = entities.subList(start, end);
+        Result<List<T>> result = new Result<>(data);
 
-        callback.onSuccess(data, page);
+        callback.onSuccess(result, page);
     }
 }

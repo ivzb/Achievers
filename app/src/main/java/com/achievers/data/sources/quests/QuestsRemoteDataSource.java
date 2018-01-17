@@ -2,6 +2,7 @@ package com.achievers.data.sources.quests;
 
 import android.support.annotation.NonNull;
 
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.endpoints.QuestsAPI;
@@ -40,7 +41,7 @@ public class QuestsRemoteDataSource
             final String id,
             final @NonNull GetCallback<Quest> callback) {
 
-        final Call<Quest> call = mApiService.get(id);
+        final Call<Result<Quest>> call = mApiService.get(id);
         call.enqueue(getCallback(callback));
     }
 
@@ -50,7 +51,7 @@ public class QuestsRemoteDataSource
             final int page,
             final @NonNull LoadCallback<Quest> callback) {
 
-        final Call<List<Quest>> call = mApiService.load(page);
+        final Call<Result<List<Quest>>> call = mApiService.load(page);
         call.enqueue(loadCallback(page, callback));
     }
 }

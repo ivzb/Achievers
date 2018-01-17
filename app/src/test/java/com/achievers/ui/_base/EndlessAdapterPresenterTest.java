@@ -1,5 +1,6 @@
 package com.achievers.ui._base;
 
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities._base.BaseModel;
 import com.achievers.data.sources._base.contracts.ReceiveDataSource;
@@ -258,7 +259,8 @@ public abstract class EndlessAdapterPresenterTest<M extends BaseModel, P extends
 
                 if (isSuccessful) {
                     mExpectedLoad = generate(page);
-                    callback.onSuccess(mExpectedLoad, page);
+                    Result<List<M>> result = new Result<>(mExpectedLoad);
+                    callback.onSuccess(result, page);
                     return null;
                 }
 

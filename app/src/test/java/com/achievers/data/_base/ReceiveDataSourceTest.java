@@ -1,5 +1,6 @@
 package com.achievers.data._base;
 
+import com.achievers.data.Result;
 import com.achievers.data._base.contracts.SeedDataSourceTest;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities._base.BaseModel;
@@ -24,7 +25,7 @@ public abstract class ReceiveDataSourceTest<T extends BaseModel>
 
     @Mock protected LoadCallback<T> mLoadCallback;
 
-    @Captor protected ArgumentCaptor<List<T>> mSuccessListCaptor;
+    @Captor protected ArgumentCaptor<Result<List<T>>> mSuccessListCaptor;
 
     @Test(expected = NullPointerException.class)
     public void load_nullCallback_shouldThrow() {
@@ -79,7 +80,8 @@ public abstract class ReceiveDataSourceTest<T extends BaseModel>
         mDataSource.load(id, page, mLoadCallback);
         verify(mLoadCallback).onSuccess(mSuccessListCaptor.capture(), eq(page));
 
-        List<T> actual = mSuccessListCaptor.getValue();
+        Result<List<T>> data = mSuccessListCaptor.getValue();
+        List<T> actual = data.getResults();
         assertEquals(expectedSize, actual.size());
     }
 

@@ -1,5 +1,6 @@
 package com.achievers.data._base;
 
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities._base.BaseModel;
 import com.achievers.data.sources._base.contracts.BaseDataSource;
@@ -20,7 +21,7 @@ public abstract class BaseMockDataSourceTest<T extends BaseModel>
 
     @Mock protected SaveCallback<String> mSaveCallback;
 
-    @Captor protected ArgumentCaptor<String> mSuccessSaveCaptor;
+    @Captor protected ArgumentCaptor<Result<String>> mSuccessSaveCaptor;
 
     @Test
     public void save_null_shouldReturnFailure() {
@@ -31,10 +32,11 @@ public abstract class BaseMockDataSourceTest<T extends BaseModel>
         mDataSource.save(entity, mSaveCallback);
         verify(mSaveCallback).onSuccess(mSuccessSaveCaptor.capture());
 
-        final String actual = mSuccessSaveCaptor.getValue();
+        final Result<String> actual = mSuccessSaveCaptor.getValue();
         assertNotNull(actual);
+        assertNotNull(actual.getResults());
 
-        assertEntityExists(actual);
+        assertEntityExists(actual.getResults());
     }
 
     protected void assertSaveEntityFailure(T entity, SaveCallback<String> callback) {

@@ -2,6 +2,7 @@ package com.achievers.ui.quest;
 
 import android.content.Context;
 
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.generators.config.GeneratorConfig;
@@ -124,7 +125,8 @@ public class QuestPresenterTest
 
                 if (isSuccessful) {
                     mExpectedLoad = generate(page);
-                    callback.onSuccess(mExpectedLoad, page);
+                    Result<List<Achievement>> result = new Result<>(mExpectedLoad);
+                    callback.onSuccess(result, page);
                     return null;
                 }
 

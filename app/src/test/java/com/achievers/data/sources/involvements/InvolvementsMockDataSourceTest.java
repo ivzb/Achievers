@@ -1,5 +1,6 @@
 package com.achievers.data.sources.involvements;
 
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Involvement;
 
@@ -25,7 +26,7 @@ public class InvolvementsMockDataSourceTest {
 
     @Mock private LoadCallback<Involvement> mLoadCallback;
 
-    @Captor private ArgumentCaptor<List<Involvement>> mSuccessCaptor;
+    @Captor private ArgumentCaptor<Result<List<Involvement>>> mSuccessCaptor;
 
     @Before
     public void before() {
@@ -44,7 +45,8 @@ public class InvolvementsMockDataSourceTest {
 
         verify(mLoadCallback).onSuccess(mSuccessCaptor.capture(), eq(0));
 
-        final List<Involvement> actual = mSuccessCaptor.getValue();
+        Result<List<Involvement>> data = mSuccessCaptor.getValue();
+        final List<Involvement> actual = data.getResults();
         final List<Involvement> expected = Arrays.asList(Involvement.values());
 
         assertEquals(expected, actual);

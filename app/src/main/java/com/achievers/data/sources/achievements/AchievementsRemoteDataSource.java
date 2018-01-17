@@ -2,6 +2,7 @@ package com.achievers.data.sources.achievements;
 
 import android.support.annotation.NonNull;
 
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.callbacks.SaveCallback;
@@ -44,7 +45,7 @@ public class AchievementsRemoteDataSource
             final String id,
             final @NonNull GetCallback<Achievement> callback) {
 
-        final Call<Achievement> call = mApiService.get(id);
+        final Call<Result<Achievement>> call = mApiService.get(id);
         call.enqueue(getCallback(callback));
     }
 
@@ -54,7 +55,7 @@ public class AchievementsRemoteDataSource
             final int page,
             final @NonNull LoadCallback<Achievement> callback) {
 
-        final Call<List<Achievement>> call = mApiService.load(page);
+        final Call<Result<List<Achievement>>> call = mApiService.load(page);
         call.enqueue(loadCallback(page, callback));
     }
 
@@ -64,7 +65,7 @@ public class AchievementsRemoteDataSource
             int page,
             LoadCallback<Achievement> callback) {
 
-        final Call<List<Achievement>> call = mApiService.loadByQuest(questId, page);
+        final Call<Result<List<Achievement>>> call = mApiService.loadByQuest(questId, page);
         call.enqueue(loadCallback(page, callback));
     }
 
@@ -73,7 +74,7 @@ public class AchievementsRemoteDataSource
             @NonNull Achievement achievement,
             @NonNull SaveCallback<String> callback) {
 
-        final Call<String> call = mApiService.create(achievement);
+        final Call<Result<String>> call = mApiService.create(achievement);
         call.enqueue(saveCallback(callback));
     }
 }

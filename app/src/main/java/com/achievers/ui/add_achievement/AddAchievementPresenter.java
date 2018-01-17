@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 
 import com.achievers.R;
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Involvement;
@@ -62,9 +63,10 @@ public class AddAchievementPresenter
 
         mInvolvementsDataSource.loadInvolvements(new LoadCallback<Involvement>() {
             @Override
-            public void onSuccess(List<Involvement> data, int page) {
+            public void onSuccess(Result<List<Involvement>> result, int page) {
                 if (!mView.isActive()) return;
-                mView.showInvolvements(data);
+
+                mView.showInvolvements(result.getResults());
             }
 
             @Override

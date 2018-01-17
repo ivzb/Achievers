@@ -2,6 +2,7 @@ package com.achievers.data.sources.rewards;
 
 import android.support.annotation.NonNull;
 
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.endpoints.RewardsAPI;
@@ -40,7 +41,7 @@ public class RewardsRemoteDataSource
             final String id,
             final @NonNull GetCallback<Reward> callback) {
 
-        final Call<Reward> call = mApiService.get(id);
+        final Call<Result<Reward>> call = mApiService.get(id);
         call.enqueue(getCallback(callback));
     }
 
@@ -50,7 +51,7 @@ public class RewardsRemoteDataSource
             final int page,
             final @NonNull LoadCallback<Reward> callback) {
 
-        final Call<List<Reward>> call = mApiService.load(page);
+        final Call<Result<List<Reward>>> call = mApiService.load(page);
         call.enqueue(loadCallback(page, callback));
     }
 }

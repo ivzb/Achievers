@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 
 import com.achievers.R;
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities.Evidence;
 import com.achievers.data.entities.File;
@@ -60,8 +61,8 @@ public class UploadEvidenceIntentService extends IntentService {
     private void saveMultimedia(final File multimedia, final Evidence evidence) {
         DataSources.getInstance().getFiles().storeFile(multimedia, new SaveCallback<String>() {
             @Override
-            public void onSuccess(String multimediaUrl) {
-                evidence.setUrl(multimediaUrl);
+            public void onSuccess(Result<String> result) {
+                evidence.setUrl(result.getResults());
                 saveEvidence(evidence);
             }
 
@@ -75,8 +76,8 @@ public class UploadEvidenceIntentService extends IntentService {
     private void saveEvidence(final Evidence evidence) {
         DataSources.getInstance().getEvidences().save(evidence, new SaveCallback<String>() {
             @Override
-            public void onSuccess(String id) {
-                evidence.setId(id);
+            public void onSuccess(Result<String> result) {
+                evidence.setId(result.getResults());
                 showSuccess(evidence);
             }
 

@@ -4,18 +4,14 @@ import android.databinding.BindingAdapter;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
 import com.achievers.DefaultConfig;
-import com.achievers.data.entities.Category;
 import com.achievers.data.entities.Involvement;
 import com.achievers.ui._base._contracts.action_handlers.BasePictureLoadActionHandler;
 import com.achievers.ui._base._contracts.adapters.BaseSelectableAdapter;
-import com.achievers.ui.categories.CategoriesContract;
 import com.achievers.utils.ui.FreskoCircleProgressBarDrawable;
-import com.achievers.utils.ui.ScrollChildSwipeRefreshLayout;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
@@ -89,23 +85,5 @@ public class AdapterSetters {
                 .build();
 
         view.setController(controller);
-    }
-
-    /**
-     * Reloads the data when the pull-to-refresh is triggered.
-     * <p>
-     * Creates the {@code android:onRefresh} for a {@link SwipeRefreshLayout}
-     * that takes a {@link CategoriesContract.Presenter}.
-     */
-    @BindingAdapter({ "onRefresh", "category" })
-    public static void setSwipeRefreshLayoutOnCategoryRefreshListener(ScrollChildSwipeRefreshLayout view, final CategoriesContract.Presenter presenter, final Category parent) {
-        view.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                //Integer parentId = parent != null ? parent.getId() : null;
-                // todo: refresh accurate parent
-                presenter.loadCategories(null);
-            }
-        });
     }
 }

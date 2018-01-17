@@ -1,6 +1,7 @@
 package com.achievers.data.sources.profiles;
 
 
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.entities.Profile;
 import com.achievers.data.generators.ProfilesGenerator;
@@ -41,6 +42,7 @@ public class ProfilesMockDataSource
         checkNotNull(callback);
 
         Profile me = mEntitiesById.values().iterator().next();
-        callback.onSuccess(me);
+        Result<Profile> result = new Result<>(me);
+        callback.onSuccess(result);
     }
 }

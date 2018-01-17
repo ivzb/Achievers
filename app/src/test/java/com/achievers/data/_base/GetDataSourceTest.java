@@ -1,5 +1,6 @@
 package com.achievers.data._base;
 
+import com.achievers.data.Result;
 import com.achievers.data._base.contracts.SeedDataSourceTest;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.entities._base.BaseModel;
@@ -23,7 +24,7 @@ public abstract class GetDataSourceTest<T extends BaseModel>
 
     @Mock protected GetCallback<T> mGetCallback;
 
-    @Captor protected ArgumentCaptor<T> mSuccessCaptor;
+    @Captor protected ArgumentCaptor<Result<T>> mSuccessCaptor;
     @Captor protected ArgumentCaptor<String> mFailureCaptor;
 
     @Test(expected = NullPointerException.class)
@@ -44,9 +45,10 @@ public abstract class GetDataSourceTest<T extends BaseModel>
         mDataSource.get(expectedId, mGetCallback);
         verify(mGetCallback).onSuccess(mSuccessCaptor.capture());
 
-        T actual = mSuccessCaptor.getValue();
+        Result<T> actual = mSuccessCaptor.getValue();
         assertNotNull(actual);
-        assertEquals(expectedId, actual.getId());
+        assertNotNull(actual.getResults());
+        assertEquals(expectedId, actual.getResults().getId());
     }
 
     protected void assertEntityDoesNotExist(String id) {
@@ -65,9 +67,9 @@ public abstract class GetDataSourceTest<T extends BaseModel>
 
         verify(mGetCallback).onSuccess(mSuccessCaptor.capture());
 
-        final T actual = mSuccessCaptor.getValue();
+        final Result<T> actual = mSuccessCaptor.getValue();
 
-        assertEquals(id, actual.getId());
+        assertEquals(id, actual.getResults().getId());
     }
 
     protected void setDataSource(GetDataSource<T> dataSource) {

@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.achievers.DefaultConfig;
 import com.achievers.R;
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.entities.Quest;
 import com.achievers.data.sources.DataSources;
@@ -34,7 +35,7 @@ public class QuestActivity extends CollapsingToolbarActivity {
 
         String questId = getIntent().getStringExtra(EXTRA_QUEST_ID);
 
-        if (questId.equals(DefaultConfig.String)) {
+        if (questId.equals(DefaultConfig.NO_ID)) {
             // todo: redirect to friendly error activity
             throw new IllegalArgumentException();
         }
@@ -45,8 +46,10 @@ public class QuestActivity extends CollapsingToolbarActivity {
 
         DataSources.getInstance().getQuests().get(questId, new GetCallback<Quest>() {
             @Override
-            public void onSuccess(Quest quest) {
+            public void onSuccess(Result<Quest> response) {
                 if (QuestActivity.this.isFinishing()) return;
+
+                Quest quest = response.getResults();
 
                 setCollapsingToolbarImage(quest.getPictureUri());
                 setCollapsingToolbarTitle(quest.getName());

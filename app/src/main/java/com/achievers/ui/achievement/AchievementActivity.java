@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.achievers.DefaultConfig;
 import com.achievers.R;
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.sources.DataSources;
@@ -45,11 +46,11 @@ public class AchievementActivity extends CollapsingToolbarActivity {
 
         DataSources.getInstance().getAchievements().get(achievementId, new GetCallback<Achievement>() {
             @Override
-            public void onSuccess(Achievement achievement) {
+            public void onSuccess(Result<Achievement> data) {
                 if (AchievementActivity.this.isFinishing()) return;
 
-                setCollapsingToolbarImage(achievement.getPictureUri());
-                setCollapsingToolbarTitle(achievement.getTitle());
+                setCollapsingToolbarImage(data.getResults().getPictureUri());
+                setCollapsingToolbarTitle(data.getResults().getTitle());
             }
 
             @Override

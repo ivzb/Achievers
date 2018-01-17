@@ -1,5 +1,7 @@
 package com.achievers.data.sources.files;
 
+import com.achievers.MockConfig;
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.SaveCallback;
 import com.achievers.data.entities.File;
 
@@ -23,7 +25,7 @@ public class FilesMockDataSourceTest {
     @Mock private File mFile;
     @Mock private SaveCallback<String> mSaveCallback;
 
-    @Captor private ArgumentCaptor<String> mSuccessCaptor;
+    @Captor private ArgumentCaptor<Result<String>> mSuccessCaptor;
     @Captor private ArgumentCaptor<String> mFailureCaptor;
 
     @Before
@@ -56,8 +58,9 @@ public class FilesMockDataSourceTest {
         verify(mFile).setId(anyString());
         verify(mSaveCallback).onSuccess(mSuccessCaptor.capture());
 
-        final String actual = mSuccessCaptor.getValue();
-        final String expected = "mock_url";
+        Result<String> data = mSuccessCaptor.getValue();
+        final String actual = data.getResults();
+        final String expected = MockConfig.Url;
 
         assertEquals(expected, actual);
     }

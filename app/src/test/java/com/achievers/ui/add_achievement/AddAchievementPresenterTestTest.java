@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import com.achievers.data.Result;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities.Achievement;
 import com.achievers.data.entities.Involvement;
@@ -408,7 +409,7 @@ public class AddAchievementPresenterTestTest {
                 when(mView.isActive()).thenReturn(callbackInactiveView);
 
                 if (isSuccessful) {
-                    callback.onSuccess(Arrays.asList(Involvement.values()), 0);
+                    callback.onSuccess(new Result<>(Arrays.asList(Involvement.values())), 0);
                     return null;
                 }
 
