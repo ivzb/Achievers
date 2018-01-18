@@ -1,10 +1,13 @@
 package com.achievers.data._base;
 
+import com.achievers.BuildConfig;
 import com.achievers.MockConfig;
 import com.achievers.data.Result;
 import com.achievers.data.callbacks.GetCallback;
 import com.achievers.data.callbacks.LoadCallback;
 import com.achievers.data.entities._base.BaseModel;
+import com.achievers.data.sources.RESTClient;
+import com.achievers.data.sources._base.contracts.BaseDataSource;
 import com.achievers.data.sources._base.contracts.GetDataSource;
 import com.achievers.data.sources._base.contracts.LoadDataSource;
 import com.achievers.utils.SimpleIdlingResource;
@@ -17,12 +20,16 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.mock.MockInterceptor;
+import okhttp3.mock.Rule;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.achievers.DefaultConfig.DATE_FORMAT;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
+import static okhttp3.mock.ClasspathResources.resource;
+import static okhttp3.mock.MediaTypes.MEDIATYPE_JSON;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -33,6 +40,9 @@ public abstract class BaseRemoteDataSourceTest {
         NoMore,
         Failure
     }
+
+    protected abstract <T extends BaseModel> BaseDataSource<T> instantiateDataSource();
+    protected abstract <T extends BaseModel> T instantiateModel();
 
     protected <T extends BaseModel> void getCallback(
             final ExpectedCallback type,
@@ -201,5 +211,52 @@ public abstract class BaseRemoteDataSourceTest {
         SimpleIdlingResource.createInstance(okHttpClient);
 
         return retrofit;
+    }
+
+    private void setupInterceptorRule(
+            Rule.Builder builder,
+            String url,
+            String method,
+            String model,
+            int statusCode,
+            String statusSuffix) {
+
+        MockInterceptor interceptor = new MockInterceptor();
+
+        String resourcePath = String.format("http_responses/%ss/%s_%d%s.json", model, method, statusCode, statusSuffix);
+
+        interceptor.addRule(builder
+                .url(url)
+                .respond(resource(resourcePath), MEDIATYPE_JSON)
+                .code(statusCode)
+        );
+
+        Retrofit retrofit = buildRetrofitClient(interceptor);
+        RESTClient.createClient(retrofit);
+    }
+
+    protected <T extends BaseModel> GetDataSource<T> setupGetFor(
+            String model,
+            int statusCode) {
+
+        Rule.Builder builder = new Rule.Builder().get();
+        String url = MockConfig.Url + BuildConfig.API_VERSION + "/" + model + "/" + MockConfig.Id;
+
+        setupInterceptorRule(builder, url, "get", model, statusCode, "");
+
+        return instantiateDataSource();
+    }
+
+    protected <T extends BaseModel> LoadDataSource<T> setupLoadFor(
+            String model,
+            int statusCode,
+            String statusSuffix) {
+
+        Rule.Builder builder = new Rule.Builder().get();
+        String url = MockConfig.Url + BuildConfig.API_VERSION + "/" + model + "s?page=0";
+
+        setupInterceptorRule(builder, url, "load", model, statusCode, statusSuffix);
+
+        return instantiateDataSource();
     }
 }
