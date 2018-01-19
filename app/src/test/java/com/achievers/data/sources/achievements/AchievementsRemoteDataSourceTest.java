@@ -124,8 +124,8 @@ public class AchievementsRemoteDataSourceTest extends BaseRemoteDataSourceTest {
     public void load_200_empty_page() throws InterruptedException {
         LoadDataSource<Achievement> dataSource = setupLoadFor(sAchievement, HTTP_200_OK, "_empty_page");
 
-        List<Achievement> expected = new ArrayList<>();
+        List<Achievement> expected = null;
 
-        super.loadCallback(ExpectedCallback.Success, dataSource, expected);
+        super.loadCallback(ExpectedCallback.NoMore, dataSource, expected);
     }
 }

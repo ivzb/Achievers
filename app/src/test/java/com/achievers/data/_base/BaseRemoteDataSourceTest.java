@@ -143,13 +143,13 @@ public abstract class BaseRemoteDataSourceTest {
             public void onNoMore() {
                 try {
                     switch (type) {
+                        case NoMore:
+                            // everything is fine, life is good
+                            break;
                         case Success:
                         case Failure:
                             fail("it should not reach onSuccess");
                             break;
-                        case NoMore:
-                            // todo: assert something
-                            fail("todo");
                         default:
                             fail("unsupported CallbackType");
                             break;

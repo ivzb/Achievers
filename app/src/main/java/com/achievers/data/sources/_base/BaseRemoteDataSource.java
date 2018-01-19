@@ -65,7 +65,14 @@ public class BaseRemoteDataSource<M, API> {
                     return;
                 }
 
-                callback.onSuccess(response.body(), page);
+                Result<List<M>> result = response.body();
+
+                if (result.getResults() == null) {
+                    callback.onNoMore();
+                    return;
+                }
+
+                callback.onSuccess(result, page);
             }
 
             @Override
