@@ -12,21 +12,27 @@ public class LoginContract {
     public interface View<DB extends ViewDataBinding>
             extends BaseView<Presenter, ViewModel, DB> {
 
+        void showLoading(boolean loading);
     }
 
     public interface Presenter extends BasePresenter {
 
+        void auth(String email, String password);
     }
 
     public interface ViewModel extends BaseViewModel {
 
         @Bindable
-        String getUsername();
-        void setUsername(String username);
+        String getEmail();
+        void setEmail(String email);
 
         @Bindable
         String getPassword();
         void setPassword(String password);
+
+        @Bindable
+        boolean isLoading();
+        void setLoading(boolean loading);
     }
 }
 

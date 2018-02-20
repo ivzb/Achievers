@@ -43,7 +43,8 @@ public class LoginActivity extends AbstractActivity {
         view.setViewModel(new LoginViewModel());
         view.setPresenter(new LoginPresenter(
                 this,
-                view));
+                view,
+                DataSources.getInstance().getUser()));
     }
 }
 

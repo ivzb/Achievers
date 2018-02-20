@@ -1,9 +1,8 @@
 package com.achievers.ui.login;
 
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +10,12 @@ import android.view.ViewGroup;
 import com.achievers.R;
 import com.achievers.databinding.LoginFragBinding;
 import com.achievers.ui._base.AbstractView;
-import com.achievers.ui._base.views.EndlessScrollView;
-import com.achievers.utils.ui.SwipeRefreshLayoutUtils;
 
 public class LoginView
         extends AbstractView<LoginContract.Presenter, LoginContract.ViewModel, LoginFragBinding>
         implements LoginContract.View<LoginFragBinding> {
 
-    private static final String USERNAME_STATE = "username_state";
+    private static final String EMAIL_STATE = "email_state";
 
     @Nullable
     @Override
@@ -31,22 +28,38 @@ public class LoginView
         mDataBinding.setViewModel(mViewModel);
 
         if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey(USERNAME_STATE)) {
-                String username = savedInstanceState.getString(USERNAME_STATE);
-                mViewModel.setUsername(username);
+            if (savedInstanceState.containsKey(EMAIL_STATE)) {
+                String email = savedInstanceState.getString(EMAIL_STATE);
+                mViewModel.setEmail(email);
             }
         }
+
+        mDataBinding.btnLogin.setOnClickListener(mLoginListener);
 
         return mDataBinding.getRoot();
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         if (mViewModel != null) {
-            outState.putString(USERNAME_STATE, mViewModel.getUsername());
+            outState.putString(EMAIL_STATE, mViewModel.getEmail());
         }
+    }
+
+    private View.OnClickListener mLoginListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mPresenter.auth(
+                    mViewModel.getEmail(),
+                    mViewModel.getPassword());
+        }
+    };
+
+    @Override
+    public void showLoading(boolean loading) {
+        mViewModel.setLoading(loading);
     }
 }
 

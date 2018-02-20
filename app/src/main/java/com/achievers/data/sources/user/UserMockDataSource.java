@@ -52,7 +52,7 @@ public class UserMockDataSource
             return;
         }
 
-        callback.onFailure("Authentication failure.");
+        callback.onFailure("Wrong email or password.");
     }
 
     @Override
