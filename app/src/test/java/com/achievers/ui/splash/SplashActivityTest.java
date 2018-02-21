@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import com.achievers.ui._base.AbstractActivityTest;
 import com.achievers.ui.home.HomeActivity;
+import com.achievers.ui.login.LoginActivity;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +22,7 @@ public class SplashActivityTest extends AbstractActivityTest<SplashActivity> {
 
     @Test
     public void shouldOpenAchievementsActivity() {
-        Intent expectedIntent = new Intent(mActivity, HomeActivity.class);
+        Intent expectedIntent = new Intent(mActivity, LoginActivity.class);
         Intent actual = ShadowApplication.getInstance().getNextStartedActivity();
         assertEquals(expectedIntent.getComponent(), actual.getComponent());
     }
