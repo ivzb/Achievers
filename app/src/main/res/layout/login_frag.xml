@@ -62,7 +62,6 @@
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginStart="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_medium"
-                android:visibility="@{ viewModel.loading ? View.GONE : View.VISIBLE }"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etPassword" />
@@ -72,7 +71,7 @@
                 android:layout_width="@dimen/progress_bar"
                 android:layout_height="@dimen/progress_bar"
                 android:layout_margin="@dimen/spacing_medium"
-                android:visibility="@{ viewModel.loading ? View.VISIBLE : View.GONE }"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etPassword" />

@@ -13,6 +13,7 @@ public class LoginContract {
             extends BaseView<Presenter, ViewModel, DB> {
 
         void showLoading(boolean loading);
+        void navigateToHome();
     }
 
     public interface Presenter extends BasePresenter {
@@ -29,10 +30,6 @@ public class LoginContract {
         @Bindable
         String getPassword();
         void setPassword(String password);
-
-        @Bindable
-        boolean isLoading();
-        void setLoading(boolean loading);
     }
 }
 

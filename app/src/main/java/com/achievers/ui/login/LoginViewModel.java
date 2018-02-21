@@ -9,7 +9,6 @@ public class LoginViewModel
 
     private String mEmail;
     private String mPassword;
-    private boolean mLoading;
 
     @Bindable
     @Override
@@ -31,16 +30,5 @@ public class LoginViewModel
     @Override
     public void setPassword(String password) {
         mPassword = password;
-    }
-
-    @Bindable
-    @Override
-    public boolean isLoading() {
-        return mLoading;
-    }
-
-    @Override
-    public void setLoading(boolean loading) {
-        mLoading = loading;
     }
 }

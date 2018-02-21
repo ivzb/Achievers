@@ -41,14 +41,16 @@ public class LoginPresenter
             @Override
             public void onSuccess(Result<String> data) {
                 if (!mView.isActive()) return;
-                // todo
+
+                mView.navigateToHome();
+                mView.showLoading(false);
             }
 
             @Override
             public void onFailure(String message) {
                 if (!mView.isActive()) return;
 
-                //mView.showLoading(false);
+                mView.showLoading(false);
                 mView.showErrorMessage(message);
             }
         });

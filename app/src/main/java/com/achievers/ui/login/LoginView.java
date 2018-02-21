@@ -1,5 +1,6 @@
 package com.achievers.ui.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import com.achievers.R;
 import com.achievers.databinding.LoginFragBinding;
 import com.achievers.ui._base.AbstractView;
+import com.achievers.ui.home.HomeActivity;
 
 public class LoginView
         extends AbstractView<LoginContract.Presenter, LoginContract.ViewModel, LoginFragBinding>
@@ -48,6 +50,21 @@ public class LoginView
         }
     }
 
+    @Override
+    public void showLoading(boolean loading) {
+        if (!isActive()) return;
+
+        mDataBinding.pbLoading.setVisibility(loading ? View.VISIBLE : View.GONE);
+        mDataBinding.btnLogin.setVisibility(loading ? View.GONE : View.VISIBLE);
+    }
+
+    @Override
+    public void navigateToHome() {
+        Intent intent = new Intent(getContext(), HomeActivity.class);
+        startActivity(intent);
+        getActivity().finish();
+    }
+
     private View.OnClickListener mLoginListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -56,10 +73,5 @@ public class LoginView
                     mViewModel.getPassword());
         }
     };
-
-    @Override
-    public void showLoading(boolean loading) {
-        mViewModel.setLoading(loading);
-    }
 }
 
