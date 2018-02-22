@@ -26,20 +26,12 @@ public class User implements BaseModel {
 
     }
 
-    public User(String id) {
-        this.id = id;
-    }
-
     public User(
-            String id,
             String email,
-            String password,
-            Date createdAt) {
+            String password) {
 
-        this(id);
         this.email = email;
         this.password = password;
-        this.createdAt = createdAt;
     }
 
     @Override

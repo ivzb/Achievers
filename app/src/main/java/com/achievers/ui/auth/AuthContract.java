@@ -1,4 +1,4 @@
-package com.achievers.ui.login;
+package com.achievers.ui.auth;
 
 import android.databinding.Bindable;
 import android.databinding.ViewDataBinding;
@@ -7,7 +7,7 @@ import com.achievers.ui._base._contracts.BasePresenter;
 import com.achievers.ui._base._contracts.BaseView;
 import com.achievers.ui._base._contracts.BaseViewModel;
 
-public class LoginContract {
+public class AuthContract {
 
     public interface View<DB extends ViewDataBinding>
             extends BaseView<Presenter, ViewModel, DB> {
@@ -18,7 +18,8 @@ public class LoginContract {
 
     public interface Presenter extends BasePresenter {
 
-        void auth(String email, String password);
+        void login(String email, String password);
+        void register(String email, String password);
     }
 
     public interface ViewModel extends BaseViewModel {

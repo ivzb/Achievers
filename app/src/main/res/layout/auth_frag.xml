@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.achievers.ui.login.LoginContract.ViewModel" />
+            type="com.achievers.ui.auth.AuthContract.ViewModel" />
     </data>
 
     <ScrollView
@@ -56,15 +56,29 @@
 
             <Button
                 android:id="@+id/btnLogin"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/login"
                 android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                app:layout_constraintEnd_toStartOf="@+id/btnRegister"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/register"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_medium"
                 android:layout_marginStart="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_medium"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+                app:layout_constraintStart_toEndOf="@+id/btnLogin"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
             <ProgressBar
                 android:id="@+id/pbLoading"
@@ -74,7 +88,7 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+                app:layout_constraintBottom_toBottomOf="parent" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </layout>

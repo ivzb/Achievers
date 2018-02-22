@@ -1,11 +1,11 @@
-package com.achievers.ui.login;
+package com.achievers.ui.auth;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
-public class LoginViewModel
+public class AuthViewModel
         extends BaseObservable
-        implements LoginContract.ViewModel {
+        implements AuthContract.ViewModel {
 
     private String mEmail;
     private String mPassword;

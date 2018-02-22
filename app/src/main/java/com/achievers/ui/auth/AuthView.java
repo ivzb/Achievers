@@ -1,4 +1,4 @@
-package com.achievers.ui.login;
+package com.achievers.ui.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,13 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.achievers.R;
-import com.achievers.databinding.LoginFragBinding;
+import com.achievers.databinding.AuthFragBinding;
 import com.achievers.ui._base.AbstractView;
 import com.achievers.ui.home.HomeActivity;
 
-public class LoginView
-        extends AbstractView<LoginContract.Presenter, LoginContract.ViewModel, LoginFragBinding>
-        implements LoginContract.View<LoginFragBinding> {
+public class AuthView
+        extends AbstractView<AuthContract.Presenter, AuthContract.ViewModel, AuthFragBinding>
+        implements AuthContract.View<AuthFragBinding> {
 
     private static final String EMAIL_STATE = "email_state";
 
@@ -23,9 +23,9 @@ public class LoginView
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.login_frag, container, false);
+        View view = inflater.inflate(R.layout.auth_frag, container, false);
 
-        mDataBinding = LoginFragBinding.bind(view);
+        mDataBinding = AuthFragBinding.bind(view);
 
         mDataBinding.setViewModel(mViewModel);
 
@@ -37,6 +37,7 @@ public class LoginView
         }
 
         mDataBinding.btnLogin.setOnClickListener(mLoginListener);
+        mDataBinding.btnRegister.setOnClickListener(mRegisterListener);
 
         return mDataBinding.getRoot();
     }
@@ -56,6 +57,7 @@ public class LoginView
 
         mDataBinding.pbLoading.setVisibility(loading ? View.VISIBLE : View.GONE);
         mDataBinding.btnLogin.setVisibility(loading ? View.GONE : View.VISIBLE);
+        mDataBinding.btnRegister.setVisibility(loading ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -68,7 +70,16 @@ public class LoginView
     private View.OnClickListener mLoginListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            mPresenter.auth(
+            mPresenter.login(
+                    mViewModel.getEmail(),
+                    mViewModel.getPassword());
+        }
+    };
+
+    private View.OnClickListener mRegisterListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mPresenter.register(
                     mViewModel.getEmail(),
                     mViewModel.getPassword());
         }

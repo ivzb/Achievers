@@ -28,15 +28,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.auth.AuthActivity" />
+        <activity android:name=".ui.register.RegisterActivity" />
         <activity android:name=".ui.home.HomeActivity" />
-        <activity android:name=".ui.login.LoginActivity" />
+
         <activity android:name=".ui.achievement.AchievementActivity" />
         <activity android:name=".ui.add_achievement.AddAchievementActivity" />
+
         <activity android:name=".ui.evidence.EvidenceActivity" />
         <activity android:name=".ui.add_evidence.AddEvidenceActivity" />
-        <activity android:name=".ui.voice_recording.VoiceRecordingActivity" />
+
         <activity android:name=".ui.quest.QuestActivity" />
+
         <activity android:name=".ui.rewards.RewardsActivity" />
+
+        <activity android:name=".ui.voice_recording.VoiceRecordingActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

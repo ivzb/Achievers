@@ -57,6 +57,8 @@ public class UserMockDataSource
 
     @Override
     public void create(User user, SaveCallback<String> callback) {
-        // todo
+        String token = mConfig.getAuthenticationToken();
+        Result<String> result = new Result<>(token);
+        callback.onSuccess(result);
     }
 }
